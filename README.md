@@ -1,5 +1,10 @@
 # Big Shotten-Totten
 
+## Liens utiles :
+- Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten)
+- Le [rapport 1 ](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
+
+
 ## Manip git à faire :
 
 `git clone https://github.com/kilaposhi/Shotten-Totten.git` : Pour copier le repository sur vos machines depuis un terminal comme **git bash**.  
