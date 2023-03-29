@@ -2,7 +2,8 @@
 
 ## Liens utiles :
 - Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten)
-- Le [rapport 1 ](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
+- Le [Rapport n°1](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
+- Le [Lien UML] (https://codimd.math.cnrs.fr/9RFXDxsXSFaQ7eQ6g6FQIQ?both)
 
 
 ## Manip git à faire :
