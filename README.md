@@ -19,10 +19,10 @@ cmake-build-debug/
 CMakeLists.txt
 .idea/
 ```
- **Pourquoi git doit ignorer des fichiers:** D'une manière générale on met principalement le **code source** sur git.   
-       
- Comme le repository github est **public**, tout le monde pourrait accéder à notre projet. Comme on ne veut pas que le monde ait accès à nos fichiers de config pour des questions de sécurité, on utilise `.gitignore`. 
-Exemples de fichiers à indiquer dans le `.gitignore` :
+ **Pourquoi git doit ignorer des fichiers:** D'une manière générale on met principalement le **code source** sur git.     
+         
+ Comme le repository github est **public**, tout le monde pourrait accéder à notre projet. Comme on ne veut pas que le monde ait accès à nos fichiers de config pour des questions de sécurité, on utilise `.gitignore`.   
+#### Exemples de fichiers à indiquer dans le `.gitignore` :  
 - Fichiers de configurations spécifique à l'IDE ou à l'OS  
 - Fichiers contenant des logins, mots de passe pour une BDD, token d'API...
 - Les Logs : Servent à débugger, changent tout le temps... 
