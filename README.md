@@ -3,17 +3,26 @@
 # Sommaire :
 
 - [Liens utiles](#Liens-utiles)
+- [UML](#UML)
 - [Utilisation de Git](#Git)
 
 ## Liens utiles
 
-- Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten)
+- Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten "Trello LO21")
 - Le [Rapport n°1](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
 - Le [Lien UML](https://codimd.math.cnrs.fr/miJRpGXeRKuiDBEZmn28rw?edit)  
 **Ressources :**  
 - [Refactoring guru](https://refactoring.guru) (en Anglais) Explications BD des **designs patterns** et des **bonnes pratiques** du refactoring AKA *"comment écrire du **clean code**" ?* 
 - [Grepper](https://www.grepper.com) : Extension web qui donne des petites solutions de code dans le navigateur (Faire ses recherches en anglais)  
   <img alt="Example grepper" src="images/grepper_example.png" style="width: 85%; height: 70%" >    
+  
+
+## UML
+
+> Migration de **CodiMd** vers **mermaid** qui est plutôt similaire est permet d'afficher l'UML directement dans Github :
+
+==Work in progress==
+[voir UML version 1](Documentation/UML.md)  
   
 
 ## Git
