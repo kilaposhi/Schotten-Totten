@@ -12,15 +12,15 @@
 - Le [Lien UML](https://codimd.math.cnrs.fr/miJRpGXeRKuiDBEZmn28rw?edit)
 **Ressources :**
 - [Refactoring guru](https://refactoring.guru) (en Anglais) Explications BD des **designs patterns** et des **bonnes pratiques** du refactoring AKA *"comment écrire du **clean code**" ?* 
-- [Grepper](https://www.grepper.com) : Extension web qui donne des petites solutions de code dans le navigateur (Faire ses recherches en anglais)
-  <img alt="Example grepper" src="images/grepper_example.png" style="width: 30%; height: 20%" >    
+- [Grepper](https://www.grepper.com) : Extension web qui donne des petites solutions de code dans le navigateur (Faire ses recherches en anglais)  
+  <img alt="Example grepper" src="images/grepper_example.png" style="width: 85%; height: 70%" >    
   
 
 ## Git
 
 >Voici un petit guide de **git**. Il n'est pas exhaustif et pas parfait (ne pas hésiter à le modifier)
 
-Ptit conseil : Bien lire ce git nous dit quand ça marche pas
+Ptit conseil : Bien lire ce que git nous dit quand ça marche pas, il propose souvent les solutions au problème avec les bonnes commandes à copier-coller.  
 
 ### Installer le projet :
 `git clone https://github.com/kilaposhi/Shotten-Totten.git` : Pour copier le repository sur vos machines depuis un terminal comme **git bash**.  
