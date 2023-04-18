@@ -13,7 +13,7 @@
 **Ressources :**
 - [Refactoring guru](https://refactoring.guru) (en Anglais) Explications BD des **designs patterns** et des **bonnes pratiques** du refactoring AKA *"comment écrire du **clean code**" ?* 
 - [Grepper](https://www.grepper.com) : Extension web qui donne des petites solutions de code dans le navigateur (Faire ses recherches en anglais)
-  <img alt="Example grepper" src="images/grepper_examples" style="width: 30%; height: 20%" >    
+  <img alt="Example grepper" src="images/grepper_example.png" style="width: 30%; height: 20%" >    
   
 
 ## Git
@@ -28,11 +28,12 @@ Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez dire
 
 ### Bases : `add`, `commit`, `push` ...
 
-- `git pull (origin) (branchName)` : Récupère le code sur le remote repository. `(arg)` sont optionnels
-  `origin` est une variable *par défaut* qui désigne l'URL du remote repo (`origin == "https://github.com/kilaposhi/Shotten-Totten.git"`).
-  `branchName` : Le nom de la *remote branch* que l'on veut récupérer, par défaut la même branche que celle où l'on se trouve. (voir [branch](#branch-))
-
-> **Philosophie des commits** : Pour la clarté, un commit  doit faire **une seule** tâche, avec un message court.
+- `git pull (origin) (branchName)` : Récupère le code sur le remote repository. `(arg)` sont optionnels.  
+  `origin` est une variable *par défaut* qui désigne l'URL du remote repo (`origin == "https://github.com/kilaposhi/Shotten-Totten.git"`).  
+  `branchName` : Le nom de la *remote branch* que l'on veut récupérer, par défaut la même branche que celle où l'on se trouve. (voir [branch](#branch-))  
+  
+ **Philosophie des commits** : Pour la clarté, un commit  doit faire **une seule** tâche, avec un message court.   
+   
 - `git add <files>` : Ajoute des fichiers modifiés à l'index, (en : *staged*). L'index contient les changements qui vont être `commit`.
 - `git status` : **A faire AVANT de `commit`**, montre les changements *staged*, et *not staged* sur la *current branch*. Les changements *staged* vont être commit
 - `git reset <files>` : Enlève les fichiers de l'index pour éviter de les commits
@@ -59,16 +60,16 @@ Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez dire
 - `git checkout <branchName>`: Changer de branche
 - `git checkout -b <newBranchName>`: Créer une nouvelle branche
 
-Les branches git sont différentes versions du projets.  
-Lorsque l'on veut coder quelque chose :
+Les branches git sont différentes versions du projets.    
+Lorsque l'on veut coder quelque chose :  
 - Créer une nouvelle branche
 - Coder, et vérifier que tout fonctionne (le projet compile)
 - Avant de `push`, la branch doit être à jour : `git pull main` (met à jour avec la branche `main` => `merge` la *remote branch* main avec la *current branch* ), ou `git pull` si quelqu'un modifie la même branche que vous modifiez.
   Ainsi on règle les conflits en local.
 - `git push (origin) (branchName)` : Après avoir `push` la branch sur le *remote repository*, on pourra créer une **PR (Pull Request)** avec la branche main.
 
-La branche `main` est **protégée**,  cela veut dire que personne ne peut **push** quoi que ce soit sur la branche `main`. Il faut obligatoirement créer une **PR** pour `merge` une branche sur `main`. 
-La PR, indique aux autres collaborateurs les **changements** faits par la **PR**. On peut aussi en discuter, et **critiquer** le code produit pour l'améliorer (écrire du code est différent de lire celui de quelqu'un d'autre).
+La branche `main` est **protégée**,  cela veut dire que personne ne peut **push** quoi que ce soit sur la branche `main`. Il faut obligatoirement créer une **PR** pour `merge` une branche sur `main`.   
+La PR, indique aux autres collaborateurs les **changements** faits par la **PR**. On peut aussi en discuter, et **critiquer** le code produit pour l'améliorer (écrire du code est différent de lire celui de quelqu'un d'autre).  
 
 ### Le fichier`.gitignore` :
 - Créer un fichier `.gitignore` (ou modifier celui existant) dans lequel on écrira les `path` des fichiers et des directory que `git` doit ignorer et ne jamais sauvegarder (ne jamais commit).    
