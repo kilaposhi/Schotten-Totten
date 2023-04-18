@@ -1,12 +1,19 @@
 # Big Shotten-Totten
 
-## Liens utiles :
+# Sommaire :
+
+- [Liens utiles](#Liens utiles)
+- [Utilisation de Git](#Git)
+
+## Liens utiles
 - Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten)
 - Le [Rapport n°1](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
 - Le [Lien UML](https://codimd.math.cnrs.fr/miJRpGXeRKuiDBEZmn28rw?edit)
+- [Refactoring guru](https://refactoring.guru) (en Anglais) Explications BD des **designs patterns** et du refactoring AKA *"comment écrire du **clean code**" ?* 
 
+## Git
 
-## Manip git à faire :
+### Manip git à faire :
 
 `git clone https://github.com/kilaposhi/Shotten-Totten.git` : Pour copier le repository sur vos machines depuis un terminal comme **git bash**.  
 Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez directement faire un nouveau projet depuis un controle de version ("Create project from Version Control").
