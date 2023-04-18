@@ -1,0 +1,21 @@
+{
+  "showLineNumber": true,
+  "spellcheck": true,
+  "spellcheckLanguages": [
+    "en-US",
+    "fr-FR"
+  ],
+  "vimMode": true,
+  "livePreview": true,
+  "alwaysUpdateLinks": true,
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "tabSize": 5,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "./attachements"
+}
