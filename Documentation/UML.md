@@ -6,6 +6,10 @@ Notre UML est porté vers markdown avec [mermaid](https://mermaid.js.org).
 - [Liste des manières de l'utiliser](https://mermaid.js.org/ecosystem/integrations.html), perso j'utilise le plugin de Jetbrains
 - [Ancien UML](https://codimd.math.cnrs.fr/miJRpGXeRKuiDBEZmn28rw?both#)
 
+### Changements :
+- Ajout des "-", "+"...
+- Tableau de bool pour savoir les _slots available_ 
+
 ```mermaid
 ---
 title: Architecture Shotten-Totten
