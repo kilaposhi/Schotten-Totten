@@ -126,7 +126,7 @@ class CardColor {
 Game <|-- Tactic_variant
 Card <|-- Tactic_card
 Card <|-- Clan_card
-Card "0..8" --o "0..1" Player
+Card "0..7" --o "0..1" Player
 Card "0..*" --o "0..1" Stone
 Stone "0..5" -- "0..1" Player
 Card "0..*" --o "0..1" Deck
