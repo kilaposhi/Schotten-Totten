@@ -116,6 +116,9 @@ Game "1..1" -- "10..10" Tactical_card
 Game "1..1" -- "54..54" Clan_card
 '(Game, Clan_card) .. Stone_tiles_associate_Game
 ```
+### Changements :
+- Ajout des "-", "+"...
+- Tableau de bool pour savoir les _slots available_ 
 
 ```mermaid
 ---
