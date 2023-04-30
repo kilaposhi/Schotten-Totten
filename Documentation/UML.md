@@ -1,8 +1,8 @@
 
 ## UML version 1 :
-Notre UML est porté vers markdown avec [mermaid](https://mermaid.js.org).
+Notre UML est porté de PlantUML vers markdown avec [mermaid](https://mermaid.js.org).
   
-- [Syntaxe des diagrammes de classes](https://mermaid.js.org/syntax/classDiagram.html)
+- [Syntaxe des diagrammes de classes avec mermaid](https://mermaid.js.org/syntax/classDiagram.html)
 - [Liste des manières de l'utiliser](https://mermaid.js.org/ecosystem/integrations.html), perso j'utilise le plugin de Jetbrains
 - [Ancien UML](https://codimd.math.cnrs.fr/VEjH14SwRfq9q9YtunKFbg?both)
 
@@ -18,8 +18,12 @@ Notre UML est porté vers markdown avec [mermaid](https://mermaid.js.org).
 - Enlever le lien entre `Player` et `Stone`
 - Enlever les liens entre les cartes tactique, clans et `Game` car l'arité `"54" -- "1"` est explicit avec l'attribut `number_of_clan_cards`
 
+> Notre UML va surement changer avec l'ajout de design pattern etc... 
+> N'hésitez pas à le critiquer, et à le modifier
+
 ### #TODO
 - Penser à un héritage avec une seule classe `Card` qui pourrait être utilisé `Deck`
+- Ajouter les types des vaiables et de retour des fonctions 
 
 ```mermaid
 ---
