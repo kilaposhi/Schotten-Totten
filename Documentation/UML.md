@@ -4,67 +4,8 @@ Notre UML est porté vers markdown avec [mermaid](https://mermaid.js.org).
   
 - [Syntaxe des diagrammes de classes](https://mermaid.js.org/syntax/classDiagram.html)
 - [Liste des manières de l'utiliser](https://mermaid.js.org/ecosystem/integrations.html), perso j'utilise le plugin de Jetbrains
-- [Ancien UML](https://codimd.math.cnrs.fr/miJRpGXeRKuiDBEZmn28rw?both#)
+- [Ancien UML](https://codimd.math.cnrs.fr/VEjH14SwRfq9q9YtunKFbg?both)
 
-```plantuml
-@startuml 
-
-
-
-class Clan_card{
-    color: CardColor 
-    value: int <1 to 9>
-    getColor()
-    getStrength()
-   
-}
-
-class Tactical_card{
-    name: string
-    description: string
-    getName()
-    getDescription()
-    
-}
-
-
-
-class Stone_tiles{
-    id: int <1 to 9>
-    vainqueur: string Joueur
-    player_1_combination: linked list <0 to 4 cards>
-    player_2_combination: linked list <0 to 4 cards>
-    claim: enum <0, 1, 2>
-    claimed: bool
-    addCard()
-    getCard()
-}
-
-
-class Player{
-    id: <1 or 2>
-    put_card()
-    claimed_stone_tiles()
-}
-
-
-
-class Deck{
-    cards: linked list
-    empty()
-    draw_card()
-}
-
-class Score{
-    score_p1: int
-    score_p2: int
-    round: int
-    
-}
-
-note top of Tactical_card : Un joker ne peut être présent plus d une\nfois d un même côté de la frontière
-
-```
 ### Changements :
 - Ajout des "-", "+"...
 - Ajout des relations entre les classes **, elles ne sont pas forcément claires, et pourront changer**
@@ -73,6 +14,9 @@ note top of Tactical_card : Un joker ne peut être présent plus d une\nfois d u
 - Héritage pour la classe `Game` avec la variante de jeu
 - Tableau de bool pour savoir les _slots available_ dans la classe `Stone` 
 - Création de la classe `Board` pour gérer la vie des `Stone`, car cela réduit le couplage à la Classe `Game` qui gère déjà la vie des `Card`
+- Héritage pour les cartes avec `Card`.
+- Enlever le lien entre `Player` et `Stone`
+- Enlever les liens entre les cartes tactique, clans et `Game` car l'arité `"54" -- "1"` est explicit avec l'attribut `number_of_clan_cards`
 
 ### #TODO
 - Penser à un héritage avec une seule classe `Card` qui pourrait être utilisé `Deck`
@@ -83,16 +27,6 @@ title: Architecture Shotten-Totten
 ---
 classDiagram
 
-%%-------- Enum class
-class CardColor {
-    <<Enumeration>>
-    blue
-    purple
-    green
-    red
-    orange
-    brown
-}
 
 
 %%---------- Class
@@ -106,8 +40,10 @@ class Game {
 
 class Board {
     - number_of_stone_tiles = 9 : const int
-    - stone_tiles : Stone[9]
-    + setupGame()
+    - stone_tiles : Stone[number_of_stone_tiles]
+    - player1_stones : list~Stone~
+    - player2_stones : list~Stone~
+    - winner : &Player
 }
 
 class Tactic_variant {
@@ -115,6 +51,10 @@ class Tactic_variant {
     - number_of_tactic_cards =10 : const int
     + getNbTacticCards() : int
     
+}
+
+class Card {
+    - type : enum<Clan, Tactic>
 }
 
 class Clan_card{
@@ -127,6 +67,8 @@ class Clan_card{
 class Tactic_card{
     - name: string
     - description: string
+    getName()
+    getDescription()
 }
 
 
@@ -138,19 +80,16 @@ class Stone{
     - player_1_combination: linked list <0 to 4 cards>
     - player_2_combination: linked list <0 to 4 cards>
     + getNbStoneTiles()
+    + addCard()
+    + getCard()
 }
 
 class Player{
--id: <1 or 2>
-- num_of_card = 6 : int
-- hand : vector~Card~
-+play_card()
-+claimed_stone_tiles()
-}
-
-class Card_game{
-number_of_cards: const 54
-getNbCards()
+    -id: <1 or 2>
+    - number_of_card = 6 : int
+    - hand : vector~Card~
+    + play_card()
+    + claimed_stone_tiles()
 }
 
 class Deck{
@@ -168,21 +107,30 @@ round: int
 
 note for Tactic_card  "Un joker ne peut être présent plus d'une\n fois d un même côté de la frontière"
 
+%%-------- Enum class
+class CardColor {
+    <<Enumeration>>
+    blue
+    purple
+    green
+    red
+    orange
+    brown
+}
+    
 %% ------ Relations
 Game <|-- Tactic_variant
-Tactic_card "0..8" -- "0..1" Player
-Clan_card "0..8" -- "0..1" Player
-Clan_card "0..4" -- "0..1" Stone
+Card <|-- Tactic_card
+Card <|-- Clan_card
+Card "0..8" --o "0..1" Player
+Card "0..*" --o "0..1" Stone
 Stone "0..5" -- "0..1" Player
-Deck "1..3" -- "2..2" Player
-Clan_card "0..*" --o "0..1" Deck
-Tactic_card "0..*" --o "0..1" Deck
-Tactic_card "0..4" --o "0..1" Stone
+Card "0..*" --o "0..1" Deck
 Game "0..*" -- "2" Player
-Game "1" *-- "1" Board 
+Game "1" *-- "1" Board
+Board "9" *-- "1" Stone
 Game "1" o-- "1..2" Deck
-Tactic_variant "1" *-- "10" Tactic_card
-Game "1" *-- "54" Clan_card
+Game "1" *-- "54..64" Card
 
 
 ```
