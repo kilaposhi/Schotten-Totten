@@ -53,8 +53,6 @@ class Tactic_variant {
 class Board {
     - number_of_stone_tiles = 9 : const int
     - stone_tiles : Stone[number_of_stone_tiles]
-    - player1_stones : list~Stone~
-    - player2_stones : list~Stone~
     - winner : &Player
 }
 
@@ -93,9 +91,11 @@ class Player{
     - number_of_cards : int
     - hand : vector~Card~
     - max_cards : int<6 to 7>
+    - claimed_stones : list ~bool~
+    + getClaimed_stones()
     + play_card()
-    + claimed_stone_tiles()
-    +getNumber_of_cards() 
+    + claim_stone_tiles()
+    + getNumber_of_cards() 
 }
 
 class Deck{
@@ -112,10 +112,11 @@ class Clan_deck
     
     
 class Score{
-score_p1: int
-score_p2: int
-round: int
-
+- score_p1: int
+- score_p2: int
+- round: int
++p1_gagne()
++p2_gagne()
 }
 
 note for Tactic_card  "Un joker ne peut être présent plus d'une\n fois d un même côté de la frontière"
