@@ -38,9 +38,17 @@ class Game {
     - clan_card_deck : Deck
     - board : Board
     - number_of_clan_cards = 54: const int
-    + getNbClanCards() : int
+    + getNbClanCards()  int
     + setupGame()
 }
+
+class Tactic_variant {
+    - tactic_card_deck : Deck
+    - number_of_tactic_cards =10 : const int
+    + getNbTacticCards() : int
+
+}
+
 
 class Board {
     - number_of_stone_tiles = 9 : const int
@@ -50,12 +58,6 @@ class Board {
     - winner : &Player
 }
 
-class Tactic_variant {
-    - tactic_card_deck : Deck
-    - number_of_tactic_cards =10 : const int
-    + getNbTacticCards() : int
-    
-}
 
 class Card {
     - type : enum<Clan, Tactic>
@@ -135,6 +137,33 @@ Game "1" *-- "1" Board
 Board "9" *-- "1" Stone
 Game "1" o-- "1..2" Deck
 Game "1" *-- "54..64" Card
+Tactic_card <|-- Elite_troop
+Tactic_card <|-- Ruse
+Tactic_card <|-- Combat_Mode
 
 
+```
+
+
+```mermaid
+---
+
+---
+classDiagram
+Game <|-- Tactic_variant
+Card <|-- Tactic_card
+Card <|-- Clan_card
+Tactic_card <|-- Elite_troop
+Tactic_card <|-- Ruse
+Tactic_card <|-- Combat_Mode
+
+Card "0..7" --o "0..1" Player
+Card "0..*" --o "0..1" Stone
+Stone "0..5" -- "0..1" Player
+Card "0..*" --o "0..1" Deck
+Game "0..*" -- "2" Player
+Game "1" *-- "1" Board
+Board "9" *-- "1" Stone
+Game "1" o-- "1..2" Deck
+Game "1" *-- "54..64" Card
 ```
