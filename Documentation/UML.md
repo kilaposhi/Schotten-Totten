@@ -59,9 +59,7 @@ class Board {
 }
 
 
-class Card {
-    - type : enum<Clan, Tactic>
-}
+class Card
 
 class Clan_card{
     - color : CardColor
@@ -92,18 +90,27 @@ class Stone{
 
 class Player{
     -id: <1 or 2>
-    - number_of_card = 6 : int
+    - number_of_cards : int
     - hand : vector~Card~
+    - max_cards : int<6 to 7>
     + play_card()
     + claimed_stone_tiles()
+    +getNumber_of_cards() 
 }
 
 class Deck{
 - cards: list~Card~
+- number_of_cards : int
 +isEmpty()
 +draw_card()
++getNumber_of_cards()
 }
 
+class Tactic_deck
+
+class Clan_deck
+    
+    
 class Score{
 score_p1: int
 score_p2: int
@@ -128,10 +135,13 @@ class CardColor {
 Game <|-- Tactic_variant
 Card <|-- Tactic_card
 Card <|-- Clan_card
+Deck <|-- Tactic_deck
+Deck <|-- Clan_deck
 Card "0..7" --o "0..1" Player
 Card "0..*" --o "0..1" Stone
 Stone "0..5" -- "0..1" Player
-Card "0..*" --o "0..1" Deck
+Tactic_cards "0..10" --o "0..1" Tactic_deck
+Clan_cards "0..54" --o "0..1" Clan_deck
 Game "0..*" -- "2" Player
 Game "1" *-- "1" Board
 Board "9" *-- "1" Stone
