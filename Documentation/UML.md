@@ -139,10 +139,10 @@ Card <|-- Clan_card
 Deck <|-- Tactic_deck
 Deck <|-- Clan_deck
 Card "0..7" --o "0..1" Player
-Card "0..*" --o "0..1" Stone
+Card "0..9" --o "0..1" Stone
 Stone "0..5" -- "0..1" Player
-Tactic_cards "0..10" --o "0..1" Tactic_deck
-Clan_cards "0..54" --o "0..1" Clan_deck
+Tactic_card "0..10" --o "0..1" Tactic_deck
+Clan_card "0..54" --o "0..1" Clan_deck
 Game "0..*" -- "2" Player
 Game "1" *-- "1" Board
 Board "9" *-- "1" Stone
