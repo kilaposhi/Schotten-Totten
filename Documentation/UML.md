@@ -33,24 +33,24 @@ classDiagram
 
 
 %% ------ Relations
+    Game <|-- Tactic_variant
     Card <|-- Tactic_card
     Card <|-- Clan_card
-    Card "0..7" --o "0..1" Player
-    Card "0..*" --o "0..1" Stone
-    Clan_card "0..54" --o "0..1" Clan_deck
-    Tactic_card <|-- Elite_troop
-    Tactic_card <|-- Ruse
-    Tactic_card <|-- Combat_mode
-    Tactic_card "0..10" --o "0..1" Tactic_deck
     Deck <|-- Tactic_deck
     Deck <|-- Clan_deck
-    Game <|-- Tactic_variant
+    Card "0..7" --o "0..1" Player
+    Card "0..9" --o "0..1" Stone
+    Stone "0..5" -- "0..1" Player
+    Tactic_card "0..10" --o "0..1" Tactic_deck
+    Clan_card "0..54" --o "0..1" Clan_deck
     Game "0..*" -- "2" Player
     Game "1" *-- "1" Board
+    Board "9" *-- "1" Stone
     Game "1" o-- "1..2" Deck
     Game "1" *-- "54..64" Card
-    Stone "0..5" -- "0..1" Player
-    Board "9" *-- "1" Stone
+    Tactic_card <|-- Elite_troop
+    Tactic_card <|-- Ruse
+    Tactic_card <|-- Combat_Mode
 
 %%---------- Class
 class Game {
@@ -124,14 +124,10 @@ class Player{
     - claimed_stones : list ~bool~
     + getClaimed_stones()
     + play_card()
-<<<<<<< Updated upstream
-    + claim_stone_tiles()
-    + getNumber_of_cards() 
-=======
     + draw_card() Card
-    + claimed_stone_tiles() 
+    + getClaimed_stones() 
+    + claim_stone()
     + getNumber_of_cards() int
->>>>>>> Stashed changes
 }
 
 class Deck{
@@ -168,28 +164,6 @@ class CardColor {
     brown
 }
     
-<<<<<<< Updated upstream
-%% ------ Relations
-Game <|-- Tactic_variant
-Card <|-- Tactic_card
-Card <|-- Clan_card
-Deck <|-- Tactic_deck
-Deck <|-- Clan_deck
-Card "0..7" --o "0..1" Player
-Card "0..9" --o "0..1" Stone
-Stone "0..5" -- "0..1" Player
-Tactic_card "0..10" --o "0..1" Tactic_deck
-Clan_card "0..54" --o "0..1" Clan_deck
-Game "0..*" -- "2" Player
-Game "1" *-- "1" Board
-Board "9" *-- "1" Stone
-Game "1" o-- "1..2" Deck
-Game "1" *-- "54..64" Card
-Tactic_card <|-- Elite_troop
-Tactic_card <|-- Ruse
-Tactic_card <|-- Combat_Mode
-=======
->>>>>>> Stashed changes
 
 
 ```
