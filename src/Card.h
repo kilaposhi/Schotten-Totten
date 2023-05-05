@@ -7,10 +7,10 @@ class Card {
 private:
 public:
 
-    Card();
-    ~Card();
-    Card(const Card& stone);
-    const Card& operator=(const Card& stone);
+    Card() =default;
+    ~Card()=default;
+    Card(const Card& stone)=default;
+    Card& operator=(const Card& stone) = default;
 };
 
 

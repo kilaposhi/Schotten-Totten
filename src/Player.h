@@ -18,10 +18,10 @@ private:
 
 public:
 
-    Player();
-    ~Player();
-    Player(const Player& stone);
-    const Player& operator=(const Player& stone);
+    Player()=default;
+    ~Player()=default;
+    Player(const Player& stone)=default;
+    Player& operator=(const Player& stone)=default;
 
     void play_card();
     const Card& draw_card();

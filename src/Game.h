@@ -6,10 +6,10 @@ class Game {
 
 public:
 
-    Game();
-    ~Game();
-    Game(const Game& stone);
-    const Game& operator=(const Game& stone);
+    Game()=default;
+    ~Game()=default;
+    Game(const Game& stone)=default;
+    Game& operator=(const Game& stone)=default;
 };
 
 

@@ -6,10 +6,10 @@ class Deck {
 
 public:
 
-    Deck();
-    ~Deck();
-    Deck(const Deck& stone);
-    const Deck& operator=(const Deck& stone);
+    Deck()=default;
+    ~Deck()=default;
+    Deck(const Deck& stone)=default;
+    Deck& operator=(const Deck& stone)=default;
 };
 
 

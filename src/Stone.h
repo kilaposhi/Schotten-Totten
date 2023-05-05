@@ -23,10 +23,10 @@ private:
     Card** player_2_combination;
 
 public:
-    Stone();
-    ~Stone();
-    Stone(const Stone& stone);
-    const Stone& operator=(const Stone& stone);
+    Stone()=default;
+    ~Stone()=default;
+    Stone(const Stone& stone)=default;
+    Stone& operator=(const Stone& stone) =default;
 
     int getNbStoneTiles() const;
     void addCard() const;
