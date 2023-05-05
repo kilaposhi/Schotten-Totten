@@ -117,12 +117,11 @@ class Stone{
 }
 
 class Player{
-    -id: <1 or 2>
+    - id: <1 or 2>
     - number_of_cards : int
     - hand : vector~Card~
     - max_cards : int<6 to 7>
     - claimed_stones : list ~bool~
-    + getClaimed_stones()
     + play_card()
     + draw_card() Card
     + getClaimed_stones() 
