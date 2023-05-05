@@ -1,0 +1,10 @@
+#ifndef SHOTTEN_TOTTEN_PLAYER_H
+#define SHOTTEN_TOTTEN_PLAYER_H
+
+
+class Player {
+
+};
+
+
+#endif //SHOTTEN_TOTTEN_PLAYER_H

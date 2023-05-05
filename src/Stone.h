@@ -8,18 +8,25 @@
 #include <string>
 
 #include "Card.h"
+#include "Player.h"
 
 using std::string, std::exception, std::vector ;
 
 class Stone {
 private:
     bool claimed;
-//    Player& winner;
+    Player& winner;
     unsigned int slot_number;
     vector<Card> cardSlotsAvailable;
     Card* tactic_slot;
     Card** player_1_combination;
     Card** player_2_combination;
+
+public:
+    Stone();
+    ~Stone();
+    Stone(Stone& stone);
+    Stone& operator=(Stone& stone);
 
     int getNbStoneTiles();
     void addCard();
