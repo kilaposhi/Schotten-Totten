@@ -32,6 +32,25 @@ title: Architecture Shotten-Totten
 classDiagram
 
 
+%% ------ Relations
+    Card <|-- Tactic_card
+    Card <|-- Clan_card
+    Card "0..7" --o "0..1" Player
+    Card "0..*" --o "0..1" Stone
+    Clan_card "0..54" --o "0..1" Clan_deck
+    Tactic_card <|-- Elite_troop
+    Tactic_card <|-- Ruse
+    Tactic_card <|-- Combat_mode
+    Tactic_card "0..10" --o "0..1" Tactic_deck
+    Deck <|-- Tactic_deck
+    Deck <|-- Clan_deck
+    Game <|-- Tactic_variant
+    Game "0..*" -- "2" Player
+    Game "1" *-- "1" Board
+    Game "1" o-- "1..2" Deck
+    Game "1" *-- "54..64" Card
+    Stone "0..5" -- "0..1" Player
+    Board "9" *-- "1" Stone
 
 %%---------- Class
 class Game {
@@ -45,7 +64,8 @@ class Game {
 class Tactic_variant {
     - tactic_card_deck : Deck
     - number_of_tactic_cards =10 : const int
-    + getNbTacticCards() : int
+    + getNbTacticCards()  int
+    + setupGame()
 
 }
 
@@ -58,32 +78,42 @@ class Board {
 
 
 class Card
+    
 
 class Clan_card{
     - color : CardColor
     - value : int<1 to 9>
-    + getColor()
-    + getStrength()
+    + getColor() CardColor
+    + getStrength() int
 }
 
 class Tactic_card{
     - name: string
     - description: string
-    getName()
-    getDescription()
+    + getName() string
+    + getDescription() string
 }
 
-
+class Elite_troop {
+    
+}
+class Ruse {
+    
+}
+class Combat_mode {
+    
+}
+        
 class Stone{
     - claimed : bool
     - winner& Player
     - slot_number = 3 : unsigned int
     - cardSlotsAvailable vector~bool~
-    - player_1_combination: linked list <0 to 4 cards>
-    - player_2_combination: linked list <0 to 4 cards>
-    + getNbStoneTiles()
+    - tactic_slot : Card
+    - player_1_combination: Card[slot_number]
+    - player_2_combination:  Card[slot_number]
+    + getNbStoneTiles() int
     + addCard()
-    + getCard()
 }
 
 class Player{
@@ -94,16 +124,22 @@ class Player{
     - claimed_stones : list ~bool~
     + getClaimed_stones()
     + play_card()
+<<<<<<< Updated upstream
     + claim_stone_tiles()
     + getNumber_of_cards() 
+=======
+    + draw_card() Card
+    + claimed_stone_tiles() 
+    + getNumber_of_cards() int
+>>>>>>> Stashed changes
 }
 
 class Deck{
-- cards: list~Card~
-- number_of_cards : int
-+isEmpty()
-+draw_card()
-+getNumber_of_cards()
+    - cards: list~Card~
+    - number_of_cards : int
+    + isEmpty() bool
+    + draw_card() Card
+    + getNumber_of_cards() int
 }
 
 class Tactic_deck
@@ -119,7 +155,7 @@ class Score{
 +p2_gagne()
 }
 
-note for Tactic_card  "Un joker ne peut être présent plus d'une\n fois d un même côté de la frontière"
+%% note for Tactic_card  "Un joker ne peut être présent plus d'une\n fois d un même côté de la frontière"
 
 %%-------- Enum class
 class CardColor {
@@ -132,6 +168,7 @@ class CardColor {
     brown
 }
     
+<<<<<<< Updated upstream
 %% ------ Relations
 Game <|-- Tactic_variant
 Card <|-- Tactic_card
@@ -151,6 +188,8 @@ Game "1" *-- "54..64" Card
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
+=======
+>>>>>>> Stashed changes
 
 
 ```
@@ -158,7 +197,7 @@ Tactic_card <|-- Combat_Mode
 
 ```mermaid
 ---
-
+Uml simple
 ---
 classDiagram
 Game <|-- Tactic_variant
