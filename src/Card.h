@@ -6,6 +6,11 @@
 class Card {
 private:
 public:
+
+    Card();
+    ~Card();
+    Card(const Card& stone);
+    const Card& operator=(const Card& stone);
 };
 
 

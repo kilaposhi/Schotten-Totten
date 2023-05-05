@@ -25,11 +25,11 @@ private:
 public:
     Stone();
     ~Stone();
-    Stone(Stone& stone);
-    Stone& operator=(Stone& stone);
+    Stone(const Stone& stone);
+    const Stone& operator=(const Stone& stone);
 
-    int getNbStoneTiles();
-    void addCard();
+    int getNbStoneTiles() const;
+    void addCard() const;
 
 };
 

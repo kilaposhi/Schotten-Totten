@@ -4,6 +4,12 @@
 
 class Game {
 
+public:
+
+    Game();
+    ~Game();
+    Game(const Game& stone);
+    const Game& operator=(const Game& stone);
 };
 
 
