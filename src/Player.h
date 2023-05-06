@@ -8,6 +8,8 @@
 
 using std::vector, std::list;
 
+
+
 class Player {
 private:
      int id;

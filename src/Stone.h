@@ -12,6 +12,8 @@
 
 using std::string, std::exception, std::vector ;
 
+
+
 class Stone {
 private:
     bool claimed;

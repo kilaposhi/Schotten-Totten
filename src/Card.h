@@ -5,7 +5,8 @@
 #include <iostream>
 #include <string>
 
-using std::string;
+using std::string, std::ostream;
+
 
 class CardException{
 private:
@@ -19,13 +20,23 @@ class Card {
 private:
 public:
 
-    Card();
+    Card()=default;
     ~Card()=default;
     Card(const Card& card)=default;
     Card& operator=(const Card& card) = default;
 };
 
-enum class CardColor{ red, green, blue, purple, orange, brown };
+
+enum CardColor{
+    red=0,
+    green=1,
+    blue=2,
+    purple=3,
+    orange=4,
+    brown=5
+};
+
+
 
 class Clan_card : public Card {
 private:
@@ -42,10 +53,15 @@ public:
     int getStrength() const;
 };
 
+
+
+ostream& operator<<(ostream& stream, CardColor color);
+ostream& operator<<(ostream& stream, const Clan_card& clan_card);
+
+
 class Tactic_card : public Card {
 
 };
-
 
 
 
