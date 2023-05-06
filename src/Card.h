@@ -27,14 +27,18 @@ public:
 };
 
 
-enum CardColor{
-    red=0,
-    green=1,
-    blue=2,
-    purple=3,
-    orange=4,
-    brown=5
+
+enum class CardColor{
+    red,
+    green,
+    blue,
+    purple,
+    orange,
+    brown
 };
+
+string CardColorToString(CardColor card_color);
+
 
 
 
@@ -53,9 +57,7 @@ public:
     int getStrength() const;
 };
 
-
-
-ostream& operator<<(ostream& stream, CardColor color);
+// cout << Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const Clan_card& clan_card);
 
 
