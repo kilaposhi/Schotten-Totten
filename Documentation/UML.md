@@ -82,7 +82,7 @@ class Card
 
 class Clan_card{
     - color : CardColor
-    - value : int<1 to 9>
+    - strength : int<1 to 9>
     + getColor() CardColor
     + getStrength() int
 }
