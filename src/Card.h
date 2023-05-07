@@ -3,18 +3,22 @@
 #define SHOTTEN_TOTTEN_CARD_H
 
 #include <iostream>
+#include <initializer_list>
 #include <string>
 
-using std::string, std::ostream;
+
+using std::string, std::ostream, std::initializer_list ;
 
 
 class CardException{
 private:
-    string message;
+    string exception;
 public:
-    CardException(string Message) : message(Message){}
+    CardException(string Exception) : exception(Exception){}
 
+    string what() const { return exception;}
 };
+
 
 class Card {
 private:
@@ -27,7 +31,6 @@ public:
 };
 
 
-
 enum class CardColor{
     red,
     green,
@@ -37,28 +40,26 @@ enum class CardColor{
     brown
 };
 
-string CardColorToString(CardColor card_color);
+extern initializer_list<CardColor> CardColors;
 
-
-
-
-class Clan_card : public Card {
+class Valued_Card : public Card {
 private:
     CardColor color;
-    int strength;
+    int value;
 
 public:
-    Clan_card(CardColor Color, int Strength);
-    ~Clan_card()=default;
-    Clan_card(const Clan_card& clan_card)=default;
-    Clan_card& operator=(const Clan_card& clan_card)= default;
+    Valued_Card(int Value, CardColor Color);
+    ~Valued_Card()=default;
+    Valued_Card(const Valued_Card& valuedCard)=default;
+    Valued_Card& operator=(const Valued_Card& valuedCard)= default;
 
+    string cardColorToString() const;
     CardColor getColor() const;
-    int getStrength() const;
+    int getValue() const;
 };
 
 // cout << Card;    Example : |3_orange|
-ostream& operator<<(ostream& stream, const Clan_card& clan_card);
+ostream& operator<<(ostream& stream, const Valued_Card& valued_card);
 
 
 class Tactic_card : public Card {

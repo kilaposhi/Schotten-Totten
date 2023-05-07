@@ -8,8 +8,8 @@ public:
 
     Deck()=default;
     ~Deck()=default;
-    Deck(const Deck& stone)=default;
-    Deck& operator=(const Deck& stone)=default;
+    Deck(const Deck& )=default;
+    Deck& operator=(const Deck& )=default;
 };
 
 

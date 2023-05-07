@@ -1,17 +1,23 @@
 #include "Card.h"
 
+initializer_list<CardColor> CardColors = {CardColor::red,
+                                          CardColor::green,
+                                          CardColor::blue,
+                                          CardColor::purple,
+                                          CardColor::brown,
+                                          CardColor::orange};
 
-Clan_card::Clan_card(CardColor Color, int Strength) : color(Color), strength(Strength) {
-    if (strength < 1 || strength > 9  )
-        throw CardException("Card strength must be : 1 <= strength <= 9");
+Valued_Card::Valued_Card(int Value, CardColor Color) : value(Value), color(Color) {
+//    if (value < MIN_VALUE || value > MAX_VALUE)
+//        throw CardException("Card value must be : MIN_CARD_STRENGTH <= value <= MAX_CARD_STRENGTH");
 }
 
-CardColor Clan_card::getColor() const {
+CardColor Valued_Card::getColor() const {
     return color;
 }
 
-int Clan_card::getStrength() const {
-    return strength;
+int Valued_Card::getValue() const {
+    return value;
 }
 
 
@@ -19,8 +25,8 @@ int Clan_card::getStrength() const {
 
 //----- Displayers :
 
-string card_color_to_string(CardColor card_color) {
-    switch (card_color) {
+string Valued_Card::cardColorToString() const {
+    switch (color) {
         case CardColor::red: return "red";
         case CardColor::green : return "green";
         case CardColor::blue : return "blue";
@@ -33,9 +39,9 @@ string card_color_to_string(CardColor card_color) {
 }
 
 // cout << Card;  Example : |3_orange|
-ostream& operator<<(ostream& stream, const Clan_card& clan_card){
-    stream << "|" << clan_card.getStrength() << '_' <<
-              card_color_to_string(clan_card.getColor()) << '|';
+ostream& operator<<(ostream& stream, const Valued_Card& valued_card){
+    stream << "|" << valued_card.getValue() << '_' <<
+           valued_card.cardColorToString() << '|';
     return stream;
 }
 

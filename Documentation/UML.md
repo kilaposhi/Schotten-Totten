@@ -35,14 +35,14 @@ classDiagram
 %% ------ Relations
     Game <|-- Tactic_variant
     Card <|-- Tactic_card
-    Card <|-- Clan_card
+    Card <|-- Valued_Card
     Deck <|-- Tactic_deck
     Deck <|-- Clan_deck
     Card "0..7" --o "0..1" Player
     Card "0..9" --o "0..1" Stone
     Stone "0..5" -- "0..1" Player
     Tactic_card "0..10" --o "0..1" Tactic_deck
-    Clan_card "0..54" --o "0..1" Clan_deck
+    Valued_Card "0..54" --o "0..1" Clan_deck
     Game "0..*" -- "2" Player
     Game "1" *-- "1" Board
     Board "9" *-- "1" Stone
@@ -53,12 +53,13 @@ classDiagram
     Tactic_card <|-- Combat_Mode
 
 %%---------- Class
-class Game {
-    - clan_card_deck : Deck
-    - board : Board
-    - number_of_clan_cards = 54: const int
-    + getNbClanCards()  int
-    + setupGame()
+class Game_interface {
+    + launch_Shotten_Totten1();
+}
+
+class Card_game {
+    - number_valued_cards = NUMBER_CLAN_CARD: const int
+    - valued_cards : Valued_Card**
 }
 
 class Tactic_variant {
@@ -80,11 +81,11 @@ class Board {
 class Card
     
 
-class Clan_card{
+class Valued_Card{
     - color : CardColor
-    - strength : int<1 to 9>
+    - value : int<1 to 9>
     + getColor() CardColor
-    + getStrength() int
+    + getValue() int
 }
 
 class Tactic_card{
@@ -175,7 +176,7 @@ Uml simple
 classDiagram
 Game <|-- Tactic_variant
 Card <|-- Tactic_card
-Card <|-- Clan_card
+Card <|-- Valued_Card
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
