@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Card.h"
-#include "Card_game.h"
+#include "class/Card.h"
+#include "class/Card_game.h"
 
 
 int main() {
