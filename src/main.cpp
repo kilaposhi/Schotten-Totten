@@ -2,6 +2,7 @@
 
 #include "Class/Card.h"
 #include "Class/Card_game.h"
+#include "Class/Deck.h"
 
 
 int main() {
@@ -13,11 +14,8 @@ int main() {
 
     Valued_Card card(3, CardColor::brown);
     cout << card << '\n';
-    Card_game& game2 = Card_game::getInstance(18,1, 3);
-    game2.display_all_cards();
-    cout << '\n';
     Card_game& game = Card_game::getInstance(NUMBER_CLAN_CARDS,MIN_CLAN_CARD_STRENGTH, MAX_CLAN_CARD_STRENGTH);
-    game.display_all_cards();
+//    Deck deck(game.getCards());
 
 //    std::cout <<" Hello world" <<std::endl;
     return 0;

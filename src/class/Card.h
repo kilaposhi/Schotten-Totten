@@ -44,8 +44,8 @@ extern initializer_list<CardColor> CardColors;
 
 class Valued_Card : public Card {
 private:
-    CardColor color;
-    int value;
+    CardColor color_;
+    int value_;
 
 public:
     Valued_Card(int Value, CardColor Color);

@@ -7,21 +7,21 @@ initializer_list<CardColor> CardColors = {CardColor::red,
                                           CardColor::brown,
                                           CardColor::orange};
 
-Valued_Card::Valued_Card(int Value, CardColor Color) : value(Value), color(Color) {}
+Valued_Card::Valued_Card(int Value, CardColor Color) : value_(Value), color_(Color) {}
 
 CardColor Valued_Card::getColor() const {
-    return color;
+    return color_;
 }
 
 int Valued_Card::getValue() const {
-    return value;
+    return value_;
 }
 
 
 //----- Displayers :
 
 string Valued_Card::cardColorToString() const {
-    switch (color) {
+    switch (color_) {
         case CardColor::red: return "red";
         case CardColor::green : return "green";
         case CardColor::blue : return "blue";

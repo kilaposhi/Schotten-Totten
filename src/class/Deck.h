@@ -1,15 +1,29 @@
 #ifndef SHOTTEN_TOTTEN_DECK_H
 #define SHOTTEN_TOTTEN_DECK_H
 
+#include <algorithm>
+#include <random>
+
+#include "Card_game.h"
+
+
+
+using std::shuffle, std::random_device, std::mt19937, std::vector;
+using std::cout;
 
 class Deck {
-
+private:
+    vector<Card> cards_;
 public:
 
-    Deck()=default;
+    Deck(vector<Card>);
     ~Deck()=default;
     Deck(const Deck& )=default;
     Deck& operator=(const Deck& )=default;
+
+    void shuffle_deck();
+    const Card& drawCard();
+    void print() const;
 };
 
 

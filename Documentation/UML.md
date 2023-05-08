@@ -58,8 +58,8 @@ class Game {
 class Card_game {
     <<Singleton>>
     - number_valued_card : int
-    - valued_cards : Valued_Card**
-    - Card_game(min_card_value: int, max_card_value: int )
+    - valued_cards_ : Valued_Card**
+    - Card_game(min_card_value_: int, max_card_value_: int )
     .$ getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
     + getCard(card_index : size_t) Valued_Card&
 }
@@ -85,8 +85,8 @@ class Card
     
 
 class Valued_Card{
-    - color : CardColor
-    - value : int<1 to 9>
+    - color_ : CardColor
+    - value_ : int<1 to 9>
     + getColor() CardColor
     + getValue() int
 }
