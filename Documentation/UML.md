@@ -48,6 +48,13 @@ class Game_interface {
     + launch_Shotten_Totten1();
 }
 
+class Game {
+        - clan_card_deck : Deck
+        - board : Board
+        + setupGame()
+}
+
+
 class Card_game {
     <<Singleton>>
     - number_valued_card : int
