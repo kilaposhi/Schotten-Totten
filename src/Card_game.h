@@ -11,16 +11,15 @@
 using std::string, std::array, std::cout, std::initializer_list, std::unique_ptr, std::make_unique, std::size_t;
 
 
+unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
+
 class Card_game {
 private:
     const int number_valued_cards;
     const int min_card_value, max_card_value;
-    const Valued_Card** valued_cards; // TODO -> unique_ptr<Valued_Card[]>
+    const unique_ptr<unique_ptr<Valued_Card>[]> valued_cards; // T <=> Valued_Card**
 
     void create_valued_cards();
-
-//    friend unique_ptr<Card_game> make_unique<Card_game>(Card_game&);
-
     Card_game(int min_card_value, int max_card_value);
 
 public:
@@ -30,11 +29,16 @@ public:
     Card_game(const Card_game&)=delete;
     Card_game& operator=(const Card_game&)=delete;
 
+    inline int getNumberValuedCards() const;
+    inline int getMinCardValue() const;
+    inline int getMaxCardValue() const;
+
+    const Valued_Card& getCard(size_t card_index) const;
+
     void display_all_cards() const;
 
 };
 
-unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
 
 
 #endif //SHOTTEN_TOTTEN_CARD_GAME_H

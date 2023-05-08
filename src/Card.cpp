@@ -7,10 +7,7 @@ initializer_list<CardColor> CardColors = {CardColor::red,
                                           CardColor::brown,
                                           CardColor::orange};
 
-Valued_Card::Valued_Card(int Value, CardColor Color) : value(Value), color(Color) {
-//    if (value < MIN_VALUE || value > MAX_VALUE)
-//        throw CardException("Card value must be : MIN_CARD_STRENGTH <= value <= MAX_CARD_STRENGTH");
-}
+Valued_Card::Valued_Card(int Value, CardColor Color) : value(Value), color(Color) {}
 
 CardColor Valued_Card::getColor() const {
     return color;
@@ -19,8 +16,6 @@ CardColor Valued_Card::getColor() const {
 int Valued_Card::getValue() const {
     return value;
 }
-
-
 
 
 //----- Displayers :

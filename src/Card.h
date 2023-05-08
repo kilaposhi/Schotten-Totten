@@ -23,7 +23,6 @@ public:
 class Card {
 private:
 public:
-
     Card()=default;
     ~Card()=default;
     Card(const Card& card)=default;
@@ -31,6 +30,7 @@ public:
 };
 
 
+// TODO make Enum colors modular to create any card game
 enum class CardColor{
     red,
     green,
