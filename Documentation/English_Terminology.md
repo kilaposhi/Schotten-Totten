@@ -12,7 +12,7 @@
 8.  Rank: The value assigned to each card in a deck (e.g., ace, king, queen, jack, etc.).
 9.  Shuffle: To randomize the order of the cards in a deck before a game.
 10.  Cut: To divide the deck into two parts before shuffling.
-11.  Meld: A combination of cards that can be played in certain card games for additional points
-12.  Meld: A combination of cards played on a stone to claim the corresponding stone..
+11.  Meld: A Combination of cards that can be played in certain card games for additional points
+12.  Meld: A Combination of cards played on a stone to claim the corresponding stone..
 
 

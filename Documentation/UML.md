@@ -43,7 +43,7 @@ classDiagram
     Tactic_card <|-- Ruse
     Tactic_card <|-- Combat_Mode
 
-%%---------- Class
+%%---------- class
 class Game_interface {
     + launch_Shotten_Totten1();
 }
@@ -104,12 +104,10 @@ class Elite_troop {
 class Ruse {
     
 }
-class Combat_mode {
     
-}
         
 class Stone{
-    - claimed : bool
+    - claimed : bool = false
     - winner& Player
     - slot_number = 3 : unsigned int
     - cardSlotsAvailable vector~bool~
@@ -142,10 +140,6 @@ class Deck{
     + getNumber_of_cards() int
 }
 
-class Tactic_deck
-
-class Clan_deck
-    
     
 class Score{
 - score_p1: int
