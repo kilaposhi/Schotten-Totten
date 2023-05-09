@@ -11,17 +11,18 @@
 using std::shuffle, std::random_device, std::mt19937, std::vector;
 using std::cout;
 
+
 class Deck {
 private:
-    vector<Card> cards_;
+    vector<const Card*> cards_;
 public:
 
-    Deck(vector<Card>);
+    Deck(vector<const Card*>);
     ~Deck()=default;
     Deck(const Deck& )=default;
     Deck& operator=(const Deck& )=default;
 
-    void shuffle_deck();
+    void shuffle();
     const Card& drawCard();
     void print() const;
 };
