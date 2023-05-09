@@ -14,11 +14,12 @@ using std::string, std::array, std::cout, std::initializer_list, std::unique_ptr
 
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
 
+//Singleton because anybody can have access to it???
 class Card_game {
 private:
     const int number_valued_cards_;
     const int min_card_value_, max_card_value_;
-    const unique_ptr<unique_ptr<Valued_Card>[]> valued_cards_; // T <=> Valued_Card**
+    const unique_ptr<unique_ptr<Card>[]> valued_cards_; // T <=> Valued_Card**
 
     void create_valued_cards();
     Card_game(int min_card_value, int max_card_value);
@@ -34,8 +35,8 @@ public:
     inline int getMinCardValue() const;
     inline int getMaxCardValue() const;
 
-    const Valued_Card& getCard(size_t card_index) const;
-    vector<Valued_Card> getCards() const;
+    const Card* getCard(size_t card_index) const;
+    vector<const Card*> getCards() const;
 
     void display_all_cards() const;
 
