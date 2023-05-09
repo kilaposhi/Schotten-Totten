@@ -12,12 +12,13 @@ int main() {
     const int MIN_CLAN_CARD_STRENGTH = 1;
     const int NUMBER_CLAN_CARDS = 54;
 
-    Valued_Card card(3, CardColor::brown);
-    cout << card << '\n';
-    Card_game& game = Card_game::getInstance(NUMBER_CLAN_CARDS,MIN_CLAN_CARD_STRENGTH, MAX_CLAN_CARD_STRENGTH);
-//    Deck deck(game.getCards());
+    unique_ptr<Card> card1 = make_unique<Valued_Card>(2, CardColor::orange);
+    cout << *card1 << '\n' << '\n';
 
-//    std::cout <<" Hello world" <<std::endl;
+    Card_game& game = Card_game::getInstance(NUMBER_CLAN_CARDS,MIN_CLAN_CARD_STRENGTH, MAX_CLAN_CARD_STRENGTH);
+    auto clan_cards = game.getCards();
+    Deck deck(clan_cards);
+    deck.print();
     return 0;
 }
 

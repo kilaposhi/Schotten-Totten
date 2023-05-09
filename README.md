@@ -56,9 +56,9 @@ Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez dire
   git push 
   ```
   ```bash
-  git add src/Card/   # Ajoute tous les fichiers du directory Card à l'index
-  git reset src/Card/testCard.cpp # On ne veut commit que la classe Card
-  git status  # On vérifie que l'on va commit uniquement Card.cpp et Card.h
+  git add src/Card/   # Ajoute tous les fichiers du directory Valued_Card à l'index
+  git reset src/Card/testCard.cpp # On ne veut commit que la classe Valued_Card
+  git status  # On vérifie que l'on va commit uniquement Valued_Card.cpp et Valued_Card.h
   git commit -m "Create Card class"
   git push 
   ```
