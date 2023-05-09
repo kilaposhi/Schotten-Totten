@@ -5,6 +5,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <string>
+#include <sstream>
 
 
 using std::string, std::ostream, std::initializer_list ;
@@ -27,6 +28,8 @@ public:
     ~Card()=default;
     Card(const Card& card)=default;
     Card& operator=(const Card& card) = default;
+
+    virtual string print() const;
 };
 
 
@@ -53,12 +56,14 @@ public:
     Valued_Card(const Valued_Card& valuedCard)=default;
     Valued_Card& operator=(const Valued_Card& valuedCard)= default;
 
-    string cardColorToString() const;
     CardColor getColor() const;
     int getValue() const;
+    string cardColorToString() const;
+    virtual string print() const;
 };
 
-// cout << Card;    Example : |3_orange|
+ostream& operator<<(ostream& stream, const Card& Card);
+// cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const Valued_Card& valued_card);
 
 

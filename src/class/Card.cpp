@@ -33,10 +33,26 @@ string Valued_Card::cardColorToString() const {
     }
 }
 
-// cout << Card;  Example : |3_orange|
+
+string Card::print() const {
+    return "";
+}
+
+string Valued_Card::print() const {
+    std::stringstream card("");
+    card << "|" << value_ << "_" << this->cardColorToString() << "|";
+    return card.str();
+}
+
+
+
+ostream& operator<<(ostream& stream, const Card& card){
+    stream << card.print();
+    return stream;
+}
+// cout << Valued_Card;  Example : |3_orange|
 ostream& operator<<(ostream& stream, const Valued_Card& valued_card){
-    stream << "|" << valued_card.getValue() << '_' <<
-           valued_card.cardColorToString() << '|';
+    stream << valued_card.print();
     return stream;
 }
 
