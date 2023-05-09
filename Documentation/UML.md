@@ -29,11 +29,11 @@ classDiagram
 %% ------ Relations
     Card_game *-- Valued_Card
     Game <|-- Tactic_variant
-    Valued_Card <|-- Tactic_card
-    Valued_Card <|-- Valued_Card
-    Deck o-- Valued_Card
-    Valued_Card "0..7" --o "0..1" Player
-    Valued_Card "0..9" --o "0..1" Stone
+    Card <|-- Tactic_card
+    Card <|-- Valued_Card
+    Deck o-- Card
+    Card "0..7" --o "0..1" Player
+    Card "0..9" --o "0..1" Stone
     Stone "0..5" -- "0..1" Player
     Game "0..*" -- "2" Player
     Game "1" *-- "1" Board
@@ -61,7 +61,7 @@ class Card_game {
     - valued_cards_ : Card**
     - Card_game(min_card_value_: int, max_card_value_: int )
     .$ getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
-    + getCard(card_index : size_t) Valued_Card&
+    + getCard(card_index : size_t) Card&
 }
 
 
@@ -84,11 +84,9 @@ class Board {
 class Card
     
 
-class Valued_Card{
+class Card{
     - color_ : CardColor
     - value_ : int<1 to 9>
-    + getColor() CardColor
-    + getValue() int
 }
 
 class Tactic_card{
@@ -149,7 +147,6 @@ class Score{
 +p2_gagne()
 }
 
-%% note for Tactic_card  "Un joker ne peut être présent plus d'une\n fois d un même côté de la frontière"
 
 %%-------- Enum class
 class CardColor {
@@ -187,4 +184,5 @@ Game "1" o-- "1..2" Deck
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
+
 ```
