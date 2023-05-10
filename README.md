@@ -1,4 +1,4 @@
-# Big Shotten-Totten
+# Big Schotten-Totten
 
 # Sommaire :
 
@@ -22,7 +22,7 @@
 > Migration de **CodiMd** vers **mermaid** qui est plutôt similaire est permet d'afficher l'UML directement dans Github :
 
 ==Work in progress==
-[voir UML version 1](Documentation/UML.md)  
+[voir UML version 1](documentation/UML.md)  
   
 
 ## Git
@@ -32,7 +32,7 @@
 Ptit conseil : Bien lire ce que git nous dit quand ça marche pas, il propose souvent les solutions au problème avec les bonnes commandes à copier-coller.  
 
 ### Installer le projet :
-`git clone https://github.com/kilaposhi/Shotten-Totten.git` : Pour copier le repository sur vos machines depuis un terminal comme **git bash**.  
+`git clone https://github.com/kilaposhi/Schotten-Totten.git` : Pour copier le repository sur vos machines depuis un terminal comme **git bash**.  
 Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez directement faire un nouveau projet depuis un contrôle de version ("**Create project from Version Control**").
 
 ### Bases : `add`, `commit`, `push` ...
@@ -56,9 +56,9 @@ Si vous utilisez Clion, (Ou Visual Studio Code aussi surement), vous pouvez dire
   git push 
   ```
   ```bash
-  git add src/Card/   # Ajoute tous les fichiers du directory Card à l'index
-  git reset src/Card/testCard.cpp # On ne veut commit que la classe Card
-  git status  # On vérifie que l'on va commit uniquement Card.cpp et Card.h
+  git add src/Card/   # Ajoute tous les fichiers du directory Valued_Card à l'index
+  git reset src/Card/testCard.cpp # On ne veut commit que la classe Valued_Card
+  git status  # On vérifie que l'on va commit uniquement Valued_Card.cpp et Valued_Card.h
   git commit -m "Create Card class"
   git push 
   ```

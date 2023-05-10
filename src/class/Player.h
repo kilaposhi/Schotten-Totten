@@ -1,5 +1,5 @@
-#ifndef SHOTTEN_TOTTEN_PLAYER_H
-#define SHOTTEN_TOTTEN_PLAYER_H
+#ifndef SCHOTTEN_TOTTEN_PLAYER_H
+#define SCHOTTEN_TOTTEN_PLAYER_H
 
 #include <iostream>
 #include <vector>
@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif //SHOTTEN_TOTTEN_PLAYER_H
+#endif SCHOTTEN_TOTTEN_PLAYER_H

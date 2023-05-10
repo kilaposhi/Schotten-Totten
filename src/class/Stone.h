@@ -1,5 +1,5 @@
-#ifndef SHOTTEN_TOTTEN_STONE_H
-#define SHOTTEN_TOTTEN_STONE_H
+#ifndef SCHOTTEN_TOTTEN_STONE_H
+#define SCHOTTEN_TOTTEN_STONE_H
 
 
 #include <iostream>
@@ -36,4 +36,4 @@ public:
 };
 
 
-#endif //SHOTTEN_TOTTEN_STONE_H
+#endif SCHOTTEN_TOTTEN_STONE_H

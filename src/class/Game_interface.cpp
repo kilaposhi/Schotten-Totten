@@ -1,7 +1,7 @@
 #include "Game_interface.h"
 
 
-void Game_interface::launch_Shotten_Totten1() {
+void Game_interface::launch_Schotten_Totten1() {
 
     const int MAX_CLAN_CARD_STRENGTH = 9;
     const int MIN_CLAN_CARD_STRENGTH = 1;
