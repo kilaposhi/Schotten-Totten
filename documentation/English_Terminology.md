@@ -9,10 +9,10 @@
 5.  **Deal**: To distribute cards to players at the start of a game.
 6. Trump: A suit or rank that outranks all other suits or ranks in a game.
 7.  Suit: One of the four types of cards (hearts, diamonds, clubs, and spades) in a standard deck of playing cards.
-8.  Rank: The value assigned to each card in a deck (e.g., ace, king, queen, jack, etc.).
+8.  Rank: The value_ assigned to each card in a deck (e.g., ace, king, queen, jack, etc.).
 9.  Shuffle: To randomize the order of the cards in a deck before a game.
 10.  Cut: To divide the deck into two parts before shuffling.
-11.  Meld: A combination of cards that can be played in certain card games for additional points
-12.  Meld: A combination of cards played on a stone to claim the corresponding stone..
+11.  Meld: A Combination of cards that can be played in certain card games for additional points
+12.  Meld: A Combination of cards played on a stone to claim the corresponding stone..
 
 
