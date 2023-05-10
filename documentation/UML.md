@@ -21,10 +21,9 @@ Notre UML est porté de PlantUML vers markdown avec [mermaid](https://mermaid.js
 
 ```mermaid
 ---
-title: Architecture Shotten-Totten
+title: Architecture Schotten-Totten
 ---
 classDiagram
-
 
 %% ------ Relations
     Card_game *-- Valued_Card
@@ -45,7 +44,7 @@ classDiagram
 
 %%---------- class
 class Game_interface {
-    + launch_Shotten_Totten1();
+    + launch_Schotten_Totten1();
 }
 
 class Game {
@@ -63,7 +62,6 @@ class Card_game {
     .$ getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
     + getCard(card_index : size_t) Card&
 }
-
 
 class Tactic_variant {
     - tactic_card_deck : Deck

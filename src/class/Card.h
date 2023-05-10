@@ -1,6 +1,6 @@
 
-#ifndef SHOTTEN_TOTTEN_CARD_H
-#define SHOTTEN_TOTTEN_CARD_H
+#ifndef SCHOTTEN_TOTTEN_CARD_H
+#define SCHOTTEN_TOTTEN_CARD_H
 
 #include <iostream>
 #include <initializer_list>
@@ -73,4 +73,4 @@ class Tactic_card : public Card {
 
 
 
-#endif //SHOTTEN_TOTTEN_CARD_H
+#endif SCHOTTEN_TOTTEN_CARD_H

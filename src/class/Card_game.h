@@ -1,5 +1,5 @@
-#ifndef SHOTTEN_TOTTEN_CARD_GAME_H
-#define SHOTTEN_TOTTEN_CARD_GAME_H
+#ifndef SCHOTTEN_TOTTEN_CARD_GAME_H
+#define SCHOTTEN_TOTTEN_CARD_GAME_H
 
 #include <iostream>
 #include <string>
@@ -44,4 +44,4 @@ public:
 
 
 
-#endif //SHOTTEN_TOTTEN_CARD_GAME_H
+#endif SCHOTTEN_TOTTEN_CARD_GAME_H

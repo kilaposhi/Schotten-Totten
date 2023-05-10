@@ -7,7 +7,7 @@
 
 int main() {
 
-    //-----launch_Shotten_Totten1:
+    //-----launch_Schotten_Totten1:
     const int MAX_CLAN_CARD_STRENGTH = 9;
     const int MIN_CLAN_CARD_STRENGTH = 1;
     const int NUMBER_CLAN_CARDS = 54;

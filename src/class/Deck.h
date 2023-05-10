@@ -1,5 +1,5 @@
-#ifndef SHOTTEN_TOTTEN_DECK_H
-#define SHOTTEN_TOTTEN_DECK_H
+#ifndef SCHOTTEN_TOTTEN_DECK_H
+#define SCHOTTEN_TOTTEN_DECK_H
 
 #include <algorithm>
 #include <random>
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //SHOTTEN_TOTTEN_DECK_H
+#endif SCHOTTEN_TOTTEN_DECK_H
