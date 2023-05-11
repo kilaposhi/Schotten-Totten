@@ -30,7 +30,7 @@ public:
     Stone(const Stone& stone)=default;
     Stone& operator=(const Stone& stone) =default;
 
-    int getNbStone() const;
+    int getNbStone() const {return 9;}
     void addCard() const;
 
 };
