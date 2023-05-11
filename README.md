@@ -40,7 +40,7 @@
 
 ## Git
 
-[Aide sur l'utilisation de git ](aide_git.md)
+[Aide sur l'utilisation de git ](documentation/aide_git.md)
 
 # Avant-propos
 
