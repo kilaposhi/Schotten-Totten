@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif SCHOTTEN_TOTTEN_DECK_H
+#endif //SCHOTTEN_TOTTEN_DECK_H
