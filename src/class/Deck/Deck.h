@@ -5,6 +5,7 @@
 #include <random>
 
 #include "Card_game.h"
+#include "DeckCreator.h"
 
 
 
@@ -14,18 +15,24 @@ using std::cout;
 
 class Deck {
 private:
-    vector<const Card*> cards_;
+
+    friend class DeckCreator;
+
+    DeckType deckType;
+    vector<unique_ptr<Card>> cards_;
 public:
 
-    Deck(vector<const Card*>);
+    Deck();
     ~Deck()=default;
     Deck(const Deck& )=default;
     Deck& operator=(const Deck& )=default;
 
     void shuffle();
-    const Card& drawCard();
+    bool isEmpty() const;
+    const unique_ptr<Card> drawCard();
+    int getNumberCardsRemaining() const;
     void print() const;
 };
 
 
-#endif SCHOTTEN_TOTTEN_DECK_H
+#endif

@@ -73,4 +73,4 @@ class Tactic_card : public Card {
 
 
 
-#endif SCHOTTEN_TOTTEN_CARD_H
+#endif

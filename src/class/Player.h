@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif SCHOTTEN_TOTTEN_PLAYER_H
+#endif

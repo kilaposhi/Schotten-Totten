@@ -1,6 +1,6 @@
 #include "Deck.h"
 
-Deck::Deck(vector<const Card*> cards) : cards_(cards) {
+Deck::Deck() : cards_() {
     this->shuffle();
 }
 
@@ -10,13 +10,21 @@ void Deck::shuffle() {
     std::shuffle(cards_.begin(), cards_.end(), generator);
 }
 
-const Card& Deck::drawCard() {
-    if (cards_.empty()) {
+bool Deck::isEmpty() const {
+    return cards_.empty();
+}
+
+const unique_ptr<Card> Deck::drawCard() {
+    if (isEmpty()) {
         throw std::out_of_range("The deck is empty");
     }
-    const Card* card = cards_.back();
+    unique_ptr<Card> card = std::move(cards_.back() );
     cards_.pop_back();
-    return *card;
+    return card;
+}
+
+int Deck::getNumberCardsRemaining() const{
+    return cards_.size();
 }
 
 void Deck::print() const {

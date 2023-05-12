@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "Class/Card.h"
-#include "Class/Card_game.h"
-#include "Class/Deck.h"
+#include "Deck/Card_game.h"
+#include "Deck/Deck.h"
 
 
 int main() {
