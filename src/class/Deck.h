@@ -8,8 +8,7 @@
 
 
 
-using std::shuffle, std::random_device, std::mt19937, std::vector;
-using std::cout;
+using std::shuffle, std::random_device, std::mt19937, std::vector, std::cout;
 
 
 class Deck {
@@ -18,12 +17,16 @@ private:
 public:
 
     Deck(vector<const Card*>);
+    Deck()=default;
     ~Deck()=default;
     Deck(const Deck& )=default;
     Deck& operator=(const Deck& )=default;
 
     void shuffle();
+    bool isEmpty() const;
     const Card& drawCard();
+    void putCard(const Card* card);
+    int getNumberRemainingCards() const;
     void print() const;
 };
 
