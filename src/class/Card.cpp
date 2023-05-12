@@ -33,9 +33,12 @@ string Valued_Card::cardColorToString() const {
     }
 }
 
+unique_ptr<Card> Card::clone() {
+    throw CardException("Cloning an empty Card");
+}
 
 string Card::print() const {
-    return "";
+    throw CardException("Printing an empty Card");
 }
 
 string Valued_Card::print() const {
@@ -44,6 +47,9 @@ string Valued_Card::print() const {
     return card.str();
 }
 
+unique_ptr<Card> Valued_Card::clone() {
+    return std::make_unique<Card>(*this);
+}
 
 
 ostream& operator<<(ostream& stream, const Card& card){

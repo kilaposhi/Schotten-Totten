@@ -12,7 +12,6 @@
 using std::string, std::array, std::cout, std::initializer_list, std::unique_ptr, std::make_unique, std::size_t, std::vector;
 
 
-unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
 
 //Singleton because anybody can have access to it???
 class Card_game {

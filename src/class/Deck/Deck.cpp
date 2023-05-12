@@ -1,9 +1,13 @@
 #include "Deck.h"
 
-Deck::Deck(vector<const Card*> cards) : cards_(cards) {
+Deck::Deck() {
     this->shuffle();
 }
 
+Deck &Deck::operator=(const Deck &deck) {
+    copy_vector_cards(deck.cards_, this->cards_);
+    return *this;
+}
 
 void Deck::shuffle() {
     random_device randomDevice;
@@ -15,24 +19,35 @@ bool Deck::isEmpty() const {
     return cards_.empty();
 }
 
-Card Deck::drawCard() {
+unique_ptr<Card> Deck::drawCard() {
     if (this->isEmpty()) {
         throw std::out_of_range("The deck is empty");
     }
-    const Card* card = cards_.back();
+    auto card = move(cards_.back());
     cards_.pop_back();
-    return *card;
+    return move(card);
 }
 
-void Deck::putCard(const Card& card) {
-    cards_.insert(cards_.cbegin() , *card);
+void Deck::putCard(unique_ptr<Card> card) {
+    cards_.insert(cards_.cbegin() , move(card));
 }
 
 int Deck::getNumberRemainingCards() const{
-    return cards_.size();
+    return (int)cards_.size();
 }
 
 void Deck::print() const {
     for (auto& card : cards_)
         cout << *card << '\n';
+}
+
+void copy_vector_cards(
+        const vector<unique_ptr<Card>>& from_cards,
+        vector<unique_ptr<Card>>& to_cards
+        ){
+    size_t vector_cards_size = from_cards.size();
+    to_cards.reserve(vector_cards_size);
+
+    for (const auto& card : from_cards)
+        to_cards.push_back(card->clone());
 }

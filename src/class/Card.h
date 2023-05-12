@@ -6,9 +6,10 @@
 #include <initializer_list>
 #include <string>
 #include <sstream>
+#include <memory>
 
 
-using std::string, std::ostream, std::initializer_list ;
+using std::string, std::ostream, std::initializer_list, std::unique_ptr ;
 
 
 class CardException{
@@ -30,6 +31,7 @@ public:
     Card& operator=(const Card& card) = default;
 
     virtual string print() const;
+    virtual unique_ptr<Card> clone();
 };
 
 
@@ -59,7 +61,10 @@ public:
     CardColor getColor() const;
     int getValue() const;
     string cardColorToString() const;
-    virtual string print() const;
+
+
+    string print() const override;
+    unique_ptr<Card> clone() override;
 };
 
 ostream& operator<<(ostream& stream, const Card& Card);

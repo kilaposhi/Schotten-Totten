@@ -1,7 +1,12 @@
 #ifndef SCHOTTEN_TOTTEN_DECKCREATOR_H
 #define SCHOTTEN_TOTTEN_DECKCREATOR_H
 
+#include <vector>
+#include <memory>
+
 #include "Deck.h"
+
+using std::move, std::vector, std::make_unique, std::unique_ptr;
 
 enum class DeckType{
     ValuedCard,
@@ -11,32 +16,31 @@ enum class DeckType{
 class DeckCreator {
 private:
     DeckType deckType;
-    int number_cards_;
-    int min_card_value_ = 0;
+    int number_cards_ = 0;
+    int min_card_value_;
     int max_card_value_;
-    const unique_ptr<unique_ptr<Card>[]> cards_; // T <=> Valued_Card**
+    vector<unique_ptr<Card>> cards_; // T <=> Valued_Card**
 
-//    DeckCreator& setTypeCards(DeckType deckType);
+    DeckCreator& setTypeCards(DeckType deckType);
 
     // ValuedCards method
-    DeckCreator& setNumberCards(int number_cards);
-    DeckCreator& setMinValueCard(int min_card_value);
-    DeckCreator& setMaxValueCard(int max_card_value );
-    DeckCreator& setNumberColors(int max_card_value );
-    DeckCreator& setRangeValue(int min_card_value, int max_card_value);
+    void setNumberColors(int number_colors );
+    void setRangeValueCard(int min_card_value, int max_card_value);
 
     void create_valued_cards();
 
 public:
     DeckCreator(DeckType deckType);
-    DeckCreator(const DeckCreator&)=default;
-    DeckCreator& operator=(const DeckCreator&)=default;
+    DeckCreator()=default;
+    DeckCreator(const DeckCreator&)=delete;
+    DeckCreator& operator=(const DeckCreator&)=delete;
     ~DeckCreator()=default;
 
-    void createClanDeck();
-    void createTacticDeck();
-    Deck& build();
+    DeckCreator& createClanDeck();
+    DeckCreator& createTacticDeck();
+    Deck build();
 };
 
+unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
 
 #endif //SCHOTTEN_TOTTEN_DECKCREATOR_H
