@@ -7,8 +7,8 @@
 #include <vector>
 #include <string>
 
-#include "Card.h"
-#include "Player.h"
+#include "deck/Card.h"
+#include "player/Player.h"
 
 using std::string, std::exception, std::vector ;
 

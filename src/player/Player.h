@@ -5,7 +5,7 @@
 #include <vector>
 #include <list>
 
-#include "Card.h"
+#include "deck/Card.h"
 
 using std::vector, std::list;
 
