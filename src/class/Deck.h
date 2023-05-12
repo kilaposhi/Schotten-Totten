@@ -24,11 +24,11 @@ public:
 
     void shuffle();
     bool isEmpty() const;
-    const Card& drawCard();
-    void putCard(const Card* card);
+    Card drawCard();
+    void putCard(const Card card);
     int getNumberRemainingCards() const;
     void print() const;
 };
 
 
-#endif SCHOTTEN_TOTTEN_DECK_H
+#endif //SCHOTTEN_TOTTEN_DECK_H

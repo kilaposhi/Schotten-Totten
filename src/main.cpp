@@ -18,6 +18,14 @@ int main() {
     Card_game& game = Card_game::getInstance(NUMBER_CLAN_CARDS,MIN_CLAN_CARD_STRENGTH, MAX_CLAN_CARD_STRENGTH);
     auto clan_cards = game.getCards();
     Deck deck(clan_cards);
+    Deck discardDeck;
+    for (int i = 0; i < 15; ++i) {
+        Card card = deck.drawCard();
+        discardDeck.putCard(card);
+    }
+    discardDeck.print();
+    cout << '\n';
+
     deck.print();
     return 0;
 }

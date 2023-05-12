@@ -44,4 +44,4 @@ public:
 
 
 
-#endif SCHOTTEN_TOTTEN_CARD_GAME_H
+#endif //SCHOTTEN_TOTTEN_CARD_GAME_H

@@ -15,7 +15,7 @@ bool Deck::isEmpty() const {
     return cards_.empty();
 }
 
-const Card& Deck::drawCard() {
+Card Deck::drawCard() {
     if (this->isEmpty()) {
         throw std::out_of_range("The deck is empty");
     }
@@ -24,8 +24,8 @@ const Card& Deck::drawCard() {
     return *card;
 }
 
-void Deck::putCard(const Card *card) {
-    cards_.insert(cards_.cbegin() , card);
+void Deck::putCard(const Card& card) {
+    cards_.insert(cards_.cbegin() , *card);
 }
 
 int Deck::getNumberRemainingCards() const{
