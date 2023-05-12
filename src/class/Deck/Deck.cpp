@@ -1,8 +1,9 @@
 #include "Deck.h"
 
-Deck::Deck() : cards_() {
+Deck::Deck(vector<const Card*> cards) : cards_(cards) {
     this->shuffle();
 }
+
 
 void Deck::shuffle() {
     random_device randomDevice;
@@ -14,16 +15,20 @@ bool Deck::isEmpty() const {
     return cards_.empty();
 }
 
-const unique_ptr<Card> Deck::drawCard() {
-    if (isEmpty()) {
+Card Deck::drawCard() {
+    if (this->isEmpty()) {
         throw std::out_of_range("The deck is empty");
     }
-    unique_ptr<Card> card = std::move(cards_.back() );
+    const Card* card = cards_.back();
     cards_.pop_back();
-    return card;
+    return *card;
 }
 
-int Deck::getNumberCardsRemaining() const{
+void Deck::putCard(const Card& card) {
+    cards_.insert(cards_.cbegin() , *card);
+}
+
+int Deck::getNumberRemainingCards() const{
     return cards_.size();
 }
 

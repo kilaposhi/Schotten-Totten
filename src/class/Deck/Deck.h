@@ -5,34 +5,30 @@
 #include <random>
 
 #include "Card_game.h"
-#include "DeckCreator.h"
 
 
 
-using std::shuffle, std::random_device, std::mt19937, std::vector;
-using std::cout;
+using std::shuffle, std::random_device, std::mt19937, std::vector, std::cout;
 
 
 class Deck {
 private:
-
-    friend class DeckCreator;
-
-    DeckType deckType;
-    vector<unique_ptr<Card>> cards_;
+    vector<const Card*> cards_;
 public:
 
-    Deck();
+    Deck(vector<const Card*>);
+    Deck()=default;
     ~Deck()=default;
     Deck(const Deck& )=default;
     Deck& operator=(const Deck& )=default;
 
     void shuffle();
     bool isEmpty() const;
-    const unique_ptr<Card> drawCard();
-    int getNumberCardsRemaining() const;
+    Card drawCard();
+    void putCard(const Card card);
+    int getNumberRemainingCards() const;
     void print() const;
 };
 
 
-#endif
+#endif //SCHOTTEN_TOTTEN_DECK_H

@@ -36,4 +36,4 @@ public:
 };
 
 
-#endif
+#endif //SCHOTTEN_TOTTEN_STONE_H
