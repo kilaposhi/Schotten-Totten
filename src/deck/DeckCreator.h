@@ -8,13 +8,10 @@
 #include "Card.h"
 
 class Deck;
+enum class DeckType;
 
 using std::move, std::vector, std::make_unique, std::unique_ptr;
 
-enum class DeckType{
-    ValuedCard,
-    TacticCard
-};
 
 class DeckCreator {
 private:

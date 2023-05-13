@@ -18,11 +18,10 @@ int main() {
     Deck deck = deckCreator.createClanDeck().build();
     deck.shuffle();
 
-    try {
 
 
     Deck discardDeck;
-    for (int i = 0; i < 15; ++i) {
+    for (int i = 0; i < 15; ++i)
         discardDeck.putCard(deck.drawCard());
     discardDeck.print();
     cout << '\n';

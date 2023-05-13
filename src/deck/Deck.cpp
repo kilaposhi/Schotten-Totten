@@ -1,15 +1,30 @@
 #include "Deck.h"
 
+// ------------------------DeckInfo
+DeckInfo::DeckInfo(int total_number_cards, int min_card_value, int max_card_value) :
+        deckType_(DeckType::ValuedCard),
+        total_number_cards_(total_number_cards),
+        min_card_value_(min_card_value),
+        max_card_value_(max_card_value) {}
+
+inline int DeckInfo::getTotalNumberCards() const { return this->total_number_cards_;}
+inline int DeckInfo::getMinCardValue() const { return this->min_card_value_;}
+inline int DeckInfo::getMaxCardValue() const { return this->max_card_value_;}
+
+// -------------------- DecK
 
 Deck::Deck(const Deck &deck) {
+    this->deckInfo_ = deck.deckInfo_;
     copy_vector_cards(deck.cards_, this->cards_);
 }
 
 
 Deck &Deck::operator=(const Deck &deck) {
+    this->deckInfo_ = deck.deckInfo_;
     copy_vector_cards(deck.cards_, this->cards_);
     return *this;
 }
+
 
 void Deck::shuffle() {
     random_device randomDevice;
@@ -17,9 +32,9 @@ void Deck::shuffle() {
     std::shuffle(cards_.begin(), cards_.end(), generator);
 }
 
-bool Deck::isEmpty() const {
-    return cards_.empty();
-}
+
+bool Deck::isEmpty() const { return cards_.empty(); }
+
 
 unique_ptr<Card> Deck::drawCard() {
     if (this->isEmpty()) {
@@ -30,18 +45,24 @@ unique_ptr<Card> Deck::drawCard() {
     return move(card);
 }
 
+
 void Deck::putCard(unique_ptr<Card> card) {
     cards_.insert(cards_.cbegin() , move(card));
 }
 
-int Deck::getNumberRemainingCards() const{
-    return (int)cards_.size();
-}
+
+int Deck::getNumberRemainingCards() const{ return (int)cards_.size(); }
+
+
+DeckInfo Deck::getDeckInfo() const{ return this->deckInfo_;  }
+
 
 void Deck::print() const {
     for (auto& card : cards_)
         cout << *card << '\n';
 }
+
+// Functions
 
 void copy_vector_cards(
         const vector<unique_ptr<Card>>& from_cards,

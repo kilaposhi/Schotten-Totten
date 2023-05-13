@@ -1,7 +1,6 @@
 #ifndef SCHOTTEN_TOTTEN_GAME_INTERFACE_H
 #define SCHOTTEN_TOTTEN_GAME_INTERFACE_H
 
-#include "deck/Card_game.h"
 
 
 class Game_interface {
