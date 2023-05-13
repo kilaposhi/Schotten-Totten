@@ -6,14 +6,49 @@
 Permet d'éviter les collisions de noms avec les librairies du C 
 - [ ] Faire les classes d'exceptions pour chaque classes
 
-### Taches [Optionnelles](#optionnel)
+- [ ] Faire le Rapport 2
 
-## Classe `Deck`, `DeckCreator` :
+##### Taches [Optionnelles](#optionnel)
+
+
+## Classe `Player`
+- [ ] Coder `Hand`, la main du `Player` ??
+- [ ] Coder `Player`
+- [ ] Réflechir et créer un système qui permet de gérer les tours
+
+## Classe `Border`, et `Board` :
+- [ ] Coder `Border`
+- [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination)
+  
+- [ ] Coder `GameTracker` pour suivre l'état de la partie :
+Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
+les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
+si l'adversaire ne peut faire mieux.
+  
+  
+- [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
+  connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
+  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
+
+## Classe `Deck`, `DeckBuilder`, `Card` ... :
+- [x] Coder `Card` et `ValuedCard` @kilaposhi
+- [x] Coder `Deck` et `DeckBuilder` @kilaposhi
+   
+
+- [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
+- [ ] Implémenter `createTacticCard` de `DeckBuilder`
 - [ ] Créer une classe `DeckException` et vérifier
-les valeurs passées dans `DeckCreator`, et les exceptions de `Deck`
-- [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `Valued_Card`
+les valeurs passées dans `DeckBuilder`, et les exceptions de `Deck`
+- [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
-- [ ] Implémenter `createTacticCard` de `DeckCreator`
+
+# class `Game_interface` :
+- [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
+, tactiques, les manches, les scores, etc...
+
+# Qt class `Displayer`: 
+- [ ] Créer les widgets pour cartes
+- [ ] Créer le plateau
 
 
 #### Optionnel

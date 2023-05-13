@@ -20,13 +20,6 @@
 
 # Tasks
 
-- [ ] Faire le rapport 2 
-- [x] Coder `Card` et `Card_game` @kilaposhi
-- [ ] Coder `Stone`  et `Board`. (Comme `Card` et `Game_Card`)
-- [ ] Coder la fonction `compute_combination(3 Valued_Card)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination)
-- [x] Coder `Deck` @kilaposhi
-- [ ] Coder `Player`
-- [ ] Coder les `Tactic_card` et `Tactic_card_game` (construire les cartes tactiques avec un fichier XML)
 
   
   
@@ -40,10 +33,10 @@ classDiagram
 
 %% ------ Relations
 Card <|-- Tactic_card
-Card <|-- Valued_Card
+Card <|-- ValuedCard
 Deck *-- Card
 Deck *-- DeckInfo
-Deck -- DeckCreator
+Deck -- DeckBuilder
 %%    Card "0..7" --* "0..1" Hand
 Player *-- Hand
 Combination "0..9" --* "0..1" Border
@@ -51,7 +44,7 @@ Board "9" *-- "1" Border
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
-CardColor -- Valued_Card 
+CardColor -- ValuedCard 
 DeckType -- Deck
 
 %%---------- class
@@ -65,7 +58,7 @@ class Card {
   }
 
 
-class Valued_Card{
+class ValuedCard{
 - color : CardColor
 - value : int<1 to 9>
 + override print() string
@@ -87,7 +80,7 @@ class Board {
   }
 
 class Combination{
-- cards : vector~Valued_Card~
+- cards : vectorValuedCard
 - sumValues : int
   }
 
@@ -137,7 +130,7 @@ class DeckInfo {
 - min_value_card, max_value_card : int
   }
 
-class DeckCreator {
+class DeckBuilder {
 <<Builder>>
 + createClanDeck()
 + build() Deck

@@ -16,7 +16,7 @@ void DeckBuilder::create_valued_cards(){
     cards_.reserve(number_cards_);
     for (auto color : CardColors)
         for (int value = min_card_value_; value <= max_card_value_; value++)
-            cards_.push_back(make_unique<Valued_Card>(value, color));
+            cards_.push_back(make_unique<ValuedCard>(value, color));
 }
 
 DeckBuilder& DeckBuilder::createClanDeck() {
