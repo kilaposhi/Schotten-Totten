@@ -3,8 +3,8 @@
 # Sommaire :
 
 - [Liens utiles](#Liens-utiles)
-- [UML](#uml-version-2)
 - [Tâches à faire](#tasks)
+- [UML](#uml-version-2)
 - [Utilisation de Git](#Git)
 
 ## Liens utiles
@@ -15,12 +15,21 @@
 **Ressources :**  
 - [Refactoring guru](https://refactoring.guru) Explications BD des **designs patterns** et des **bonnes pratiques** du refactoring AKA *"comment écrire du **clean code**" ?* 
 - [Grepper](https://www.grepper.com) : Extension web qui donne des petites solutions de code dans le navigateur (Faire ses recherches en anglais)  
-  <img alt="Example grepper" src="images/grepper_example.png" style="width: 85%; height: 70%" >    
+  <img alt="Example grepper" src="documentation/images/grepper_example.png"/>
+
   
 
 # Tasks
 
+- [x] `Deck`, `DeckBuilder` : @kilaposhi
+- [x] `Card` : @kilaposhi
+- [ ] `Player`
+- [ ] `Border`
+- [ ] `Board`
+- [ ] [Rapport 2](documentation/rapport_2.md)
 
+Faire les grosses classes de l'UML ci dessous:
+[Lien vers les tâches précise](documentation/Tasks.md)
   
   
 ## UML version 2
@@ -34,13 +43,13 @@ classDiagram
 %% ------ Relations
 Card <|-- Tactic_card
 Card <|-- ValuedCard
-Deck *-- Card
-Deck *-- DeckInfo
+Deck "1"*-- "0..*" Card
+Deck "1" *-- "1" DeckInfo
 Deck -- DeckBuilder
 %%    Card "0..7" --* "0..1" Hand
-Player *-- Hand
-Combination "0..9" --* "0..1" Border
-Board "9" *-- "1" Border
+Player "1"*--"1" Hand
+Combination "1" --* "2" Border
+Board "1" *-- "9" Border
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
@@ -174,6 +183,22 @@ DiscardDeck
 [Aide sur l'utilisation de git ](documentation/aide_git.md)
 
 # Avant-propos
+```
+                   (                                     
+                   )\ )    )          )    )             
+                  (()/( ( /(       ( /( ( /(   (         
+                   /(_)))\())  (   )\()))\()) ))\  (     
+                  (_)) ((_)\   )\ (_))/(_))/ /((_) )\ )  
+                  / __|| |(_) ((_)| |_ | |_ (_))  _(_/(  
+                  \__ \| ' \ / _ \|  _||  _|/ -_)| ' \)) 
+                  |___/)_||_|\___) \__) \__|\___||_||_|  
+                    ( /(      ( /( ( /(   (              
+                    )\()) (   )\()))\()) ))\  (          
+                   (_))/  )\ (_))/(_))/ /((_) )\ )       
+                   | |_  ((_)| |_ | |_ (_))  _(_/(       
+                   |  _|/ _ \|  _||  _|/ -_)| ' \))      
+                    \__|\___/ \__| \__|\___||_||_|       
+```
 
 > This repository is under the **GNU General Public License v3.0**
 

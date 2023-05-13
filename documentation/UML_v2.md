@@ -13,17 +13,16 @@ classDiagram
 %% ------ Relations
     Card <|-- Tactic_card
     Card <|-- ValuedCard
-    Deck *-- Card
-    Deck *-- DeckInfo
+    Deck "1"*-- "0..*" Card
+    Deck "1" *-- "1" DeckInfo
     Deck -- DeckBuilder
 %%    Card "0..7" --* "0..1" Hand
-    Player *-- Hand
-    Combination "0..9" --* "0..1" Border
-    Board "9" *-- "1" Border
+    Player "1"*--"1" Hand
+    Combination "1" --* "2" Border
+    Board "1" *-- "9" Border
     Tactic_card <|-- Elite_troop
     Tactic_card <|-- Ruse
     Tactic_card <|-- Combat_Mode
-    
     CardColor -- ValuedCard
     DeckType -- Deck
 

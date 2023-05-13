@@ -36,6 +36,7 @@ si l'adversaire ne peut faire mieux.
 - [x] Coder `Deck` et `DeckBuilder` @kilaposhi
    
 
+- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
 - [ ] Implémenter `createTacticCard` de `DeckBuilder`
 - [ ] Créer une classe `DeckException` et vérifier
