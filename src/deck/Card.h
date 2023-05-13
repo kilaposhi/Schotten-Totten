@@ -62,7 +62,6 @@ public:
     int getValue() const;
     string cardColorToString() const;
 
-
     string print() const override;
     unique_ptr<Card> clone() override;
 };

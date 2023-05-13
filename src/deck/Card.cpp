@@ -33,9 +33,11 @@ string Valued_Card::cardColorToString() const {
     }
 }
 
+
 unique_ptr<Card> Card::clone() {
     throw CardException("Cloning an empty Card");
 }
+
 
 string Card::print() const {
     throw CardException("Printing an empty Card");
@@ -46,6 +48,7 @@ string Valued_Card::print() const {
     card << "|" << value_ << "_" << this->cardColorToString() << "|";
     return card.str();
 }
+
 
 unique_ptr<Card> Valued_Card::clone() {
     return std::make_unique<Valued_Card>(*this);
