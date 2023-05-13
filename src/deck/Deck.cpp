@@ -1,8 +1,10 @@
 #include "Deck.h"
 
-Deck::Deck() {
-    this->shuffle();
+
+Deck::Deck(const Deck &deck) {
+    copy_vector_cards(deck.cards_, this->cards_);
 }
+
 
 Deck &Deck::operator=(const Deck &deck) {
     copy_vector_cards(deck.cards_, this->cards_);

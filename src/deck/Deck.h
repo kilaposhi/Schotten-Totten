@@ -17,9 +17,9 @@ private:
     vector<unique_ptr<Card>> cards_;
 public:
 
-    Deck();
+    Deck()=default;
     ~Deck()=default;
-    Deck(const Deck& )=default;
+    Deck(const Deck& );
     Deck& operator=(const Deck&);
 
     void shuffle();

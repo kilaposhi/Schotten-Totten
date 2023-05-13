@@ -5,6 +5,9 @@
 #include <memory>
 
 #include "Deck.h"
+#include "Card.h"
+
+class Deck;
 
 using std::move, std::vector, std::make_unique, std::unique_ptr;
 

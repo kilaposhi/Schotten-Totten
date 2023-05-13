@@ -2,7 +2,7 @@
 
 Deck DeckCreator::build() {
     Deck newDeck;
-    copy_vector_cards(cards_, newDeck.cards_);
+    copy_vector_cards(this->cards_, newDeck.cards_);
     return newDeck;
 }
 

@@ -48,7 +48,7 @@ string Valued_Card::print() const {
 }
 
 unique_ptr<Card> Valued_Card::clone() {
-    return std::make_unique<Card>(*this);
+    return std::make_unique<Valued_Card>(*this);
 }
 
 
