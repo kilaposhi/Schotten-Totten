@@ -1,6 +1,6 @@
-#include "DeckCreator.h"
+#include "DeckBuilder.h"
 
-Deck DeckCreator::build() {
+Deck DeckBuilder::build() {
     DeckInfo newDeckInfo(
             number_cards_,
             min_card_value_,
@@ -12,14 +12,14 @@ Deck DeckCreator::build() {
     return newDeck;
 }
 
-void DeckCreator::create_valued_cards(){
+void DeckBuilder::create_valued_cards(){
     cards_.reserve(number_cards_);
     for (auto color : CardColors)
         for (int value = min_card_value_; value <= max_card_value_; value++)
             cards_.push_back(make_unique<Valued_Card>(value, color));
 }
 
-DeckCreator& DeckCreator::createClanDeck() {
+DeckBuilder& DeckBuilder::createClanDeck() {
     const int MAX_CLAN_CARD_VALUE = 9;
     const int MIN_CLAN_CARD_VALUE = 1;
     this->setRangeValueCard(MIN_CLAN_CARD_VALUE, MAX_CLAN_CARD_VALUE);
@@ -28,7 +28,7 @@ DeckCreator& DeckCreator::createClanDeck() {
     return *this;
 }
 
-void DeckCreator::setRangeValueCard(int min_card_value, int max_card_value) {
+void DeckBuilder::setRangeValueCard(int min_card_value, int max_card_value) {
     this->min_card_value_ = min_card_value;
     this->max_card_value_ = max_card_value;
     this->number_cards_ = compute_number_cards(min_card_value, max_card_value);

@@ -1,5 +1,5 @@
-#ifndef SCHOTTEN_TOTTEN_DECKCREATOR_H
-#define SCHOTTEN_TOTTEN_DECKCREATOR_H
+#ifndef SCHOTTEN_TOTTEN_DECKBUILDER_H
+#define SCHOTTEN_TOTTEN_DECKBUILDER_H
 
 #include <vector>
 #include <memory>
@@ -13,7 +13,7 @@ enum class DeckType;
 using std::move, std::vector, std::make_unique, std::unique_ptr;
 
 
-class DeckCreator {
+class DeckBuilder {
 private:
     DeckType deckType;
     int number_cards_ = 0;
@@ -21,7 +21,7 @@ private:
     int max_card_value_;
     vector<unique_ptr<Card>> cards_; // T <=> Valued_Card**
 
-    DeckCreator& setTypeCards(DeckType deckType);
+    void setTypeCards(DeckType deckType);
 
     // ValuedCards method
     void setNumberColors(int number_colors );
@@ -30,17 +30,17 @@ private:
     void create_valued_cards();
 
 public:
-    DeckCreator(DeckType deckType);
-    DeckCreator()=default;
-    DeckCreator(const DeckCreator&)=delete;
-    DeckCreator& operator=(const DeckCreator&)=delete;
-    ~DeckCreator()=default;
+    DeckBuilder(DeckType deckType);
+    DeckBuilder()=default;
+    DeckBuilder(const DeckBuilder&)=delete;
+    DeckBuilder& operator=(const DeckBuilder&)=delete;
+    ~DeckBuilder()=default;
 
-    DeckCreator& createClanDeck();
-    DeckCreator& createTacticDeck();
+    DeckBuilder& createClanDeck();
+    DeckBuilder& createTacticDeck();
     Deck build();
 };
 
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value );
 
-#endif //SCHOTTEN_TOTTEN_DECKCREATOR_H
+#endif //SCHOTTEN_TOTTEN_DECKBUILDER_H
