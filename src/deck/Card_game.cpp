@@ -9,7 +9,7 @@ Card_game::Card_game(int min_card_value, int max_card_value )
         max_card_value_(max_card_value),
         valued_cards_(make_unique< unique_ptr<Card>[] >(number_valued_cards_))
 {
-    this->create_valued_cards();
+//    this->create_valued_cards();
 }
 
 Card_game::~Card_game(){
