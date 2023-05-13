@@ -74,3 +74,4 @@ void copy_vector_cards(
     for (const auto& card : from_cards)
         to_cards.push_back(card->clone());
 }
+
