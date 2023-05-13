@@ -47,19 +47,12 @@ class Game_interface {
     + launch_Schotten_Totten1();
 }
 
-class Game {
-        - clan_card_deck : Deck
-        - board : Board
-        + setupGame()
-}
-
-
 class Card_game {
     <<Singleton>>
-    - number_valued_card : int
-    - valued_cards_ : Card**
-    - Card_game(min_card_value_: int, max_card_value_: int )
-    .$ getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
+%%    - number_valued_card : int
+%%    - valued_cards_ : Card**
+%%    - Card_game(min_card_value_: int, max_card_value_: int )
+%%    + getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
     + getCard(card_index : size_t) Card&
 }
 
@@ -128,12 +121,12 @@ class Player{
 }
 
 class Deck{
-    - cards: vector~const Card*~
-    - number_of_cards : int
-    + Deck(cards : vector~const Card*~)
+    - cards: vector~Card*~
+    + Deck(cards : vector~Card*~)
+    + Deck()
     + isEmpty() bool
-    + draw_card() Card
-    + getNumber_of_cards() int
+    + drawCard() Card
+    + getNumberRemainingCards() int
 }
 
     
