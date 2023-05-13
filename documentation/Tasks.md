@@ -8,7 +8,7 @@ Permet d'éviter les collisions de noms avec les librairies du C
 
 - [ ] Faire le Rapport 2
 
-##### Taches [Optionnelles](#optionnel)
+##### Cliquer pour les taches [Optionnelles](#optionnel)
 
 
 ## Classe `Player`
@@ -29,6 +29,7 @@ si l'adversaire ne peut faire mieux.
 - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
   est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
+- [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
 ## Classe `Deck`, `DeckBuilder`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
