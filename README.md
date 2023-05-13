@@ -38,12 +38,11 @@ Board "9" *-- "1" Border
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
-
-    CardColor -- Valued_Card
-    DeckType -- Deck
+CardColor -- Valued_Card 
+DeckType -- Deck
 
 %%---------- class
-class Game_interface {
+class Game_interface{
 + launch_Schotten_Totten1();
   }
 
@@ -66,13 +65,6 @@ class Tactic_card{
 + override print() string
 + override clone() unique_ptr~Card~
   }
-
-class Elite_troop {
-
-}
-class Ruse {
-
-}
 
 
 class Board {

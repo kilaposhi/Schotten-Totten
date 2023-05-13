@@ -52,14 +52,6 @@ class Tactic_card{
     + override clone() unique_ptr~Card~
 }
 
-class Elite_troop {
-    
-}
-class Ruse {
-    
-}
-    
-
 class Board {
     - numberBorders = 9 : const int
     - Borders : Stone[number_of_stone_tiles]
@@ -156,23 +148,23 @@ class DeckType{
 
 ```mermaid
 ---
-Uml simple
+title: Uml simple
 ---
 classDiagram
-Card_game *-- Valued_Card
-Game <|-- Tactic_variant
 Card <|-- Tactic_card
 Card <|-- Valued_Card
-Deck o-- Card
-Card "0..7" --o "0..1" Player
-Card "0..9" --o "0..1" Stone
-Stone "0..5" -- "0..1" Player
-Game "0..*" -- "2" Player
-Game "1" *-- "1" Board
-Board "9" *-- "1" Stone
-Game "1" o-- "1..2" Deck
+Deck *-- Card
+Deck *-- DeckInfo
+Deck -- DeckCreator
+%%    Card "0..7" --* "0..1" Hand
+Player *-- Hand
+Combination "0..9" --* "0..1" Border
+Board "9" *-- "1" Border
 Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
+
+CardColor -- Valued_Card
+DeckType -- Deck
 
 ```
