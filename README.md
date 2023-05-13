@@ -3,7 +3,7 @@
 # Sommaire :
 
 - [Liens utiles](#Liens-utiles)
-- [UML](#UML)
+- [UML](#uml-version-2)
 - [Utilisation de Git](#Git)
 
 ## Liens utiles
