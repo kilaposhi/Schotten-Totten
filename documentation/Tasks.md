@@ -34,6 +34,7 @@ si l'adversaire ne peut faire mieux.
 ## Classe `Deck`, `DeckBuilder`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
 - [x] Coder `Deck` et `DeckBuilder` @kilaposhi
+- [ ] Transformer `DeckBuilder` en `DeckFactory` @kilaposhi
    
 
 - [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?

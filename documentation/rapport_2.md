@@ -82,7 +82,7 @@ Cependant pour le Schotten-Totten cela pose plusieurs problèmes.
   **Solution :** On utilisera les *smart pointers* de type `unique_ptr<Card>` qui gèrent la mémoire automatiquement et la libèrent forcément à la destruction de l'objet, ou même lors d'une exception. 
   On utilisera les méthodes `move()`, `reset()`, etc pour changer le propriétaire des cartes.
 
-### Pourquoi l'[[allocation dynamique]] ?
+### Pourquoi l'allocation dynamique ?
 
 Question légitime car rajoute de la complexité,  moins lisible, etc. 
 
@@ -93,4 +93,3 @@ BaseClass* base = new DerivedClass();
 Card* card = new ValuedCard(1, CardColor::red);
 ```
 
-[[smart pointers]]
