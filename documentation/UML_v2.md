@@ -12,19 +12,18 @@ classDiagram
 
 %% ------ Relations
     Card <|-- Tactic_card
-    Card <|-- Valued_Card
-    Deck *-- Card
-    Deck *-- DeckInfo
-    Deck -- DeckCreator
+    Card <|-- ValuedCard
+    Deck "1"*-- "0..*" Card
+    Deck "1" *-- "1" DeckInfo
+    Deck -- DeckBuilder
 %%    Card "0..7" --* "0..1" Hand
-    Player *-- Hand
-    Combination "0..9" --* "0..1" Border
-    Board "9" *-- "1" Border
+    Player "1"*--"1" Hand
+    Combination "1" --* "2" Border
+    Board "1" *-- "9" Border
     Tactic_card <|-- Elite_troop
     Tactic_card <|-- Ruse
     Tactic_card <|-- Combat_Mode
-    
-    CardColor -- Valued_Card
+    CardColor -- ValuedCard
     DeckType -- Deck
 
 %%---------- class
@@ -38,7 +37,7 @@ class Card {
 }
     
 
-class Valued_Card{
+class ValuedCard{
     - color : CardColor
     - value : int<1 to 9>
     + override print() string
@@ -59,7 +58,7 @@ class Board {
 }
 
 class Combination{
-    - cards : vector~Valued_Card~
+    - cards : vectorValuedCard
     - sumValues : int
 }
     
@@ -109,7 +108,7 @@ class DeckInfo {
     - min_value_card, max_value_card : int
 }
 
-class DeckCreator {
+class DeckBuilder {
     <<Builder>>
     + createClanDeck() 
     + build() Deck
@@ -152,10 +151,10 @@ title: Uml simple
 ---
 classDiagram
 Card <|-- Tactic_card
-Card <|-- Valued_Card
+Card <|-- ValuedCard
 Deck *-- Card
 Deck *-- DeckInfo
-Deck -- DeckCreator
+Deck -- DeckBuilder
 %%    Card "0..7" --* "0..1" Hand
 Player *-- Hand
 Combination "0..9" --* "0..1" Border
@@ -164,7 +163,7 @@ Tactic_card <|-- Elite_troop
 Tactic_card <|-- Ruse
 Tactic_card <|-- Combat_Mode
 
-CardColor -- Valued_Card
+CardColor -- ValuedCard
 DeckType -- Deck
 
 ```

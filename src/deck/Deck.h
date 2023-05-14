@@ -5,7 +5,7 @@
 #include <random>
 #include <memory>
 
-#include "DeckCreator.h"
+#include "DeckBuilder.h"
 #include "Card.h"
 
 
@@ -40,7 +40,7 @@ public:
 
 class Deck {
 private:
-    friend class DeckCreator;
+    friend class DeckBuilder;
     DeckInfo deckInfo_;
     vector<unique_ptr<Card>> cards_;
 public:
