@@ -11,7 +11,7 @@ Notre UML est porté de PlantUML vers markdown avec [mermaid](https://mermaid.js
 - Ajout des relations entre les classes **, elles ne sont pas forcément claires, et pourront changer**
 - `Stone_tiles` devient simplement `Stone`
 - Tableau de bool pour savoir les _slots available_ dans la classe `Stone` 
-- Création de la classe `Board` pour gérer la vie des `Stone`, car cela réduit le couplage à la Classe `Game` qui gère déjà la vie des `Valued_Card`
+- Création de la classe `Board` pour gérer la vie des `Stone`, car cela réduit le couplage à la Classe `Game` qui gère déjà la vie des `ValuedCard`
 - Héritage pour les cartes avec `Card`.
 - Enlever le lien entre `Player` et `Stone`
 
@@ -26,10 +26,10 @@ title: Architecture Schotten-Totten
 classDiagram
 
 %% ------ Relations
-    Card_game *-- Valued_Card
+    Card_game *-- ValuedCard
     Game <|-- Tactic_variant
     Card <|-- Tactic_card
-    Card <|-- Valued_Card
+    Card <|-- ValuedCard
     Deck o-- Card
     Card "0..7" --o "0..1" Player
     Card "0..9" --o "0..1" Stone
@@ -47,19 +47,12 @@ class Game_interface {
     + launch_Schotten_Totten1();
 }
 
-class Game {
-        - clan_card_deck : Deck
-        - board : Board
-        + setupGame()
-}
-
-
 class Card_game {
     <<Singleton>>
-    - number_valued_card : int
-    - valued_cards_ : Card**
-    - Card_game(min_card_value_: int, max_card_value_: int )
-    .$ getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
+%%    - number_valued_card : int
+%%    - valued_cards_ : Card**
+%%    - Card_game(min_card_value_: int, max_card_value_: int )
+%%    + getInstance(num_card = 0 : int, min_card = 0 : int, max_card = 0 : int)  Card_game&
     + getCard(card_index : size_t) Card&
 }
 
@@ -128,12 +121,12 @@ class Player{
 }
 
 class Deck{
-    - cards: vector~const Card*~
-    - number_of_cards : int
-    + Deck(cards : vector~const Card*~)
+    - cards: vector~Card*~
+    + Deck(cards : vector~Card*~)
+    + Deck()
     + isEmpty() bool
-    + draw_card() Card
-    + getNumber_of_cards() int
+    + drawCard() Card
+    + getNumberRemainingCards() int
 }
 
     
@@ -167,10 +160,10 @@ class CardColor {
 Uml simple
 ---
 classDiagram
-Card_game *-- Valued_Card
+Card_game *-- ValuedCard
 Game <|-- Tactic_variant
 Card <|-- Tactic_card
-Card <|-- Valued_Card
+Card <|-- ValuedCard
 Deck o-- Card
 Card "0..7" --o "0..1" Player
 Card "0..9" --o "0..1" Stone

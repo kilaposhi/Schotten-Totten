@@ -6,9 +6,10 @@
 #include <initializer_list>
 #include <string>
 #include <sstream>
+#include <memory>
 
 
-using std::string, std::ostream, std::initializer_list ;
+using std::string, std::ostream, std::initializer_list, std::unique_ptr ;
 
 
 class CardException{
@@ -30,6 +31,7 @@ public:
     Card& operator=(const Card& card) = default;
 
     virtual string print() const;
+    virtual unique_ptr<Card> clone();
 };
 
 
@@ -45,26 +47,28 @@ enum class CardColor{
 
 extern initializer_list<CardColor> CardColors;
 
-class Valued_Card : public Card {
+class ValuedCard : public Card {
 private:
     CardColor color_;
     int value_;
 
 public:
-    Valued_Card(int Value, CardColor Color);
-    ~Valued_Card()=default;
-    Valued_Card(const Valued_Card& valuedCard)=default;
-    Valued_Card& operator=(const Valued_Card& valuedCard)= default;
+    ValuedCard(int Value, CardColor Color);
+    ~ValuedCard()=default;
+    ValuedCard(const ValuedCard& valuedCard)=default;
+    ValuedCard& operator=(const ValuedCard& valuedCard)= default;
 
     CardColor getColor() const;
     int getValue() const;
     string cardColorToString() const;
-    virtual string print() const;
+
+    string print() const override;
+    unique_ptr<Card> clone() override;
 };
 
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
-ostream& operator<<(ostream& stream, const Valued_Card& valued_card);
+ostream& operator<<(ostream& stream, const ValuedCard& valued_card);
 
 
 class Tactic_card : public Card {
@@ -73,4 +77,4 @@ class Tactic_card : public Card {
 
 
 
-#endif SCHOTTEN_TOTTEN_CARD_H
+#endif //SCHOTTEN_TOTTEN_CARD_H
