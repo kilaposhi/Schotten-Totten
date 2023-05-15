@@ -17,13 +17,13 @@ Permet d'éviter les collisions de noms avec les librairies du C
 - [ ] Réflechir et créer un système qui permet de gérer les tours
 
 ## Classe `Border`, et `Board` :
-- [ ] Coder `Border`
-- [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination)
+- [ ] Coder `Border` (Lili)
+- [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nes)
   
-- [ ] Coder `GameTracker` pour suivre l'état de la partie :
+- [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées):
 Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
 les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
-si l'adversaire ne peut faire mieux.
+si l'adversaire ne peut faire mieux. (Nes)
   
   
 - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
@@ -45,11 +45,11 @@ les valeurs passées dans `DeckBuilder`, et les exceptions de `Deck`
 - [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
 
-# class `Game_interface` :
+# class `Game_interface` : 
 - [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
 , tactiques, les manches, les scores, etc...
 
-# Qt class `Displayer`: 
+# Qt class `Displayer`: (Nes)
 - [ ] Créer les widgets pour cartes
 - [ ] Créer le plateau
 
