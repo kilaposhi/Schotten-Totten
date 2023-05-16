@@ -1,4 +1,4 @@
-
+ 
 On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` pour changer les cartes de place (dans les `Hand`,...)
 - Utilisation de `DeckBuilder` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
 
@@ -9,7 +9,7 @@ On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` p
 
 
 - renommer `Stone` en `Border`
-- On rajoute un cast de `unique_ptr<Card>` vers `unique_ptr<ValuedCard>` [stackoverflow](https://stackoverflow.com/questions/17417848/stdunique-ptr-with-derived-class) , pour interdire de jouer des `TacticCard` sur les bornes.
+- On rajoute un cast de `unique_ptr<Card>` vers `unique_ptr<ValuedCard>` pour les `Border` [stackoverflow](https://stackoverflow.com/questions/17417848/stdunique-ptr-with-derived-class) , pour interdire de jouer des `TacticCard` sur les bornes.
 
 
 ```mermaid
@@ -18,24 +18,6 @@ title : Deck and Cards
 ---
 classDiagram
 
-<<<<<<< Updated upstream
-DeckFactory -- Deck
-Deck "1" *-- "0..*" Card
-class DeckFactory{
-- setCardRange(min:int, max:int) DeckBuilder&
-+ createClanDeck() DeckBuilder&
-+ createTacticDeck() DeckBuilder&
-+ build() Deck&
-}
-
-class Deck{
-- cards : vector~unique_ptr~Card~~
-+ shuffle()
-+ draw() unique_ptr~Card~
-+ addCard(card:Card)
-+ getRemainingCards() int
-}
-=======
     DeckFactory -- Deck
     Deck "1" *-- "0..*" Card
     class DeckFactory{
@@ -53,7 +35,6 @@ class Deck{
         + putCard(unique_ptr<Card>)
         + getRemainingCards() int
     }
->>>>>>> Stashed changes
 
 ```
 
@@ -85,72 +66,42 @@ classDiagram
 
 # Réflexions architectures
 
-<<<<<<< Updated upstream
-En élaborant notre architecture, comme nous sommes nouveau à la programmation orienté objet, naturellement nous nous sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**. 
+En élaborant notre architecture, comme nous sommes nouveaux à la programmation orienté objet, naturellement nous nous 
+sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**. 
 
-Nous avons donc créé un Singleton `Card_game` dont la seule responsabilité est de créer les cartes dynamiquement, de les libérer de la mémoire.  
-
-Cependant pour le Schotten-Totten cela pose plusieurs problèmes.
-- On s'attend  à créer au moins 2 jeux de cartes, les *cartes tactiques* et *cartes clan*. De plus si l'on pense à l'implémentation du Schotten-Totten 2 ou d'un autre jeu de cartes, on voudrait pouvoir créer des jeux différents : Pour le Schotten-Totten 2 il y a 60 cartes *valuées* (comme les cartes clans) avec des valeurs allant de 0 à 11 et avec 5 couleurs.
-  
-  Donc on a rendu le Singleton `Card_game` instanciable avec des paramètres pour créer différents jeux de cartes normales dans cette [Pull Request](https://github.com/kilaposhi/Schotten-Totten/pull/3)
-- Mais l'utilisation de ce Singleton me parait pas claires, et pas intuitive, bref un mauvais design. C'est bizarre d'avoir une classe qui crée les cartes, et tous les objets restant du jeu qui se passe des références de cartes du Singleton. 
-- Dans le Set l'intérêt du Singleton `Jeu` et que sa seule responsabilité est de créer les cartes et les rendre disponible à toutes les classes (comme une variable globale). 
--  En effet intuitivement on voudrait créer directement la pioche et les cartes en même temps (d'ailleurs en anglais pioche se dit *deck* et jeu de cartes aussi !).
-### Créer les cartes en même temps que la pioche.
-
-- Cela implique que toutes les classes comme `Player`, `Border` etc compose toutes la classe `Card`, cartes qui sont alloués dynamiquement, donc toutes les classes doivent pouvoir libérer la mémoire de ses cartes. 
-  **Solution :** On utilisera les *smart pointers* de type `unique_ptr<Card>` qui gèrent la mémoire automatiquement et la libèrent forcément à la destruction de l'objet, ou même lors d'une exception. 
-  On utilisera les méthodes `move()`, `reset()`, etc pour changer le propriétaire des cartes.
-
-### Pourquoi l'allocation dynamique ?
-
-Question légitime car rajoute de la complexité,  moins lisible, etc. 
-
-Réponse : Le **polymorphisme**
-Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de sous classes de `Card`, il faut utilise l'allocation dynamique : 
-```C++
-BaseClass* base = new DerivedClass();
-Card* card = new ValuedCard(1, CardColor::red);
-```
-
-=======
-En élaborant notre architecture, comme nous sommes nouveaux à la programmation orienté objet, naturellement nous nous
-sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**.
-
-Nous avons donc créé un Singleton `Card_game`, (équivalent à `Jeu` pour le `Set`)
-dont la seule responsabilité est de créer les cartes dynamiquement, de les rendre accessible à toutes les
-classes grace à la fonction `static` `getInstance()`, et de les libérer de la mémoire.
+Nous avons donc créé un Singleton `Card_game`, (équivalent à `Jeu` pour le `Set`) 
+dont la seule responsabilité est de créer les cartes dynamiquement, de les rendre accessible à toutes les 
+classes grâce à la fonction `static` `getInstance()`, et de les libérer de la mémoire.  
 
 Cependant, pour le Schotten-Totten cela pose plusieurs problèmes.
-- On s'attend  à créer au moins 2 jeux de cartes, les *cartes tactiques* et *cartes clan*. De plus si l'on pense à l'implémentation du Schotten-Totten 2 ou d'un autre jeu de cartes, on voudrait pouvoir créer des jeux différents :
-  Pour le Schotten-Totten 2 il y a 60 cartes *valuées* (comme les cartes clans) avec des valeurs allant de 0 à 11 et avec 5 couleurs.
-
-  Donc on a rendu le Singleton `Card_game` instantiable avec des paramètres pour créer différents jeux de cartes valuées
-  dans cette [Pull Request](https://github.com/kilaposhi/Schotten-Totten/pull/3)
+- On s'attend à créer au moins 2 jeux de cartes, les *cartes tactiques* et *cartes clan*. De plus si l'on pense à l'implémentation du Schotten-Totten 2 ou d'un autre jeu de cartes, on voudrait pouvoir créer des jeux différents :
+Pour le Schotten-Totten 2 il y a 60 cartes *valuées* (comme les cartes clans) avec des valeurs allant de 0 à 11 et avec 5 couleurs.
+  
+  Donc, on a rendu le Singleton `Card_game` instantiable avec des paramètres pour créer différents jeux de cartes valuées
+dans cette [Pull Request](https://github.com/kilaposhi/Schotten-Totten/pull/3)
 - Mais l'utilisation de ce Singleton ne me parait pas claire, et pas intuitive. En effet, intuitivement on voudrait
-  créer directement la pioche et les cartes en même temps (d'ailleurs en anglais pioche se dit *deck* et jeu de cartes aussi !).
-
-  Ainsi on se passe les cartes comme dans le vrai jeu et chaque carte n'existe qu'une fois.
-- C'est bizarre d'avoir une classe qui crée les cartes. Puis tous les objets restants se passent des références de cartes du Singleton.
+créer directement la pioche et les cartes en même temps (d'ailleurs en anglais pioche se dit *deck* et jeu de cartes aussi !).
+      
+  Ainsi, on se passe les cartes comme dans le vrai jeu et chaque carte n'existe qu'une fois.
+- C'est bizarre d'avoir une classe qui crée les cartes. Puis tous les objets restants se passent des références de cartes du Singleton. 
 
 ### Créer les cartes en même temps que la pioche.
 
-- Cela implique que toutes les classes comme `Player`, `Border` etc composent la classe `Card`, cartes qui sont alloués dynamiquement,
-  donc toutes les classes doivent libérer la mémoire de leurs cartes.
-
-  **Solution :** On utilisera les *smart pointers* de la librairie `#include <memory>`, avec le type `unique_ptr<Card>` qui gèrent la mémoire automatiquement et la libèrent forcément à la destruction de l'objet, ou même lors d'une exception.
+- Cela implique que toutes les classes comme `Player`, `Border` etc composent la classe `Card`, cartes qui sont alloués dynamiquement, 
+donc toutes les classes doivent libérer la mémoire de leurs cartes.  
+  
+  **Solution :** On utilisera les *smart pointers* de la librairie `#include <memory>`, avec le type `unique_ptr<Card>` qui gèrent la mémoire automatiquement et la libèrent forcément à la destruction de l'objet, ou même lors d'une exception. 
   On utilisera les méthodes `std::move()`, `std::reset()`, etc pour changer le propriétaire des cartes.
 
 ### Pourquoi l'allocation dynamique ?
 
-Question légitime car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc.
+Question légitime, car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc. 
 
 1. **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
-
-
+  
+  
 2. Le **polymorphisme**
-   Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de sous classes de `Card` (comme `ValuedCard` et `TacticCard`), il faut utiliser l'allocation dynamique, Exemple :
+Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de sous classes de `Card` (comme `ValuedCard` et `TacticCard`), il faut utiliser l'allocation dynamique, Exemple :
     ```cpp
     // Allocation dynamique :
     BaseClass* base = new DerivedClass();
@@ -161,7 +112,7 @@ Question légitime car rajoute de la complexité, moins lisible, besoin de compr
     delete card;
     delete valued_card;
     ```
-   Avec les ***smart pointers*** on a :
+    Avec les ***smart pointers*** on a :
     ```C++
     // Alloc dynamique classique
     int* dynamic_int = new int(1);
@@ -189,4 +140,3 @@ Question légitime car rajoute de la complexité, moins lisible, besoin de compr
    // avec les `unique_ptr` :
    vector<unique_ptr<Card>> cards;
     ```
->>>>>>> Stashed changes
