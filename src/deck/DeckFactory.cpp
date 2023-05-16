@@ -1,6 +1,6 @@
-#include "DeckBuilder.h"
+#include "DeckFactory.h"
 
-Deck DeckBuilder::build() {
+Deck DeckFactory::build() {
     DeckInfo newDeckInfo(
             number_cards_,
             min_card_value_,
@@ -12,23 +12,23 @@ Deck DeckBuilder::build() {
     return newDeck;
 }
 
-void DeckBuilder::create_valued_cards(){
+void DeckFactory::create_valued_cards(){
     cards_.reserve(number_cards_);
     for (auto color : CardColors)
         for (int value = min_card_value_; value <= max_card_value_; value++)
             cards_.push_back(make_unique<ValuedCard>(value, color));
 }
 
-DeckBuilder& DeckBuilder::createClanDeck() {
+Deck DeckFactory::createClanDeck() {
     const int MAX_CLAN_CARD_VALUE = 9;
     const int MIN_CLAN_CARD_VALUE = 1;
     this->setRangeValueCard(MIN_CLAN_CARD_VALUE, MAX_CLAN_CARD_VALUE);
     this->create_valued_cards();
 
-    return *this;
+    return this->build();
 }
 
-void DeckBuilder::setRangeValueCard(int min_card_value, int max_card_value) {
+void DeckFactory::setRangeValueCard(int min_card_value, int max_card_value) {
     this->min_card_value_ = min_card_value;
     this->max_card_value_ = max_card_value;
     this->number_cards_ = compute_number_cards(min_card_value, max_card_value);

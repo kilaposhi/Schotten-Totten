@@ -14,8 +14,8 @@ int main() {
     unique_ptr<Card> card1 = make_unique<ValuedCard>(2, CardColor::orange);
     cout << *card1 << '\n' << '\n';
 
-    DeckBuilder deckBuilder;
-    Deck deck = deckBuilder.createClanDeck().build();
+    DeckFactory deckFactory;
+    Deck deck = deckFactory.createClanDeck();
     deck.shuffle();
 
 

@@ -31,17 +31,17 @@ si l'adversaire ne peut faire mieux.
   est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
 - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
-## Classe `Deck`, `DeckBuilder`, `Card` ... :
+## Classe `Deck`, `DeckFactory`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
-- [x] Coder `Deck` et `DeckBuilder` @kilaposhi
-- [ ] Transformer `DeckBuilder` en `DeckFactory` @kilaposhi
+- [x] Coder `Deck` et `DeckFactory` @kilaposhi
+- [ ] Transformer `DeckFactory` en `DeckFactory` @kilaposhi
    
 
 - [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
-- [ ] Implémenter `createTacticCard` de `DeckBuilder`
+- [ ] Implémenter `createTacticCard` de `DeckFactory`
 - [ ] Créer une classe `DeckException` et vérifier
-les valeurs passées dans `DeckBuilder`, et les exceptions de `Deck`
+les valeurs passées dans `DeckFactory`, et les exceptions de `Deck`
 - [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
 

@@ -5,7 +5,7 @@
 #include <random>
 #include <memory>
 
-#include "DeckBuilder.h"
+#include "DeckFactory.h"
 #include "Card.h"
 
 
@@ -20,6 +20,7 @@ enum class DeckType{
 
 class DeckInfo{
 private:
+    friend class DeckFactory;
     DeckType deckType_;
     int total_number_cards_;
     int min_card_value_, max_card_value_;
@@ -40,7 +41,7 @@ public:
 
 class Deck {
 private:
-    friend class DeckBuilder;
+    friend class DeckFactory;
     DeckInfo deckInfo_;
     vector<unique_ptr<Card>> cards_;
 public:

@@ -21,7 +21,7 @@
 
 # Tasks
 
-- [x] `Deck`, `DeckBuilder` : @kilaposhi
+- [x] `Deck`, `DeckFactory` : @kilaposhi
 - [x] `Card` : @kilaposhi
 - [ ] `Player`
 - [ ] `Border`
@@ -45,7 +45,7 @@ Card <|-- Tactic_card
 Card <|-- ValuedCard
 Deck "1"*-- "0..*" Card
 Deck "1" *-- "1" DeckInfo
-Deck -- DeckBuilder
+Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
 Player "1"*--"1" Hand
 Combination "1" --* "2" Border
@@ -139,7 +139,7 @@ class DeckInfo {
 - min_value_card, max_value_card : int
   }
 
-class DeckBuilder {
+class DeckFactory {
 <<Builder>>
 + createClanDeck()
 + build() Deck

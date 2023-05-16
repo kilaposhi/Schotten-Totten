@@ -1,6 +1,6 @@
  
 On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` pour changer les cartes de place (dans les `Hand`,...)
-- Utilisation de `DeckBuilder` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
+- Utilisation de `DeckFactory` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
 
 [what's polymorphic type](https://stackoverflow.com/questions/2032361/whats-polymorphic-type-in-c)
 
@@ -23,8 +23,8 @@ Deck "1" *-- "0..*" Card
 class DeckFactory{
 - setNumberColors(num_colors: int)
 - setCardRange(min:int, max:int)
-+ createClanDeck() DeckBuilder&
-+ createTacticDeck() DeckBuilder&
++ createClanDeck() DeckFactory&
++ createTacticDeck() DeckFactory&
 + build() Deck
 }
 
@@ -57,7 +57,7 @@ class Border{
 classDiagram 
 class CardTracker{
 <<can be a Singleton>>
-- remainingCards : Deck = DeckBuilder.createClanDeck()
+- remainingCards : Deck = DeckFactory.createClanDeck()
 - playedCards : Deck
 }
 ```
