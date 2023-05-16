@@ -15,7 +15,6 @@ int main() {
     cout << *card1 << '\n' << '\n';
 
     Deck clanDeck = DeckFactory().createClanDeck();
-    Deck tacticDeck = DeckFactory().createTacticDeck();
     clanDeck.shuffle();
 
 
