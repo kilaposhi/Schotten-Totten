@@ -14,19 +14,19 @@ int main() {
     unique_ptr<Card> card1 = make_unique<ValuedCard>(2, CardColor::orange);
     cout << *card1 << '\n' << '\n';
 
-    DeckFactory deckFactory;
-    Deck deck = deckFactory.createClanDeck();
-    deck.shuffle();
+    Deck clanDeck = DeckFactory().createClanDeck();
+    Deck tacticDeck = DeckFactory().createTacticDeck();
+    clanDeck.shuffle();
 
 
 
     Deck discardDeck;
     for (int i = 0; i < 15; ++i)
-        discardDeck.putCard(deck.drawCard());
+        discardDeck.putCard(clanDeck.drawCard());
     discardDeck.print();
     cout << '\n';
 
-    deck.print();
+    clanDeck.print();
     return 0;
 }
 

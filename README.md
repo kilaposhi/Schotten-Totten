@@ -140,9 +140,13 @@ class DeckInfo {
   }
 
 class DeckFactory {
-<<Builder>>
-+ createClanDeck()
-+ build() Deck
+  <<Factory>>
+  - setRangeValue(min_value: int, max_value: int)
+  - setNumberColors(num_colors: int)
+  - createValuedCard()
+  - build() Deck
+  + createClanDeck() Deck
+  + createTacticDeck() Deck
   }
 
 class Score{
