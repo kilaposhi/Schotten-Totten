@@ -28,15 +28,21 @@ Deck DeckFactory::createClanDeck() {
     return this->build();
 }
 
-void DeckFactory::setRangeValueCard(int min_card_value, int max_card_value) {
+void DeckFactory::setTypeCards(DeckType deckType) { this->deckType_ = deckType; }
+
+void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value) {
+    setTypeCards(DeckType::ValuedCard);
     this->min_card_value_ = min_card_value;
     this->max_card_value_ = max_card_value;
-    this->number_cards_ = compute_number_cards(min_card_value, max_card_value);
+    this->number_cards_ = compute_number_cards(min_card_value, max_card_value, number_colors_);
 }
 
-unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value ){
-    unsigned int number_values = max_value - min_value + 1;
-    unsigned int number_colors = 6; // EnumClass in .src\Card.h
+void DeckFactory::setNumberColors(unsigned int number_colors) {
+    this->number_colors_ = number_colors;
+    this->number_cards_ = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
+}
 
-    return number_values *  number_colors;;
+unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors){
+    unsigned int number_values = max_value - min_value + 1;
+    return number_values *  num_colors;
 }
