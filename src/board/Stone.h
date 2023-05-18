@@ -17,52 +17,22 @@ using std::string, std::exception, std::vector ;
 class Stone {
 private:
     bool claimed;
-    Player* winner;
+    Player& winner;
     unsigned int slot_number;
     vector<Card> cardSlotsAvailable;
-    Card* tactic_slot; //une seule carte tactique peut etre posée par borne ? les 2 joueurs confondus
-    vector<Card*> player_1_combination;
-    vector<Card*> player_2_combination;
-    Combination CombinaisonJoueur1;
-    Combination CombinaisonJoueur2;
-    Observer* observer;
-
+    Card* tactic_slot;
+    Card** player_1_combination;
+    Card** player_2_combination;
 
 public:
     Stone()=default;
     ~Stone()=default;
     Stone(const Stone& stone)=default;
     Stone& operator=(const Stone& stone) =default;
-    int getNbStone() const;
-    Combination getCombination(const Player player);
+
     void addCard() const;
-    CombinationType compute_combination();
-    observer->update();
 
 };
 
-class CombinationException{
-private:
-    string exception;
-public:
-    CombinationException(string Exception) : exception(Exception){}
-
-    string what() const { return exception;}
-};
-
-enum class CombinationType {
-    ColorRun,
-    Run,
-    Color,
-    ThreeOfAKind,
-    Sum
-};
-
-
-bool ColorRun(vector<Card*>,int n );
-
-bool ThreeOfAKind(vector<Card*>,int n);
-
-bool Run(vector<Card*>,int n);
 
 #endif //SCHOTTEN_TOTTEN_STONE_H
