@@ -13,8 +13,14 @@ CardColor ValuedCard::getColor() const {
     return color_;
 }
 
+
 int ValuedCard::getValue() const {
     return value_;
+}
+
+bool ValuedCard::operator<(const Card &Card)
+{
+    return (value_<Card.getValue());
 }
 
 

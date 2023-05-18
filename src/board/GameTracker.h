@@ -1,0 +1,8 @@
+//
+// Created by tassili on 18/05/2023.
+//
+
+#ifndef SCHOTTEN_TOTTEN_GAMETRACKER_H
+#define SCHOTTEN_TOTTEN_GAMETRACKER_H
+
+#endif //SCHOTTEN_TOTTEN_GAMETRACKER_H

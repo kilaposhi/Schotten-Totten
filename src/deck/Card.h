@@ -61,7 +61,7 @@ public:
     CardColor getColor() const;
     int getValue() const;
     string cardColorToString() const;
-
+    bool operator<(const Card& Card);
     string print() const override;
     unique_ptr<Card> clone() override;
 };
@@ -69,6 +69,7 @@ public:
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);
+
 
 
 class Tactic_card : public Card {
