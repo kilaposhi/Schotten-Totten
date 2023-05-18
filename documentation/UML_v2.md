@@ -15,7 +15,7 @@ classDiagram
     Card <|-- ValuedCard
     Deck "1"*-- "0..*" Card
     Deck "1" *-- "1" DeckInfo
-    Deck -- DeckBuilder
+    Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
     Player "1"*--"1" Hand
     Combination "1" --* "2" Border
@@ -108,7 +108,7 @@ class DeckInfo {
     - min_value_card, max_value_card : int
 }
 
-class DeckBuilder {
+class DeckFactory {
     <<Builder>>
     + createClanDeck() 
     + build() Deck
@@ -154,7 +154,7 @@ Card <|-- Tactic_card
 Card <|-- ValuedCard
 Deck *-- Card
 Deck *-- DeckInfo
-Deck -- DeckBuilder
+Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
 Player *-- Hand
 Combination "0..9" --* "0..1" Border
