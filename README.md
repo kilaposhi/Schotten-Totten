@@ -21,7 +21,7 @@
 
 # Tasks
 
-- [x] `Deck`, `DeckBuilder` : @kilaposhi
+- [x] `Deck`, `DeckFactory` : @kilaposhi
 - [x] `Card` : @kilaposhi
 - [ ] `Player`
 - [ ] `Border`
@@ -41,11 +41,11 @@ title: Architecture Schotten-Totten V2
 classDiagram
 
 %% ------ Relations
-  Card <|-- Tactic_card
-  Card <|-- ValuedCard
-  Deck "1"*-- "0..*" Card
-  Deck "1" *-- "1" DeckInfo
-  Deck -- DeckBuilder
+Card <|-- Tactic_card
+Card <|-- ValuedCard
+Deck "1"*-- "0..*" Card
+Deck "1" *-- "1" DeckInfo
+Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Player "1"*--"1" Hand
   Combination "1" --* "2" Border
@@ -139,10 +139,15 @@ classDiagram
     - min_value_card, max_value_card : int
   }
 
-  class DeckBuilder {
-    <<Builder>>
-    + createClanDeck()
-    + build() Deck
+
+class DeckFactory {
+  <<Factory>>
+  - setRangeValue(min_value: int, max_value: int)
+  - setNumberColors(num_colors: int)
+  - createValuedCard()
+  - build() Deck
+  + createClanDeck() Deck
+  + createTacticDeck() Deck
   }
 
   class Score{
