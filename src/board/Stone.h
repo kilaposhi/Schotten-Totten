@@ -13,10 +13,9 @@
 using std::string, std::exception, std::vector ;
 
 
-class Player;
+
 class Stone {
 private:
-    int stone_number;
     bool claimed;
     Player& winner;
     unsigned int slot_number;
@@ -30,9 +29,8 @@ public:
     ~Stone()=default;
     Stone(const Stone& stone)=default;
     Stone& operator=(const Stone& stone) =default;
-    void claim(int id_player_);
-    int getNbStone() const;
-    void addCard(unique_ptr<Card> card_) const;
+
+    void addCard() const;
 
 };
 
