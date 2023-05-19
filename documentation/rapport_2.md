@@ -1,4 +1,56 @@
  
+Rapport 2
+
+Les objectifs de ce jalon résident dans la finalisation de l'architecture du jeu et dans l'implémentation d'une partie des modules.
+
+**Les tâches de code effectuées sont les suivantes **
+
+Nous avons dans un premier temps fini l'UML, cela a pris plusieurs heures : 
+
+Par ailleurs, nous avons également avancé sur l'implémentation des différentes classes :
+
+**Classe Player**
+
+ Coder Hand, la main du Player ?? (martin)
+ Coder Player (martin)
+ Réflechir et créer un système qui permet de gérer les tours
+Classe Border, et Board :
+ Coder Border (Lilian)
+
+ Coder la fonction compute_combination(ValuedCard) pour calculer les combinaisons de Poker, avec plein de fonctions dans module/ (prototypes dans la branche combination (Nes : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, certains opérateurs ont du être ajoutés,)
+
+ Coder Board (Capu)
+
+ Coder GameTracker pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées): Avec 2 Deck, un qui contient les cartes déjà jouées (playedCards), et l'autre qui contient les cartes non jouées ( remainingCards). Cette classe sera utilisée pour calculer si la règle de claim une Border si l'adversaire ne peut faire mieux. (Nes )
+
+ Peut-être un observer, connecté au unique_ptr<TacticCard> tactic_slot_ de Border, qui lorsqu'une carte tactique est jouée sur le slot est traité par un TacticHandler qui s'occupera d'appliquer l'effet de la carte.
+
+ Pour les effets de la cartes Tactiques utilisé le strategy pattern
+
+**Classe Deck, DeckFactory, Card ... :**
+ 
+ Coder Card et ValuedCard @kilaposhi
+
+ Coder Deck et DeckFactory @kilaposhi
+
+ Transformer DeckFactory en DeckFactory @kilaposhi
+
+ modularité CardColor, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
+
+ Coder les Tactic_card (construire les cartes tactiques avec un fichier XML, ou JSON)
+
+ Implémenter createTacticCard de DeckFactory
+
+ Créer une classe DeckException et vérifier les valeurs passées dans DeckFactory, et les exceptions de Deck
+
+ Rendre modulaire le choix des couleurs des cartes dans la création des ValuedCard
+
+ Créer les cartes tactiques à partir d'un fichier JSON
+
+Il y a également des tâches annexes :
+  - la compéhension de GIT et les cours de GIT qui a couté environ 4 heures à chaque membre du groupe, notamment Kilapang qui maitrisait déja l'outil et qui a pris le temps de l'expliquer à ses camarades
+  - la rédaction du rapport qui permet de prendre du recul sur nos décisions et d'avoir une vision d'ensemble : cela a notamment pris 
+
 On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` pour changer les cartes de place (dans les `Hand`,...)
 - Utilisation de `DeckFactory` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
 
@@ -142,3 +194,9 @@ Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de 
    // avec les `unique_ptr` :
    vector<unique_ptr<Card>> cards;
     ```
+###Vecteur de cartes
+ Dans la classe Border nous avons choisi de mettre les ensembles de cartes dans des vecteurs puisque ces derniers ont des méthodes très pratiques que nous pouvons réutiliser
+  
+  
+**Organisation et Cohésion du groupe**
+  Cette partie du semestre est assez mouvementée avec l'accumulation des projets, les médians, etc. Il est donc facile de se retrouver submerger et de prendre du retard dans son travail. Nous avons tenté de compenser ce retard en tentant de commencer tôt le projet. Cependant, même avec cette tentative d'organisation il a été compliqué que chacun reste constant dans son travail. L'hétéroginété du groupe a été très utile. 
