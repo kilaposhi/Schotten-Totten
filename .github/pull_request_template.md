@@ -1,4 +1,4 @@
-# Titre
 #### Changements :
-- changement1
-- changement2
+- brève description changement1
+- ...
+-
