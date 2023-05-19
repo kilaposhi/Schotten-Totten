@@ -9,6 +9,9 @@ private :
     const list<Border> borders;
     Player* winner;
 public :
+    Board()=default;
+    ~Board()=default;
+
     const int getNumberBorder() const {return numberBorder};
     Player* getWinner() const {return winner};
     const list<Border> getBorders() const {return borders};
