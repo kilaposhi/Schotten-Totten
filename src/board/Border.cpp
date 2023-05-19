@@ -3,26 +3,50 @@
 #include "board/Combination.h"
 #include "Border.h"
 
-Border::Border(Player& winner, unsigned int slot_number)
-        : claimed(false), winner(winner), slot_number(slot_number) {}
+Border::Border(unsigned int slot_number)
+        : claimed(false), slot_number(slot_number){}
 
-void Border::addCard(const Card& card) {
-    card_slot_available.push_back(card);
+void Border::addValueCard(const ValuedCard &card, int player_id) {
+    if(player_id == 1){
+        player_1_combination.push_back(card);
+    }
+    else if(player_id == 2){
+        player_2_combination.push_back(card);
+    }
 }
 
-void Border::addCardTactical(const Tactic_card& card) {
-    tactic_slot = card;
+void Border::addTacticalCard(const Tactic_card& tactic_card, int player_id) {
+    if(player_id == 1){
+        player_1_tactic_card.push_back(tactic_card);
+    }
+    else if(player_id == 2){
+        player_2_tactic_card.push_back(tactic_card);
+    }
 }
 
-unsigned int Border::getNbBorder() const {
+void Border::removeTacticalCard(int player_id) {
+    if(player_id == 1){
+        player_1_tactic_card.pop_back();
+    }
+    else if(player_id == 2){
+        player_2_tactic_card.pop_back();
+    }
+}
+
+
+unsigned int Border::getSlotNumber() const {
     return slot_number;
 }
 
-Player& Border::getWinner() {
+Player Border::getWinner() const {
     return winner;
 }
 
-void Border::setWinner(Player& winner) {
+bool Border::getClaimed() const {
+    return claimed;
+}
+
+void Border::setWinner(Player winner) {
     this->winner = winner;
 }
 
@@ -30,10 +54,5 @@ void Border::setClaimed(bool claimed) {
     this->claimed = claimed;
 }
 
-void Border::setPlayer1Combination(const Combination& player_1_combination) {
-    this->player_1_combination = player_1_combination;
-}
 
-void Border::setPlayer2Combination(const Combination& player_2_combination) {
-    this->player_2_combination = player_2_combination;
-}
+
