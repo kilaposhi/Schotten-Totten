@@ -154,7 +154,7 @@ classDiagram
 
 # Réflexions architectures
 
-La finalisatin de l'architecture était une des parties les plus importantes de ce jalon, de ce fait c'est la partie par laquelle nous avons commencé. Nous passions plus ou moins 2 à 3 heures desssus ensemble ou séparamément pendant presque 3 semaines. Réfléchir à la cohérence et l'optimisation des classes a été une tâche longue et compliquée.
+La finalisation de l'architecture était une des parties les plus importantes de ce jalon, de ce fait c'est la partie par laquelle nous avons commencé. Nous passions plus ou moins 2 à 3 heures desssus ensemble ou séparamément pendant presque 3 semaines. Réfléchir à la cohérence et l'optimisation des classes a été une tâche longue et compliquée.
 
 En élaborant notre architecture, comme nous sommes nouveaux à la programmation orienté objet, naturellement nous nous 
 sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**. 
