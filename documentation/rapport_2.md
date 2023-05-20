@@ -3,11 +3,11 @@
 
 Les objectifs de ce jalon résident dans la finalisation de l'architecture du jeu et dans l'implémentation d'une partie des modules.
 
-### **Les tâches de code effectuées sont les suivantes**
+### **Les tâches effectuées sont les suivantes**
 
 - [X] Nous avons dans un premier temps fini l'UML, cela a pris plusieurs heures : 
 - [x] la compéhension de GIT et les cours de GIT qui a couté environ 4 heures à chaque membre du groupe, notamment Kilapang qui maitrisait déja l'outil et qui a pris le temps de l'expliquer à ses camarades
-- [ ] la rédaction du rapport qui permet de prendre du recul sur nos décisions et d'avoir une vision d'ensemble : cela a notamment pris 
+- [X] la rédaction du rapport qui permet de prendre du recul sur nos décisions et d'avoir une vision d'ensemble : les principaux concernés ont été Kilapang et Nesrine bien que chacun ait participé activement à sa rédaction et sa relecture. On estime la durée totale à 3 heures
 
   
 - Par ailleurs, nous avons également avancé sur l'implémentation des différentes classes :
@@ -22,9 +22,10 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 - [ ] Coder `Border` (Lilian)
 - [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nesrine [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14))
    - [X]  : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, la surcharge de l'opérateur `<` a dû être ajoutés. 
-   - [ ] Faire fonctionner les `compute_combination` avec 4 cartes
+   - [X] Faire fonctionner les `compute_combination` avec 4 cartes (Cela a prispeu de temps : 1 heure car elle demendait simplement quelques modofications aux tâches d'origine 
    - [ ] Tester la fonction
-- [ ] Coder la méthode `claim` qui utilise `compute_combination()`
+- [ ] Coder la méthode `claim` qui utilise `compute_combination()`(Nesrine)
+- [ ] Coder un comparateur de points qui détermine la gagnant de la borne. (Nesrine)
 
 - [ ] Coder `Board` (Capucine)
   
@@ -32,12 +33,10 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
 les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
 si l'adversaire ne peut faire mieux. (Nesrine)
-  
-  
-- [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
+  - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
   est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
-- [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
+  - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
 ### Classe `Deck`, `DeckFactory`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
@@ -154,6 +153,8 @@ classDiagram
 
 
 # Réflexions architectures
+
+La finalisatin de l'architecture était une des parties les plus importantes de ce jalon, de ce fait c'est la partie par laquelle nous avons commencé. Nous passions plus ou moins 2 à 3 heures desssus ensemble ou séparamément pendant presque 3 semaines. Réfléchir à la cohérence et l'optimisation des classes a été une tâche longue et compliquée.
 
 En élaborant notre architecture, comme nous sommes nouveaux à la programmation orienté objet, naturellement nous nous 
 sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**. 
