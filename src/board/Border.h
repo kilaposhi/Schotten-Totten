@@ -10,10 +10,12 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+class Player;
+
 class Border {
 private:
     bool claimed;
-    Player winner;
+    Player& winner;
     unsigned int slot_number;
     Combination player_1_combination;
     Combination player_2_combination;
@@ -32,7 +34,6 @@ public:
     unsigned int getSlotNumber() const;
     Player getWinner() const;
     bool getClaimed() const;
-
     void setWinner(Player winner);
     void setClaimed(bool claimed);
 

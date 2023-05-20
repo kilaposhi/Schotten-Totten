@@ -7,7 +7,7 @@
 #include <string>
 
 #include "deck/Card.h"
-#include "board/Stone.h"
+#include "board/Border.h"
 #include "board/Stone.h"
 
 using std::vector, std::list, std::array, std::string;
@@ -32,25 +32,24 @@ public:
 class Player {
 private:
      int id;
-     int number_of_cards;
+     Player* player;
      vector<unique_ptr<Card>> hand;
-     int max_cards; // Maybe just narrow 'number_of_cards'
-     array<bool, 9> claimed_borders_array;
-     vector<int> claimed_borders_vector;
+     int max_cards;
+     vector<unsigned int> claimed_borders_vector;
 
 public:
 
-    Player()=default;
     ~Player()=default;
-    Player(int id_, int max_cards_); // Surcharged constructor
+    Player(Player* p, int max_cards_);
 
-    Player& operator = (const Player&) = default;
+    Player& operator = (const Player&) = delete;
 
     void add_card_into_hand(unique_ptr<Card> card_);
-    unique_ptr<Card> delete_card_from_hand(int card_index);
-    void play_card(int card_index, Stone& stone_);
-    unique_ptr<Card> draw_card(Deck deck_);
-    void claim_borders_vector(Stone& border_);
+    unique_ptr<Card> remove_card_from_hand(int card_index);
+    void play_valued_card(int card_index, Border& border_);
+    void play_tactical_card(int card_index, Border& border_);
+    void draw_card(Deck deck_);
+    void claim_borders_vector(Border& border_);
     vector<int> getClaimed_borders_vector();
     [[nodiscard]] int getNumber_of_cards() const;
 
