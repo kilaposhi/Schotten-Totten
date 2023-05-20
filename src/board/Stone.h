@@ -23,8 +23,10 @@ private:
     Card* tactic_slot; //une seule carte tactique peut etre posée par borne ? les 2 joueurs confondus
     vector<Card*> player_1_combination;
     vector<Card*> player_2_combination;
-    string CombinaisonJoueur1;
-    string CombinaisonJoueur2;
+    Combination CombinaisonJoueur1;
+    Combination CombinaisonJoueur2;
+    Observer* observer;
+
 
 public:
     Stone()=default;
@@ -35,6 +37,7 @@ public:
     Card** getCombination(const Player player);
     void addCard() const;
     string compute_combination();
+    observer->update();
 
 };
 
