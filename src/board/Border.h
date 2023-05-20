@@ -10,15 +10,17 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+class Player;
+
 class Border {
 private:
     bool claimed;
-    Player winner;
+    Player* winner{};
     unsigned int slot_number;
-    Combination player_1_combination;
-    Combination player_2_combination;
-    std::vector<Tactic_card> player_1_tactic_card;
-    std::vector<Tactic_card> player_2_tactic_card;
+    static Combination player_1_combination;
+    static Combination player_2_combination;
+    std::vector<std::unique_ptr<Tactic_card>> player_1_tactic_card;
+    std::vector<std::unique_ptr<Tactic_card>> player_2_tactic_card;
 
 public:
     explicit Border(unsigned int slot_number);
@@ -26,14 +28,14 @@ public:
     Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
 
-    void addValueCard(const ValuedCard& card, int player_id);
-    void addTacticalCard(const Tactic_card& tactic_card, int player_id);
-    void removeTacticalCard(int player_id);
+    static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
+    void addTacticalCard(std::unique_ptr<Tactic_card> tactic_card, Player* player);
+    void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
     Player getWinner() const;
     bool getClaimed() const;
 
-    void setWinner(Player winner);
+    void setWinner(Player* winner);
     void setClaimed(bool claimed);
 
 };
