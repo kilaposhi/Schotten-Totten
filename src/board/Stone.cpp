@@ -1,34 +1,54 @@
 #include "Stone.h"
 
-string Stone::compute_combination(Player player)
+Combination Stone::compute_combination(Player player)
 {
     combination = getCombination(player);
     n = size(combination);
     if (n<3)
     {
-        printf("Il n'y a pas assez de cartes pour revandiquer une borne")
-        return NULL;
+        throw CombinationException("There is not enough cards to claim the stone");
     }
     else
-        if (isCouleur(combination) && isSuite(combination) ) return "Suite Couleur";
-        else if (isCouleur(combination)) return "Couleur";
-        else if (isBrelan(combination)) return "Brelan";
-        else if (isSuite(combination)) return "Suite";
-        else return "Somme";
+        if (Color(combination,n) && Run(combination,n) ) return Combination::ColorRun ;
+        else if (Color(combination,n)) return Combination::Color;
+        else if (ThreeOfAKind(combination,n)) return Combination::ThreeOfAKind;
+        else if (Run(combination,n)) return Combination::Run;
+        else return Combination::Sum;
 }
 
-bool isCouleur(vector<Card*> combination)
+bool Color(vector<Card*> combination, int n)
 {
-    return (combination[0]->getColor()== combination[1]->getColor() && combination[1]->getColor() == combination[2]->getColor());
+    bool color = true;
+    int i = 0;
+    while (i < n - 1 && color)
+    {
+        color = (combination[i]->getColor() == combination[i + 1]->getColor());
+        i++;
+    }
+    return color;
 }
 
-bool isBrelan(vector<Card*> combination)
+bool ThreeOfAKind(vector<Card*> combination, int n)
 {
-    return (combination[0]->getValue()== combination[1]->getValue() && combination[1]->getValue() == combination[2]->getValue());
+    bool three = true;
+    int i = 0;
+    while (i < n - 1 && three)
+    {
+        combination[i]->getValue()== combination[i+1]->getValue();
+        i++;
+    }
+    return three;
 }
 
-bool isSuite(vector<Card*> combination)
+bool Run(vector<Card*> combination,int n)
 {
     sort(combination.begin(), combination.end());
-    return(combination[0]->getValue()== combination[1]->getValue() - 1 && combination[1]->getValue() == combination[2]->getValue() -1 )
+    run = true;
+    int i = 0;
+    while (i < n - 1 && run)
+    {
+        combination[i]->getValue()== combination[i+1]->getValue()-1;
+        i++;
+    }
+    return run;
 }

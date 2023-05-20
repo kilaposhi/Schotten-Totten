@@ -38,5 +38,28 @@ public:
 
 };
 
+class CombinationException{
+private:
+    string exception;
+public:
+    CombinationException(string Exception) : exception(Exception){}
+
+    string what() const { return exception;}
+};
+
+enum class Combination {
+    ColorRun,
+    Run,
+    Color,
+    ThreeOfAKind,
+    Sum
+};
+
+
+bool ColorRun(vector<Card*>,int n );
+
+bool ThreeOfAKind(vector<Card*>,int n);
+
+bool Run(vector<Card*>,int n);
 
 #endif //SCHOTTEN_TOTTEN_STONE_H
