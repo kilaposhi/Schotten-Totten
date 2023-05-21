@@ -14,26 +14,31 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 
 
 ### Classe `Player`
-- [ ] Coder `Hand`, la main du `Player` ?? (martin)
+- [X] Coder `Hand`, la main du `Player` ?? (martin)
 - [ ] Coder `Player` (martin)
 - [ ] Réflechir et créer un système qui permet de gérer les tours
 
 ### Classe `Border`, et `Board` :
 - [ ] Coder `Border` (Lilian)
+   - [ ] Gérer les exceptions
+   - [ ] Lier avec la PR [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14)
 - [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nesrine [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14))
    - [X]  : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, la surcharge de l'opérateur `<` a dû être ajoutés. 
    - [X] Faire fonctionner les `compute_combination` avec 4 cartes (Cela a prispeu de temps : 1 heure car elle demendait simplement quelques modofications aux tâches d'origine 
-   - [ ] Tester la fonction
+   - [ ] Modularité avec l'exception (`n < 3`, devient `n < numberSlots_` par exemple)
+   - [ ] Tester les fonctions
 - [ ] Coder la méthode `claim` qui utilise `compute_combination()`(Nesrine)
 - [ ] Coder un comparateur de points qui détermine la gagnant de la borne. (Nesrine)
 
 - [ ] Coder `Board` (Capucine)
+  - [ ] Coder le constructeur des `Border`
+  - [ ] Lier les méthodes de la classe `Player` et les `Border` 
   
 - [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées):
 Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
 les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
 si l'adversaire ne peut faire mieux. (Nesrine)
-  - [X] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
+  - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
   est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte. ( Nesrine : environ 2 heures entre lacompréhension et l'application) 
   - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
@@ -56,7 +61,7 @@ les valeurs passées dans `DeckFactory`, et les exceptions de `Deck`
 - [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
 , tactiques, les manches, les scores, etc...
 
-### Qt class `Displayer`: (Nes)
+### Qt class `Displayer`: 
 - [ ] Créer les widgets pour cartes
 - [ ] Créer le plateau
 
