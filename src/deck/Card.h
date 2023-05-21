@@ -26,7 +26,7 @@ class Card {
 private:
 public:
     Card()=default;
-    ~Card()=default;
+    virtual ~Card()=default;
     Card(const Card& card)=default;
     Card& operator=(const Card& card) = default;
 
@@ -54,22 +54,33 @@ private:
 
 public:
     ValuedCard(int Value, CardColor Color);
-    ~ValuedCard()=default;
+    explicit ValuedCard(Card& valuedCard);
+    explicit ValuedCard(Card* valuedCard);
+    explicit ValuedCard(unique_ptr<Card> valuedCard);
+//    explicit ValuedCard(Card&& valuedCard);
+    ~ValuedCard() override =default;
     ValuedCard(const ValuedCard& valuedCard)=default;
-    ValuedCard& operator=(const ValuedCard& valuedCard)= default;
+    ValuedCard& operator=(const ValuedCard& valuedCard)=default;
+
+
 
     CardColor getColor() const;
     int getValue() const;
     string cardColorToString() const;
-
     string print() const override;
     unique_ptr<Card> clone() override;
+
 };
 
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);
 
+
+inline bool operator<(const ValuedCard& leftCard, const ValuedCard& rightCard);
+inline bool operator>(const ValuedCard& leftCard, const ValuedCard& rightCard);
+inline bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard);
+inline bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 
 class Tactic_card : public Card {
 
