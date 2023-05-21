@@ -15,7 +15,7 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 
 
 ### Classe `Player` @MartinH02
-- [X] Coder `Hand`, la main du `Player` ?? (1h30)
+- [X] Coder `Hand`, la main du `Player` ?? (1h)
 - [X] Coder `Player` (5h)
 - [ ] Réfléchir et créer un système qui permet de gérer les tours => En cours (Pas encore de PR dessus). (Environ 3h)
 - [ ] Se coordonner avec la classe `Border` car beaucoup de méthodes en dépendent => En cours (Echanges avec Lillian). Peut s'étendre sur plusieurs jours. 
