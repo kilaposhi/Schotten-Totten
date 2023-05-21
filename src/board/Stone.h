@@ -9,13 +9,28 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "board/Border.h"
 
-using std::string, std::exception, std::vector;
-
+using std::string, std::exception, std::vector ;
 
 
-class Stone : public Border{
+
+class Stone {
+private:
+    bool claimed;
+    Player& winner;
+    unsigned int slot_number;
+    vector<Card> cardSlotsAvailable;
+    Card* tactic_slot;
+    Card** player_1_combination;
+    Card** player_2_combination;
+
+public:
+    Stone()=default;
+    ~Stone()=default;
+    Stone(const Stone& stone)=default;
+    Stone& operator=(const Stone& stone) =default;
+
+    void addCard() const;
 
 };
 

@@ -31,12 +31,12 @@ public:
 
 class Player {
 private:
-    int id;
-    int number_of_cards;
-    vector<unique_ptr<Card>> hand;
-    int max_cards; // Maybe just narrow 'number_of_cards'
-    array<bool, 9> claimed_borders_array;
-    vector<int> claimed_borders_vector;
+     int id;
+     int number_of_cards;
+     vector<unique_ptr<Card>> hand;
+     int max_cards; // Maybe just narrow 'number_of_cards'
+     array<bool, 9> claimed_borders_array;
+     vector<int> claimed_borders_vector;
 
 public:
 
@@ -44,7 +44,7 @@ public:
     ~Player()=default;
     Player(int id_, int max_cards_); // Surcharged constructor
 
-    Player& operator=(const Player&) = default;
+    Player& operator = (const Player&) = default;
 
     void add_card_into_hand(unique_ptr<Card> card_);
     unique_ptr<Card> delete_card_from_hand(int card_index);
@@ -53,7 +53,7 @@ public:
     void claim_borders_vector(Stone& border_);
     vector<int> getClaimed_borders_vector();
     [[nodiscard]] int getNumber_of_cards() const;
-    int getId() const;
+
 };
 
 

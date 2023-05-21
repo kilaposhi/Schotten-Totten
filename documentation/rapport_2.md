@@ -1,11 +1,11 @@
  
 On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` pour changer les cartes de place (dans les `Hand`,...)
-- Utilisation de `DeckBuilder` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
+- Utilisation de `DeckFactory` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
 
 [what's polymorphic type](https://stackoverflow.com/questions/2032361/whats-polymorphic-type-in-c)
 
 - Observer etc pour jouer les `TacticCard` et lancer leur script
-[Bonne vidéo sur les observer](https://www.youtube.com/watch?v=A_MsXney3EU)
+  [Bonne vidéo sur les observer](https://www.youtube.com/watch?v=A_MsXney3EU)
 
 
 - renommer `Stone` en `Border`
@@ -18,23 +18,25 @@ title : Deck and Cards
 ---
 classDiagram
 
-DeckFactory -- Deck
-Deck "1" *-- "0..*" Card
-class DeckFactory{
-- setNumberColors(num_colors: int)
-- setCardRange(min:int, max:int)
-+ createClanDeck() DeckBuilder&
-+ createTacticDeck() DeckBuilder&
-+ build() Deck
-}
+    DeckFactory -- Deck
+    Deck "1" *-- "0..*" Card
+    
+    class DeckFactory{
+        - setNumberColors(num_colors: int)
+        - setCardRange(min:int, max:int)
+        + createClanDeck() DeckBuilder&
+        + createTacticDeck() DeckBuilder&
+        + build() Deck
+    }
 
-class Deck{
-- cards : vector~unique_ptr~Card~~
-+ shuffle()
-+ drawCard() unique_ptr~Card~
-+ putCard(unique_ptr<Card>)
-+ getRemainingCards() int
-}
+    class Deck{
+        - cards : vector~unique_ptr~Card~~
+        + shuffle()
+        + drawCard() unique_ptr~Card~
+        + putCard(unique_ptr<Card>)
+        + getRemainingCards() int
+    }
+
 
 ```
 
@@ -45,19 +47,19 @@ title : Board, Border and Player
 ---
 classDiagram
 
-class Border{
-- Combination1 vector~ValuedCard~
-}
+    class Border{
+        - Combination1 vector~ValuedCard~
+    }
 ```
 
 **Fonctionnement de la règle de claimed by completion**
-- Un listener des `Border` pour l'écoute des nouvelles cartes. Création d'un deck du même type que le jeu actuel pour savoir quel cartes ont été joué 
+- Un listener des `Border` pour l'écoute des nouvelles cartes. Création d'un deck du même type que le jeu actuel pour savoir quel cartes ont été joué
 
 ```mermaid
-classDiagram 
-class CardTracker{
+classDiagram
+    class CardTracker{
 <<can be a Singleton>>
-- remainingCards : Deck = DeckBuilder.createClanDeck()
+- remainingCards : Deck = DeckFactory.createClanDeck()
 - playedCards : Deck
 }
 ```
@@ -71,18 +73,18 @@ sommes inspirés de l'exemple de jeu de cartes vu en TD, le **set**.
 
 Nous avons donc créé un Singleton `Card_game`, (équivalent à `Jeu` pour le `Set`) 
 dont la seule responsabilité est de créer les cartes dynamiquement, de les rendre accessible à toutes les 
-classes grace à la fonction `static` `getInstance()`, et de les libérer de la mémoire.  
+classes grâce à la fonction `static` `getInstance()`, et de les libérer de la mémoire.  
 
 Cependant, pour le Schotten-Totten cela pose plusieurs problèmes.
-- On s'attend  à créer au moins 2 jeux de cartes, les *cartes tactiques* et *cartes clan*. De plus si l'on pense à l'implémentation du Schotten-Totten 2 ou d'un autre jeu de cartes, on voudrait pouvoir créer des jeux différents :
+- On s'attend à créer au moins 2 jeux de cartes, les *cartes tactiques* et *cartes clan*. De plus si l'on pense à l'implémentation du Schotten-Totten 2 ou d'un autre jeu de cartes, on voudrait pouvoir créer des jeux différents :
 Pour le Schotten-Totten 2 il y a 60 cartes *valuées* (comme les cartes clans) avec des valeurs allant de 0 à 11 et avec 5 couleurs.
   
-  Donc on a rendu le Singleton `Card_game` instantiable avec des paramètres pour créer différents jeux de cartes valuées
+  Donc, on a rendu le Singleton `Card_game` instantiable avec des paramètres pour créer différents jeux de cartes valuées
 dans cette [Pull Request](https://github.com/kilaposhi/Schotten-Totten/pull/3)
 - Mais l'utilisation de ce Singleton ne me parait pas claire, et pas intuitive. En effet, intuitivement on voudrait
 créer directement la pioche et les cartes en même temps (d'ailleurs en anglais pioche se dit *deck* et jeu de cartes aussi !).
       
-  Ainsi on se passe les cartes comme dans le vrai jeu et chaque carte n'existe qu'une fois.
+  Ainsi, on se passe les cartes comme dans le vrai jeu et chaque carte n'existe qu'une fois.
 - C'est bizarre d'avoir une classe qui crée les cartes. Puis tous les objets restants se passent des références de cartes du Singleton. 
 
 ### Créer les cartes en même temps que la pioche.
@@ -95,7 +97,7 @@ donc toutes les classes doivent libérer la mémoire de leurs cartes.
 
 ### Pourquoi l'allocation dynamique ?
 
-Question légitime car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc. 
+Question légitime, car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc. 
 
 1. **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
   
