@@ -7,7 +7,20 @@ initializer_list<CardColor> CardColors = {CardColor::red,
                                           CardColor::brown,
                                           CardColor::orange};
 
+// -------------------Constructors
 ValuedCard::ValuedCard(int Value, CardColor Color) : value_(Value), color_(Color) {}
+
+ValuedCard::ValuedCard(Card& valuedCard){
+    *this = dynamic_cast<ValuedCard&>(valuedCard);
+}
+
+ValuedCard::ValuedCard(unique_ptr<Card> valuedCard){
+    *this = *(dynamic_cast<ValuedCard*>(valuedCard.release()));
+}
+
+ValuedCard::ValuedCard(Card *valuedCard) {
+    *this = *(dynamic_cast<ValuedCard*>(valuedCard));
+}
 
 CardColor ValuedCard::getColor() const {
     return color_;
@@ -18,10 +31,6 @@ int ValuedCard::getValue() const {
     return value_;
 }
 
-bool ValuedCard::operator<(const Card &Card)
-{
-    return (value_<Card.getValue());
-}
 
 
 //----- Displayers :
@@ -73,4 +82,16 @@ ostream& operator<<(ostream& stream, const ValuedCard& valued_card){
 
 
 
+bool operator<(const ValuedCard& leftCard, const ValuedCard& rightCard){
+    return leftCard.getValue() < rightCard.getValue();
+}
+bool operator>(const ValuedCard& leftCard, const ValuedCard& rightCard){
+    return  operator< (rightCard,leftCard);
+}
+bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard){
+    return !operator> (leftCard, rightCard);
+}
+bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard){
+    return !operator< (leftCard,rightCard);
+}
 
