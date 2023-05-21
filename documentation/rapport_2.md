@@ -358,11 +358,14 @@ class CombinationType{
 
 Question légitime, car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc.
 
-1. **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
+- **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
 
 
-2. Le **polymorphisme**
+
+- Le **polymorphisme**
+
    Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de sous classes de `Card` (comme `ValuedCard` et `TacticCard`), il faut utiliser l'allocation dynamique, Exemple :
+   
     ```cpp
     // Allocation dynamique :
     BaseClass* base = new DerivedClass();
@@ -375,6 +378,8 @@ Question légitime, car rajoute de la complexité, moins lisible, besoin de comp
     ```
    Avec les ***smart pointers*** on a :
     ```C++
+    
+    
     // Alloc dynamique classique
     int* dynamic_int = new int(1);
     // Alloc dynamique avec unique_ptr :
@@ -394,6 +399,8 @@ Question légitime, car rajoute de la complexité, moins lisible, besoin de comp
 ### Vecteur de cartes
 
 - Pour les **tableaux dynamiques**, on utilisera les `vector`
+
+
     ```C++
     // Plutôt que les C-like dynamic array :
     Card** cards = new Card*[54];
