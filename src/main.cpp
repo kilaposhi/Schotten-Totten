@@ -1,5 +1,5 @@
 #include <iostream>
-#include "string.h"
+#include <string>
 #include "deck/Card.h"
 #include "deck/Deck.h"
 
@@ -13,7 +13,7 @@ int main() {
 //    ValuedCard* test2 = dynamic_cast<ValuedCard*>(card1.release());
 //    ValuedCard* test3 = dynamic_cast<ValuedCard*>(card1.get());
 
-    unique_ptr<ValuedCard> newCard = make_unique<ValuedCard>(move(card1));
+    unique_ptr<ValuedCard> newCard = make_unique<ValuedCard>(std::move(card1));
 //    unique_ptr<ValuedCard> newCard = make_unique<ValuedCard>(card1.release());
 //    unique_ptr<ValuedCard> newCard (dynamic_cast<ValuedCard*>(card1.release()));
     cout << newCard->getValue() << '\n' << '\n';

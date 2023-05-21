@@ -94,4 +94,3 @@ bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard){
 bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard){
     return !operator< (leftCard,rightCard);
 }
-
