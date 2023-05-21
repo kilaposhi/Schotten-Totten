@@ -1,87 +1,55 @@
  
-# Rapport 2
+Rapport 2
 
 Les objectifs de ce jalon résident dans la finalisation de l'architecture du jeu et dans l'implémentation d'une partie des modules.
 
-### **Les tâches de code effectuées sont les suivantes**
+**Les tâches de code effectuées sont les suivantes **
 
-- [X] Nous avons dans un premier temps fini l'UML, cela a pris plusieurs heures : 
-- [x] la compéhension de GIT et les cours de GIT qui a couté environ 4 heures à chaque membre du groupe, notamment Kilapang qui maitrisait déja l'outil et qui a pris le temps de l'expliquer à ses camarades
-- [ ] la rédaction du rapport qui permet de prendre du recul sur nos décisions et d'avoir une vision d'ensemble : cela a notamment pris 
+Nous avons dans un premier temps fini l'UML, cela a pris plusieurs heures : 
 
-  
-- Par ailleurs, nous avons également avancé sur l'implémentation des différentes classes :
+Par ailleurs, nous avons également avancé sur l'implémentation des différentes classes :
 
+**Classe Player**
 
-### Classe `Player`
-- [ ] Coder `Hand`, la main du `Player` ?? (martin)
-- [ ] Coder `Player` (martin)
-- [ ] Réflechir et créer un système qui permet de gérer les tours
+ Coder Hand, la main du Player ?? (martin)
+ Coder Player (martin)
+ Réflechir et créer un système qui permet de gérer les tours
+Classe Border, et Board :
+ Coder Border (Lilian)
 
-### Classe `Border`, et `Board` :
-- [ ] Coder `Border` (Lilian)
-- [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nesrine [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14))
-   - [X]  : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, la surcharge de l'opérateur `<` a dû être ajoutés. 
-   - [ ] Faire fonctionner les `compute_combination` avec 4 cartes
-   - [ ] Tester la fonction
-- [ ] Coder la méthode `claim` qui utilise `compute_combination()`
+ Coder la fonction compute_combination(ValuedCard) pour calculer les combinaisons de Poker, avec plein de fonctions dans module/ (prototypes dans la branche combination (Nes : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, certains opérateurs ont du être ajoutés,)
 
-- [ ] Coder `Board` (Capucine)
-  
-- [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées):
-Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
-les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
-si l'adversaire ne peut faire mieux. (Nesrine)
-  
-  
-- [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
-  connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
-  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
-- [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
+ Coder Board (Capu)
 
-### Classe `Deck`, `DeckFactory`, `Card` ... :
-- [x] Coder `Card` et `ValuedCard` @kilaposhi
-- [x] Coder `Deck` et `DeckBuilder` @kilaposhi
-- [x] Transformer `DeckBuilder` en `DeckFactory` @kilaposhi
-   
+ Coder GameTracker pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées): Avec 2 Deck, un qui contient les cartes déjà jouées (playedCards), et l'autre qui contient les cartes non jouées ( remainingCards). Cette classe sera utilisée pour calculer si la règle de claim une Border si l'adversaire ne peut faire mieux. (Nes )
 
-- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
-- [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
-- [ ] Implémenter `createTacticCard` de `DeckFactory`
-- [ ] Créer une classe `DeckException` et vérifier
-les valeurs passées dans `DeckFactory`, et les exceptions de `Deck`
-- [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
-- [ ] Créer les cartes tactiques à partir d'un fichier JSON
+ Peut-être un observer, connecté au unique_ptr<TacticCard> tactic_slot_ de Border, qui lorsqu'une carte tactique est jouée sur le slot est traité par un TacticHandler qui s'occupera d'appliquer l'effet de la carte.
 
-### class `Game_interface` : 
-- [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
-, tactiques, les manches, les scores, etc...
+ Pour les effets de la cartes Tactiques utilisé le strategy pattern
 
-### Qt class `Displayer`: (Nes)
-- [ ] Créer les widgets pour cartes
-- [ ] Créer le plateau
-
- ### Important :
-- [ ] Mettre tout le code dans un namespace `Shotten_Totten`.
-Permet d'éviter les collisions de noms avec les librairies du C 
-- [ ] Faire les classes d'exceptions pour chaque classes
-#### Optionnel
-- [ ] Pour chaque fichier repenser aux `const` pour les arguments, les méthodes, les attributs, etc...
-- [ ] Marquer des variables `explicit` : Interdit les conversions implicites
-- [ ] Ajouter `noexcept` aux fonctions/ méthodes qui ne déclenche jamais d'exceptions pour optimiser le jeu
-- [ ] Rajouter les `inline` devant les petites fonctions ( ou settings)
-- [ ] Utiliser les `static_cast<T>` et `dynamic_cast<T>` au lieu des C-style cast `(int)`
-- [ ] Veiller à initialiser chaque variable (mieux avec les `{}`, ex : `int max{10}` )
-- [ ] Formatter le code
-    - Les noms de variables :  ex `CamelCase` pour les classes et `snake_case` pour les fonctions.
-    - `int attribut_` : pour attributs privés, et fonctions privées
-    - Clean header files : La partie `public` avant la partie `private`
-      - mettre 2 `private`, un pour les attributs, l'autre pour les fonctions
-      - Toutes les fonctions sont définies dans le `.cpp` correspondant, rien n'est défini dans le `.h`
+**Classe Deck, DeckFactory, Card ... :**
  
+ Coder Card et ValuedCard @kilaposhi
 
+ Coder Deck et DeckFactory @kilaposhi
 
----
+ Transformer DeckFactory en DeckFactory @kilaposhi
+
+ modularité CardColor, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
+
+ Coder les Tactic_card (construire les cartes tactiques avec un fichier XML, ou JSON)
+
+ Implémenter createTacticCard de DeckFactory
+
+ Créer une classe DeckException et vérifier les valeurs passées dans DeckFactory, et les exceptions de Deck
+
+ Rendre modulaire le choix des couleurs des cartes dans la création des ValuedCard
+
+ Créer les cartes tactiques à partir d'un fichier JSON
+
+Il y a également des tâches annexes :
+  - la compéhension de GIT et les cours de GIT qui a couté environ 4 heures à chaque membre du groupe, notamment Kilapang qui maitrisait déja l'outil et qui a pris le temps de l'expliquer à ses camarades
+  - la rédaction du rapport qui permet de prendre du recul sur nos décisions et d'avoir une vision d'ensemble : cela a notamment pris 
 
 On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` pour changer les cartes de place (dans les `Hand`,...)
 - Utilisation de `DeckFactory` pour les différents `Deck` [Builder pattern](https://refactoring.guru/design-patterns/builder)
@@ -94,9 +62,6 @@ On utilisera `Deck`  avec les cartes `vector<unique_ptr<Card>>`, des `.move()` p
 
 - renommer `Stone` en `Border`
 - On rajoute un cast de `unique_ptr<Card>` vers `unique_ptr<ValuedCard>` pour les `Border` [stackoverflow](https://stackoverflow.com/questions/17417848/stdunique-ptr-with-derived-class) , pour interdire de jouer des `TacticCard` sur les bornes.
-
-
-
 
 
 ```mermaid
@@ -181,165 +146,7 @@ donc toutes les classes doivent libérer la mémoire de leurs cartes.
   
   **Solution :** On utilisera les *smart pointers* de la librairie `#include <memory>`, avec le type `unique_ptr<Card>` qui gèrent la mémoire automatiquement et la libèrent forcément à la destruction de l'objet, ou même lors d'une exception. 
   On utilisera les méthodes `std::move()`, `std::reset()`, etc pour changer le propriétaire des cartes.
- 
- C'est ainsi que nous avons défini l'architecture suivante :
- ```mermaid
- ---
-title: Architecture Schotten-Totten V2
----
-classDiagram
 
-%% ------ Relations
-Card <|-- Tactic_card
-Card <|-- ValuedCard
-Deck "1"*-- "0..*" Card
-Deck "1" *-- "1" DeckInfo
-Deck -- DeckFactory
-%%    Card "0..7" --* "0..1" Hand
-  Player "1"*--"1" Hand
-  Combination "1" --* "2" Border
-  Board "1" *-- "9" Border
-  Tactic_card <|-- Elite_troop
-  Tactic_card <|-- Ruse
-  Tactic_card <|-- Combat_Mode
-  CardColor -- ValuedCard
-  DeckType -- Deck
-
-%%---------- class
-  class Game_interface{
-    + launch_Schotten_Totten1();
-  }
-
-  class Card {
-    + virtual print() string
-    + virtual clone() unique_ptr~Card~
-  }
-
-
-  class ValuedCard{
-    - color : CardColor
-    - value : int<1 to 9>
-    + ValuedCard(Card*)
-    + ValuedCard(Card&)
-    + ValuedCard(unique_ptr<Card>)
-    + override print() string
-    + override clone() unique_ptr~Card~
-  }
-
-  class Tactic_card{
-    - name: string
-    - description: string
-    + override print() string
-    + override clone() unique_ptr~Card~
-  }
-
-
-  class Board {
-    - numberBorders = 9 : const int
-    - Borders : Stone[number_of_stone_tiles]
-    - winner : &Player
-  }
-
-  class Combination{
-    - cards : vectorValuedCard
-    - sumValues : int
-  }
-
-  class Border{
-    - claimed : bool = false
-    - winner* Player
-    - slot_number = 3 : unsigned int
-    - cardSlotsAvailable vector~bool~
-    - tactic_slot : Tactic_Card
-    - player_1_combination: Combination
-    - player_2_combination:  Combination
-    + addCard()
-  }
-
-  class Hand {
-    - cards : vector~unique_ptr~Card~~
-    + refill()
-    + playCard(Card)
-  }
-
-  class Player{
-    - id: <1 or 2>
-    - number_of_cards : int
-    - hand : Hand
-    - max_cards : int<6 to 7>
-    - claimed_stones : list ~bool~
-    + play_card()
-    + draw_card() Card
-    + getClaimed_stones()
-    + claim_stone()
-    + getNumber_of_cards() int
-  }
-
-  class Deck{
-    - deckInfo : DeckInfo
-    - cards: vector~Card*~
-    + Deck(const Deck&)
-    + operator=(const Deck&) Deck&
-    + isEmpty() bool
-    + drawCard() Card
-    + getNumberRemainingCards() int
-  }
-
-  class DeckInfo {
-    - deckType: DeckType
-    - total_number_card : int
-    - min_value_card, max_value_card : int
-  }
-
-
-class DeckFactory {
-  <<Factory>>
-  - setRangeValue(min_value: int, max_value: int)
-  - setNumberColors(num_colors: int)
-  - createValuedCard()
-  - build() Deck
-  + createClanDeck() Deck
-  + createTacticDeck() Deck
-  }
-
-  class Score{
-    - score_p1: int
-    - score_p2: int
-    - round: int
-    +p1_gagne()
-    +p2_gagne()
-  }
-
-
-%%-------- Enum class
-  class CardColor {
-    <<Enumeration>>
-    blue
-    purple
-    green
-    red
-    orange
-    brown
-  }
-
-  class DeckType{
-    <<Enumeration>>
-    ValuedCard
-    TacticCard
-    DiscardDeck
-  }
-
-
-class Combination{
-  <<Enumeration>>
-  ColorRun
-    Run
-    Color
-    ThreeOfAKind
-    Sum
-}
-```
- 
 ### Pourquoi l'allocation dynamique ?
 
 Question légitime, car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc. 
@@ -376,10 +183,7 @@ Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de 
     //Pour changer le owner d'un unique_ptr 
     unique_ptr<Card> new_card = move(valued_card); 
     ```
- 
- ### Vecteur de cartes
-
-- Pour les **tableaux dynamiques**, on utilisera les `vector`  
+   Pour les **tableaux dynamiques**, on utilisera les `vector`
     ```C++
     // Plutôt que les C-like dynamic array :
     Card** cards = new Card*[54];
@@ -390,9 +194,9 @@ Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de 
    // avec les `unique_ptr` :
    vector<unique_ptr<Card>> cards;
     ```
- Dans les classes `Border`, `Deck`, etc, nous avons choisi de mettre les ensembles de cartes dans des vecteurs puisque ces derniers ont des méthodes très pratiques que nous pouvons réutiliser
+###Vecteur de cartes
+ Dans la classe Border nous avons choisi de mettre les ensembles de cartes dans des vecteurs puisque ces derniers ont des méthodes très pratiques que nous pouvons réutiliser
   
   
-### **Organisation et Cohésion du groupe**
- 
-  Cette partie du semestre est assez mouvementée avec l'accumulation des projets, les médians, etc. Il est donc facile de se retrouver submerger et de prendre du retard dans son travail. Nous avons tenté de compenser ce retard en commencant tôt le projet. Cependant, même avec cette tentative d'organisation il a été compliqué que chacun reste constant dans son travail. L'hétéroginété du groupe a été très utile. En effet, les différences de niveau étaient comblées par les facilités des uns qui leur ont permis de prendre le temps d'expliquer. Les connaissances de Kilapang sur Github ont notamment été utiles à tout le groupe puisque ces dernières ont été patiemment partagées et expliquées pour permettre à chacun de comprendre l'outil et de l'utiliser au mieux. Par ailleurs, cet outil permet de voir l'avancée du travail des autres de manière régulière et de s'aider et de se corriger mutuelement en cas de besoin. La relecture du programme était une partie considérable du travail. Elle était d'une part essentielle à la qualité du projet puisqu'on ajoute généralement des corrections pertinentes grâce au recul de la lecture extérieure. Mais elle également cruciale au fonctionnement du projet puisque la plupart des classes et leurs méthodes s'influent entre elles.
+**Organisation et Cohésion du groupe**
+  Cette partie du semestre est assez mouvementée avec l'accumulation des projets, les médians, etc. Il est donc facile de se retrouver submerger et de prendre du retard dans son travail. Nous avons tenté de compenser ce retard en tentant de commencer tôt le projet. Cependant, même avec cette tentative d'organisation il a été compliqué que chacun reste constant dans son travail. L'hétéroginété du groupe a été très utile. 
