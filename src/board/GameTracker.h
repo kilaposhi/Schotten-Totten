@@ -24,18 +24,6 @@ public:
     }
 };
 
-// Classe Borne qui est le sujet observé
-class Borne {
-private:
 
-public:
-    void playCard() {
-        // Logique pour jouer une carte
-        // ...
-
-        // Notifier l'observateur (GameTracker) de la mise à jour
-
-    }
-};
 
 #endif //SCHOTTEN_TOTTEN_GAMETRACKER_H

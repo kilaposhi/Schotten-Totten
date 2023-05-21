@@ -34,9 +34,9 @@ public:
     Stone(const Stone& stone)=default;
     Stone& operator=(const Stone& stone) =default;
     int getNbStone() const;
-    Card** getCombination(const Player player);
+    Combination getCombination(const Player player);
     void addCard() const;
-    string compute_combination();
+    CombinationType compute_combination();
     observer->update();
 
 };
@@ -50,7 +50,7 @@ public:
     string what() const { return exception;}
 };
 
-enum class Combination {
+enum class CombinationType {
     ColorRun,
     Run,
     Color,
