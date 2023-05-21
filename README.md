@@ -32,10 +32,8 @@ Faire les grosses classes de l'UML ci dessous:
 [Lien vers les tâches précise](documentation/Tasks.md)
 
 
-## UML version 2
-
-```mermaid
----
+ ```mermaid
+ ---
 title: Architecture Schotten-Totten V2
 ---
 classDiagram
@@ -43,12 +41,13 @@ classDiagram
 %% ------ Relations
 Card <|-- Tactic_card
 Card <|-- ValuedCard
+Observer<|--GameTracker
 Deck "1"*-- "0..*" Card
 Deck "1" *-- "1" DeckInfo
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Player "1"*--"1" Hand
-  Combination "1" --* "2" Border
+  Combination "2" --* "1" Border
   Board "1" *-- "9" Border
   Tactic_card <|-- Elite_troop
   Tactic_card <|-- Ruse
@@ -91,31 +90,28 @@ Deck -- DeckFactory
   class Combination{
     - cards : vectorValuedCard
     - sumValues : int
+    - type : CombinationType
+    + computeCombination() : combinationType
   }
 
   class Border{
     - claimed : bool = false
-    - winner& Player
+    - winner* Player
     - slot_number = 3 : unsigned int
     - cardSlotsAvailable vector~bool~
     - tactic_slot : Tactic_Card
     - player_1_combination: Combination
     - player_2_combination:  Combination
     + addCard()
-  }
-
-  class Hand {
-    - cards : vector~unique_ptr~Card~~
-    + refill()
-    + playCard(Card)
+    + getCombination(Player& player) : Combination
   }
 
   class Player{
     - id: <1 or 2>
-    - number_of_cards : int
-    - hand : Hand
+    - player: ptr~Player~
+    - hand : vector~unique_ptr~Card~~
     - max_cards : int<6 to 7>
-    - claimed_stones : list ~bool~
+    - claimed_borders : vector~int~
     + play_card()
     + draw_card() Card
     + getClaimed_stones()
@@ -157,7 +153,14 @@ class DeckFactory {
     +p1_gagne()
     +p2_gagne()
   }
-
+  
+  class Observer { 
+  + update()}
+  
+  class GameTracker {
+  - remainingCardsDeck : Deck 
+  - playedCardsDeck : Deck 
+  + update() override}
 
 %%-------- Enum class
   class CardColor {
@@ -178,8 +181,15 @@ class DeckFactory {
   }
 
 
+class CombinationType{
+  <<Enumeration>>
+  ColorRun
+    Run
+    Color
+    ThreeOfAKind
+    Sum
+}
 ```
-
 [voir UML version 1](documentation/UML.md)
 
 
