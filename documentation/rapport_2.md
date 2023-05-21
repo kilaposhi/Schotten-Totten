@@ -33,9 +33,9 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
 les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
 si l'adversaire ne peut faire mieux. (Nesrine)
-  - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
+  - [X] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
-  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
+  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte. ( Nesrine : environ 2 heures entre lacompréhension et l'application) 
   - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
 ### Classe `Deck`, `DeckFactory`, `Card` ... :
@@ -193,12 +193,13 @@ classDiagram
 %% ------ Relations
 Card <|-- Tactic_card
 Card <|-- ValuedCard
+Observer<|--GameTracker
 Deck "1"*-- "0..*" Card
 Deck "1" *-- "1" DeckInfo
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Player "1"*--"1" Hand
-  Combination "1" --* "2" Border
+  Combination "2" --* "1" Border
   Board "1" *-- "9" Border
   Tactic_card <|-- Elite_troop
   Tactic_card <|-- Ruse
@@ -241,6 +242,8 @@ Deck -- DeckFactory
   class Combination{
     - cards : vectorValuedCard
     - sumValues : int
+    - type : CombinationType
+    + computeCombination() : combinationType
   }
 
   class Border{
@@ -252,6 +255,7 @@ Deck -- DeckFactory
     - player_1_combination: Combination
     - player_2_combination:  Combination
     + addCard()
+    + getCombination(Player& player) : Combination
   }
 
   class Hand {
@@ -307,7 +311,14 @@ class DeckFactory {
     +p1_gagne()
     +p2_gagne()
   }
-
+  
+  class Observer { 
+  + update()}
+  
+  class GameTracker {
+  - remainingCardsDeck : Deck 
+  - playedCardsDeck : Deck 
+  + update() override
 
 %%-------- Enum class
   class CardColor {
@@ -328,7 +339,7 @@ class DeckFactory {
   }
 
 
-class Combination{
+class CombinationType{
   <<Enumeration>>
   ColorRun
     Run
