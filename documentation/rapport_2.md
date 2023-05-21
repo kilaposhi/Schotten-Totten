@@ -323,7 +323,7 @@ class DeckFactory {
   class GameTracker {
   - remainingCardsDeck : Deck 
   - playedCardsDeck : Deck 
-  + update() override
+  + update() override}
 
 %%-------- Enum class
   class CardColor {
