@@ -183,6 +183,9 @@ Deck -- DeckFactory
   class ValuedCard{
     - color : CardColor
     - value : int<1 to 9>
+    + ValuedCard(Card*)
+    + ValuedCard(Card&)
+    + ValuedCard(unique_ptr<Card>)
     + override print() string
     + override clone() unique_ptr~Card~
   }
