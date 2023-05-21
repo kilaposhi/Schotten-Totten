@@ -44,8 +44,8 @@ les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour cal
 si l'adversaire ne peut faire mieux. (Nesrine)
   - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
-  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte. ( Nesrine : environ 2 heures entre lacompréhension et l'application) 
-  - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
+  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte. ( Nesrine : environ 2 heures entre la compréhension et l'application) 
+  - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy) (
 
 ### Classe `Deck`, `DeckFactory`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
@@ -53,7 +53,7 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [x] Transformer `DeckBuilder` en `DeckFactory` @kilaposhi
 
 
-- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
+- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ? (Kilapang)
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
 - [ ] Implémenter `createTacticCard` de `DeckFactory`
 - [ ] Créer une classe `DeckException` et vérifier
@@ -61,19 +61,19 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
 
-### class `Game_interface` :
+### class `Game_interface` : (Capucine, Martin)
 - [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
-  , tactiques, les manches, les scores, etc...
+  , tactiques, les manches, les scores, etc...(10 % : 2 heures)
 
-### Qt class `Displayer`: 
-- [ ] Créer les widgets pour cartes
+### Qt class `Displayer`: (Nesrine)
+- [ ] Créer les widgets pour cartes (10% : 3 heures)
 - [ ] Créer le plateau
 
 ### Important :
 - [ ] Mettre tout le code dans un namespace `Shotten_Totten`.
   Permet d'éviter les collisions de noms avec les librairies du C
-- [ ] Faire les classes d'exceptions pour chaque classes
-#### Optionnel
+- [X] Faire les classes d'exceptions pour chaque classes 
+#### Optionnel (Tous)
 - [ ] Pour chaque fichier repenser aux `const` pour les arguments, les méthodes, les attributs, etc...
 - [ ] Marquer des variables `explicit` : Interdit les conversions implicites
 - [ ] Ajouter `noexcept` aux fonctions/ méthodes qui ne déclenche jamais d'exceptions pour optimiser le jeu
@@ -81,7 +81,7 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [ ] Utiliser les `static_cast<T>` et `dynamic_cast<T>` au lieu des C-style cast `(int)`
 - [ ] Veiller à initialiser chaque variable (mieux avec les `{}`, ex : `int max{10}` )
 - [ ] Formatter le code
-    - Les noms de variables :  ex `CamelCase` pour les classes et `snake_case` pour les fonctions.
+    - Les noms de variables :  ex `CamelCase` pour les classes et `snake_case` pour les fonctions. (70%)
     - `int attribut_` : pour attributs privés, et fonctions privées
     - Clean header files : La partie `public` avant la partie `private`
         - mettre 2 `private`, un pour les attributs, l'autre pour les fonctions
