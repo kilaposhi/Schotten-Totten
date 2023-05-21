@@ -10,7 +10,7 @@
 
 
 using std::shuffle, std::random_device, std::mt19937, std::vector, std::cout;
-using std::move, std::make_unique, std::unique_ptr;
+using std::move, std::unique_ptr;
 
 enum class DeckType{
     ValuedCard,
@@ -43,7 +43,7 @@ class Deck {
 private:
     friend class DeckFactory;
     DeckInfo deckInfo_;
-    vector<unique_ptr<Card>> cards_;
+    vector<unique_ptr<Card> > cards_;
 public:
 
     Deck()=default;
@@ -62,8 +62,8 @@ public:
 
 
 void copy_vector_cards(
-        const vector<unique_ptr<Card>>& from_cards,
-        vector<unique_ptr<Card>>& to_cards
+        const vector<unique_ptr<Card> >& from_cards,
+        vector<unique_ptr<Card> >& to_cards
 );
 
 

@@ -1,6 +1,6 @@
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "board/Combination.h"
+#include "module/Combination.h"
 #include "Border.h"
 
 class Player;

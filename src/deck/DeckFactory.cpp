@@ -5,7 +5,7 @@ Deck DeckFactory::build() {
             number_cards_,
             min_card_value_,
             max_card_value_
-            );
+    );
     Deck newDeck;
     newDeck.deckInfo_ = newDeckInfo;
     copy_vector_cards(this->cards_, newDeck.cards_);

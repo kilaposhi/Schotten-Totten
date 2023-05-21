@@ -12,8 +12,10 @@ add_executable(Schotten_Totten
         src/Game_interface.h
         src/player/Player.cpp
         src/player/Player.h
-#        src/board/Stone.cpp
-#        src/board/Stone.h
         src/main.cpp
         src/deck/Deck.cpp
-        src/deck/DeckFactory.cpp)
+        src/deck/DeckFactory.cpp
+        src/board/Board.cpp
+        src/board/Border.cpp
+        src/board/GameTracker.cpp
+        src/module/Combination.cpp)

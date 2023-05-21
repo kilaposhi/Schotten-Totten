@@ -13,15 +13,15 @@ enum class DeckType;
 using std::move, std::vector, std::make_unique, std::unique_ptr;
 
 // Factory : https://refactoring.guru/fr/design-patterns/factory-method
-class DeckFactory {
+class DeckFactory{
 public:
     DeckFactory()=default;
     DeckFactory(const DeckFactory&)=delete;
     DeckFactory& operator=(const DeckFactory&)=delete;
     ~DeckFactory()=default;
 
-    [[nodiscard]] Deck createClanDeck();
-    [[nodiscard]] Deck createTacticDeck();
+    Deck createClanDeck();
+    Deck createTacticDeck();
 
 private: // attributes
     DeckType deckType_;
@@ -29,7 +29,7 @@ private: // attributes
     unsigned int number_colors_{1};
     unsigned int min_card_value_{0};
     unsigned int max_card_value_{1};
-    vector<unique_ptr<Card>> cards_; // T <=> Valued_Card**
+    vector<unique_ptr<Card> > cards_; // T <=> Valued_Card**
 
 private: // methods
     void setTypeCards(DeckType deckType);
