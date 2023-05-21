@@ -198,8 +198,8 @@ Deck "1" *-- "1" DeckInfo
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Player "1"*--"1" Hand
-  Combination "1" --* "2" Border
-  Board "1" *-- "9" Border
+%% Card "0..4" --* "1" Stone
+  Board "1" *-- "9" Stone
   Tactic_card <|-- Elite_troop
   Tactic_card <|-- Ruse
   Tactic_card <|-- Combat_Mode
@@ -238,12 +238,7 @@ Deck -- DeckFactory
     - winner : &Player
   }
 
-  class Combination{
-    - cards : vectorValuedCard
-    - sumValues : int
-  }
-
-  class Border{
+  class Stone{
     - claimed : bool = false
     - winner* Player
     - slot_number = 3 : unsigned int
@@ -252,6 +247,10 @@ Deck -- DeckFactory
     - player_1_combination: Combination
     - player_2_combination:  Combination
     + addCard()
+    + getCombination(const Player player) :  vector~Card*~ 
+    + getNbStone() const : unsigned int
+    + compute_combination() : Combination
+    + observer->update()
   }
 
   class Hand {
