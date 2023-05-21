@@ -1,7 +1,7 @@
 # UML version 2
 
 ### Changements :
-- `Stone` devient `Border`, terme plus générique pour intégrer Schottten 1 et 2.
+- `Stone` devient `Border`, terme plus générique pour intégrer Schotten 1 et 2.
 
 
 ```mermaid
@@ -20,6 +20,7 @@ classDiagram
     Player "1"*--"1" Hand
     Combination "1" --* "2" Border
     Board "1" *-- "9" Border
+    Border <|-- Stone
     Tactic_card <|-- Elite_troop
     Tactic_card <|-- Ruse
     Tactic_card <|-- Combat_Mode
@@ -60,17 +61,30 @@ class Board {
 class Combination{
     - cards : vectorValuedCard
     - sumValues : int
+    + getSum() : int
+    + push_back(const ValuedCard &card)
 }
     
 class Border{
     - claimed : bool = false
-    - winner& Player
-    - slot_number = 3 : unsigned int
-    - cardSlotsAvailable vector~bool~
-    - tactic_slot : Tactic_Card
-    - player_1_combination: Combination
-    - player_2_combination:  Combination
-    + addCard()
+    - winner : Player
+    - slot_number : unsigned int
+    - player_1_combination : Combination
+    - player_2_combination :  Combination
+    - player_1_tactic_card : vector~unique_ptr~Tactic_card~~
+    - player_2_tactic_card : vector~unique_ptr~Tactic_card~~
+    + addValueCard(const ValuedCard& card, int player_id)
+    + addTacticalCard(const TacticalCard& card, int player_id)
+    + removeTacticalCard(int player_id)
+    + getSlotNumber()
+    + getWinner() Player
+    + getClaimed() bool
+    + setWinner()
+    + setClaimed()
+}
+
+class Stone{
+    
 }
 
 class Hand {
