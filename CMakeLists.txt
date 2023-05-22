@@ -18,4 +18,4 @@ add_executable(Schotten_Totten
         src/board/Board.cpp
         src/board/Border.cpp
         src/board/GameTracker.cpp
-        src/module/Combination.cpp)
+        src/module/Combination.cpp src/board/Border.cpp)
