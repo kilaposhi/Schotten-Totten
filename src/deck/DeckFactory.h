@@ -20,8 +20,8 @@ public:
     DeckFactory& operator=(const DeckFactory&)=delete;
     ~DeckFactory()=default;
 
-    [[nodiscard]] Deck createClanDeck();
-    [[nodiscard]] Deck createTacticDeck();
+    [[nodiscard]] unique_ptr<Deck> createClanDeck();
+    [[nodiscard]] unique_ptr<Deck> createTacticDeck();
 
 private: // attributes
     DeckType deckType_;
@@ -39,7 +39,7 @@ private: // methods
     void setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value);
     void create_valued_cards();
 
-    Deck build();
+    unique_ptr<Deck> build();
 
 };
 

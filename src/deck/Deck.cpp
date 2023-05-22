@@ -13,11 +13,12 @@ inline int DeckInfo::getMaxCardValue() const { return this->max_card_value_;}
 
 // -------------------- DecK
 
-Deck::Deck(const Deck &deck) {
-    this->deckInfo_ = deck.deckInfo_;
-    copy_vector_cards(deck.cards_, this->cards_);
+Deck::Deck(const Deck &otherDeck) {
+    this->deckInfo_ = otherDeck.deckInfo_;
+    copy_vector_cards(otherDeck.cards_, this->cards_);
 }
 
+Deck::Deck(Deck &&otherDeck) : cards_(std::move(otherDeck.cards_)) , deckInfo_(std::move(otherDeck.deckInfo_))  {}
 
 Deck &Deck::operator=(const Deck &deck) {
     this->deckInfo_ = deck.deckInfo_;
@@ -40,14 +41,14 @@ unique_ptr<Card> Deck::drawCard() {
     if (this->isEmpty()) {
         throw std::out_of_range("The deck is empty");
     }
-    auto card = move(cards_.back());
+    auto card = std::move(cards_.back());
     cards_.pop_back();
-    return move(card);
+    return std::move(card);
 }
 
 
 void Deck::putCard(unique_ptr<Card> card) {
-    cards_.insert(cards_.cbegin() , move(card));
+    cards_.insert(cards_.cbegin() , std::move(card));
 }
 
 
@@ -68,10 +69,10 @@ void copy_vector_cards(
         const vector<unique_ptr<Card>>& from_cards,
         vector<unique_ptr<Card>>& to_cards
         ){
-    size_t vector_cards_size = from_cards.size();
-    to_cards.reserve(vector_cards_size);
+
+    to_cards.reserve(from_cards.size());
 
     for (const auto& card : from_cards)
-        to_cards.push_back(card->clone());
+        to_cards.emplace_back(std::move(card->clone()));
 }
 

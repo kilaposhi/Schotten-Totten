@@ -1,15 +1,16 @@
 #include "DeckFactory.h"
 
-Deck DeckFactory::build() {
+unique_ptr<Deck> DeckFactory::build() {
     DeckInfo newDeckInfo(
             number_cards_,
             min_card_value_,
             max_card_value_
             );
-    Deck newDeck;
-    newDeck.deckInfo_ = newDeckInfo;
-    copy_vector_cards(this->cards_, newDeck.cards_);
-    return newDeck;
+    unique_ptr<Deck> newDeck = make_unique<Deck>();
+    newDeck->deckInfo_ = std::move(newDeckInfo);
+    newDeck->cards_ = std::move(this->cards_);
+    this->cards_.clear();
+    return std::move(newDeck);
 }
 
 
@@ -21,7 +22,7 @@ void DeckFactory::create_valued_cards(){
 }
 
 
-Deck DeckFactory::createClanDeck() {
+unique_ptr<Deck> DeckFactory::createClanDeck() {
     const int MAX_CLAN_CARD_VALUE = 9;
     const int MIN_CLAN_CARD_VALUE = 1;
     this->setRangeValueCard(MIN_CLAN_CARD_VALUE, MAX_CLAN_CARD_VALUE);

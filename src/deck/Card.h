@@ -4,34 +4,35 @@
 
 #include <iostream>
 #include <initializer_list>
+#include <exception>
 #include <string>
 #include <sstream>
 #include <memory>
+#include <utility>
 
 
-using std::string, std::ostream, std::initializer_list, std::unique_ptr ;
+using std::string, std::ostream, std::initializer_list, std::unique_ptr , std::move;
 
 
-class CardException{
+class CardException : std::exception {
 private:
-    string exception;
+    string exception_;
 public:
-    CardException(string Exception) : exception(Exception){}
-
-    string what() const { return exception;}
+    explicit CardException(string exception) : exception_(move(exception)){}
+    [[nodiscard]] const char* what() const noexcept override{ return exception_.c_str();}
 };
 
 
 class Card {
 private:
 public:
-    Card()=default;
-    virtual ~Card()=default;
-    Card(const Card& card)=default;
+    Card() = default;
+    virtual ~Card() = default;
+    Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
 
+    [[nodiscard]] virtual unique_ptr<Card> clone();
     virtual string print() const;
-    virtual unique_ptr<Card> clone();
 };
 
 
@@ -58,17 +59,16 @@ public:
     explicit ValuedCard(Card* valuedCard);
     explicit ValuedCard(unique_ptr<Card> valuedCard);
 //    explicit ValuedCard(Card&& valuedCard);
-    ~ValuedCard() override =default;
-    ValuedCard(const ValuedCard& valuedCard)=default;
-    ValuedCard& operator=(const ValuedCard& valuedCard)=default;
-
-
-
+    ~ValuedCard() override = default;
+    ValuedCard(const ValuedCard& valuedCard) = default;
+    ValuedCard& operator=(const ValuedCard& valuedCard) = default;
+public:
     CardColor getColor() const;
     int getValue() const;
     string cardColorToString() const;
+public:
     string print() const override;
-    unique_ptr<Card> clone() override;
+    [[nodiscard]] unique_ptr<Card> clone() override;
 
 };
 

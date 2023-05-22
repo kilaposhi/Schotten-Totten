@@ -48,7 +48,8 @@ public:
 
     Deck()=default;
     ~Deck()=default;
-    Deck(const Deck& );
+    Deck(const Deck&);
+    Deck(Deck&&);
     Deck& operator=(const Deck&);
 
     void shuffle();
