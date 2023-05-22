@@ -1,20 +1,21 @@
 #include "DeckFactory.h"
 
-unique_ptr<Deck> DeckFactory::build() {
+Deck DeckFactory::build() {
+    if (this->cards_.empty())
+        throw DeckFactoryException("Building an empty Deck (cards_ is empty)");
     DeckInfo newDeckInfo(
             number_cards_,
             min_card_value_,
             max_card_value_
             );
-    unique_ptr<Deck> newDeck = make_unique<Deck>();
-    newDeck->deckInfo_ = std::move(newDeckInfo);
-    newDeck->cards_ = std::move(this->cards_);
-    this->cards_.clear();
-    return std::move(newDeck);
+
+    return {newDeckInfo, std::move(this->cards_)};
 }
 
 
 void DeckFactory::create_valued_cards(){
+    setTypeCards(DeckType::ValuedCard);
+
     cards_.reserve(number_cards_);
     for (auto color : CardColors)
         for (int value = min_card_value_; value <= max_card_value_; value++)
@@ -22,7 +23,7 @@ void DeckFactory::create_valued_cards(){
 }
 
 
-unique_ptr<Deck> DeckFactory::createClanDeck() {
+Deck DeckFactory::createClanDeck() {
     const int MAX_CLAN_CARD_VALUE = 9;
     const int MIN_CLAN_CARD_VALUE = 1;
     this->setRangeValueCard(MIN_CLAN_CARD_VALUE, MAX_CLAN_CARD_VALUE);
@@ -37,7 +38,6 @@ void DeckFactory::setTypeCards(DeckType deckType) { this->deckType_ = deckType; 
 
 
 void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value) {
-    setTypeCards(DeckType::ValuedCard);
     this->min_card_value_ = min_card_value;
     this->max_card_value_ = max_card_value;
     this->number_cards_ = compute_number_cards(min_card_value, max_card_value, number_colors_);
@@ -45,7 +45,6 @@ void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int ma
 
 
 void DeckFactory::setNumberColors(unsigned int number_colors) {
-    setTypeCards(DeckType::ValuedCard);
     this->number_colors_ = number_colors;
     this->number_cards_ = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
 }

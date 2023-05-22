@@ -13,16 +13,20 @@ inline int DeckInfo::getMaxCardValue() const { return this->max_card_value_;}
 
 // -------------------- DecK
 
-Deck::Deck(const Deck &otherDeck) {
+Deck::Deck(DeckInfo deckInfo, vector<unique_ptr<Card>>&& cards)
+            : deckInfo_(deckInfo), cards_(std::move(cards)) {};
+
+Deck::Deck(Deck &&otherDeck) noexcept :
+            cards_(std::move(otherDeck.cards_)) ,
+            deckInfo_(otherDeck.deckInfo_)
+            { }
+
+Deck &Deck::operator=(Deck &&otherDeck) noexcept {
+    if (this == &otherDeck){
+        return *this;
+    }
     this->deckInfo_ = otherDeck.deckInfo_;
-    copy_vector_cards(otherDeck.cards_, this->cards_);
-}
-
-Deck::Deck(Deck &&otherDeck) : cards_(std::move(otherDeck.cards_)) , deckInfo_(std::move(otherDeck.deckInfo_))  {}
-
-Deck &Deck::operator=(const Deck &deck) {
-    this->deckInfo_ = deck.deckInfo_;
-    copy_vector_cards(deck.cards_, this->cards_);
+    this->cards_ = std::move(otherDeck.cards_);
     return *this;
 }
 
@@ -63,16 +67,4 @@ void Deck::print() const {
         cout << *card << '\n';
 }
 
-// Functions
-
-void copy_vector_cards(
-        const vector<unique_ptr<Card>>& from_cards,
-        vector<unique_ptr<Card>>& to_cards
-        ){
-
-    to_cards.reserve(from_cards.size());
-
-    for (const auto& card : from_cards)
-        to_cards.emplace_back(std::move(card->clone()));
-}
 

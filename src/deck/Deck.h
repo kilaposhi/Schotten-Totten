@@ -40,18 +40,17 @@ public:
 
 
 class Deck {
-private:
-    friend class DeckFactory;
-    DeckInfo deckInfo_;
-    vector<unique_ptr<Card>> cards_;
 public:
 
     Deck()=default;
+    Deck(DeckInfo deckInfo, vector<unique_ptr<Card>>&& cards); // constructor used by 'DeckFactory'
     ~Deck()=default;
-    Deck(const Deck&);
-    Deck(Deck&&);
-    Deck& operator=(const Deck&);
+    Deck(const Deck&) = delete;
+    Deck& operator=(const Deck &) = delete;
+    [[nodiscard]] Deck(Deck&&) noexcept ;
+    [[nodiscard]] Deck& operator=(Deck &&otherDeck) noexcept;
 
+public:
     void shuffle();
     bool isEmpty() const;
     unique_ptr<Card> drawCard();
@@ -59,13 +58,11 @@ public:
     int getNumberRemainingCards() const;
     DeckInfo getDeckInfo() const;
     void print() const;
+
+private:
+    DeckInfo deckInfo_;
+    vector<unique_ptr<Card>> cards_;
 };
-
-
-void copy_vector_cards(
-        const vector<unique_ptr<Card>>& from_cards,
-        vector<unique_ptr<Card>>& to_cards
-);
 
 
 #endif //SCHOTTEN_TOTTEN_DECK_H

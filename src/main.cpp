@@ -14,24 +14,21 @@ int main() {
     // conversion ValuedCard vers Card est implicite
     unique_ptr<Card> reCard = std::move(newCard);
 
-try {
-    Deck clanDeck ( *DeckFactory().createClanDeck() );
-//    Deck clanDeck = *DeckFactory().createClanDeck();
-//    unique_ptr<Deck> clanDeck ( DeckFactory().createClanDeck());
-    clanDeck.shuffle();
+// ----------------Deck
+    // createClanDeck() return Deck (Deck is an r-value)
+    // So we are using the move constructor here
+    Deck clanDeck ( DeckFactory().createClanDeck() );
+//    Deck clanDeck = DeckFactory().createClanDeck();
+//    Deck clanDeck;
+//    clanDeck = DeckFactory().createClanDeck(); // Move assignement
+
+    clanDeck.print();
+//    Deck otherDeck = clanDeck; // Error copy constructor is deleted
+    Deck otherDeck = std::move(clanDeck); // Move constructor only
 
 
 
-    Deck discardDeck;
-    for (int i = 0; i < 15; ++i)
-        discardDeck.putCard(clanDeck.drawCard());
-    discardDeck.print();
-    cout << '\n';
 
-} catch (const CardException& e){
-    cout << e.what() <<'\n';
-}
-//    clanDeck.print();
     return 0;
 }
 

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "Deck.h"
 #include "Card.h"
@@ -10,7 +11,7 @@
 class Deck;
 enum class DeckType;
 
-using std::move, std::vector, std::make_unique, std::unique_ptr;
+using std::move, std::vector, std::make_unique, std::unique_ptr, std::string;
 
 // Factory : https://refactoring.guru/fr/design-patterns/factory-method
 class DeckFactory {
@@ -20,8 +21,8 @@ public:
     DeckFactory& operator=(const DeckFactory&)=delete;
     ~DeckFactory()=default;
 
-    [[nodiscard]] unique_ptr<Deck> createClanDeck();
-    [[nodiscard]] unique_ptr<Deck> createTacticDeck();
+    [[nodiscard]] Deck createClanDeck();
+    [[nodiscard]] Deck createTacticDeck();
 
 private: // attributes
     DeckType deckType_;
@@ -39,10 +40,17 @@ private: // methods
     void setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value);
     void create_valued_cards();
 
-    unique_ptr<Deck> build();
-
+    Deck build();
 };
 
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors);
+
+class DeckFactoryException{
+private:
+    string message_;
+public:
+    DeckFactoryException(string message) : message_(message) { }
+    string what() const noexcept { return message_; }
+};
 
 #endif //SCHOTTEN_TOTTEN_DECKFACTORY_H

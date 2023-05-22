@@ -31,7 +31,6 @@ public:
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
 
-    [[nodiscard]] virtual unique_ptr<Card> clone();
     virtual string print() const;
 };
 
@@ -68,8 +67,6 @@ public:
     string cardColorToString() const;
 public:
     string print() const override;
-    [[nodiscard]] unique_ptr<Card> clone() override;
-
 };
 
 ostream& operator<<(ostream& stream, const Card& Card);

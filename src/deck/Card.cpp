@@ -11,14 +11,22 @@ initializer_list<CardColor> CardColors = {CardColor::red,
 ValuedCard::ValuedCard(int Value, CardColor Color) : value_(Value), color_(Color) {}
 
 ValuedCard::ValuedCard(Card& valuedCard){
+    if (dynamic_cast<ValuedCard*>(&valuedCard) == nullptr)
+        throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
+
     *this = dynamic_cast<ValuedCard&>(valuedCard);
 }
 
 ValuedCard::ValuedCard(unique_ptr<Card> valuedCard){
+    if (dynamic_cast<ValuedCard*>(valuedCard.get()) == nullptr)
+        throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
+
     *this = *(dynamic_cast<ValuedCard*>(valuedCard.release()));
 }
 
 ValuedCard::ValuedCard(Card *valuedCard) {
+    if (dynamic_cast<ValuedCard*>(valuedCard) == nullptr)
+        throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
     *this = *(dynamic_cast<ValuedCard*>(valuedCard));
 }
 
@@ -49,11 +57,6 @@ string ValuedCard::cardColorToString() const {
 }
 
 
-unique_ptr<Card> Card::clone() {
-    throw CardException("Cloning an empty Card");
-}
-
-
 string Card::print() const {
     throw CardException("Printing an empty Card");
 }
@@ -62,11 +65,6 @@ string ValuedCard::print() const {
     std::stringstream card("");
     card << "|" << value_ << "_" << this->cardColorToString() << "|";
     return card.str();
-}
-
-
-unique_ptr<Card> ValuedCard::clone() {
-    return std::move(std::make_unique<ValuedCard>(*this));
 }
 
 
