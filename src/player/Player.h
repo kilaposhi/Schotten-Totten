@@ -9,6 +9,7 @@
 
 #include "deck/Card.h"
 #include "board/Border.h"
+#include "board/Stone.h"
 
 using std::vector, std::list, std::array, std::string;
 
@@ -31,11 +32,11 @@ public:
 
 class Player {
 private:
-    int id;
-    Player* player;
-    vector<unique_ptr<Card>> hand;
-    int max_cards;
-    vector<int> claimed_borders;
+     int id;
+     Player* player;
+     vector<unique_ptr<Card>> hand;
+     int max_cards;
+     vector<int> claimed_borders;
 
 public:
 
@@ -43,7 +44,7 @@ public:
     Player(int id_,  Player* p, int max_cards_);
 
     Player& operator = (const Player&) = delete;
-    Player(const Player&) = default;
+    Player(const Player&) = delete;
 
     void add_card_into_hand(std::unique_ptr<Card>  card_);
     std::unique_ptr<Card>  remove_card_from_hand(int card_index);
