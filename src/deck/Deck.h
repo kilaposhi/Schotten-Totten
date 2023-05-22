@@ -46,11 +46,12 @@ private:
     vector<unique_ptr<Card>> cards_;
 public:
 
-    Deck()=default;
-    ~Deck()=default;
+    Deck();
+    ~Deck();
     Deck(const Deck&);
-    Deck(Deck&&);
+    Deck(Deck&&) noexcept ;
     Deck& operator=(const Deck&);
+    Deck& operator=(Deck&&) noexcept ;
 
     void shuffle();
     bool isEmpty() const;

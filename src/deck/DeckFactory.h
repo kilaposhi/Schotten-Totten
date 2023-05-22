@@ -15,12 +15,12 @@ using std::move, std::vector, std::make_unique, std::unique_ptr;
 // Factory : https://refactoring.guru/fr/design-patterns/factory-method
 class DeckFactory {
 public:
-    DeckFactory()=default;
+    DeckFactory();
     DeckFactory(const DeckFactory&)=delete;
     DeckFactory& operator=(const DeckFactory&)=delete;
-    ~DeckFactory()=default;
+    ~DeckFactory();
 
-    [[nodiscard]] unique_ptr<Deck> createClanDeck();
+    [[nodiscard]] Deck createClanDeck();
     [[nodiscard]] unique_ptr<Deck> createTacticDeck();
 
 private: // attributes
@@ -39,7 +39,7 @@ private: // methods
     void setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value);
     void create_valued_cards();
 
-    unique_ptr<Deck> build();
+    Deck build();
 
 };
 

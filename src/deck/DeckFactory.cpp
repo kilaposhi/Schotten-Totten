@@ -1,16 +1,25 @@
 #include "DeckFactory.h"
 
-unique_ptr<Deck> DeckFactory::build() {
+DeckFactory::DeckFactory() {
+    cout << "DeckFactory Created!" << '\n';
+}
+
+DeckFactory::~DeckFactory() {
+    cout << "DeckFactory Destroyed!" << '\n';
+}
+
+
+Deck DeckFactory::build() {
     DeckInfo newDeckInfo(
             number_cards_,
             min_card_value_,
             max_card_value_
             );
-    unique_ptr<Deck> newDeck = make_unique<Deck>();
-    newDeck->deckInfo_ = std::move(newDeckInfo);
-    newDeck->cards_ = std::move(this->cards_);
-    this->cards_.clear();
-    return std::move(newDeck);
+    Deck newDeck;
+    newDeck.deckInfo_ = std::move(newDeckInfo);
+    newDeck.cards_ = std::move(this->cards_);
+    cout << "DeckFactory Moved into Deck!" << '\n';
+    return newDeck;
 }
 
 
@@ -22,7 +31,7 @@ void DeckFactory::create_valued_cards(){
 }
 
 
-unique_ptr<Deck> DeckFactory::createClanDeck() {
+Deck DeckFactory::createClanDeck() {
     const int MAX_CLAN_CARD_VALUE = 9;
     const int MIN_CLAN_CARD_VALUE = 1;
     this->setRangeValueCard(MIN_CLAN_CARD_VALUE, MAX_CLAN_CARD_VALUE);

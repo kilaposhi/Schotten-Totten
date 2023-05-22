@@ -13,19 +13,36 @@ inline int DeckInfo::getMaxCardValue() const { return this->max_card_value_;}
 
 // -------------------- DecK
 
-Deck::Deck(const Deck &otherDeck) {
-    this->deckInfo_ = otherDeck.deckInfo_;
-    copy_vector_cards(otherDeck.cards_, this->cards_);
+Deck::Deck() {
+    cout << "Deck Created!" << '\n';
 }
 
-Deck::Deck(Deck &&otherDeck) : cards_(std::move(otherDeck.cards_)) , deckInfo_(std::move(otherDeck.deckInfo_))  {}
+Deck::~Deck() {
+    cout << "Deck Destroyed! | size cards_ :" << cards_.size() << '\n';
+}
 
-Deck &Deck::operator=(const Deck &deck) {
+Deck::Deck(const Deck &otherDeck) : deckInfo_(otherDeck.deckInfo_) {
+    copy_vector_cards(otherDeck.cards_, this->cards_);
+    cout << "Deck Copied!" << '\n';
+}
+
+Deck::Deck(Deck &&otherDeck) noexcept : cards_(std::move(otherDeck.cards_)) , deckInfo_(std::move(otherDeck.deckInfo_))  {
+    cout << "Deck Moved!" << '\n';
+}
+
+Deck &Deck::operator=(const Deck &deck)  {
     this->deckInfo_ = deck.deckInfo_;
     copy_vector_cards(deck.cards_, this->cards_);
+    cout << "Deck Assigned!" << '\n';
     return *this;
 }
 
+Deck& Deck::operator=(Deck&& otherDeck) noexcept{
+    this->deckInfo_ = std::move(otherDeck.deckInfo_);
+    this->cards_ = std::move(otherDeck.cards_);
+    cout << "Deck Moved!" << '\n';
+    return *this;
+}
 
 void Deck::shuffle() {
     random_device randomDevice;

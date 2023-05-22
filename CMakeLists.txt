@@ -5,6 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src)
 
+option(OPTIMIZE "Allow compiler optimizations.  Set to OFF to disable" OFF)
+
+if(NOT OPTIMIZE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+endif()
+
 add_executable(Schotten_Totten
         src/deck/Card.cpp
         src/deck/Card.h
