@@ -18,7 +18,7 @@ class CardException : std::exception {
 private:
     string exception_;
 public:
-    explicit CardException(string exception) : exception_(move(exception)){}
+    explicit CardException(string&& exception) : exception_(std::move(exception)){}
     [[nodiscard]] const char* what() const noexcept override{ return exception_.c_str();}
 };
 
@@ -31,7 +31,7 @@ public:
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
 
-    virtual string print() const;
+    virtual string print() const = 0;
 };
 
 

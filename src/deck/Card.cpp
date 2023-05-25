@@ -56,11 +56,6 @@ string ValuedCard::cardColorToString() const {
     }
 }
 
-
-string Card::print() const {
-    throw CardException("Printing an empty Card");
-}
-
 string ValuedCard::print() const {
     std::stringstream card("");
     card << "|" << value_ << "_" << this->cardColorToString() << "|";
@@ -72,6 +67,7 @@ ostream& operator<<(ostream& stream, const Card& card){
     stream << card.print();
     return stream;
 }
+
 // cout << Valued_Card;  Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card){
     stream << valued_card.print();
