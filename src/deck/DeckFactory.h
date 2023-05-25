@@ -29,9 +29,7 @@ private: // attributes
     unsigned int min_card_value_{0};
     unsigned int max_card_value_{1};
     vector<unique_ptr<Card>> cards_; // T <=> Valued_Card**
-
-private: // methods
-
+private:
     // ValuedCards method
     void setNumberColors(unsigned int number_colors );
     void setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value);

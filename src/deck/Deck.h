@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include <memory>
+#include <vector>
 
 #include "DeckFactory.h"
 #include "Card.h"
