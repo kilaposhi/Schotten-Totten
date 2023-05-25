@@ -3,19 +3,12 @@
 Deck DeckFactory::build() {
     if (this->cards_.empty())
         throw DeckFactoryException("Building an empty Deck (cards_ is empty)");
-    DeckInfo newDeckInfo(
-            number_cards_,
-            min_card_value_,
-            max_card_value_
-            );
 
-    return {newDeckInfo, std::move(this->cards_)};
+    return {std::move(this->cards_)};
 }
 
 
 void DeckFactory::create_valued_cards(){
-    setTypeCards(DeckType::ValuedCard);
-
     cards_.reserve(number_cards_);
     for (auto color : CardColors)
         for (int value = min_card_value_; value <= max_card_value_; value++)
@@ -32,9 +25,6 @@ Deck DeckFactory::createClanDeck() {
 
     return this->build();
 }
-
-
-void DeckFactory::setTypeCards(DeckType deckType) { this->deckType_ = deckType; }
 
 
 void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value) {

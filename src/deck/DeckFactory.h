@@ -9,7 +9,6 @@
 #include "Card.h"
 
 class Deck;
-enum class DeckType;
 
 using std::move, std::vector, std::make_unique, std::unique_ptr, std::string;
 
@@ -25,7 +24,6 @@ public:
     [[nodiscard]] Deck createTacticDeck();
 
 private: // attributes
-    DeckType deckType_;
     unsigned int number_cards_{0};
     unsigned int number_colors_{1};
     unsigned int min_card_value_{0};
@@ -33,7 +31,6 @@ private: // attributes
     vector<unique_ptr<Card>> cards_; // T <=> Valued_Card**
 
 private: // methods
-    void setTypeCards(DeckType deckType);
 
     // ValuedCards method
     void setNumberColors(unsigned int number_colors );
@@ -46,11 +43,11 @@ private: // methods
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors);
 
 class DeckFactoryException{
+public:
+    DeckFactoryException(string&& message) : message_(std::move(message)) { }
+    string what() const noexcept { return message_; }
 private:
     string message_;
-public:
-    DeckFactoryException(string message) : message_(message) { }
-    string what() const noexcept { return message_; }
 };
 
 #endif //SCHOTTEN_TOTTEN_DECKFACTORY_H
