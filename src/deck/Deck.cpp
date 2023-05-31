@@ -11,7 +11,7 @@ inline int DeckInfo::getTotalNumberCards() const { return this->total_number_car
 inline int DeckInfo::getMinCardValue() const { return this->min_card_value_;}
 inline int DeckInfo::getMaxCardValue() const { return this->max_card_value_;}
 
-// -------------------- DecK
+// -------------------- Deck
 
 Deck::Deck(const Deck &deck) {
     this->deckInfo_ = deck.deckInfo_;
@@ -62,6 +62,10 @@ void Deck::print() const {
         cout << *card << '\n';
 }
 
+void Deck::clear() {
+    cards_.clear();
+}
+
 // Functions
 
 void copy_vector_cards(
@@ -74,4 +78,5 @@ void copy_vector_cards(
     for (const auto& card : from_cards)
         to_cards.push_back(card->clone());
 }
+
 

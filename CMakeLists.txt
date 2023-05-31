@@ -24,4 +24,4 @@ add_executable(
 
         src/board/Stone.cpp
         src/board/Stone.h
-)
+        src/board/Border.cpp src/board/Combination.cpp src/game/Game.cpp src/game/GameTracker.cpp src/game/GameTracker.h)
