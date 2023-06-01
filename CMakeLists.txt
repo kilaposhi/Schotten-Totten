@@ -24,4 +24,4 @@ add_executable(
 
         src/board/Stone.cpp
         src/board/Stone.h
-        src/board/Combination.cpp)
+)
