@@ -22,7 +22,7 @@ public:
     [[nodiscard]] const char* what() const noexcept override{ return exception_.c_str();}
 };
 
-
+// Abstract class
 class Card {
 private:
 public:
