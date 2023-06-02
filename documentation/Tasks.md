@@ -10,6 +10,55 @@ Permet d'éviter les collisions de noms avec les librairies du C
 
 ##### Cliquer pour les taches [Optionnelles](#optionnel)
 
+## Tactic Card :
+
+- **Combat Mode**
+  Modifie **une** Border :
+    - MudFigth : `Border::setMaxNumCards(4)`
+    - BlindMan's Bluff : `Border::setSumFlag(true)` "ClaimBorder se fait que par somme"
+
+- **Elite Troop**
+  Se joue dans 1 Border pour 1 combinaison
+  Effet se déclenche au moment de `claimBorder()`
+
+- **Ruses**
+  Se joue sur la défausse :
+    - Recruiter : Copie de la main du player, draw 3 card de `ClanDeck`, et demander au joueur de discard 2 card de cette main, puis on modifie la main du player.
+    - ...
+> On copie la main parce que on peut pas autoriser le player à avoir plus de 7 cartes. La copie permet d'avoir temporairement une fausse main avec 9 cartes
+
+
+Ce que je propose :
+- plutôt que vérifier si c'est une `ValuedCard` ou une `TacticCard` dans `Border`, on le fait dans `Player` avant, et soit on joue normalement, soit on joue dans le TacticHandler
+```mermaid
+classDiagram
+
+class TacticHandler{
+<<Singleton ?>>
+- DiscardDeck : Deck*
+- ClanDeck : Deck*
+- TacticDeck : Deck*
+
+- discardCard(unique_ptr<Card>)
+- playBlindManBluff(Player* player, int borderId)
+- playMudFight(Player* player, int borderId)
+- playEliteTroop(unique_ptr<Card> tacticCard, Player* player, int borderId)
+- activeEliteTroop(Combinaison* combinaison)
+- playRecruiter(Player* player)
+- playStragist(Player* player)
+- playBanshee(Player* opponent)
+- playTraiter(Player* player, Player* opponent)
++ playTacticCard(unique_ptr<Card> tacticCard, Player* player, int borderId = null)
+}
+```
+- `playEliteTroopCard`, set un attribut bool `hasTacticCard` de combinaison à `true`. Comme ça dans la méthode `claimBorder` on a :
+   ``` c++
+   if(hasTacticCard)
+		TacticHandler::activeEliteTroop(&combi);
+    ``` 
+	Avec `activeEliteTroop` qui demande au bon Player quelle carte il veut et remplace la carte Tactique Elite Troop par une nouvelle `ValuedCard`
+En interne `TacticHandler` regarde quelle est la `TacticCard` et choisi la bonne méthode, communique avec `Board`,...
+
 
 ## Classe `Player`
 - [x] Coder `Hand`, la main du `Player` ?? (martin)

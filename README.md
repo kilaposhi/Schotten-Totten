@@ -26,7 +26,8 @@
 - [ ] `Player`
 - [ ] `Border`
 - [ ] `Board`
-- [ ] [Rapport 2](documentation/rapport_2.md)
+- [X] [Rapport 2](documentation/rapport_2.md)
+- [ ] tacticCard
 
 Faire les grosses classes de l'UML ci dessous:
 [Lien vers les tâches précise](documentation/Tasks.md)
