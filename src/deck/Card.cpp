@@ -65,6 +65,47 @@ ostream& operator<<(ostream& stream, const ValuedCard& valued_card){
     return stream;
 }
 
+TacticType TacticCard::getName() const{
+    return name;
+}
 
+CardColor EliteTroop::getColor() const{
+    return color_;
+}
+
+int EliteTroop::getValue() const {
+    return value_;
+}
+
+void EliteTroop::setColor(CardColor color){
+    color_=color;
+}
+
+void EliteTroop::setValue(int val){
+    value_=val;
+}
+
+string TacticCard::cardNameToString() const {
+    switch (name) {
+        case TacticType::joker1: return "joker";
+        case TacticType::joker2 : return "joker";
+        case TacticType::espion : return "espion";
+        case TacticType::porte_bouclier : return "porte bouclier";
+        case TacticType::colin_maillard : return "colin maillard";
+        case TacticType::combat_de_boue : return "combat de boue";
+        case TacticType::chasseur_de_tete : return "chasseur de tête";
+        case TacticType::stratege : return "stratege";
+        case TacticType::banshee : return "banshee";
+        case TacticType::traitre : return "traitre";
+        default:
+            throw CardException("Trying to convert unknown TacticType to string");
+    }
+}
+
+string TacticCard::print() const {
+    std::stringstream card("");
+    card << "|" << this->cardNameToString() << "|";
+    return card.str();
+}
 
 

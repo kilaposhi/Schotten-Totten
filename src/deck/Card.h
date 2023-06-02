@@ -71,10 +71,42 @@ ostream& operator<<(ostream& stream, const Card& Card);
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);
 
 
-class Tactic_card : public Card {
 
+
+enum class TacticType {
+    joker1,
+    joker2,
+    espion,
+    porte_bouclier,
+    colin_maillard,
+    combat_de_boue,
+    chasseur_de_tete,
+    stratege,
+    banshee,
+    traitre
 };
 
+class TacticCard : public Card {
+private :
+    TacticType name;
+public :
+    TacticCard(const TacticCard&) = delete;
+    TacticCard& operator=(const TacticCard&) = delete;
+    TacticType getName() const;
+    string cardNameToString() const;
+    string print() const;
+};
+
+class EliteTroop : public TacticCard {
+private :
+    CardColor color_;
+    int value_;
+public :
+    CardColor getColor() const;
+    int getValue() const;
+    void setColor(CardColor color);
+    void setValue(int val);
+};
 
 
 #endif //SCHOTTEN_TOTTEN_CARD_H
