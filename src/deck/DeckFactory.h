@@ -33,8 +33,9 @@ private:
     // ValuedCards method
     void setNumberColors(unsigned int number_colors );
     void setRangeValueCard(unsigned int min_card_value, unsigned int max_card_value);
-    void create_valued_cards();
+    void createValuedCards();
 
+    void createTacticCards();
     Deck build();
 };
 
