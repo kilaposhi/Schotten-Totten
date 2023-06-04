@@ -49,10 +49,6 @@ enum class CardColor{
 extern initializer_list<CardColor> CardColors;
 
 class ValuedCard : public Card {
-private:
-    CardColor color_;
-    int value_;
-
 public:
     ValuedCard(int Value, CardColor Color);
     explicit ValuedCard(Card& valuedCard);
@@ -68,6 +64,10 @@ public:
     string cardColorToString() const;
 public:
     string print() const override;
+private:
+    CardColor color_;
+    int value_;
+
 };
 
 ostream& operator<<(ostream& stream, const Card& Card);

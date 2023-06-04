@@ -28,6 +28,7 @@ ValuedCard::ValuedCard(unique_ptr<Card> valuedCard){
 ValuedCard::ValuedCard(Card *valuedCard) {
     if (dynamic_cast<ValuedCard*>(valuedCard) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
+
     *this = *(dynamic_cast<ValuedCard*>(valuedCard));
 }
 
