@@ -1,13 +1,5 @@
 #include "Card.h"
 
-initializer_list<CardColor> CardColors = {CardColor::red,
-                                          CardColor::green,
-                                          CardColor::blue,
-                                          CardColor::yellow,
-                                          CardColor::purple,
-                                          CardColor::brown,
-                                          CardColor::orange};
-
 // -------------------Constructors
 ValuedCard::ValuedCard(int Value, CardColor Color) : value_(Value), color_(Color) {}
 

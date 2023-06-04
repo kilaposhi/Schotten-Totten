@@ -45,8 +45,6 @@ enum class CardColor{
     brown
 };
 
-extern initializer_list<CardColor> CardColors;
-
 class ValuedCard : public Card {
 public:
     ValuedCard(int Value, CardColor Color);
@@ -78,7 +76,6 @@ enum class TacticType {
     banshee,
     traiter
 };
-
 
 class TacticCard : public Card {
 public :
