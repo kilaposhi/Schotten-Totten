@@ -62,8 +62,8 @@ Deck -- DeckFactory
   }
 
   class Card {
-    + virtual print() string
-    + virtual clone() unique_ptr~Card~
+      <<abstact>>
+    + virtual print() string = 0
   }
 
 
@@ -71,14 +71,12 @@ Deck -- DeckFactory
     - color : CardColor
     - value : int<1 to 9>
     + override print() string
-    + override clone() unique_ptr~Card~
   }
 
   class Tactic_card{
     - name: string
     - description: string
     + override print() string
-    + override clone() unique_ptr~Card~
   }
 
 
@@ -124,19 +122,12 @@ Deck -- DeckFactory
   }
 
   class Deck{
-    - deckInfo : DeckInfo
     - cards: vector~Card*~
     + Deck(const Deck&)
     + operator=(const Deck&) Deck&
     + isEmpty() bool
     + drawCard() Card
     + getNumberRemainingCards() int
-  }
-
-  class DeckInfo {
-    - deckType: DeckType
-    - total_number_card : int
-    - min_value_card, max_value_card : int
   }
 
 
@@ -168,13 +159,6 @@ class DeckFactory {
     red
     orange
     brown
-  }
-
-  class DeckType{
-    <<Enumeration>>
-    ValuedCard
-    TacticCard
-    DiscardDeck
   }
 
 
