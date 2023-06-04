@@ -40,6 +40,7 @@ enum class CardColor{
     red,
     green,
     blue,
+    yellow,
     purple,
     orange,
     brown

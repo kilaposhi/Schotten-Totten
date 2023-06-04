@@ -3,6 +3,7 @@
 initializer_list<CardColor> CardColors = {CardColor::red,
                                           CardColor::green,
                                           CardColor::blue,
+                                          CardColor::yellow,
                                           CardColor::purple,
                                           CardColor::brown,
                                           CardColor::orange};
@@ -48,6 +49,7 @@ string ValuedCard::cardColorToString() const {
         case CardColor::red: return "red";
         case CardColor::green : return "green";
         case CardColor::blue : return "blue";
+        case CardColor::yellow : return "yellow";
         case CardColor::purple : return "purple";
         case CardColor::orange : return "orange";
         case CardColor::brown : return "brown";

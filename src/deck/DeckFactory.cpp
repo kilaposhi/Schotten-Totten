@@ -10,9 +10,13 @@ Deck DeckFactory::build() {
 
 void DeckFactory::create_valued_cards(){
     cards_.reserve(number_cards_);
-    for (auto color : CardColors)
+
+    auto color_iterator = CardColors.begin();
+    for (size_t color_index = 0; color_index < number_colors_ ; color_index++) {
+        CardColor color = *color_iterator++;
         for (int value = min_card_value_; value <= max_card_value_; value++)
             cards_.push_back(make_unique<ValuedCard>(value, color));
+    }
 }
 
 
@@ -35,6 +39,8 @@ void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int ma
 
 
 void DeckFactory::setNumberColors(unsigned int number_colors) {
+    if (number_colors > 7)
+        throw DeckFactoryException("There is only 7 colors implemented in the enum class `CardColor`, see 'Card.h'");
     this->number_colors_ = number_colors;
     this->number_cards_ = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
 }
