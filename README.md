@@ -50,9 +50,6 @@ Deck -- DeckFactory
   Player "1"*--"1" Hand
   Combination "1" --* "2" Border
   Board "1" *-- "9" Border
-  Tactic_card <|-- Elite_troop
-  Tactic_card <|-- Ruse
-  Tactic_card <|-- Combat_Mode
   CardColor -- ValuedCard
   DeckType -- Deck
 
@@ -70,12 +67,16 @@ Deck -- DeckFactory
   class ValuedCard{
     - color : CardColor
     - value : int<1 to 9>
+    + getValue() int
+    + getColor() CardColor
     + override print() string
   }
 
   class Tactic_card{
-    - name: string
+    - name: TacticType
     - description: string
+    + getName() TacticType
+    + getDescription() string
     + override print() string
   }
 
@@ -122,7 +123,7 @@ Deck -- DeckFactory
   }
 
   class Deck{
-    - cards: vector~Card*~
+    - cards: vector~unique_ptr~Card~~
     + Deck(const Deck&)
     + operator=(const Deck&) Deck&
     + isEmpty() bool
@@ -133,9 +134,14 @@ Deck -- DeckFactory
 
 class DeckFactory {
   <<Factory>>
+  - cards : vector~unique_ptr~Card~~
+  - numberCards : int
+  - numberColors : int
+  - minValue, maxValue : int
   - setRangeValue(min_value: int, max_value: int)
   - setNumberColors(num_colors: int)
   - createValuedCard()
+  - createTacticCard()
   - build() Deck
   + createClanDeck() Deck
   + createTacticDeck() Deck
