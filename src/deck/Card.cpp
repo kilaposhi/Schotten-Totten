@@ -66,11 +66,7 @@ ostream& operator<<(ostream& stream, const ValuedCard& valued_card){
 }
 
 
-TacticType TacticCard::getName() const{
-    return name;
-}
-
-string TacticCard::getDescription() const {
+string createTacticDescription(TacticType type) {
     switch(this->getName()) {
         case TacticType::joker : return "Clan card of which you \n"
                                         "choose the color and strength when \n"
@@ -120,6 +116,20 @@ string TacticCard::getDescription() const {
         default :
             throw CardException("Trying to get the description of an unknown tactic card");
     }
+}
+
+
+TacticCard::TacticCard(TacticType type) {
+    name = type;
+    description = createTacticDescription(type);
+}
+
+TacticType TacticCard::getName() const{
+    return name;
+}
+
+string TacticCard::getDescription() const {
+    return description;
 }
 
 CardColor EliteTroop::getColor() const{

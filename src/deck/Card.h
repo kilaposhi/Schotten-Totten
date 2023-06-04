@@ -84,15 +84,13 @@ enum class TacticType {
     traiter
 };
 
-enum class TacticDescription {
-
-};
 
 class TacticCard : public Card {
 private :
     TacticType name;
     string description;
 public :
+    TacticCard(TacticType type);
     TacticCard(const TacticCard&) = delete;
     TacticCard& operator=(const TacticCard&) = delete;
     TacticType getName() const;
