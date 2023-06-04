@@ -1,5 +1,5 @@
 #include <iostream>
-#include "string.h"
+#include <string>
 #include "deck/Card.h"
 #include "deck/Deck.h"
 #include "deck/DeckFactory.h"

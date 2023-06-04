@@ -11,7 +11,6 @@
 
 using std::string, std::ostream, std::initializer_list, std::unique_ptr ;
 
-faut
 class CardException{
 private:
     string exception;
