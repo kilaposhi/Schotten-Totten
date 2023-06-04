@@ -37,5 +37,9 @@ private:
     vector<unique_ptr<Card>> cards_;
 };
 
+ostream& operator<<(ostream& stream, const Deck& deck){
+    stream  << "Remaining cards : " << deck.getNumberRemainingCards();
+    return stream;
+}
 
 #endif //SCHOTTEN_TOTTEN_DECK_H
