@@ -39,13 +39,13 @@ public:
 };
 
 
-class Deck {
+class Deck{
 private:
     friend class DeckFactory;
-    DeckInfo deckInfo_;
+    DeckInfo deckInfo_{};
     vector<unique_ptr<Card>> cards_;
-public:
 
+public:
     Deck()=default;
     ~Deck()=default;
     Deck(const Deck& );
@@ -58,6 +58,7 @@ public:
     int getNumberRemainingCards() const;
     DeckInfo getDeckInfo() const;
     void print() const;
+    void clear();
 };
 
 
