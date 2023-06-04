@@ -9,7 +9,6 @@
 
 #include "deck/Card.h"
 #include "board/Border.h"
-#include "board/Stone.h"
 
 using std::vector, std::list, std::array, std::string;
 

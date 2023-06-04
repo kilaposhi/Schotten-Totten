@@ -35,7 +35,7 @@ bool Combination::Color( int n)
     int i = 0;
     while (i < n - 1 && color)
     {
-        color = (cards[i]->getColor() == cards[i + 1]->getColor());
+        if (color = (cards[i]->getColor() != cards[i + 1]->getColor())) color = false;
         i++;
     }
     return color;
@@ -47,7 +47,7 @@ bool Combination::ThreeOfAKind(int n)
     int i = 0;
     while (i < n - 1 && three)
     {
-        cards[i]->getValue()== cards[i+1]->getValue();
+        if (cards[i]->getValue() != cards[i+1]->getValue()) three = false;
         i++;
     }
     return three;
@@ -60,7 +60,7 @@ bool Combination::Run(vector<Card*> combination,int n)
     int i = 0;
     while (i < n - 1 && run)
     {
-        cards[i]->getValue()== cards[i+1]->getValue()-1;
+        if (cards[i]->getValue()!= cards[i+1]->getValue()-1) run = false;
         i++;
     }
     return run;

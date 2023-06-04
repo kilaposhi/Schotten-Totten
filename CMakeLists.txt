@@ -22,6 +22,4 @@ add_executable(
         src/player/Player.cpp
         src/player/Player.h
 
-        src/board/Stone.cpp
-        src/board/Stone.h
 )
