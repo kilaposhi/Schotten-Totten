@@ -17,7 +17,6 @@ private:
     string exception;
 public:
     CardException(string Exception) : exception(Exception){}
-
     string what() const { return exception;}
 };
 
@@ -74,28 +73,35 @@ ostream& operator<<(ostream& stream, const ValuedCard& valued_card);
 
 
 enum class TacticType {
-    joker1,
-    joker2,
-    espion,
-    porte_bouclier,
-    colin_maillard,
-    combat_de_boue,
-    chasseur_de_tete,
-    stratege,
+    joker,
+    spy,
+    shield_bearer,
+    blind_man_bluff,
+    mud_fight,
+    recruiter,
+    strategist,
     banshee,
-    traitre
+    traiter
+};
+
+enum class TacticDescription {
+
 };
 
 class TacticCard : public Card {
 private :
     TacticType name;
+    string description;
 public :
     TacticCard(const TacticCard&) = delete;
     TacticCard& operator=(const TacticCard&) = delete;
     TacticType getName() const;
+    string getDescription() const;
     string cardNameToString() const;
-    string print() const;
+    string print() const override;
 };
+
+ostream& operator<<(ostream& stream, const TacticCard& tactic_card);
 
 class EliteTroop : public TacticCard {
 private :
