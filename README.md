@@ -11,6 +11,7 @@
 
 - Le [Trello de l'équipe](https://trello.com/b/XQj4rIn7/shotten-totten "Trello LO21")
 - Le [Rapport n°1](https://fr.overleaf.com/project/6419a39393e938ac5e40ea3e)(Overleaf)
+- Le [Rapport 3](https://docs.google.com/document/d/1JnmKqo7RdC75wO17AeH6vWk4pL5y7H0QqZoP19NPSyg/edit?usp=sharing)
 
 **Ressources :**
 - [Refactoring guru](https://refactoring.guru) Explications BD des **designs patterns** et des **bonnes pratiques** du refactoring AKA *"comment écrire du **clean code**" ?*
@@ -26,16 +27,17 @@
 - [ ] `Player`
 - [ ] `Border`
 - [ ] `Board`
-- [ ] [Rapport 2](documentation/rapport_2.md)
+- [X] [Rapport 2](documentation/rapport_2.md)
+- [ ] tacticCard
+- [ ] [Rapport 3](https://docs.google.com/document/d/1JnmKqo7RdC75wO17AeH6vWk4pL5y7H0QqZoP19NPSyg/edit?usp=sharing)
+
 
 Faire les grosses classes de l'UML ci dessous:
 [Lien vers les tâches précise](documentation/Tasks.md)
 
 
-## UML version 2
-
-```mermaid
----
+ ```mermaid
+ ---
 title: Architecture Schotten-Totten V2
 ---
 classDiagram
@@ -45,10 +47,13 @@ Card <|-- TacticCard
 Card <|-- ValuedCard
 CardColor -- ValuedCard
 TacticType -- TacticCard
+Observer<|--GameTracker
 Deck "1"*-- "0..*" Card
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Combination "1" --* "2" Border
+  Player "1"*--"1" Hand
+  Combination "2" --* "1" Border
   Board "1" *-- "9" Border
 
 %%---------- class
@@ -88,25 +93,28 @@ Deck -- DeckFactory
   class Combination{
     - cards : vectorValuedCard
     - sumValues : int
+    - type : CombinationType
+    + computeCombination() : combinationType
   }
 
   class Border{
     - claimed : bool = false
-    - winner& Player
+    - winner* Player
     - slot_number = 3 : unsigned int
     - cardSlotsAvailable vector~bool~
     - tactic_slot : Tactic_Card
     - player_1_combination: Combination
     - player_2_combination:  Combination
     + addCard()
+    + getCombination(Player& player) : Combination
   }
 
   class Player{
     - id: <1 or 2>
-    - number_of_cards : int
-    - hand : Hand
+    - player: ptr~Player~
+    - hand : vector~unique_ptr~Card~~
     - max_cards : int<6 to 7>
-    - claimed_stones : list ~bool~
+    - claimed_borders : vector~int~
     + play_card()
     + draw_card() Card
     + getClaimed_stones()
@@ -147,7 +155,14 @@ class DeckFactory {
     +p1_gagne()
     +p2_gagne()
   }
-
+  
+  class Observer { 
+  + update()}
+  
+  class GameTracker {
+  - remainingCardsDeck : Deck 
+  - playedCardsDeck : Deck 
+  + update() override}
 
 %%-------- Enum class
   class CardColor {
@@ -175,8 +190,15 @@ traiter
 
 
 
+class CombinationType{
+  <<Enumeration>>
+  ColorRun
+    Run
+    Color
+    ThreeOfAKind
+    Sum
+}
 ```
-
 [voir UML version 1](documentation/UML.md)
 
 
