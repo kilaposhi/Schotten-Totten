@@ -4,9 +4,9 @@
 ### Important :
 - [ ] Mettre tout le code dans un namespace `Shotten_Totten`.
 Permet d'éviter les collisions de noms avec les librairies du C 
-- [ ] Faire les classes d'exceptions pour chaques classes
+- [ ] Faire les classes d'exceptions pour chaque classes
 
-- [x] Faire le Rapport 2
+- [X] Faire le Rapport 2
 
 ##### Cliquer pour les taches [Optionnelles](#optionnel)
 
@@ -90,12 +90,14 @@ si l'adversaire ne peut faire mieux. (lili)
 - [ ] Modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
 - [ ] Implémenter `createTacticCard` de `DeckFactory`
-- [ ] Créer une classe `DeckException` et vérifier les valeurs passées dans `DeckFactory`, et les exceptions de `Deck`
+- [ ] Créer une classe `DeckException` et vérifier
+les valeurs passées dans `DeckFactory`, et les exceptions de `Deck`
 - [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
 
 # class `Game_interface` : 
-- [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions, tactiques, les manches, les scores, etc...
+- [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
+, tactiques, les manches, les scores, etc...
 
 # Qt class `Displayer`: (Nes)
 - [ ] Créer les widgets pour cartes
