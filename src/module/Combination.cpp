@@ -7,8 +7,16 @@ int Combination::getSum() const {
 }
 
 void Combination::push_back(std::unique_ptr<ValuedCard> card) {
-    cards.push_back(std::move(card));
-    sumValues += cards.back()->getValue();
+    value_cards.push_back(std::move(card));
+    sumValues += value_cards.back()->getValue();
+}
+
+void Combination::push_back(std::unique_ptr<Tactic_card> card) {
+    tactic_cards.push_back(std::move(card));
+}
+
+void Combination::pop_back() {
+    tactic_cards.pop_back();
 }
 
 Player *Combination::getPlayer() {

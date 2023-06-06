@@ -20,10 +20,10 @@ void Border::addValueCard(std::unique_ptr<ValuedCard> card, Player* player) {
 void Border::addTacticalCard(std::unique_ptr<Tactic_card> tactic_card, Player* player) {
     int playerId = Player::getId(player);
     if(playerId == 1){
-        player_1_tactic_card.push_back(std::move(tactic_card));
+        player_1_combination.push_back(std::move(tactic_card));
     }
     else if(playerId == 2){
-        player_2_tactic_card.push_back(std::move(tactic_card));
+        player_2_combination.push_back(std::move(tactic_card));
     }
 }
 
@@ -39,10 +39,10 @@ void Border::addCard(unique_ptr<Card> card, Player* player) {
 void Border::removeTacticalCard(Player* player) {
     int playerId = Player::getId(player);
     if(playerId == 1){
-        player_1_tactic_card.pop_back();
+        player_1_combination.pop_back();
     }
     else if(playerId == 2){
-        player_2_tactic_card.pop_back();
+        player_2_combination.pop_back();
     }
 }
 

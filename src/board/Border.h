@@ -19,8 +19,6 @@ private:
     unsigned int slot_number;
     static Combination player_1_combination;
     static Combination player_2_combination;
-    std::vector<std::unique_ptr<Tactic_card>> player_1_tactic_card;
-    std::vector<std::unique_ptr<Tactic_card>> player_2_tactic_card;
     static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
     void addTacticalCard(std::unique_ptr<Tactic_card> tactic_card, Player* player);
 
