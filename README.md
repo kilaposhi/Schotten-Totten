@@ -91,10 +91,22 @@ Deck -- DeckFactory
   }
 
   class Combination{
-    - cards : vectorValuedCard
+    - valuedCards : vector~unique_ptr~ValuedCard~~
+    - tacticCards : vector~unique_ptr~TacticCard~~
+    - hasTacticCard : bool = false
     - sumValues : int
-    - type : CombinationType
-    + computeCombination() : combinationType
+    - maxNumberCards : int
+    - combinationType : CombinationType
+    - setMaxNumberCards(int maxNumberCards)
+    - compute_combination() CombinationType
+    - isColorRun() bool
+    - isThreeOfAKind() bool
+    - isRun() bool
+    - isColor() bool
+    + getSum() int
+    + getType() CombinationType
+    + getNumberCards() int 
+    + treatTacticCards();
   }
 
   class Border{
@@ -135,10 +147,11 @@ Deck -- DeckFactory
 
 class DeckFactory {
   <<Factory>>
-  - number_cards int
-  - number_colors int
-  - min_card_value int
-  - max_card_value int
+  - cards : vector~unique_ptr~Card~~
+  - number_cards : int
+  - number_colors : int
+  - min_card_value : int
+  - max_card_value : int
   - setRangeValue(min_value: int, max_value: int)
   - setNumberColors(num_colors: int)
   - createValuedCard()
