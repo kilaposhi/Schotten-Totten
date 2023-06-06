@@ -22,8 +22,8 @@ public:
     ~Deck()=default;
     Deck(const Deck&) = delete;
     Deck& operator=(const Deck &) = delete;
-    [[nodiscard]] Deck(Deck&&) noexcept ;
-    [[nodiscard]] Deck& operator=(Deck &&otherDeck) noexcept;
+    Deck(Deck&&) noexcept ;
+    Deck& operator=(Deck &&otherDeck) noexcept;
 
 public:
     void shuffle();

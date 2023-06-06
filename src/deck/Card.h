@@ -82,6 +82,7 @@ public :
     TacticCard(TacticType type);
     TacticCard(const TacticCard&) = delete;
     TacticCard& operator=(const TacticCard&) = delete;
+
     TacticType getName() const;
     string getDescription() const;
     string print() const override;

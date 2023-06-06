@@ -41,20 +41,15 @@ title: Architecture Schotten-Totten V2
 classDiagram
 
 %% ------ Relations
-Card <|-- Tactic_card
+Card <|-- TacticCard
 Card <|-- ValuedCard
+CardColor -- ValuedCard
+TacticType -- TacticCard
 Deck "1"*-- "0..*" Card
-Deck "1" *-- "1" DeckInfo
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
-  Player "1"*--"1" Hand
   Combination "1" --* "2" Border
   Board "1" *-- "9" Border
-  Tactic_card <|-- Elite_troop
-  Tactic_card <|-- Ruse
-  Tactic_card <|-- Combat_Mode
-  CardColor -- ValuedCard
-  DeckType -- Deck
 
 %%---------- class
   class Game_interface{
@@ -71,12 +66,16 @@ Deck -- DeckFactory
     - color : CardColor
     - value : int<1 to 9>
     + override print() string
+    + getColor() CardColor
+    + getValue() int
   }
 
-  class Tactic_card{
-    - name: string
+  class TacticCard{
+    - name: TacticType
     - description: string
     + override print() string
+    + getName() TacticType
+    + getDescription() string
   }
 
 
@@ -102,12 +101,6 @@ Deck -- DeckFactory
     + addCard()
   }
 
-  class Hand {
-    - cards : vector~unique_ptr~Card~~
-    + refill()
-    + playCard(Card)
-  }
-
   class Player{
     - id: <1 or 2>
     - number_of_cards : int
@@ -123,19 +116,25 @@ Deck -- DeckFactory
 
   class Deck{
     - cards: vector~Card*~
-    + Deck(const Deck&)
-    + operator=(const Deck&) Deck&
+    + Deck(Deck&&)
+    + operator=(Deck&&) Deck&
     + isEmpty() bool
-    + drawCard() Card
+    + drawCard() unique_ptr<Card>
+    + putCard(card : unique_ptr<Card>)
     + getNumberRemainingCards() int
   }
 
 
 class DeckFactory {
   <<Factory>>
+  - number_cards int
+  - number_colors int
+  - min_card_value int
+  - max_card_value int
   - setRangeValue(min_value: int, max_value: int)
   - setNumberColors(num_colors: int)
   - createValuedCard()
+  - createTacticCard()
   - build() Deck
   + createClanDeck() Deck
   + createTacticDeck() Deck
@@ -160,6 +159,20 @@ class DeckFactory {
     orange
     brown
   }
+
+class TacticType {
+    <<Enumeration>>
+joker
+spy
+shield_bearer
+blind_man_bluff
+mud_fight
+recruiter
+strategist
+banshee
+traiter
+}
+
 
 
 ```
