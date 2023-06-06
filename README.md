@@ -28,6 +28,8 @@
 - [ ] `Board`
 - [X] [Rapport 2](documentation/rapport_2.md)
 - [ ] tacticCard
+- [ ] [Rapport 3](https://docs.google.com/document/d/1JnmKqo7RdC75wO17AeH6vWk4pL5y7H0QqZoP19NPSyg/edit?usp=sharing)
+
 
 Faire les grosses classes de l'UML ci dessous:
 [Lien vers les tâches précise](documentation/Tasks.md)
