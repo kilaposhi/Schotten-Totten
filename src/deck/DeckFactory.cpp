@@ -82,6 +82,13 @@ Deck DeckFactory::createTacticDeck() {
     return this->build();
 }
 
+Deck DeckFactory::createClassicDeck() {
+    this->setNumberColors(4);
+    this->setRangeValueCard(1, 13);
+    this->createValuedCards();
+    return build();
+}
+
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors){
     unsigned int number_values = max_value - min_value + 1;
     return number_values *  num_colors;

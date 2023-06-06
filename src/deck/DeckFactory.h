@@ -21,6 +21,7 @@ public:
     ~DeckFactory()=default;
 
     [[nodiscard]] Deck createClanDeck();
+    [[nodiscard]] Deck createClassicDeck();
     [[nodiscard]] Deck createTacticDeck();
 
 private: // attributes

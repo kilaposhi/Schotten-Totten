@@ -15,19 +15,9 @@ int main() {
     unique_ptr<Card> reCard = std::move(newCard);
 
 // ----------------Deck
-    // createClanDeck() return Deck (Deck is an r-value)
-    // So we are using the move constructor here
-    Deck clanDeck ( DeckFactory().createClanDeck() );
-//    Deck clanDeck = DeckFactory().createClanDeck();
-//    Deck clanDeck;
-//    clanDeck = DeckFactory().createClanDeck(); // Move assignement
-
-    clanDeck.print();
-//    Deck otherDeck = clanDeck; // Error copy constructor is deleted
-    Deck otherDeck = std::move(clanDeck); // Move constructor only
-
-
-
+    Deck classicDeck = DeckFactory().createClassicDeck();
+    classicDeck.print();
+    cout << classicDeck;
 
     return 0;
 
