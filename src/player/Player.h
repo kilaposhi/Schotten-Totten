@@ -53,6 +53,7 @@ public:
     vector<int> getClaimed_borders();
     [[nodiscard]] int getNumber_of_cards() const;
     int static getId(Player* player);
+    void display_hand() const;
 
 };
 

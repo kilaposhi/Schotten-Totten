@@ -15,8 +15,6 @@
 int main() {
 
 //------------------- Card
-    unique_ptr<Card> card1 = make_unique<ValuedCard>(2, CardColor::orange);
-    unique_ptr<ValuedCard> newCard = make_unique<ValuedCard>(move(card1));
 
 
     // conversion ValuedCard vers Card est implicite
@@ -47,6 +45,7 @@ int main() {
     //on crée les joueurs
     //on distribue les cartes aux joueurs
     //on a
+    std::vector<std::unique_ptr<Border>> = create_borders();
 
     return 0;
 

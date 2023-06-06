@@ -2,23 +2,34 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-
 #include "board/Border.h"
 
-class Border;
-
-void create_borders(){
-    borders = vector<new Border, 9>;
-    
-}
 
 
 void Game::play(Player player1, Player player2) {
     std::cout << "Début de la partie\n";
-    create_game();
+
 
     while (true) {
-        std::cout << "Tour du joueur " << player1ID << std::endl;
+        std::cout << "Tour du joueur 1" << player1ID << std::endl;
+        player1.display_hand();
+        std::cout << "Saisissez l'indice de la carte que vous souhaitez jouer.\n";
+        int card_index;
+        std::cin >> card_index;
+        std::cout << "Saisissez l'indice de la borne que vous choisissez.\n";
+        int border_index;
+        std::cin >>  border_index;
+        player1.play_card(card_index, borders[border_index]);
+        std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+        int border_claimed;
+        switch(border_claimed) {
+            case 0:
+                break;
+            default:
+                borders[border_claimed].getClaimed();
+        }
+
+
         //afficher la main du joueur
         //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
         //jouer la carte

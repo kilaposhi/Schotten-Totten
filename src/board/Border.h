@@ -35,7 +35,7 @@ public:
     Player getWinner() const;
     bool getClaimed() const;
 
-    void setWinner(Player* winner);
+    void setWinner();
     void setClaimed(bool claimed);
 
 };

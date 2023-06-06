@@ -8,6 +8,7 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
+
 enum class CombinationType {
     ColorRun,
     Run,
@@ -20,32 +21,32 @@ class Combination {
 private:
     std::vector<Card> cards;
     int sumValues;
-    CombinationType type = NULL;
+    CombinationType type = CombinationType::Sum; // Définir une valeur par défaut
 
 public:
     int getSum() const;
+    int size() const;
     CombinationType getType() const;
     void push_back(const ValuedCard &card);
     CombinationType compute_combination() const;
-    bool ColorRun(int n );
+    bool ColorRun(int n);
     bool ThreeOfAKind(int n);
     bool Run(int n);
     friend class Border;
+
+    bool operator<(const Combination& other) const; // Déclaration de l'opérateur <
 };
 
-class CombinationException{
+bool operator<(CombinationType left, CombinationType right);
+
+class CombinationException {
 private:
-    string exception;
+    std::string exception; // Utiliser le type std::string
 public:
-    CombinationException(string Exception) : exception(Exception){}
+    CombinationException(std::string Exception) : exception(Exception) {}
     CombinationType getType() const;
-    string what() const { return exception;}
-
+    std::string what() const { return exception; }
 };
-#endif //PROJET_COMBINATION_H
 
-
-
-
-
+#endif // PROJET_COMBINATION_H
 
