@@ -16,10 +16,18 @@ void create_borders(){
 void Game::play(Player player1, Player player2) {
     std::cout << "Début de la partie\n";
     create_game();
-    player1.draw_card();
-    player2.draw_card();
+
     while (true) {
         std::cout << "Tour du joueur " << player1ID << std::endl;
+        //afficher la main du joueur
+        //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
+        //jouer la carte
+        //demander si le joueur souhaite revandiquer une borne, si oui, laquelle ?
+        // : on peut faire un case
+        //vérfier que 3 cartes sont sur chaque frontière de la borne
+        //trouver le gagnant de la borne, vérifier qu'il n'y a pas de gagnant de la partie
+        // piocher une carte
+
 
         if (isGameOver()) {
             std::cout << "Le joueur " << player1ID << " a gagné !\n";
@@ -40,6 +48,7 @@ void Game::play(Player player1, Player player2) {
     }
 
     std::cout << "Fin de la partie\n";
+    quit();
 }
 
 void pause() {

@@ -19,9 +19,7 @@ add_executable(
         src/Game_interface.cpp
         src/Game_interface.h
 
-        src/player/Player.cpp
-        src/player/Player.h
+#        src/player/Player.cpp
+#        src/player/Player.h
 
-        src/board/Stone.cpp
-        src/board/Stone.h
 )

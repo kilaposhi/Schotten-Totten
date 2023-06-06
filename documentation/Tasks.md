@@ -6,31 +6,80 @@
 Permet d'éviter les collisions de noms avec les librairies du C 
 - [ ] Faire les classes d'exceptions pour chaque classes
 
-- [ ] Faire le Rapport 2
+- [X] Faire le Rapport 2
 
 ##### Cliquer pour les taches [Optionnelles](#optionnel)
 
+## Tactic Card :
+
+- **Combat Mode**
+  Modifie **une** Border :
+    - MudFigth : `Border::setMaxNumCards(4)`
+    - BlindMan's Bluff : `Border::setSumFlag(true)` "ClaimBorder se fait que par somme"
+
+- **Elite Troop**
+  Se joue dans 1 Border pour 1 combinaison
+  Effet se déclenche au moment de `claimBorder()`
+
+- **Ruses**
+  Se joue sur la défausse :
+    - Recruiter : Copie de la main du player, draw 3 card de `ClanDeck`, et demander au joueur de discard 2 card de cette main, puis on modifie la main du player.
+    - ...
+> On copie la main parce que on peut pas autoriser le player à avoir plus de 7 cartes. La copie permet d'avoir temporairement une fausse main avec 9 cartes
+
+
+Ce que je propose :
+- plutôt que vérifier si c'est une `ValuedCard` ou une `TacticCard` dans `Border`, on le fait dans `Player` avant, et soit on joue normalement, soit on joue dans le TacticHandler
+```mermaid
+classDiagram
+
+class TacticHandler{
+<<Singleton ?>>
+- DiscardDeck : Deck*
+- ClanDeck : Deck*
+- TacticDeck : Deck*
+
+- discardCard(unique_ptr<Card>)
+- playBlindManBluff(Player* player, int borderId)
+- playMudFight(Player* player, int borderId)
+- playEliteTroop(unique_ptr<Card> tacticCard, Player* player, int borderId)
+- activeEliteTroop(Combinaison* combinaison)
+- playRecruiter(Player* player)
+- playStragist(Player* player)
+- playBanshee(Player* opponent)
+- playTraiter(Player* player, Player* opponent)
++ playTacticCard(unique_ptr<Card> tacticCard, Player* player, int borderId = null)
+}
+```
+- `playEliteTroopCard`, set un attribut bool `hasTacticCard` de combinaison à `true`. Comme ça dans la méthode `claimBorder` on a :
+   ``` c++
+   if(hasTacticCard)
+		TacticHandler::activeEliteTroop(&combi);
+    ``` 
+	Avec `activeEliteTroop` qui demande au bon Player quelle carte il veut et remplace la carte Tactique Elite Troop par une nouvelle `ValuedCard`
+En interne `TacticHandler` regarde quelle est la `TacticCard` et choisi la bonne méthode, communique avec `Board`,...
+
 
 ## Classe `Player`
-- [ ] Coder `Hand`, la main du `Player` ?? (martin)
-- [ ] Coder `Player` (martin)
+- [x] Coder `Hand`, la main du `Player` ?? (martin)
+- [x] Coder `Player` (martin)
 - [ ] Réflechir et créer un système qui permet de gérer les tours
 
 ## Classe `Border`, et `Board` :
-- [ ] Coder `Border` (Lili)
+- [x] Coder `Border` (Lili)
 - [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nes)
-- [ ] Coder `Board` (Capu)
+- [x] Coder `Board` (Capu)
   
-- [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées):
+- [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées) : (lili)
 Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
-les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
-si l'adversaire ne peut faire mieux. (Nes)
+les cartes non jouées (`remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
+si l'adversaire ne peut faire mieux. (lili)
   
   
 - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
   connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
   est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
-- [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
+- [ ] Pour les effets de la carte Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
 ## Classe `Deck`, `DeckFactory`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
@@ -38,7 +87,7 @@ si l'adversaire ne peut faire mieux. (Nes)
 - [ ] Transformer `DeckFactory` en `DeckFactory` @kilaposhi
    
 
-- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
+- [ ] Modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
 - [ ] Implémenter `createTacticCard` de `DeckFactory`
 - [ ] Créer une classe `DeckException` et vérifier
