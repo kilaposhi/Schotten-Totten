@@ -1,13 +1,12 @@
 # Notes du commit
-1) Renomage du fichier note
-2) Suppression des notes précédentes
-3) passage des méthodes
-   void add_card_into_hand(std::unique_ptr<Card>  card_);
-   std::unique_ptr<Card>  remove_card_from_hand(int card_index);
-   en private
-4) Passage du constructeur
-   Player::Player(int id_, Player* p, int max_card) : id(id_), player(p), hand{}, max_cards(max_card), claimed_borders{} {}
-   à
-   Player::Player(int id_) : id(id_), player(this), hand{}, max_cards(6), claimed_borders{} {}
-5) passage du constructeur en explicit
-6) Création de la méthode std::ostream& operator<<(std::ostream& f, const Player& player);
+1) Suppression de l'attribut Player* player dans la classe Player
+2) Modification de la méthode getid
+3) Passage de vector<int> claimed_borders; à vector<unsigned int> claimed_borders;
+4) Passage de vector< int> Player::getClaimed_borders(); à vector<unsigned int> Player::getClaimed_borders()
+5) Création de void displayHand(); pour afficher la main
+6) Initialisation du nombre max de cartes dans la main du joueur
+7) Réindentation des atributs de Player
+8) Changement d'écriture de mes using ... car Clion me l'a demandé (étrange mais bon...)
+9) Ajout d'un attribut nom au Player. C'est plus sympas pour l'affichage du jeu
+10) Ajout d'une méthode print_player() pour afficher le joueur 
+11) Changements du main mis en commentaire

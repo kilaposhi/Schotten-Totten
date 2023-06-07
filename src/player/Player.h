@@ -11,7 +11,10 @@
 #include "board/Border.h"
 #include "board/Stone.h"
 
-using std::vector, std::list, std::array, std::string;
+using std::vector;
+using std::list;
+using std::array;
+using std::string;
 
 class Border;
 class Deck;
@@ -32,30 +35,31 @@ public:
 
 class Player {
 private:
-     int id;
-     Player* player;
-     vector<unique_ptr<Card>> hand;
-     int max_cards;
-     vector<int> claimed_borders;
-    void add_card_into_hand(std::unique_ptr<Card>  card_);
+    string name;
+    int id;
+    vector<unique_ptr<Card>> hand;
+    int max_cards;
+    vector<unsigned int> claimed_borders;
+    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
     std::unique_ptr<Card>  remove_card_from_hand(int card_index);
 
 public:
 
     ~Player()=default;
-    explicit Player(int id_);
+    explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = delete;
 
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
-
-    void play_card(int card_index, Border& border_);
-    void draw_card(Deck deck_);
-    void claim_borders(Border& border_);
-    vector<int> getClaimed_borders();
-    [[nodiscard]] int getNumber_of_cards() const;
-    int static getId(Player* player);
+    // void play_card(int card_index, Border& border_);
+    // void draw_card(Deck deck_);
+    // void claim_borders(Border& border_);
+    // vector<unsigned int> getClaimed_borders();
+    // [[nodiscard]] int getNumber_of_cards() const;
+    // int getId();
+    void displayHand() const;
+    void print_player() const;
 
 
 };
