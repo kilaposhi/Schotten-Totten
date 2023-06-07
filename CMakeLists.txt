@@ -22,4 +22,4 @@ add_executable(
 #        src/player/Player.cpp
 #        src/player/Player.h
 
-)
+        src/board/Border.cpp src/player/Player.cpp src/module/Combination.cpp)
