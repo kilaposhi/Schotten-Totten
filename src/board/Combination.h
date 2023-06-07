@@ -5,10 +5,12 @@
 #include <stdexcept>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "deck/Card.h"
 #include "player/Player.h"
 enum class CombinationType {
+    NONE,
     ColorRun,
     Run,
     Color,
@@ -17,20 +19,34 @@ enum class CombinationType {
 };
 
 class Combination {
-private:
-    std::vector<Card> cards;
-    int sumValues;
-    CombinationType type = NULL;
-
+public:
+    Combination(int maxNumberCards);
+    Combination(const Combination&) = delete;
+    Combination& operator=(const Combination&) = delete;
+    ~Combination() = default;
 public:
     int getSum() const;
     CombinationType getType() const;
-    void push_back(const ValuedCard &card);
-    CombinationType compute_combination() const;
-    bool ColorRun(int n );
-    bool ThreeOfAKind(int n);
-    bool Run(int n);
-    friend class Border;
+    int getNumberCards() const;
+    int getMaxNumberCards() const;
+    void push_back(unique_ptr<ValuedCard> valuedCard);
+    void push_back(unique_ptr<TacticCard> tacticCard);
+    void treatTacticCards();
+
+private:
+    std::vector<unique_ptr<ValuedCard>> valuedCards_;
+    std::vector<unique_ptr<TacticCard>> tacticCards_;
+    bool hasTacticCard_{false};
+    int maxNumberCards_{0};
+    int sumValues_{0};
+    CombinationType combinationType_{CombinationType::NONE};
+private:
+    void setMaxNumberCards(int maxNumberCards);
+    CombinationType compute_combination();
+    bool isColorRun();
+    bool isThreeOfAKind();
+    bool isRun();
+    bool isColor();
 };
 
 class CombinationException{
@@ -38,7 +54,6 @@ private:
     string exception;
 public:
     CombinationException(string Exception) : exception(Exception){}
-    CombinationType getType() const;
     string what() const { return exception;}
 
 };
