@@ -5,11 +5,12 @@
 #include <stdexcept>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "deck/Card.h"
 #include "player/Player.h"
-
 enum class CombinationType {
+    NONE,
     ColorRun,
     Run,
     Color,
@@ -18,39 +19,48 @@ enum class CombinationType {
 };
 
 class Combination {
-private:
-    std::vector<ValuedCard> cards;
-    unsigned int sumValues;
-    CombinationType type = CombinationType::Sum; // Définir une valeur par défaut
-    unsigned int max_cards;
 public:
-    Combination(int n);
+    Combination(int maxNumberCards);
+    Combination(const Combination&) = delete;
+    Combination& operator=(const Combination&) = delete;
+    ~Combination() = default;
+public:
     int getSum() const;
-    int size() const;
     CombinationType getType() const;
-    void push_back(const ValuedCard &card);
+    int getNumberCards() const;
+    int getMaxNumberCards() const;
+    void push_back(unique_ptr<ValuedCard> valuedCard);
+    void push_back(unique_ptr<TacticCard> tacticCard);
+    void treatTacticCards();
 
-    bool ColorRun(int n);
-    bool Color(int n);
-    bool ThreeOfAKind(int n);
-    bool Run(int n);
-    unsigned int getMax() const;
-
-    bool operator<(const Combination& other) const; // Déclaration de l'opérateur <
-    CombinationType compute_combination() const;
-
-};
-
-bool operator<(CombinationType left, CombinationType right);
-
-class CombinationException {
 private:
-    std::string exception; // Utiliser le type std::string
-public:
-    CombinationException(std::string Exception) : exception(Exception) {}
-    CombinationType getType() const;
-    std::string what() const { return exception; }
+    std::vector<unique_ptr<ValuedCard>> valuedCards_;
+    std::vector<unique_ptr<TacticCard>> tacticCards_;
+    bool hasTacticCard_{false};
+    int maxNumberCards_{0};
+    int sumValues_{0};
+    CombinationType combinationType_{CombinationType::NONE};
+private:
+    void setMaxNumberCards(int maxNumberCards);
+    CombinationType compute_combination();
+    bool isColorRun();
+    bool isThreeOfAKind();
+    bool isRun();
+    bool isColor();
 };
 
-#endif // PROJET_COMBINATION_H
+class CombinationException{
+private:
+    string exception;
+public:
+    CombinationException(string Exception) : exception(Exception){}
+    string what() const { return exception;}
+
+};
+#endif //PROJET_COMBINATION_H
+
+
+
+
+
 

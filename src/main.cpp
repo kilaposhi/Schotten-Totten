@@ -30,12 +30,25 @@ int main() {
 //    Deck otherDeck = clanDeck; // Error copy constructor is deleted
 //    Deck otherDeck = std::move(clanDeck); // Move constructor only
 
-
+//----------- Combination
+try {
+    unique_ptr<Card> card_test = make_unique<ValuedCard>(2, CardColor::orange);
+    unique_ptr<ValuedCard> valuedCard= make_unique<ValuedCard>(move(card_test));
+    Combination combination(3);
+//    combination.push_back(move(valuedCard));
+//    combination.push_back(make_unique<TacticCard>(TacticType::traiter));
+    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
+    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
+    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
+    cout << "numberCardRemaining :" << combination.getSum();
+} catch(CombinationException e){
+    cout << e.what();
+}
 
     //-----launch_Schotten_Totten1:
     Deck clanDeck = DeckFactory().createClanDeck();
     clanDeck.shuffle();
-    clanDeck.print();
+//    clanDeck.print();
     //on crée les cartes, les mélange et les affiche
 //    create_borders();
     //on crée les bornes

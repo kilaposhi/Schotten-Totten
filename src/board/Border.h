@@ -10,6 +10,8 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+class Combination;
+
 class Player;
 
 class Border {
