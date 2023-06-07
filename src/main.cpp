@@ -25,7 +25,7 @@ int main() {
         discardDeck.putCard(deck.drawCard());
     discardDeck.print();
     cout << '\n';
-
+t
     deck.print();
     return 0;
 }
