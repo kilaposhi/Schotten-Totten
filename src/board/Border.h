@@ -8,7 +8,7 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "module/Combination.h"
+#include "board/Combination.h"
 
 class Player;
 
@@ -19,8 +19,8 @@ private:
     unsigned int slot_number;
     static Combination player_1_combination;
     static Combination player_2_combination;
-    static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
-    void addTacticalCard(std::unique_ptr<Tactic_card> tactic_card, Player* player);
+    std::vector<std::unique_ptr<TacticCard>> player_1_tactic_card;
+    std::vector<std::unique_ptr<TacticCard>> player_2_tactic_card;
 
 public:
     explicit Border(unsigned int slot_number);
@@ -28,7 +28,8 @@ public:
     Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
 
-    void addCard(unique_ptr<Card> card, Player* player);
+    static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
+    void addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
     Player getWinner() const;
