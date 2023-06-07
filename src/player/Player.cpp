@@ -12,7 +12,16 @@ class Border;
 class Deck;
 
 
-Player::Player(int id_, Player* p, int max_card_) : id(id_), player(p), hand{}, max_cards(), claimed_borders{} {}
+Player::Player(int id_) : id(id_), player(this), hand{}, max_cards(6), claimed_borders{} {}
+
+std::ostream& operator<<(std::ostream& f, const Player& player){
+    for (const auto& card : player.hand) {
+        // Afficher les informations de la carte dans le flux
+        f << *card << " ";
+    }
+    return f;
+}
+
 
 void Player::add_card_into_hand(std::unique_ptr<Card>  card_) {
     if (hand.size() == max_cards) {
