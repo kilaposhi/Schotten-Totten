@@ -1,74 +1,122 @@
-//
-// Created by Lilian Valin on 18/05/2023.
-//
+#ifndef SCHOTTEN_TOTTEN_COMBINATION_H
+#define SCHOTTEN_TOTTEN_COMBINATION_H
 
 #include "Combination.h"
 
+Combination::Combination(int maxNumberCards) : maxNumberCards_(maxNumberCards) {
+    valuedCards_.reserve(maxNumberCards_);
+    tacticCards_.reserve(1);
+}
+
 int Combination::getSum() const {
-    return sumValues;
+    if (combinationType_== CombinationType::NONE)
+        throw CombinationException("Combination does not have a type yet, is not complete");
+    return sumValues_;
 }
 
-void Combination::push_back(const ValuedCard& card) {
-    cards.push_back(card);
-    sumValues += card.getValue();
+CombinationType Combination::getType() const {
+    if (combinationType_ == CombinationType::NONE)
+        throw CombinationException("Combination does not have a type yet");
+    return combinationType_;
 }
 
+int Combination::getNumberCards() const {
+    return valuedCards_.size() + tacticCards_.size();
+}
 
-CombinationType Combination::compute_combination( ) const
-{
-    n = size(cards);
-    if (n<3)
+int Combination::getMaxNumberCards() const {
+    return maxNumberCards_;
+}
+
+void Combination::setMaxNumberCards(int maxNumberCards) {
+    if (maxNumberCards <= maxNumberCards_)
+        throw CombinationException("Can't set maxNumberCards of 'Combination' to a number `<=` than it already is");
+    maxNumberCards_ = maxNumberCards;
+}
+
+void Combination::push_back(unique_ptr<ValuedCard> valuedCard) {
+    if (getNumberCards() + 1 > maxNumberCards_)
+        throw CombinationException("Can't add more cards than than 'maxNumberCards_'");
+    sumValues_ += valuedCard->getValue();
+    valuedCards_.push_back(std::move(valuedCard));
+    if (valuedCards_.size() == maxNumberCards_)
+        combinationType_ = compute_combination();
+}
+
+void Combination::push_back(unique_ptr<TacticCard> tacticCard) {
+    if (getNumberCards() + 1 > maxNumberCards_)
+        throw CombinationException("Can't add more cards than than 'maxNumberCards_'");
+    if (!hasTacticCard_) hasTacticCard_ = true;
+    tacticCards_.push_back(std::move(tacticCard));
+}
+
+void Combination::treatTacticCards() {
+    for (const auto& tacticCard : tacticCards_){
+//        push_back(std::make_unique<ValuedCard>())
+    }
+    hasTacticCard_ = false;
+    combinationType_ = compute_combination();
+}
+
+CombinationType Combination::compute_combination(){
+    if (hasTacticCard_)
+        throw CombinationException("Need to treat the tactic cards before computing the combination");
+    int n = valuedCards_.size();
+    if (n < maxNumberCards_)
     {
         throw CombinationException("There is not enough cards to claim the stone");
     }
     else
-    if (Color(n) && Run(n) ) return CombinationType::ColorRun ;
-    else if (Color(n)) return CombinationType::Color;
-    else if (ThreeOfAKind(n)) return CombinationType::ThreeOfAKind;
-    else if (Run(n)) return CombinationType::Run;
+    if (isColorRun()) return CombinationType::ColorRun ;
+    else if (isColor()) return CombinationType::Color;
+    else if (isThreeOfAKind()) return CombinationType::ThreeOfAKind;
+    else if (isRun()) return CombinationType::Run;
     else return CombinationType::Sum;
 }
 
-bool Combination::Color( int n)
-{
+bool Combination::isColorRun() {
+    int n = valuedCards_.size();
+    if (isColor() && isRun())
+        return true;
+    return false;
+}
+
+bool Combination::isColor(){
+    int n = valuedCards_.size();
     bool color = true;
     int i = 0;
     while (i < n - 1 && color)
     {
-        if (color = (cards[i]->getColor() != cards[i + 1]->getColor())) color = false;
+        if (color = (valuedCards_[i]->getColor() != valuedCards_[i + 1]->getColor())) color = false;
         i++;
     }
     return color;
 }
 
-bool Combination::ThreeOfAKind(int n)
-{
+bool Combination::isThreeOfAKind(){
+    int n = valuedCards_.size();
     bool three = true;
     int i = 0;
     while (i < n - 1 && three)
     {
-        if (cards[i]->getValue() != cards[i+1]->getValue()) three = false;
+        if (valuedCards_[i]->getValue() != valuedCards_[i + 1]->getValue()) three = false;
         i++;
     }
     return three;
 }
 
-bool Combination::Run(vector<Card*> combination,int n)
-{
-    sort(cards.begin(), cards.end());
-    run = true;
+bool Combination::isRun(){
+    int n = valuedCards_.size();
+    std::sort(valuedCards_.begin(), valuedCards_.end());
+    bool run = true;
     int i = 0;
     while (i < n - 1 && run)
     {
-        if (cards[i]->getValue()!= cards[i+1]->getValue()-1) run = false;
+        if (valuedCards_[i]->getValue() != valuedCards_[i + 1]->getValue() - 1) run = false;
         i++;
     }
     return run;
 }
 
-CombinationType Combination::getType() const {
-    if (!type) return compute_combination();
-    else return type;
-}
 
-#endif //SCHOTTEN_TOTTEN_STONE_H
+#endif //SCHOTTEN_TOTTEN_COMBINATION_H

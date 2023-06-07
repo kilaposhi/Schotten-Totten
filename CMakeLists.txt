@@ -16,10 +16,13 @@ add_executable(
         src/deck/Card.cpp
         src/deck/Card.h
 
+        src/board/Combination.h
+        src/board/Combination.cpp
+
         src/Game_interface.cpp
         src/Game_interface.h
 
 #        src/player/Player.cpp
 #        src/player/Player.h
 
-)
+        src/board/Border.cpp src/player/Player.cpp src/module/Combination.cpp)
