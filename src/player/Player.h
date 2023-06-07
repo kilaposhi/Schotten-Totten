@@ -4,33 +4,56 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <string>
+#include <variant>
 
 #include "deck/Card.h"
+#include "board/Border.h"
 
-using std::vector, std::list;
 
+using std::vector, std::list, std::array, std::string;
+
+class Border;
+class Deck;
+
+class PlayerException : public std::exception {
+private:
+    std::string message;
+
+public:
+    explicit PlayerException(const string& errorMessage)
+            : message(errorMessage) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
 
 
 class Player {
 private:
      int id;
-     int number_of_cards;
-     vector<Card> hand;
+     Player* player;
+     vector<unique_ptr<Card>> hand;
      int max_cards;
-     list<bool> claimed_stones;
+     vector<int> claimed_borders;
 
 public:
 
-    Player()=default;
     ~Player()=default;
-    Player(const Player& stone)=default;
-    Player& operator=(const Player& stone)=default;
+    Player(int id_,  Player* p, int max_cards_);
 
-    void play_card();
-    const Card& draw_card();
-    void claim_stone();
-    int** getClaimed_stones();
-    int getNumber_of_cards() const;
+    Player& operator = (const Player&) = delete;
+    Player(const Player&) = delete;
+
+    void add_card_into_hand(std::unique_ptr<Card>  card_);
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
+    void play_card(int card_index, Border& border_);
+    void draw_card(Deck deck_);
+    void claim_borders(Border& border_);
+    vector<int> getClaimed_borders();
+    [[nodiscard]] int getNumber_of_cards() const;
+    int static getId(Player* player);
 
 };
 

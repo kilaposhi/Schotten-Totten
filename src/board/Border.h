@@ -10,30 +10,34 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+class Player;
+
 class Border {
 private:
     bool claimed;
-    Player& winner;
+    Player* winner{};
     unsigned int slot_number;
-    std::vector<Card> card_slot_available;
-    Tactic_card tactic_slot;
-    Combination player_1_combination;
-    Combination player_2_combination;
+    static Combination player_1_combination;
+    static Combination player_2_combination;
+    std::vector<std::unique_ptr<TacticCard>> player_1_tactic_card;
+    std::vector<std::unique_ptr<TacticCard>> player_2_tactic_card;
 
 public:
-    Border(Player& winner, unsigned int slot_number);
+    explicit Border(unsigned int slot_number);
     ~Border() = default;
     Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
 
-    void addCard(const Card& card);
-    void addCardTactical(const Tactic_card& card);
-    unsigned int getNbBorder() const;
-    Player& getWinner();
-    void setWinner(Player& winner);
+    static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
+    void addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player);
+    void removeTacticalCard(Player* player);
+    unsigned int getSlotNumber() const;
+    Player getWinner() const;
+    bool getClaimed() const;
+
+    void setWinner(Player* winner);
     void setClaimed(bool claimed);
-    void setPlayer1Combination(const Combination& player_1_combination);
-    void setPlayer2Combination(const Combination& player_2_combination);
+
 };
 
 #endif // PROJET_BORDER_H
