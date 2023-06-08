@@ -74,8 +74,14 @@ int Player::getId(Player* player){
     }
 }
 
-
-
-
+void Player::display_hand() const
+{
+    int n = getNumber_of_cards();
+    int i = 0;
+    for (i = 0, i<n, i++)
+    {
+        hand[i]->print();
+    }
+}
 
 

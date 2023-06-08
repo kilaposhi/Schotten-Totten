@@ -10,6 +10,8 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+class Combination;
+
 class Player;
 
 class Border {
@@ -32,10 +34,10 @@ public:
     void addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
-    Player getWinner() const;
+    Player * getWinner() const;
     bool getClaimed() const;
 
-    void setWinner(Player* winner);
+    void setWinner();
     void setClaimed(bool claimed);
 
 };
