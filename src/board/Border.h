@@ -34,7 +34,7 @@ public:
     void addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
-    Player getWinner() const;
+    Player * getWinner() const;
     bool getClaimed() const;
 
     void setWinner();

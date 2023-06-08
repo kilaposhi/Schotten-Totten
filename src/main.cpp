@@ -18,7 +18,7 @@ int main() {
 
 
     // conversion ValuedCard vers Card est implicite
-    unique_ptr<Card> reCard = std::move(newCard);
+    unique_ptr<Card> reCard = std::move(reCard);
 
 // ----------------Deck
     // createClanDeck() return Deck (Deck is an r-value)
@@ -34,13 +34,16 @@ int main() {
 try {
     unique_ptr<Card> card_test = make_unique<ValuedCard>(2, CardColor::orange);
     unique_ptr<ValuedCard> valuedCard= make_unique<ValuedCard>(move(card_test));
-    Combination combination(3);
+    Combination combination(4);
 //    combination.push_back(move(valuedCard));
 //    combination.push_back(make_unique<TacticCard>(TacticType::traiter));
+    combination.push_back(make_unique<ValuedCard>(6, CardColor::orange));
+    combination.push_back(make_unique<ValuedCard>(7, CardColor::brown));
+    combination.push_back(make_unique<ValuedCard>(5, CardColor::brown));
     combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
-    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
-    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
-    cout << "numberCardRemaining :" << combination.getSum();
+    //cout << "numberCardRemaining :" << combination.getSum();
+    cout << combination ;
+
 } catch(CombinationException e){
     cout << e.what();
 }
@@ -58,7 +61,7 @@ try {
     //on crée les joueurs
     //on distribue les cartes aux joueurs
     //on a
-    std::vector<std::unique_ptr<Border>> = create_borders();
+   // std::vector<std::unique_ptr<Border>> = create_borders();
 
     return 0;
 

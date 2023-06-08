@@ -36,7 +36,7 @@ unsigned int Border::getSlotNumber() const {
     return slot_number;
 }
 
-Player* Border::getWinner() const {
+Player * Border::getWinner() const {
     return winner;
 }
 

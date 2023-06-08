@@ -21,12 +21,13 @@ void Game::play(Player player1, Player player2) {
         std::cin >>  border_index;
         player1.play_card(card_index, borders[border_index]);
         std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-        int border_claimed;
+        unsigned int border_claimed;
         switch(border_claimed) {
             case 0:
                 break;
             default:
                 borders[border_claimed].getClaimed();
+                break;
         }
 
 
