@@ -19,8 +19,8 @@ private:
     unsigned int slot_number;
     static Combination player_1_combination;
     static Combination player_2_combination;
-    std::vector<std::unique_ptr<Tactic_card>> player_1_tactic_card;
-    std::vector<std::unique_ptr<Tactic_card>> player_2_tactic_card;
+    std::vector<std::unique_ptr<TacticCard>> player_1_tactic_card;
+    std::vector<std::unique_ptr<TacticCard>> player_2_tactic_card;
 
 public:
     explicit Border(unsigned int slot_number);
@@ -29,7 +29,7 @@ public:
     Border& operator=(const Border& border) = delete;
 
     static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
-    void addTacticalCard(std::unique_ptr<Tactic_card> tactic_card, Player* player);
+    void addTacticalCard(std::unique_ptr<TacticCard> TacticCard, Player* player);
     void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
     Player getWinner() const;
