@@ -23,29 +23,23 @@ Les objectifs de ce jalon résident dans la finalisation de l'architecture du je
 
 ### Classe `Border`, et `Board` :
 - [ ] Coder `Border` (Lilian)
-   - [ ] Gérer les exceptions
-   - [ ] Lier avec la PR [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14)
 - [ ] Coder la fonction `compute_combination(ValuedCard)` pour calculer les combinaisons de Poker, avec plein de fonctions dans `module/` (prototypes dans la branche [combination](https://github.com/kilaposhi/Shotten-Totten/tree/combination) (Nesrine [#14](https://github.com/kilaposhi/Schotten-Totten/pull/14))
-   - [X]  : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, la surcharge de l'opérateur `<` a dû être ajoutés. 
-   - [X] Faire fonctionner les `compute_combination` avec 4 cartes (Cela a prispeu de temps : 1 heure car elle demendait simplement quelques modofications aux tâches d'origine 
-   - [ ] Modularité avec l'exception (`n < 3`, devient `n < numberSlots_` par exemple)
-   - [ ] Tester les fonctions
-
+    - [X]  : cela a pris 2 heures, cette tâche demande le fonctionnement de la classe Card et de ses accesseurs et opérateurs notamment, la surcharge de l'opérateur `<` a dû être ajoutés.
+    - [X] Faire fonctionner les `compute_combination` avec 4 cartes (Cela a prispeu de temps : 1 heure car elle demendait simplement quelques modofications aux tâches d'origine
+    - [ ] Tester la fonction
 - [ ] Coder la méthode `claim` qui utilise `compute_combination()`(Nesrine)
 - [ ] Coder un comparateur de points qui détermine la gagnant de la borne. (Nesrine)
 
 - [ ] Coder `Board` (Capucine)
-  - [ ] Coder le constructeur des `Border`
-  - [ ] Lier les méthodes de la classe `Player` et les `Border` 
-  
+
 - [ ] Coder `GameTracker` pour suivre l'état de la partie (quelles cartes ont été jouées et pas jouées):
-Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
-les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
-si l'adversaire ne peut faire mieux. (Nesrine)
-  - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
-  connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
-  est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte. ( Nesrine : environ 2 heures entre la compréhension et l'application) 
-  - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy) (
+  Avec 2 `Deck`, un qui contient les cartes déjà jouées (`playedCards`), et l'autre qui contient
+  les cartes non jouées ( `remainingCards`). Cette classe sera utilisée pour calculer si la règle de `claim` une `Border`
+  si l'adversaire ne peut faire mieux. (Nesrine)
+    - [ ] Peut-être un [*observer*](https://refactoring.guru/design-patterns/observer),
+      connecté au `unique_ptr<TacticCard> tactic_slot_` de `Border`, qui lorsqu'une carte **tactique** est jouée sur le *slot*
+      est traité par un `TacticHandler` qui s'occupera d'appliquer l'effet de la carte.
+    - [ ] Pour les effets de la cartes Tactiques utilisé le [*strategy pattern*](https://refactoring.guru/design-patterns/strategy)
 
 ### Classe `Deck`, `DeckFactory`, `Card` ... :
 - [x] Coder `Card` et `ValuedCard` @kilaposhi
@@ -53,7 +47,7 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [x] Transformer `DeckBuilder` en `DeckFactory` @kilaposhi
 
 
-- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ? (Kilapang)
+- [ ] modularité `CardColor`, utiliser le nombre de couleurs avec une Enum avec beaucoup de couleur et en mettant le nombre de cartes voulu, ça utilise le bon nombre de couleurs ?
 - [ ] Coder les `Tactic_card`  (construire les cartes tactiques avec un fichier XML, ou JSON)
 - [ ] Implémenter `createTacticCard` de `DeckFactory`
 - [ ] Créer une classe `DeckException` et vérifier
@@ -61,19 +55,19 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [ ] Rendre modulaire le choix des couleurs des cartes dans la création des `ValuedCard`
 - [ ] Créer les cartes tactiques à partir d'un fichier JSON
 
-### class `Game_interface` : (Capucine, Martin)
+### class `Game_interface` :
 - [ ] Menu pour lancer le Schotten-Totten 1, et changer de versions
-  , tactiques, les manches, les scores, etc...(10 % : 2 heures)
+  , tactiques, les manches, les scores, etc...
 
-### Qt class `Displayer`: (Nesrine)
-- [ ] Créer les widgets pour cartes (10% : 3 heures)
+### Qt class `Displayer`: (Nes)
+- [ ] Créer les widgets pour cartes
 - [ ] Créer le plateau
 
 ### Important :
 - [ ] Mettre tout le code dans un namespace `Shotten_Totten`.
   Permet d'éviter les collisions de noms avec les librairies du C
-- [X] Faire les classes d'exceptions pour chaque classes 
-#### Optionnel (Tous)
+- [ ] Faire les classes d'exceptions pour chaque classes
+#### Optionnel
 - [ ] Pour chaque fichier repenser aux `const` pour les arguments, les méthodes, les attributs, etc...
 - [ ] Marquer des variables `explicit` : Interdit les conversions implicites
 - [ ] Ajouter `noexcept` aux fonctions/ méthodes qui ne déclenche jamais d'exceptions pour optimiser le jeu
@@ -81,7 +75,7 @@ si l'adversaire ne peut faire mieux. (Nesrine)
 - [ ] Utiliser les `static_cast<T>` et `dynamic_cast<T>` au lieu des C-style cast `(int)`
 - [ ] Veiller à initialiser chaque variable (mieux avec les `{}`, ex : `int max{10}` )
 - [ ] Formatter le code
-    - Les noms de variables :  ex `CamelCase` pour les classes et `snake_case` pour les fonctions. (70%)
+    - Les noms de variables :  ex `CamelCase` pour les classes et `snake_case` pour les fonctions.
     - `int attribut_` : pour attributs privés, et fonctions privées
     - Clean header files : La partie `public` avant la partie `private`
         - mettre 2 `private`, un pour les attributs, l'autre pour les fonctions
@@ -204,13 +198,12 @@ classDiagram
 %% ------ Relations
 Card <|-- Tactic_card
 Card <|-- ValuedCard
-Observer<|--GameTracker
 Deck "1"*-- "0..*" Card
 Deck "1" *-- "1" DeckInfo
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Player "1"*--"1" Hand
-  Combination "2" --* "1" Border
+  Combination "1" --* "2" Border
   Board "1" *-- "9" Border
   Tactic_card <|-- Elite_troop
   Tactic_card <|-- Ruse
@@ -232,9 +225,6 @@ Deck -- DeckFactory
   class ValuedCard{
     - color : CardColor
     - value : int<1 to 9>
-    + ValuedCard(Card*)
-    + ValuedCard(Card&)
-    + ValuedCard(unique_ptr<Card>)
     + override print() string
     + override clone() unique_ptr~Card~
   }
@@ -256,8 +246,6 @@ Deck -- DeckFactory
   class Combination{
     - cards : vectorValuedCard
     - sumValues : int
-    - type : CombinationType
-    + computeCombination() : combinationType
   }
 
   class Border{
@@ -269,7 +257,6 @@ Deck -- DeckFactory
     - player_1_combination: Combination
     - player_2_combination:  Combination
     + addCard()
-    + getCombination(Player& player) : Combination
   }
 
   class Player{
@@ -319,14 +306,7 @@ class DeckFactory {
     +p1_gagne()
     +p2_gagne()
   }
-  
-  class Observer { 
-  + update()}
-  
-  class GameTracker {
-  - remainingCardsDeck : Deck 
-  - playedCardsDeck : Deck 
-  + update() override}
+
 
 %%-------- Enum class
   class CardColor {
@@ -347,7 +327,7 @@ class DeckFactory {
   }
 
 
-class CombinationType{
+class Combination{
   <<Enumeration>>
   ColorRun
     Run
@@ -361,14 +341,11 @@ class CombinationType{
 
 Question légitime, car rajoute de la complexité, moins lisible, besoin de comprendre les pointeurs, etc.
 
-- **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
+1. **La durée de vie** : On veut pouvoir se passer les `Card` (en réalité les `unique_ptr<Card>`) même si elle n'ont pas été crées au même endroit.
 
 
-
-- Le **polymorphisme**
-
+2. Le **polymorphisme**
    Dans le cas de `Deck`, il contient des `Card`. Pour pouvoir faire des `Deck` de sous classes de `Card` (comme `ValuedCard` et `TacticCard`), il faut utiliser l'allocation dynamique, Exemple :
-   
     ```cpp
     // Allocation dynamique :
     BaseClass* base = new DerivedClass();
@@ -381,8 +358,6 @@ Question légitime, car rajoute de la complexité, moins lisible, besoin de comp
     ```
    Avec les ***smart pointers*** on a :
     ```C++
-    
-    
     // Alloc dynamique classique
     int* dynamic_int = new int(1);
     // Alloc dynamique avec unique_ptr :
@@ -402,8 +377,6 @@ Question légitime, car rajoute de la complexité, moins lisible, besoin de comp
 ### Vecteur de cartes
 
 - Pour les **tableaux dynamiques**, on utilisera les `vector`
-
-
     ```C++
     // Plutôt que les C-like dynamic array :
     Card** cards = new Card*[54];

@@ -3,11 +3,11 @@
 // -------------------- DecK
 
 Deck::Deck(vector<unique_ptr<Card>>&& cards)
-            : cards_(std::move(cards)) {};
+        : cards_(std::move(cards)) {};
 
 Deck::Deck(Deck &&otherDeck) noexcept :
-            cards_(std::move(otherDeck.cards_))
-            { }
+        cards_(std::move(otherDeck.cards_))
+{ }
 
 Deck &Deck::operator=(Deck &&otherDeck) noexcept {
     if (this == &otherDeck){
@@ -55,4 +55,3 @@ ostream& operator<<(ostream& stream, const Deck& deck){
     stream  << "Remaining cards : " << deck.getNumberRemainingCards();
     return stream;
 }
-
