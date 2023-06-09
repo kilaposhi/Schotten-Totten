@@ -2,24 +2,44 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-
 #include "board/Border.h"
 
-class Border;
-
-void create_borders(){
-    borders = vector<new Border, 9>;
-    
-}
 
 
 void Game::play(Player player1, Player player2) {
     std::cout << "Début de la partie\n";
-    create_game();
-    player1.draw_card();
-    player2.draw_card();
+
+
     while (true) {
-        std::cout << "Tour du joueur " << player1ID << std::endl;
+        std::cout << "Tour du joueur 1" << player1ID << std::endl;
+        player1.display_hand();
+        std::cout << "Saisissez l'indice de la carte que vous souhaitez jouer.\n";
+        int card_index;
+        std::cin >> card_index;
+        std::cout << "Saisissez l'indice de la borne que vous choisissez.\n";
+        int border_index;
+        std::cin >>  border_index;
+        player1.play_card(card_index, borders[border_index]);
+        std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+        unsigned int border_claimed;
+        switch(border_claimed) {
+            case 0:
+                break;
+            default:
+                borders[border_claimed].getClaimed();
+                break;
+        }
+
+
+        //afficher la main du joueur
+        //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
+        //jouer la carte
+        //demander si le joueur souhaite revandiquer une borne, si oui, laquelle ?
+        // : on peut faire un case
+        //vérfier que 3 cartes sont sur chaque frontière de la borne
+        //trouver le gagnant de la borne, vérifier qu'il n'y a pas de gagnant de la partie
+        // piocher une carte
+
 
         if (isGameOver()) {
             std::cout << "Le joueur " << player1ID << " a gagné !\n";
@@ -40,6 +60,7 @@ void Game::play(Player player1, Player player2) {
     }
 
     std::cout << "Fin de la partie\n";
+    quit();
 }
 
 void pause() {

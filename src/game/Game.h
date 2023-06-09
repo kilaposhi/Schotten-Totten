@@ -7,6 +7,7 @@
 #include "player/Player.h"
 
 class Player;
+class Border;
 
 class Game {
 private:

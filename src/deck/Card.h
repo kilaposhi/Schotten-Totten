@@ -1,3 +1,4 @@
+
 #ifndef SCHOTTEN_TOTTEN_CARD_H
 #define SCHOTTEN_TOTTEN_CARD_H
 
@@ -41,8 +42,7 @@ enum class CardColor{
     yellow,
     purple,
     orange,
-    brown,
-    End
+    brown
 };
 
 class ValuedCard : public Card {
