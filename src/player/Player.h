@@ -54,7 +54,7 @@ public:
 
 
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
-    // void play_card(int card_index, Border& border_);
+    void play_card(int card_index, Border& border);
     // void draw_card(Deck deck_);
     void claim_borders(Border& border_);
     vector<unsigned int> getClaimed_borders(); // --> OK
