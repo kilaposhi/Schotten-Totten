@@ -31,7 +31,7 @@ public:
     Border& operator=(const Border& border) = delete;
 
     static void addValueCard(unique_ptr<ValuedCard> card, Player* player);
-    void addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player);
+    void addTacticalCard(std::unique_ptr<TacticCard> TacticCard, Player* player);
     void removeTacticalCard(Player* player);
     unsigned int getSlotNumber() const;
     Player * getWinner() const;

@@ -43,7 +43,7 @@ enum class CardColor{
     purple,
     orange,
     brown,
-    End //sentinel value
+    End
 };
 
 class ValuedCard : public Card {

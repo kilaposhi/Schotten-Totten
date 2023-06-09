@@ -1,6 +1,5 @@
 cmake-build-debug/
+CMakeLists.txt
 .idea/
 .obsidian/
 .obsidian.vimrc
-cmake-build-debug-event-trace/
-.github/
