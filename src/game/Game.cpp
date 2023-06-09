@@ -1,4 +1,4 @@
-# include "Game.h"
+#include "Game.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -6,29 +6,15 @@
 
 
 
-void Game::play(Player player1, Player player2) {
-    std::cout << "Début de la partie\n";
+void Game::play(Player player1, Player player2, ) {
+    std::cout << "Start of the game\n";
 
+    pause(15);
+    while (round) {
+        play(player1);
+        round = ?;
+        play(player2);
 
-    while (true) {
-        std::cout << "Tour du joueur 1" << player1ID << std::endl;
-        player1.display_hand();
-        std::cout << "Saisissez l'indice de la carte que vous souhaitez jouer.\n";
-        int card_index;
-        std::cin >> card_index;
-        std::cout << "Saisissez l'indice de la borne que vous choisissez.\n";
-        int border_index;
-        std::cin >>  border_index;
-        player1.play_card(card_index, borders[border_index]);
-        std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-        unsigned int border_claimed;
-        switch(border_claimed) {
-            case 0:
-                break;
-            default:
-                borders[border_claimed].getClaimed();
-                break;
-        }
 
 
         //afficher la main du joueur
@@ -63,10 +49,10 @@ void Game::play(Player player1, Player player2) {
     quit();
 }
 
-void pause() {
-    std::cout << "Pause de 30 secondes...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(30));
-    std::cout << "Reprise de la partie\n";
+void pause(int n) {
+    //std::cout << "Pause de 30 secondes...\n";
+    std::this_thread::sleep_for(std::chrono::seconds(n));
+    //std::cout << "Reprise de la partie\n";
 }
 
 bool Game::isGameOver() {
@@ -83,6 +69,33 @@ bool Game::isGameOver() {
     return false;
 }
 
+
 void Game::quit() {
     gameOver = true;
+}
+void Game::play(Player player)
+{
+    std::cout << "Player <<player.getId() <<, it is your turn !" << player1ID << std::endl;
+    player.displayHand();
+    pause(2);
+    std::cout << "Please type the index of the card you want to pick.\n";
+    int card_index;
+    std::cin >> card_index;
+    std::cout << "Please type the index of the border you want to pick.\n";
+    int border_index;
+    std::cin >> border_index;
+    player1.play_card(card_index, borders[border_index]);
+    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+    std::cin >> border_index;
+    if (border_index<0 || border_index>9)
+    {
+        throw PlayerException("The index is not valid.");
+    }
+    else if (border_index==0) break;
+    else {
+
+        borders[border_index].getClaimed();
+
+    }
+    if (!deck.isEmpty) player.draw_card( deck_);
 }
