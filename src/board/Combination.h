@@ -41,7 +41,7 @@ public:
 private:
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
     std::vector<unique_ptr<TacticCard>> tacticCards_;
-    int maxNumberCards_{0};
+    static int maxNumberCards_{0};
     int sumValues_{0};
     CombinationType combinationType_{CombinationType::NONE};
 private:
