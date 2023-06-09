@@ -7,7 +7,7 @@
 Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3)
         {}
 
-z
+
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
     int playerId = player->getId(player);
     if (playerId == 1) {
@@ -64,9 +64,12 @@ bool Border::getClaimed() const {
 }
 
 string Border::print() const {
-    std::stringstream card("");
-    card << "|" << "_" << "|";
-    return card.str();
+    std::stringstream border("");
+    border << "Player 1 :";
+    border << player_1_combination.print();
+    border << "Player 2 :";
+    border << player_2_combination.print();
+    return border.str();
 }
 
 void Border::Claimed(bool claimed) {
