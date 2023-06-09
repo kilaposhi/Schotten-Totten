@@ -12,7 +12,7 @@ class Border;
 class Deck;
 
 
-Player::Player(string name_, int id_, int max_card) : name(name_), id(id_), hand{}, max_cards(max_card), claimed_borders{} {}
+Player::Player(string name_, int id_, int max_card, vector<unsigned int> claimed_borders_) : name(name_), id(id_), hand{}, max_cards(max_card), claimed_borders{claimed_borders_} {}
 
 std::ostream& operator<<(std::ostream& f, const Player& player){
     int i = 0;
@@ -24,8 +24,9 @@ std::ostream& operator<<(std::ostream& f, const Player& player){
     return f;
 }
 
+
 void Player::displayHand() const{
-    cout << "Main du joueur:" << endl;
+    cout << "Player's hand: ";
     for (const auto& cardPtr : hand) {
         cout << *cardPtr;  // Utilisez la méthode print() de la classe Card pour afficher le contenu de chaque carte
     }
@@ -37,6 +38,7 @@ void Player::print_player() const{
     std::cout << "Player " << id << "\n";
     std::cout << "Name: " << name << "\n";
     displayHand();
+    cout << "\n";
     std::cout << "-----------------\n";
 }
 
@@ -50,6 +52,7 @@ void Player::add_card_into_hand(std::unique_ptr<Card>  card_) {
 }
 
 std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
+    card_index -= 1;
     if (hand.empty()) {
         throw PlayerException("The hand is empty");
     }
@@ -72,7 +75,7 @@ void Player::draw_card(Deck deck_) {
     auto drawn_card = deck_.drawCard();
     add_card_into_hand(std::move(drawn_card));
 }
-
+*/
 void Player::claim_borders(Border& border_){
     unsigned int border_num = border_.getSlotNumber();
     border_.setClaimed(id);
@@ -82,6 +85,7 @@ void Player::claim_borders(Border& border_){
     claimed_borders.push_back(border_num);
 
 }
+
 vector<unsigned int> Player::getClaimed_borders(){
     vector<unsigned int> tab_of_claimed_borders;
     unsigned int count = 0;
@@ -90,15 +94,14 @@ vector<unsigned int> Player::getClaimed_borders(){
         count++;
     }
     return tab_of_claimed_borders;
-
 }
 
 int Player::getNumber_of_cards() const{return hand.size();}
 
-int Player::getId(){
+int Player::getId() const{
     return id;
 }
-*/
+
 
 
 

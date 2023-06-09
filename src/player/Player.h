@@ -40,28 +40,28 @@ private:
     vector<unique_ptr<Card>> hand;
     int max_cards;
     vector<unsigned int> claimed_borders;
-    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
 
 public:
 
     ~Player()=default;
-    explicit Player(string nom_, int id_, int max_card);
+    explicit Player(string nom_, int id_, int max_card, vector<unsigned int> claimed_borders_);
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = delete;
 
+    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.
+
+
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
     // void play_card(int card_index, Border& border_);
     // void draw_card(Deck deck_);
-    // void claim_borders(Border& border_);
-    // vector<unsigned int> getClaimed_borders();
-    // [[nodiscard]] int getNumber_of_cards() const;
-    // int getId();
-    void displayHand() const;
-    void print_player() const;
-
-
+    void claim_borders(Border& border_);
+    vector<unsigned int> getClaimed_borders(); // --> OK
+    [[nodiscard]] int getNumber_of_cards() const; // --> OK
+    [[nodiscard]] int getId() const; // --> OK
+    void displayHand() const; // --> OK
+    void print_player() const; // --> OK
 };
 
 
