@@ -34,7 +34,8 @@ public :
 
     const int getNumberBorder() const;
     Player* getWinner() const ;
-    std::vector<Border> getBorders() const;
+    const std::vector<Border>& getBorders() const;
+
 
     virtual string print() const;
 };
