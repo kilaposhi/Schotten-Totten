@@ -25,7 +25,6 @@ private:
 public:
     explicit Border(unsigned int slot_number);
     ~Border() = default;
-    Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
 
     static void addValueCard(unique_ptr<ValuedCard> card, Player* player);

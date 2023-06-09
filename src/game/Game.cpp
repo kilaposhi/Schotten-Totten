@@ -9,7 +9,6 @@ class Border;
 
 void create_borders(){
     borders = vector<new Border, 9>;
-    
 }
 
 

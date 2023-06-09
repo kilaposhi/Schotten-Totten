@@ -2,6 +2,7 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 #include "Border.h"
+#include <memory>
 
 
 Border::Border(unsigned int slot_number)
