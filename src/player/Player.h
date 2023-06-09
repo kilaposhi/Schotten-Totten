@@ -43,7 +43,7 @@ private:
 public:
 
     ~Player()=default;
-    explicit Player(string nom_, int id_, int max_card, vector<unsigned int> claimed_borders_);
+    explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = default;
