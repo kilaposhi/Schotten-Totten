@@ -9,7 +9,7 @@ Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_numbe
 
 
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
-    int playerId = player->getId(player);
+    int playerId = player->getId();
     if (playerId == 1) {
         player_1_combination.push_back(std::move(valued_card));
     } else if (playerId == 2) {
@@ -19,7 +19,7 @@ void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* playe
 
 
 void Border::addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player) {
-    int playerId = player->getId(player);
+    int playerId = player->getId();
     if(playerId == 1){
         player_1_combination.push_back(std::move(tactic_card));
     }
@@ -30,20 +30,20 @@ void Border::addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* pl
 
 
 void Border::removeValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
-    if(player->getId(player) == 1){
+    if(player->getId() == 1){
         player_1_combination.pop_card(std::move(valued_card));
     }
-    else if(player->getId(player) == 2){
+    else if(player->getId() == 2){
         player_2_combination.pop_card(std::move(valued_card));
     }
 }
 
 
 void Border::removeTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player) {
-    if(player->getId(player) == 1){
+    if(player->getId() == 1){
         player_1_combination.pop_card(std::move(tactic_card));
     }
-    else if(player->getId(player) == 2){
+    else if(player->getId() == 2){
         player_2_combination.pop_card(std::move(tactic_card));
     }
 }
@@ -55,7 +55,7 @@ unsigned int Border::getSlotNumber() const {
 
 
 Player Border::getWinner() const {
-    return winner;
+    return *winner;
 }
 
 
