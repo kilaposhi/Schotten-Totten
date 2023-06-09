@@ -39,9 +39,9 @@ public:
     unsigned int getSlotNumber() const;
     Player getWinner() const;
     bool getClaimed() const;
+    string print() const;
     // A FAIRE
     void Claimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
-    string print() const;
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);
