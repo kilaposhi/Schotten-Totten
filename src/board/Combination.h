@@ -67,7 +67,3 @@ string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
 
 
-
-
-
-
