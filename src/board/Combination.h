@@ -64,9 +64,9 @@ public:
     string what() const { return exception;}
 
 };
+ostream& operator<<(ostream& stream, const Combination& combination);
+const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
+string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
-
-
-
 
 
