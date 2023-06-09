@@ -17,6 +17,7 @@ using std::string, std::exception, std::vector;
 
 class Stone : public Border{
 
+    Stone() {}
 };
 
 

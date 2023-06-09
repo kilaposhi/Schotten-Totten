@@ -21,7 +21,7 @@ enum class CombinationType {
 class Combination {
 public:
     Combination(int maxNumberCards);
-    Combination(const Combination&) = delete;
+    Combination(const Combination&) = default;
     Combination& operator=(const Combination&) = delete;
     ~Combination() = default;
     bool hasTacticCard_{false};

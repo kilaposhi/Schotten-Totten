@@ -26,10 +26,10 @@ private:
     Combination player_2_combination;
 
 public:
-    explicit Border(unsigned int slot_number, Combination player1Combination, Combination player2Combination1);
+    Border(unsigned int slot_number);
     ~Border() = default;
-    Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
+
 
 public:
     void addValueCard(unique_ptr<ValuedCard> valued_card, Player* player);

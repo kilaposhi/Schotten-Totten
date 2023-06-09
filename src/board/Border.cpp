@@ -4,15 +4,10 @@
 #include "Border.h"
 
 
-Border::Border(unsigned int slot_number, Combination player1Combination, Combination player2Combination1)
-        : claimed(false), slot_number(slot_number), player_1_combination(player1Combination),
-          player_2_combination(player2Combination1) {
-            const int maxNumberCard = 3;
-            Combination player_1_combination(maxNumberCard);
-            Combination player_2_combination(maxNumberCard);
-        }
+Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3)
+        {}
 
-
+z
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
     int playerId = player->getId(player);
     if (playerId == 1) {
@@ -77,6 +72,7 @@ string Border::print() const {
 void Border::Claimed(bool claimed) {
 
 }
+
 
 ostream &operator<<(ostream &stream, const Border& border) {
     stream << border.print();
