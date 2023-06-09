@@ -193,5 +193,35 @@ string combinationTypeToString(CombinationType type) {
             throw CombinationException("Trying to convert unknown combination type to string");
     }
 }
+int Combination::getRank() const {
+    switch (combinationType_) {
+        case CombinationType::NONE:
+            return 0;
+        case CombinationType::Sum:
+            return 1;
+        case CombinationType::ThreeOfAKind:
+            return 2;
+        case CombinationType::Color:
+            return 3;
+        case CombinationType::Run:
+            return 4;
+        case CombinationType::ColorRun:
+            return 5;
+        default:
+            throw CombinationException("Invalid combination type");
+    }
+}
+const Combination& bestCombination(const Combination& combo1, const Combination& combo2) {
+    if (combo1.getRank() < combo2.getRank()) {
+        return combo2;
+    }
+    else if (combo1.getRank() > combo2.getRank()) {
+        return combo1;
+    }
+    else {
+        return (combo1.getSum() > combo2.getSum()) ? combo1 : combo2;
+    }
+}
+
 
 #endif //SCHOTTEN_TOTTEN_COMBINATION_H
