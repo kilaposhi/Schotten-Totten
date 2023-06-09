@@ -7,7 +7,21 @@
 
 
 void Game::play(Player player1, Player player2) {
-    std::cout << "Début de la partie\n";
+    std::cout << "Start of the game\n";
+    pause();
+    bool roundOn = !player1.isWinner && !player2.isWinner;
+    std::cout << "Who has traveled most recently near Scotland?Please type the id.\n";
+    int id;
+    std::cin>>id;
+    switch (id) {
+        case(player1.getId()):
+            while (roundOn)
+            {
+                play(player1);
+            }
+
+
+    }
 
 
     while (true) {
@@ -82,6 +96,7 @@ bool Game::isGameOver() {
 
     return false;
 }
+
 
 void Game::quit() {
     gameOver = true;

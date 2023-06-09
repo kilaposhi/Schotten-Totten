@@ -17,7 +17,6 @@ private:
 
 public:
     Game(Player* player1, Player* player2) : player1ID(player1->getId(player1)), player2ID(player2->getId(player2)) {}
-
     void create_game();
     void play(Player player1, Player player2);
     void pause();
