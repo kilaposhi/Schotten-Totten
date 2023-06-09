@@ -42,7 +42,8 @@ enum class CardColor{
     yellow,
     purple,
     orange,
-    brown
+    brown,
+    End
 };
 
 class ValuedCard : public Card {
