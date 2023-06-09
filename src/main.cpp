@@ -16,7 +16,7 @@ int main() {
    
     bool valid = false;
     while(!valid){
-        std::cout<<"Would you like to play the tactic version ? \n";
+        std::cout<<"Would you like to play the tactic version ? yes/no \n";
         std::string answer;
         std::cin>>answer;
         if (answer == yes){
@@ -24,15 +24,27 @@ int main() {
             tacticDeck.shuffle();
             tacticDeck.print();
             int max_cards_per_hand = 7;
+            bool tactic = true;
+            valid = true;
+        }
+        else if (answer == no)
+        {
+             int max_cards_per_hand = 6;
+            bool tactic = false ;
+            valid = true;
+        }
+    }
     
    // board.print();
     std::cout<<"Who traveled near Scotland the most recently. \n";
-    std::cout<<"You are player1! Please give your name and id \n.";
+    std::cout<<"You are player 1! Please give your name and id \n.";
     std::string name;
     std::cin>>name;
-    Player player1(name, 1, max_card, borders);
-    Player player2("Lena", playerId2, max_card, borders);
-
+    Player player1(name, 1, max_cards_per_hand);
+    std::cout<<"Player 2 please give your name and id \n.";
+    std::cin>>name;
+    Player player2(name, 2, max_cards_per_hand);
+    play(player1, player2, board);
 
     return 0;
 
