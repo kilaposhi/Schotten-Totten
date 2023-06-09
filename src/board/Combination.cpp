@@ -50,6 +50,32 @@ void Combination::push_back(unique_ptr<TacticCard> tacticCard) {
     tacticCards_.push_back(std::move(tacticCard));
 }
 
+void Combination::pop_card(std::unique_ptr<ValuedCard> valueCard) {
+    auto it = std::find_if(valuedCards_.begin(), valuedCards_.end(),
+                           [&valueCard](const std::unique_ptr<ValuedCard>& card) {
+                               return card.get() == valueCard.get();
+                           });
+
+    if (it == valuedCards_.end()) {
+        throw CombinationException("This card is not present in the combination ");
+    } else {
+        valuedCards_.erase(it);
+    }
+}
+
+void Combination::pop_card(unique_ptr<TacticCard> tacticCard) {
+    auto it = std::find_if(tacticCards_.begin(), tacticCards_.end(),
+                           [&tacticCard](const std::unique_ptr<TacticCard>& card) {
+                               return card.get() == tacticCard.get();
+                           });
+
+    if (it == tacticCards_.end()) {
+        throw CombinationException("This card is not present in the combination ");
+    } else {
+        tacticCards_.erase(it);
+    }
+}
+
 void Combination::treatTacticCards() {
     for (const auto& tacticCard : tacticCards_){
 //        push_back(std::make_unique<ValuedCard>())

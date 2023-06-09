@@ -21,16 +21,19 @@ enum class CombinationType {
 class Combination {
 public:
     Combination(int maxNumberCards);
-    Combination(const Combination&) = delete;
+    Combination(const Combination&) = default;
     Combination& operator=(const Combination&) = delete;
     ~Combination() = default;
+
 public:
     int getSum() const;
     CombinationType getType() const;
     int getNumberCards() const;
     int getMaxNumberCards() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
+    void pop_card(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
+    void pop_card(unique_ptr<TacticCard> tacticCard);
     void treatTacticCards();
 
 private:
@@ -40,6 +43,7 @@ private:
     int maxNumberCards_{0};
     int sumValues_{0};
     CombinationType combinationType_{CombinationType::NONE};
+
 private:
     void setMaxNumberCards(int maxNumberCards);
     CombinationType compute_combination();
