@@ -79,7 +79,7 @@ void Combination::treatTacticCards() {
     combinationType_ = compute_combination();
 }
 
- CombinationType Combination::compute_combination(){
+CombinationType Combination::compute_combination(){
     if (hasTacticCard_)
         throw CombinationException("Need to treat the tactic cards before computing the combination");
     int n = valuedCards_.size();

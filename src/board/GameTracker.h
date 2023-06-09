@@ -22,6 +22,7 @@ public:
         // à partir de la classe Stone
         playedCardsDeck.putCard(remainingCardsDeck.drawCard());
     }
+
 };
 
 

@@ -10,9 +10,23 @@
 #include "player/Player.h"
 #include "board/Combination.h"
 
+
+
 class Combination;
 
 class Player;
+class BorderException : public std::exception {
+private:
+    std::string message;
+
+public:
+    explicit BorderException(const string& errorMessage)
+            : message(errorMessage) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
 
 class Border {
 private:
