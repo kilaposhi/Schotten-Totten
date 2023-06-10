@@ -17,14 +17,19 @@ private:
     int player2ID;
     bool gameOver;
 
-public:
-    Game(Player* player1, Player* player2);
-    void create_game();
-    void play(Player player1, Player player2, Board board);
-    void play(Player player);
+public :
+    Player* getPlayer1();
+    Player* getPlayer2();
+    Game();
+    Board create_board();
+    Player create_player1();
+    Player create_player1();
+    void start_game();
+    void round(Player player1, Player player2, Board board);
+    void play(Board board);
     void pause(int n);
     bool isGameOver();
 };
 
-#endif //SCHOTTEN_TOTTEN_GAME_H
 
+#endif //SCHOTTEN_TOTTEN_GAME_H
