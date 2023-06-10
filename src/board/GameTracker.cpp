@@ -7,8 +7,9 @@
 #include "deck/Deck.h"
 
 GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
-    copyDeck(tacticDeck, clanDeck);
+    //copyDeck(tacticDeck, clanDeck);
 }
+
 
 const Deck& GameTracker::getRemainingCardDeck() const {
     return remainingCardsDeck;
@@ -25,7 +26,7 @@ void GameTracker::update() {
 }
 
 
-void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
+/*void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
     // Copie des cartes tactiques dans remainingCardsDeck
     for (int i = 0; i < tacticDeck.getNumberRemainingCards(); i++) {
         std::unique_ptr<Card> tacticCard = tacticDeck.drawCard();
@@ -38,6 +39,7 @@ void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
         remainingCardsDeck.putCard(std::move(valuedCard));
     }
 }
+*/
 
 
 void GameTracker::transferCard() {
