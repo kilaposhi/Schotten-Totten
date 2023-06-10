@@ -16,6 +16,7 @@ private:
     int player1ID;
     int player2ID;
     bool gameOver;
+    int version;
 
 public :
     [[noreturn]] Game();
