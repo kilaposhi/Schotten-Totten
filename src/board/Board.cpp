@@ -1,25 +1,19 @@
-//
-// Created by berth on 09/06/2023.
-//
 #include "Board.h"
 #include "Border.h"
-
 
 #include <vector>
 #include <string>
 
-
-Board::Board() {
+Board::Board(int numberBorder_): numberBorder(numberBorder_), winner(nullptr) {
     for (int i = 1; i <= numberBorder; i++) {
         Border border = *new Border(i);
         borders.push_back(border);
     }
 }
 
-
 int Board::getNumberBorder() const {
     return numberBorder;
-}
+    }
 
 Player* Board::getWinner() const {
     return winner;
@@ -28,7 +22,6 @@ Player* Board::getWinner() const {
 const std::vector<Border>& Board::getBorders() const {
     return borders;
 }
-
 
 /* string Board::print() const {
     std::stringstream board("");
@@ -39,9 +32,9 @@ const std::vector<Border>& Board::getBorders() const {
     return board.str();
 } */
 
-ostream& operator<<(ostream& stream, const Board& board){
+string Board::print() const{return "Board::print()";}
+
+ostream &operator<<(ostream &stream, const Board &board) {
     stream << board.print();
     return stream;
 }
-
-
