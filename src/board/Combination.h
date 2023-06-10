@@ -9,6 +9,7 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
+
 enum class CombinationType {
     NONE,
     ColorRun,
@@ -54,7 +55,7 @@ private:
     bool isColor();
 };
 
-ostream& operator<<(ostream& stream, const Border& Border);
+ostream& operator<<(ostream& stream, const Combination& Combination);
 
 class CombinationException{
 private:
@@ -64,7 +65,7 @@ public:
     string what() const { return exception;}
 
 };
-ostream& operator<<(ostream& stream, const Combination& combination);
+
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
 string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H

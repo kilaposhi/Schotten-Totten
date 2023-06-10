@@ -2,9 +2,7 @@
 #include <string>
 
 
-#include "deck/Card.h"
-#include "deck/Deck.h"
-#include "player/Player.h"
+#include "deck/DeckFactory.h"
 #include "board/Board.h"
 #include "game/Game.h"
 

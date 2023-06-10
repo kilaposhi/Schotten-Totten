@@ -159,6 +159,9 @@ string Combination::print() const {
     return combination.str();
 }
 
-
+ostream& operator<<(ostream& stream, const Combination& Combination){
+    stream << Combination.print();
+    return stream;
+}
 
 #endif //SCHOTTEN_TOTTEN_COMBINATION_H

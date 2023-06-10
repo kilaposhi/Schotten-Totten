@@ -1,6 +1,5 @@
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "board/Combination.h"
 #include "Border.h"
 
 
@@ -72,7 +71,7 @@ string Border::print() const {
     return border.str();
 }
 
-void Border::Claimed(bool claimed) {
+void Border::setClaimed(bool claimed) {
 
 }
 

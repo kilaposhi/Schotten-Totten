@@ -5,6 +5,7 @@
 
 #include "deck/Card.h"
 #include "deck/Deck.h"
+#include "deck/DeckFactory.h"
 
 GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
     copyDeck(tacticDeck, clanDeck);
@@ -26,17 +27,17 @@ void GameTracker::update() {
 }
 
 
-void GameTracker::copyDeck(const Deck& tacticDeck, const Deck& clanDeck) {
-    remainingCardsDeck.clear();  // Efface toutes les cartes actuellement présentes dans remainingCardsDeck
-
-    // Copie les cartes du tacticDeck
-    for (const auto& card : tacticDeck.getCards()) {
-        remainingCardsDeck.addCard(std::make_unique<Card>(*card));
+void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
+    // Copie des cartes tactiques dans remainingCardsDeck
+    for (int i = 0; i < tacticDeck.getNumberRemainingCards(); i++) {
+        std::unique_ptr<Card> tacticCard = tacticDeck.drawCard();
+        remainingCardsDeck.putCard(std::move(tacticCard));
     }
 
-    // Copie les cartes du clanDeck
-    for (const auto& card : clanDeck.getCards()) {
-        remainingCardsDeck.addCard(std::make_unique<Card>(*card));
+    // Copie des cartes de valeur dans remainingCardsDeck
+    for (int i = 0; i < clanDeck.getNumberRemainingCards(); i++) {
+        std::unique_ptr<Card> valuedCard = clanDeck.drawCard();
+        remainingCardsDeck.putCard(std::move(valuedCard));
     }
 }
 
