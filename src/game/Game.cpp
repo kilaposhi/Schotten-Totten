@@ -2,11 +2,13 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "board/Border.h"
 
+Game::Game(Player *player1, Player *player2) {
+    player1ID = (player1->getId());
+    player2ID = (player2->getId()) ;
+}
 
-
-void Game::play(Player player1, Player player2, ) {
+void Game::play(Player player1, Player player2, Board board) {
     std::cout << "Start of the game\n";
 
     pause(15);

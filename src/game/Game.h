@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 #include "player/Player.h"
+#include "board/Border.h"
+#include "board/Board.h"
 
 class Player;
 class Border;
@@ -16,9 +18,9 @@ private:
     bool gameOver;
 
 public:
-    Game(Player* player1, Player* player2) : player1ID(player1->getId(player1)), player2ID(player2->getId(player2)) {}
+    Game(Player* player1, Player* player2);
     void create_game();
-    void play(Player player1, Player player2);
+    void play(Player player1, Player player2, Board board);
     void play(Player player);
     void pause(int n);
     bool isGameOver();

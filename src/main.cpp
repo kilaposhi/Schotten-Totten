@@ -3,53 +3,59 @@
 #include "deck/Card.h"
 #include "deck/Deck.h"
 #include "player/Player.h"
+#include "board/Board.h"
+#include "game/Game.h"
 #include <string>
 
 int main() {
 
- //on construit les cartes
-    Deck clanDeck = DeckFactory().createValuedCards();
-    clanDeck.shuffle();
-    clanDeck.print();
-   
-    Board board;
-   
-    bool valid = false;
-    while(!valid){
-        std::cout<<"Would you like to play the tactic version ? yes/no \n";
-        std::string answer;
-        std::cin>>answer;
-        if (answer == yes){
-            Deck tacticDeck = DeckFactory().createTacticCards();
-            tacticDeck.shuffle();
-            tacticDeck.print();
-            int max_cards_per_hand = 7;
-            bool tactic = true;
-            valid = true;
+
+        //on construit les cartes
+        Deck clanDeck = DeckFactory().createClanDeck();
+        clanDeck.shuffle();
+        clanDeck.print();
+
+        Board board;
+
+        int max_cards_per_hand;
+        static bool tactic;
+        bool valid = false;
+
+        while(!valid){
+            std::cout << "Would you like to play the tactic version ? yes/no \n";
+            std::string answer;
+            std::cin >> answer;
+            if (answer == "yes"){
+                Deck tacticDeck = DeckFactory().createTacticDeck();
+                tacticDeck.shuffle();
+                tacticDeck.print();
+                max_cards_per_hand = 7;
+                tactic = true;
+                valid = true;
+            }
+            else if (answer == "no") {
+                max_cards_per_hand = 6;
+                tactic = false;
+                valid = true;
+            }
         }
-        else if (answer == no)
-        {
-             int max_cards_per_hand = 6;
-            bool tactic = false ;
-            valid = true;
-        }
+
+        // board.print();
+        std::cout << "Who traveled near Scotland the most recently. \n";
+        std::cout << "You are player 1! Please give your name and id \n.";
+        std::string name;
+        std::cin >> name;
+        Player player1(name, 1, max_cards_per_hand);
+        std::cout << "Player 2 please give your name and id \n.";
+        std::cin >> name;
+        Player player2(name, 2, max_cards_per_hand);
+        Game game( &player1, &player2);
+        game.play(player1, player2, board);
+
+        return 0;
     }
-    
-   // board.print();
-    std::cout<<"Who traveled near Scotland the most recently. \n";
-    std::cout<<"You are player 1! Please give your name and id \n.";
-    std::string name;
-    std::cin>>name;
-    Player player1(name, 1, max_cards_per_hand);
-    std::cout<<"Player 2 please give your name and id \n.";
-    std::cin>>name;
-    Player player2(name, 2, max_cards_per_hand);
-    play(player1, player2, board);
-
-    return 0;
 
 
-}
 
 /*
     // conversion ValuedCard vers Card est implicite
