@@ -20,7 +20,7 @@ classDiagram
     Player "1"*--"1" Hand
     Combination "1" --* "2" Border
     Board "1" *-- "9" Border
-    Border <|-- Stone
+    Border <|-- GameTracker
     Tactic_card <|-- Elite_troop
     Tactic_card <|-- Ruse
     Tactic_card <|-- Combat_Mode
