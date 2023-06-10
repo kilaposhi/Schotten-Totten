@@ -33,9 +33,10 @@ Combination &Combination::operator=(Combination &&combination) {
 
 
 int Combination::getSum() const {
-    if (combinationType_== CombinationType::NONE)
+    if (combinationType_ == CombinationType::NONE)
         throw CombinationException("Combination does not have a type yet, is not complete");
     return sumValues_;
+}
 
 int Combination::getNumberValuedCards() const {
     return valuedCards_.size() ;
@@ -119,6 +120,7 @@ void Combination::treatTacticCards() {
 CombinationType Combination::compute_combination(){
     if (hasTacticCard_)
         throw CombinationException("Need to treat the tactic cards before computing the combination");
+    int n  = getNumberValuedCards();
     if (n < maxNumberCards_)
     {
         throw CombinationException("There is not enough cards to claim the stone");

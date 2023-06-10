@@ -32,20 +32,24 @@ public:
     [[nodiscard]] int getSum() const;
     [[nodiscard]] CombinationType getType() const;
     [[nodiscard]] int getNumberCards() const;
+    int getNumberValuedCards() const;
+    int getNumberTacticCards() const;
     [[nodiscard]] int getMaxNumberCards() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
     void pop_card(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
     void pop_card(unique_ptr<TacticCard> tacticCard);
     void treatTacticCards();
+    ValuedCard* getValuedCard(int index) const;
+    TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string print() const;
-
+    
 private:
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
     std::vector<unique_ptr<TacticCard>> tacticCards_;
-    bool hasTacticCard_{false};
     int maxNumberCards_{0};
     int sumValues_{0};
+    bool hasTacticCard_{false};
     CombinationType combinationType_{CombinationType::NONE};
 
 private:
@@ -57,7 +61,8 @@ private:
     bool isColor();
 };
 
-// ostream& operator<<(ostream& stream, const Border& Border);
+ostream& operator<<(ostream& stream, const Combination& combination);
+string combinationTypeToString(CombinationType type) ;
 
 class CombinationException: public std::exception{
 private:
