@@ -40,10 +40,10 @@ private:
     Combination player_2_combination;
 
 public:
-    explicit Border(unsigned int slot_number, Combination player1Combination, Combination player2Combination1);
+    Border(unsigned int slot_number);
     ~Border() = default;
-    Border(const Border& border) = default;
     Border& operator=(const Border& border) = delete;
+
 
 public:
     void addValueCard(unique_ptr<ValuedCard> valued_card, Player* player);
@@ -53,9 +53,9 @@ public:
     unsigned int getSlotNumber() const;
     Player getWinner() const;
     bool getClaimed() const;
+    string print() const;
     // A FAIRE
     void Claimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
-    string print() const;
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);

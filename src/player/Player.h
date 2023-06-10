@@ -9,7 +9,6 @@
 
 #include "deck/Card.h"
 #include "board/Border.h"
-#include "board/Stone.h"
 
 using std::vector;
 using std::list;
@@ -44,10 +43,10 @@ private:
 public:
 
     ~Player()=default;
-    explicit Player(string nom_, int id_, int max_card, vector<unsigned int> claimed_borders_);
+    explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
-    Player(const Player&) = delete;
+    Player(const Player&) = default;
 
     void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
     std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.

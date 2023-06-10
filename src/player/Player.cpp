@@ -12,7 +12,7 @@ class Border;
 class Deck;
 
 
-Player::Player(string name_, int id_, int max_card, vector<unsigned int> claimed_borders_) : name(name_), id(id_), hand{}, max_cards(max_card), claimed_borders{claimed_borders_} {}
+Player::Player(string name_, int id_, int max_card) : name(name_), id(id_), hand{}, max_cards(max_card), claimed_borders{} {}
 
 std::ostream& operator<<(std::ostream& f, const Player& player){
     int i = 0;
@@ -124,7 +124,6 @@ int Player::getNumber_of_cards() const{return hand.size();}
 int Player::getId() const{
     return id;
 }
-
 
 
 

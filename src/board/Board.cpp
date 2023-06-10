@@ -3,13 +3,18 @@
 //
 #include "Board.h"
 #include "Border.h"
-#include "Border.cpp"
 
 #include <iostream>
 #include <stdexcept>
 #include <vector>
 #include <string>
 
+Board::Board (){
+    for (unsigned int i=1; i<=getNumberBorder(); i++){
+        Border border(i);
+        borders.push_back(border);
+    }
+}
 
 const int Board::getNumberBorder() const {
     return numberBorder;
@@ -17,17 +22,10 @@ const int Board::getNumberBorder() const {
 
 Player* Board::getWinner() const {
     return winner;
-};
+}
 
-std::vector<Border> Board::getBorders() const{
+const std::vector<Border>& Board::getBorders() const {
     return borders;
-};
-
-Board::Board (){
-    for (unsigned int i=1; i<=getNumberBorder(); i++){
-        Border border(i);
-        borders.push_back(border);
-    }
 }
 
 /* string Board::print() const {

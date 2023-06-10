@@ -3,14 +3,55 @@
 #include "deck/Card.h"
 #include "deck/Deck.h"
 #include "player/Player.h"
-
+#include <string>
 
 int main() {
 
+ //on construit les cartes
+    Deck clanDeck = DeckFactory().createValuedCards();
+    clanDeck.shuffle();
+    clanDeck.print();
+   
+    Board board;
+   
+    bool valid = false;
+    while(!valid){
+        std::cout<<"Would you like to play the tactic version ? yes/no \n";
+        std::string answer;
+        std::cin>>answer;
+        if (answer == yes){
+            Deck tacticDeck = DeckFactory().createTacticCards();
+            tacticDeck.shuffle();
+            tacticDeck.print();
+            int max_cards_per_hand = 7;
+            bool tactic = true;
+            valid = true;
+        }
+        else if (answer == no)
+        {
+             int max_cards_per_hand = 6;
+            bool tactic = false ;
+            valid = true;
+        }
+    }
+    
+   // board.print();
+    std::cout<<"Who traveled near Scotland the most recently. \n";
+    std::cout<<"You are player 1! Please give your name and id \n.";
+    std::string name;
+    std::cin>>name;
+    Player player1(name, 1, max_cards_per_hand);
+    std::cout<<"Player 2 please give your name and id \n.";
+    std::cin>>name;
+    Player player2(name, 2, max_cards_per_hand);
+    play(player1, player2, board);
 
-//------------------- Card
+    return 0;
 
 
+}
+
+/*
     // conversion ValuedCard vers Card est implicite
     unique_ptr<Card> reCard = std::move(reCard);
 
@@ -79,9 +120,7 @@ try {
     borders.push_back(1);
     borders.push_back(4);
     borders.push_back(5);
-    Player player1("Martin", playerId1, max_card, borders);
-    Player player2("Lena", playerId2, max_card, borders);
-
+   
 
     // Test de print_player() OK
 
@@ -127,9 +166,7 @@ try {
     */
 
     /*
-    Deck clanDeck = DeckFactory().createClanDeck();
-    clanDeck.shuffle();
-//    clanDeck.print();
+  
     //on crée les cartes, les mélange et les affiche
 //    create_borders();
     //on crée les bornes
@@ -152,8 +189,3 @@ try {
 
     clanDeck.print();
     */
-    return 0;
-
-
-}
-

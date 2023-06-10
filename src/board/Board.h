@@ -2,7 +2,6 @@
 #define SHOTTEN_TOTTEN_BOARD_H
 
 #include "Border.h"
-#include "Border.cpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -35,7 +34,8 @@ public :
 
     const int getNumberBorder() const;
     Player* getWinner() const ;
-    std::vector<Border> getBorders() const;
+    const std::vector<Border>& getBorders() const;
+
 
     virtual string print() const;
 };

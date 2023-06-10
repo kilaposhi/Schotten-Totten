@@ -4,17 +4,12 @@
 #include "Border.h"
 
 
-Border::Border(unsigned int slot_number, Combination player1Combination, Combination player2Combination1)
-        : claimed(false), slot_number(slot_number), player_1_combination(player1Combination),
-          player_2_combination(player2Combination1) {
-            const int maxNumberCard = 3;
-            Combination player_1_combination(maxNumberCard);
-            Combination player_2_combination(maxNumberCard);
-        }
+Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3)
+        {}
 
 
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
-    int playerId = player->getId(player);
+    int playerId = player->getId();
     if (playerId == 1) {
         player_1_combination.push_back(std::move(valued_card));
     } else if (playerId == 2) {
@@ -24,7 +19,7 @@ void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* playe
 
 
 void Border::addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player) {
-    int playerId = player->getId(player);
+    int playerId = player->getId();
     if(playerId == 1){
         player_1_combination.push_back(std::move(tactic_card));
     }
@@ -35,20 +30,20 @@ void Border::addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* pl
 
 
 void Border::removeValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
-    if(player->getId(player) == 1){
+    if(player->getId() == 1){
         player_1_combination.pop_card(std::move(valued_card));
     }
-    else if(player->getId(player) == 2){
+    else if(player->getId() == 2){
         player_2_combination.pop_card(std::move(valued_card));
     }
 }
 
 
 void Border::removeTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player) {
-    if(player->getId(player) == 1){
+    if(player->getId() == 1){
         player_1_combination.pop_card(std::move(tactic_card));
     }
-    else if(player->getId(player) == 2){
+    else if(player->getId() == 2){
         player_2_combination.pop_card(std::move(tactic_card));
     }
 }
@@ -60,7 +55,7 @@ unsigned int Border::getSlotNumber() const {
 
 
 Player Border::getWinner() const {
-    return winner;
+    return *winner;
 }
 
 
@@ -69,14 +64,18 @@ bool Border::getClaimed() const {
 }
 
 string Border::print() const {
-    std::stringstream card("");
-    card << "|" << "_" << "|";
-    return card.str();
+    std::stringstream border("");
+    border << "Player 1 :";
+    border << player_1_combination.print();
+    border << "Player 2 :";
+    border << player_2_combination.print();
+    return border.str();
 }
 
 void Border::Claimed(bool claimed) {
 
 }
+
 
 ostream &operator<<(ostream &stream, const Border& border) {
     stream << border.print();
