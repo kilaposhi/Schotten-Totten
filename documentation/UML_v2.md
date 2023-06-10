@@ -83,8 +83,15 @@ class Border{
     + setClaimed()
 }
 
-class Stone{
-    
+class GameTracker{
+    - Deck remainingCardsDeck
+    - Deck playedCardsDeck
+    + GameTarcker(const Deck& tacticDeck, const Deck& clanDeck)
+    + update() override
+    + copyDeck(Deck tacticDeck, Deck clanDeck)
+    + transferCard()
+    + const Deck& getRemainingCardsDeck() const
+    + const Deck& getPlayedCards() const
 }
 
 class Hand {
