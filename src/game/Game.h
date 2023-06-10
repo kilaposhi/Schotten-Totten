@@ -23,13 +23,15 @@ public :
     Board create_board();
     void create_player1();
     void create_player2();
-    void Game::create_deck();
+    void create_deck();
     void start_game();
     void round(Player player1, Player player2, Board board);
     void play(Board board);
     void pause(int n);
     bool isGameOver();
+
+    void quit();
 };
 
-
 #endif //SCHOTTEN_TOTTEN_GAME_H
+

@@ -7,13 +7,13 @@
 #include "game/Game.h"
 
 int main() {
+    Deck clanDeck = DeckFactory().createClanDeck();
+    clanDeck.shuffle();
+    clanDeck.print();
 
+}
 
-        //on construit les cartes
-        Deck clanDeck = DeckFactory().createClanDeck();
-        clanDeck.shuffle();
-        clanDeck.print();
-
+/*
         Board board(9);
 
         int max_cards_per_hand;
@@ -55,7 +55,7 @@ int main() {
     }
 
 
-
+*/
 /*
     // conversion ValuedCard vers Card est implicite
     unique_ptr<Card> reCard = std::move(reCard);

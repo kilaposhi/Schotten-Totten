@@ -39,5 +39,7 @@ public :
     [[nodiscard]] Player* getWinner() const ;
     [[nodiscard]] const std::vector<Border*>& getBorders() const;
     [[nodiscard]] virtual string print() const;
+    Player* hasWinner();
+    void setWinner();
 };
 #endif //SHOTTEN_TOTTEN_BOARD_H

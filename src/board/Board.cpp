@@ -42,4 +42,54 @@ ostream &operator<<(ostream &stream, const Board &board) {
     return stream;
 }
 
+Player* Board::hasWinner() {
+    const std::vector<Border*>& borders = this->getBorders();
+    int player1Count = 0;
+    int player2Count = 0;
+    int adjacentCount = 1;
+    Player* win = borders[0]->getWinnerBorder();
+    int i = 1;
+    while (win == nullptr && i<getNumberBorder()) {
+        win = borders[i]->getWinnerBorder();
+        i++;
+    }
+    int player1;
+    if (win != nullptr) {
+        player1 = win->getId();
+    }
+    else {
+        player1 = -1;
+    }
+    Player* last = win;
+    while ((i<getNumberBorder()) && (player1Count<5) && (player2Count<5) && (adjacentCount<3) ) {
+        Player* winner = borders[i]->getWinnerBorder();
+        if (winner != nullptr) {
+            if (winner == last) {
+                adjacentCount += 1;
+            }
+            else {
+                adjacentCount = 1;
+            }
+            if (winner->getId() == player1) {
+                player1Count += 1;
+            }
+            else {
+                player2Count +=1;
+            }
+
+        }
+        i++;
+    }
+    if (i>=getNumberBorder() && (player1Count<5) && (player2Count<5) && (adjacentCount<3)) {
+        return nullptr;
+    }
+    else {
+        return win;
+    }
+}
+
+void Board::setWinner() {
+    winner = this->hasWinner();
+}
+
 
