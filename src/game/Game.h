@@ -20,8 +20,9 @@ private:
 public :
     [[noreturn]] Game();
     Board create_board();
-    Player create_player1();
-    Player create_player1();
+    void create_player1();
+    void create_player2();
+    void Game::create_deck();
     void start_game();
     void round(Player player1, Player player2, Board board);
     void play(Board board);
