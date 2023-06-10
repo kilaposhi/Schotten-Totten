@@ -43,7 +43,7 @@ public:
     ValuedCard* getValuedCard(int index) const;
     TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string print() const;
-    
+
 private:
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
     std::vector<unique_ptr<TacticCard>> tacticCards_;
