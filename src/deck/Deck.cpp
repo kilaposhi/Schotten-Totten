@@ -2,8 +2,7 @@
 
 // -------------------- DecK
 
-Deck::Deck(vector<unique_ptr<Card>>&& cards)
-        : cards_(std::move(cards)) {};
+Deck::Deck(vector<unique_ptr<Card>>&& cards): cards_(std::move(cards)){}
 
 Deck::Deck(Deck &&otherDeck) noexcept :
         cards_(std::move(otherDeck.cards_))
@@ -45,6 +44,9 @@ void Deck::putCard(unique_ptr<Card> card) {
 
 int Deck::getNumberRemainingCards() const{ return (int)cards_.size(); }
 
+void Deck::clear(){
+    cards_.clear();
+}
 
 void Deck::print() const {
     for (auto& card : cards_)
@@ -55,3 +57,4 @@ ostream& operator<<(ostream& stream, const Deck& deck){
     stream  << "Remaining cards : " << deck.getNumberRemainingCards();
     return stream;
 }
+
