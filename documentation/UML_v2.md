@@ -189,9 +189,9 @@ class DeckType{
 title: Uml simple
 ---
 classDiagram
-Game "1..1" --* "2..2" Player
-Game "1..1" --* "9..9" Border
-Game "1..1" --* "1..1" Board
+Game "1..1" -- "2..2" Player
+Game "1..1" -- "9..9" Border
+Game "1..1" -- "1..1" Board
 Card <|-- Tactic_card
 Card <|-- ValuedCard
 Deck *-- Card
