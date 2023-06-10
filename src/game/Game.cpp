@@ -8,13 +8,35 @@ Game::Game(Player *player1, Player *player2) {
     player2ID = (player2->getId()) ;
 }
 
-void Game::play(Player player1, Player player2, Board board) {
+Board create_board(){
+    //Create Board:
+    std::cout << "how many borders are there ?" << "\n";
+    int nbBorders;
+    std::cin >> nbBorders;
+    Board board(nbBorders);
+    return board;
+}
+
+Player create_player1(){
+    std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
+    std::cout<<"Player 1 Please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    Player (name, 1, )
+}
+
+void Game::startGame() {
+    //demande qui a voyagé le plus près de l'ecosse
+    //demandes aux joueurs leurs noms
+    //lance plusieurs rounds
+    //annonce le vainqueur final (pourrait peut être être un attribut de Game
+}
+void Game::round(Player player1, Player player2, Board board) {
     std::cout << "Start of the game\n";
 
     pause(15);
-    while (round) {
+    while (board.hasWinner() == nullptr) {
         play(player1);
-        round = ?;
         play(player2);
 
 
@@ -51,6 +73,9 @@ void Game::play(Player player1, Player player2, Board board) {
     quit();
 }
 
+
+
+
 void pause(int n) {
     //std::cout << "Pause de 30 secondes...\n";
     std::this_thread::sleep_for(std::chrono::seconds(n));
@@ -75,29 +100,4 @@ bool Game::isGameOver() {
 void Game::quit() {
     gameOver = true;
 }
-void Game::play(Player player)
-{
-    std::cout << "Player <<player.getId() <<, it is your turn !" << player1ID << std::endl;
-    player.displayHand();
-    pause(2);
-    std::cout << "Please type the index of the card you want to pick.\n";
-    int card_index;
-    std::cin >> card_index;
-    std::cout << "Please type the index of the border you want to pick.\n";
-    int border_index;
-    std::cin >> border_index;
-    player1.play_card(card_index, borders[border_index]);
-    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
-    }
-    else if (border_index==0) break;
-    else {
 
-        borders[border_index].getClaimed();
-
-    }
-    if (!deck.isEmpty) player.draw_card( deck_);
-}
