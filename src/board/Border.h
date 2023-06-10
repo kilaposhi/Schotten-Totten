@@ -2,11 +2,19 @@
 #define PROJET_BORDER_H
 
 #include <iostream>
+#include <initializer_list>
 #include <exception>
 #include <string>
+#include <sstream>
+#include <memory>
+#include <utility>
 
-#include "Combination.h"
+#include "deck/Card.h"
+#include "player/Player.h"
+#include "board/Combination.h"
+#include "board/Board.h"
 
+class Combination;
 class Player;
 
 class BorderException : public std::exception {
@@ -14,8 +22,8 @@ private:
     std::string message;
 
 public:
-    explicit BorderException(const string& errorMessage)
-            : message(errorMessage) {}
+    explicit BorderException(string  errorMessage)
+            : message(std::move(errorMessage)) {}
 
     [[nodiscard]]const char* what() const noexcept override {
         return message.c_str();
@@ -41,13 +49,12 @@ public:
     void removeValueCard(unique_ptr<ValuedCard> valued_card, Player* player);
     void addTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
-    unsigned int getSlotNumber() const;
-    Player getWinner() const;
-    bool getClaimed() const;
-    string print() const;
+    [[nodiscard]] unsigned int getSlotNumber() const;
+    [[nodiscard]] Player getWinner() const;
+    [[nodiscard]] bool getClaimed() const;
+    [[nodiscard]] string print() const;
     // A FAIRE
-    void setClaimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
-
+    // void Claimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);
