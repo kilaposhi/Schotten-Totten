@@ -24,12 +24,29 @@ Board create_board(){
     return board;
 }
 
-Player create_player1(){
+void Game::create_player1(){
     std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
     std::cout<<"Player 1 Please give your name: \n.";
     std::string name;
     std::cin>>name;
-    Player (name, 1, )
+    if(version == 1){
+        Player player1(name, 1, 6);
+    }
+    else{
+        Player player1(name, 1, 7);
+    }
+}
+
+void Game::create_player2(){
+    std::cout<<"Player 2 Please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    if(version == 1){
+        Player player2(name, 1, 6);
+    }
+    else{
+        Player player2(name, 1, 7);
+    }
 }
 
 void Game::create_deck(){ // Créer les cartes par la même occasion
