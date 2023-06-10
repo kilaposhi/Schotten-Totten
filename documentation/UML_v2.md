@@ -92,6 +92,7 @@ class Game{
     + play(Board board)
     + pause(int n)
     + isGameOver() bool 
+}
 
 class GameTracker{
     - Deck remainingCardsDeck
