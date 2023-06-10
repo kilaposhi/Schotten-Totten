@@ -1,11 +1,4 @@
-#include "GameTracker.h"
-
-#include <stdexcept>
-#include <vector>
-
-#include "deck/Card.h"
 #include "deck/Deck.h"
-#include "deck/DeckFactory.h"
 
 GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
     copyDeck(tacticDeck, clanDeck);
