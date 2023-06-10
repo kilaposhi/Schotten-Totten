@@ -3,21 +3,21 @@
 // -------------------Constructors
 ValuedCard::ValuedCard(int Value, CardColor Color) : value_(Value), color_(Color) {}
 
-ValuedCard::ValuedCard(Card& valuedCard){
+ValuedCard::ValuedCard(Card& valuedCard, CardColor Color): color_(Color){
     if (dynamic_cast<ValuedCard*>(&valuedCard) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
     *this = dynamic_cast<ValuedCard&>(valuedCard);
 }
 
-ValuedCard::ValuedCard(unique_ptr<Card> valuedCard){
+ValuedCard::ValuedCard(unique_ptr<Card> valuedCard, CardColor Color): color_(Color){
     if (dynamic_cast<ValuedCard*>(valuedCard.get()) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
     *this = *(dynamic_cast<ValuedCard*>(valuedCard.release()));
 }
 
-ValuedCard::ValuedCard(Card *valuedCard) {
+ValuedCard::ValuedCard(Card *valuedCard, CardColor Color): color_(Color) {
     if (dynamic_cast<ValuedCard*>(valuedCard) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
@@ -176,5 +176,3 @@ string createTacticDescription(TacticType type) {
             throw CardException("Trying to get the description of an unknown tactic card");
     }
 }
-
-
