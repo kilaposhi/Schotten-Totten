@@ -74,6 +74,32 @@ void Game::round(Player player1, Player player2, Board board) {
 }
 
 
+void Game::play(Player* player, Board board) {
+    std::cout << "Player" << player->getId() <<", it is your turn !" << std::endl;
+    player->displayHand();
+    pause(2);
+    std::cout << "Please type the index of the card you want to pick.\n";
+    int card_index;
+    std::cin >> card_index;
+    std::cout << "Please type the index of the border you want to pick.\n";
+    int border_index;
+    std::cin >> border_index;
+    std::vector<Border> borders = board.getBorders();
+    player.play_card(card_index, [border_index]);
+    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+    std::cin >> border_index;
+    if (border_index<0 || border_index>9)
+    {
+        throw PlayerException("The index is not valid.");
+    }
+    else if (border_index==0) break;
+    else {
+
+        borders[border_index].getClaimed();
+
+    }
+    if (!deck.isEmpty) player.draw_card( deck_);
+}
 
 
 void pause(int n) {
