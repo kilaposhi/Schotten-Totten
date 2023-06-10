@@ -1,3 +1,6 @@
+//
+// Created by berth on 09/06/2023.
+//
 #include "Board.h"
 #include "Border.h"
 
@@ -5,21 +8,21 @@
 #include <string>
 
 Board::Board(int numberBorder_): numberBorder(numberBorder_), winner(nullptr) {
-    borders.reserve(numberBorder);
     for (int i = 1; i <= numberBorder; i++) {
-        borders.emplace_back(i);
+        Border border(i);
+        borders.push_back(&border);
     }
 }
 
 int Board::getNumberBorder() const {
     return numberBorder;
-    }
+}
 
 Player* Board::getWinner() const {
     return winner;
 }
 
-const std::vector<Border>& Board::getBorders() const {
+const std::vector<Border*>& Board::getBorders() const {
     return borders;
 }
 
@@ -38,3 +41,5 @@ ostream &operator<<(ostream &stream, const Board &board) {
     stream << board.print();
     return stream;
 }
+
+
