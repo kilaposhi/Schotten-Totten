@@ -32,6 +32,17 @@ Player create_player1(){
     Player (name, 1, )
 }
 
+void Game::create_deck(){ // Créer les cartes par la même occasion
+    Deck clanDeck = DeckFactory().createValuedCards();
+    clanDeck.shuffle();
+    clanDeck.print();
+    if(version == 2){
+        Deck tacticDeck = DeckFactory().createTacticCards();
+        tacticDeck.shuffle();
+        tacticDeck.print();
+    }
+}
+
 void Game::startGame() {
     //demande qui a voyagé le plus près de l'ecosse
     //demandes aux joueurs leurs noms
