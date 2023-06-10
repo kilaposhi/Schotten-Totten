@@ -126,3 +126,6 @@ int Player::getNumber_of_cards() const{return hand.size();}
 int Player::getId() const{
     return id;
 }
+
+
+
