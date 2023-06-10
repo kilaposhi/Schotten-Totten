@@ -38,45 +38,43 @@ void Game::startGame() {
     //lance plusieurs rounds
     //annonce le vainqueur final (pourrait peut être être un attribut de Game
 }
-void Game::round(Player player1, Player player2, Board board) {
-    std::cout << "Start of the game\n";
+void Game::round(Player* player1, Player* player2, Board board) {
+    Deck clanDeck = DeckFactory().createClanDeck();
+    clanDeck.shuffle();
 
-    pause(15);
-    while (board.hasWinner() == nullptr) {
-        play(player1);
-        play(player2);
-
-
-
-        //afficher la main du joueur
-        //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
-        //jouer la carte
-        //demander si le joueur souhaite revandiquer une borne, si oui, laquelle ?
-        // : on peut faire un case
-        //vérfier que 3 cartes sont sur chaque frontière de la borne
-        //trouver le gagnant de la borne, vérifier qu'il n'y a pas de gagnant de la partie
-        // piocher une carte
-
-
-        if (isGameOver()) {
-            std::cout << "Le joueur " << player1ID << " a gagné !\n";
-            break;
-        }
-
-        pause();
-
-        std::cout << "Tour du joueur " << player2ID << std::endl;
-        // Logique de jeu pour le joueur 2
-
-        if (isGameOver()) {
-            std::cout << "Le joueur " << player2ID << " a gagné !\n";
-            break;
-        }
-
-        pause();
+    if(version == 2){
+        Deck tacticDeck = DeckFactory().createTacticDeck();
+        tacticDeck.shuffle();
     }
 
-    std::cout << "Fin de la partie\n";
+    std::cout << "Start of the game\n";
+
+
+    while (board.hasWinner() == nullptr) {
+        std::cout << "Player " << player1->getId() <<"'s turn" << std::endl;
+        play(player1, board);
+
+        pause(15);
+
+        if (isGameOver()) {
+            std::cout << "Player " << player1->getId() << " won!\n";
+            break;
+        }
+
+        pause(15);
+
+        std::cout << "Player " << player2->getId() <<"'s turn" << std::endl;
+        play(player2, board);
+
+        if (isGameOver()) {
+            std::cout << "Player " << player2->getId() << " won!\n";
+            break;
+        }
+
+        pause(15);
+    }
+
+    std::cout << "End of the game\n";
     quit();
 }
 
