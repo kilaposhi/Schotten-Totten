@@ -18,9 +18,7 @@ private:
     bool gameOver;
 
 public :
-    Player* getPlayer1();
-    Player* getPlayer2();
-    Game();
+    [[noreturn]] Game();
     Board create_board();
     Player create_player1();
     Player create_player1();
