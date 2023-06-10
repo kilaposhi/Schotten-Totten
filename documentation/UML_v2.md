@@ -4,165 +4,240 @@ title: Architecture Schotten-Totten V2
 
 classDiagram
 
+```mermaid
+classDiagram
+
 %% ------ Relations
-Game "1..1" -- "2..2" Player
-Game "1..1" -- "9..9" Border
-Game "1..1" -- "1..1" Board
-Game "1..1" -- "0..n" Deck
-Card <|-- Tactic_card
+Card <|-- TacticCard
 Card <|-- ValuedCard
-Deck "1"*-- "0..*" Card
-Deck "1" *-- "1" DeckInfo
-Deck -- DeckFactory
-Player "1"*--"1" Hand
-Combination "1" --* "2" Border
-Board "1" *-- "9" Border
-Border <|-- GameTracker
-Tactic_card <|-- Elite_troop
-Tactic_card <|-- Ruse
-Tactic_card <|-- Combat_Mode
 CardColor -- ValuedCard
-DeckType -- Deck
+TacticType -- TacticCard
+Observer <|-- GameTracker
+GameTracker "1" --> "2" Deck
+Deck "1"*-- "0..*" Card
+Deck -- DeckFactory
+Combination "1" --* "1" CombinationType
+Combination "0..*" --> "0..*" ValuedCard
+Combination "0..*" --> "0..*" TacticCard
+Player "1"*--"1" Hand
+Hand "1"*--"6|7" Card
+Player --> Card
+Player --> Border
+Player --> Deck
+Combination "2" --* "1" Border
+Board "1" *-- "9" Border
+Border "0..*" -- "1" Player
+Border "0..*" -- "1" Combination
+Border "1" -- "0..*" ValuedCard
+Border "1" -- "0..*" TacticCard
+Game "1" -- "2" Player
+Game "1" -- "1" Board
+Game "1" -- "1" Deck
+Game "1" -- "1" GameTracker
 
 %%---------- class
-class Game_interface {
+class Game_interface{
     + launch_Schotten_Totten1()
 }
 
 class Card {
-    + virtual print(): string
-    + virtual clone(): unique_ptr<Card>
+    <<abstract>>
+    + virtual print() : string
 }
 
 class ValuedCard{
     - color: CardColor
     - value: int<1 to 9>
-    + override print(): string
-    + override clone(): unique_ptr<Card>
+    + ValuedCard(int, CardColor)
+    + print() : string
+    + getColor() : CardColor
+    + getValue() : int
 }
 
-class Tactic_card{
-    - name: string
+class TacticCard{
+    - name: TacticType
     - description: string
-    + override print(): string
-    + override clone(): unique_ptr<Card>
+    + TacticCard(TacticType)
+    + print() : string
+    + getName() : TacticType
+    + getDescription() : string
 }
 
 class Board {
-    - numberBorders: const int = 9
-    - Borders: Stone[number_of_stone_tiles]
-    - winner: &Player
+    - numberBorders: const int
+    - borders: Stone[number_of_stone_tiles]
+    - winner: Player*
+    + Board()
+    + getNumberBorder() : const int
+    + getWinner() : Player*
+    + getBorders() : const std::vector<Border>&
+    + print() : string
+    + hasWinner() : Player*
+    + setWinner()
 }
 
-class Combination{
-    - cards: vector<ValuedCard>
-    - sumValues: int
-    + getSum(): int
-    + push_back(const ValuedCard& card)
+class Combination {
+    + hasTacticCard_: bool
+    - valuedCards_: std::vector<unique_ptr<ValuedCard>>
+    - tacticCards_: std::vector<unique_ptr<TacticCard>>
+    - maxNumberCards_: int
+    - sumValues_: int
+    - combinationType_: CombinationType
+    + Combination(int)
+    + Combination(const Combination&)
+    + operator=(const Combination&)
+    + getSum() : const int
+    + getType() : const CombinationType
+    + getNumberCards() : const int
+    + getNumberValuedCards() : int
+    + getNumberTacticCards() : int
+    + getMaxNumberCards() : const int
+    + push_back(unique_ptr<ValuedCard>)
+    + pop_card(unique_ptr<ValuedCard>)
+    + push_back(unique_ptr<TacticCard>)
+    + pop_card(unique_ptr<TacticCard>)
+    + treatTacticCards()
+    + getValuedCard(int) : ValuedCard*
+    + getTacticCard(int) : TacticCard*
+    + print() : const string
 }
 
-class Border{
-    - claimed: bool = false
-    - winner: Player
+class Border {
+    - claimed: bool
+    - winner: Player*
     - slot_number: unsigned int
     - player_1_combination: Combination
-    - player_2_combination:  Combination
-    - player_1_tactic_card: vector<unique_ptr<Tactic_card>>
-    - player_2_tactic_card: vector<unique_ptr<Tactic_card>>
-    + addValueCard(const ValuedCard& card, int player_id)
-    + addTacticalCard(const TacticalCard& card, int player_id)
-    + removeTacticalCard(int player_id)
-    + getSlotNumber(): unsigned int
-    + getWinner(): Player
-    + getClaimed(): bool
-    + setWinner()
-    + setClaimed()
+    - player_2_combination: Combination
+    - player_1_tactic_card: std::vector<unique_ptr<TacticCard>>
+    - player_2_tactic_card: std::vector<unique_ptr<TacticCard>>
+    + Border(unsigned int)
+    + operator=(const Border&)
+    + addValueCard(unique_ptr<ValuedCard>, Player*)
+    + removeValueCard(unique_ptr<ValuedCard>, Player*)
+    + addTacticalCard(unique_ptr<TacticCard>, Player*)
+    + removeTacticalCard(unique_ptr<TacticCard>, Player*)
+    + getSlotNumber() : unsigned int
+    + getWinnerBorder() : Player*
+    + getClaimed() : bool
+    + print() : string
 }
 
-class Game{
-    - bool gameOver
-    - int version
+class Player {
+    - name: string
+    - id: int
+    - hand: std::vector<unique_ptr<Card>>
+    - max_cards: int
+    - claimed_borders: std::vector<unsigned int>
+    + Player(string, int, int)
+    + add_card_into_hand(unique_ptr<Card>)
+    + remove_card_from_hand(int) : std::unique_ptr<Card>
+    + play_card(int, Border&)
+    + draw_card(Deck)
+    + claim_borders(Border&)
+    + getClaimed_borders() : vector<unsigned int>
+    + getNumber_of_cards() : int
+    + getId() : int
+    + displayHand() const
+    + print_player() const
+}
+
+class Deck {
+    - cards: std::vector<Card*>
+    + Deck(Deck&&)
+    + operator=(Deck&&) : Deck&
+    + isEmpty() : bool
+    + shuffle()
+    + print()
+    + clear()
+    + drawCard() : std::unique_ptr<Card>
+    + putCard(card : std::unique_ptr<Card>)
+    + getNumberRemainingCards() : int
+}
+
+class DeckFactory {
+    <<Factory>>
+    - cards: std::vector<std::unique_ptr<Card>>
+    - number_cards: int
+    - number_colors: int
+    - min_card_value: int
+    - max_card_value: int
+    + setNumberColors(unsigned int)
+    + setRangeValueCard(unsigned int, unsigned int)
+    + createValuedCards()
+    + createTacticCards()
+    + build()
+    + createClanDeck()
+    + createTacticDeck()
+}
+
+class Observer { 
+    + update()
+}
+
+class GameTracker {
+    - remainingCardsDeck: Deck
+    - playedCardsDeck: Deck
+    + update()
+    + GameTracker(Deck&, Deck&)
+    + copyDeck(Deck, Deck)
+    + transferCard()
+    + getRemainingCardDeck() : Deck&
+    + getPlayerCardsDeck() : Deck&
+}
+
+enum class CardColor {
+    blue,
+    purple,
+    green,
+    red,
+    orange,
+    brown
+}
+
+enum class TacticType {
+    joker,
+    spy,
+    shield_bearer,
+    blind_man_bluff,
+    mud_fight,
+    recruiter,
+    strategist,
+    banshee,
+    traiter
+}
+
+enum class CombinationType {
+    NONE,
+    ColorRun,
+    Run,
+    Color,
+    ThreeOfAKind,
+    Sum
+}
+
+class Game {
+    - players: std::vector<Player>
+    - board: Board
+    - deck: Deck
+    - gameTracker: GameTracker
+    - currentPlayerIndex: int
+    - gameOver: bool
     + Game()
     + create_game()
     + round(Player player1, Player player2, Board board)
     + play(Board board)
     + pause(int n)
-    + isGameOver(): bool 
+    + isGameOver() : bool
 }
 
-class GameTracker{
-    - Deck remainingCardsDeck
-    - Deck playedCardsDeck
-    + GameTracker(const Deck& tacticDeck, const Deck& clanDeck)
-    + update(): void
-    + copyDeck(Deck tacticDeck, Deck clanDeck)
+class GameTracker {
+    - remainingCardsDeck: Deck
+    - playedCardsDeck: Deck
+    + update()
+    + GameTracker(Deck&, Deck&)
+    + copyDeck(Deck, Deck)
     + transferCard()
-    + const Deck& getRemainingCardsDeck() const
-    + const Deck& getPlayedCards() const
+    + getRemainingCardDeck() : Deck&
+    + getPlayerCardsDeck() : Deck&
 }
 
-class Hand {
-    - cards: vector<unique_ptr<Card>>
-    + refill()
-    + playCard(Card)
-}
-
-class Player{
-    - id: <1 or 2>
-    - number_of_cards: int
-    - hand: Hand
-    - max_cards: int<6 or 7>
-    - claimed_stones: vector<int>
-    + Player(string nom_, int id_, int max_card)
-    + add_card_into_hand(std::unique_ptr<Card>  card_)
-    + remove_card_from_hand(int card_index): std::unique_ptr<Card>
-    + play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck)
-    + draw_card(Deck deck_): Card
-    + getClaimed_borders(Border& border_): void 
-    + claim_stone(): vector<unsigned int>
-    + getNumber_of_cards(): int
-    + getId(): int
-    + displayHand(): void
-    + print_player(): void
-}
-
-class Deck{
-    - deckInfo: DeckInfo
-    - cards: vector<Card*>
-    + Deck(const Deck&)
-    + operator=(const Deck&): Deck&
-    + isEmpty(): bool
-    + drawCard(): Card
-    + getNumberRemainingCards(): int
-}
-
-class DeckInfo {
-    - deckType: DeckType
-    - total_number_card: int
-    - min_value_card: int
-    - max_value_card: int
-}
-
-class DeckFactory {
-    <<Builder>>
-    + createClanDeck(): Deck
-    + build(): Deck
-}
-
-%%-------- Enum class
-class CardColor {
-    <<Enumeration>>
-    blue
-    purple
-    green
-    red
-    orange
-    brown
-}
-
-class DeckType{
-    <<Enumeration>>
-    ValuedCard
-    TacticCard
-    DiscardDeck
-}
