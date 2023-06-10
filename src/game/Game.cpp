@@ -2,6 +2,8 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include "deck/DeckFactory.h"
+
 
 [[noreturn]] Game::Game(): gameOver(0){
     std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
@@ -50,13 +52,11 @@ void Game::create_player2(){
 }
 
 void Game::create_deck(){ // Créer les cartes par la même occasion
-    Deck clanDeck = DeckFactory().createValuedCards();
+    Deck clanDeck = DeckFactory().createClanDeck();
     clanDeck.shuffle();
-    clanDeck.print();
     if(version == 2){
-        Deck tacticDeck = DeckFactory().createTacticCards();
+        Deck tacticDeck = DeckFactory().createTacticDeck();
         tacticDeck.shuffle();
-        tacticDeck.print();
     }
 }
 
@@ -66,14 +66,9 @@ void Game::startGame() {
     //lance plusieurs rounds
     //annonce le vainqueur final (pourrait peut être être un attribut de Game
 }
-void Game::round(Player* player1, Player* player2, Board board) {
-    Deck clanDeck = DeckFactory().createClanDeck();
-    clanDeck.shuffle();
 
-    if(version == 2){
-        Deck tacticDeck = DeckFactory().createTacticDeck();
-        tacticDeck.shuffle();
-    }
+void Game::round(Player* player1, Player* player2, Board board) {
+    create_deck();
 
     std::cout << "Start of the game\n";
 
