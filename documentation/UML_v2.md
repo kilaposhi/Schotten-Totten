@@ -104,13 +104,20 @@ class Player{
     - id: <1 or 2>
     - number_of_cards : int
     - hand : Hand
-    - max_cards : int<6 to 7>
-    - claimed_stones : list ~bool~
-    + play_card()
-    + draw_card() Card
-    + getClaimed_stones() 
-    + claim_stone()
+    - max_cards : int<6 or 7>
+    - claimed_stones : vector<int>
+    + Player(string nom_, int id_, int max_card)
+    + Player(const Player&) = delete
+    + add_card_into_hand(std::unique_ptr<Card>  card_)
+    + remove_card_from_hand(int card_index) std::unique_ptr<Card>
+    + play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck)
+    + draw_card(Deck deck_) Card
+    + getClaimed_borders(Border& border_) 
+    + claim_stone() vector<unsigned int>
     + getNumber_of_cards() int
+    + getId()
+    + displayHand()
+    + print_player()
 }
 
 class Deck{
