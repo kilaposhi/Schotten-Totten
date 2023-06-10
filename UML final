@@ -1,0 +1,176 @@
+ ```mermaid
+ ---
+title: Architecture Schotten-Totten V2
+---
+classDiagram
+
+%% ------ Relations
+Card <|-- TacticCard
+Card <|-- ValuedCard
+CardColor -- ValuedCard
+TacticType -- TacticCard
+Observer<|--GameTracker
+Deck "1"*-- "0..*" Card
+Deck -- DeckFactory
+%%    Card "0..7" --* "0..1" Hand
+  Combination "1" --* "2" Border
+  Player "1"*--"1" Hand
+  Combination "2" --* "1" Border
+  Board "1" *-- "9" Border
+
+%%---------- class
+  class Game_interface{
+    + launch_Schotten_Totten1();
+  }
+
+  class Card {
+      <<abstact>>
+    + virtual print() string = 0
+  }
+
+
+  class ValuedCard{
+    - color : CardColor
+    - value : int<1 to 9>
+    + override print() string
+    + getColor() CardColor
+    + getValue() int
+  }
+
+  class TacticCard{
+    - name: TacticType
+    - description: string
+    + override print() string
+    + getName() TacticType
+    + getDescription() string
+  }
+
+
+  class Board {
+    - numberBorders = 9 : const int
+    - Borders : Stone[number_of_stone_tiles]
+    - winner : &Player
+  }
+
+  class Combination{
+    - valuedCards : vector~unique_ptr~ValuedCard~~
+    - tacticCards : vector~unique_ptr~TacticCard~~
+    - hasTacticCard : bool = false
+    - sumValues : int
+    - maxNumberCards : int
+    - combinationType : CombinationType
+    - setMaxNumberCards(int maxNumberCards)
+    - compute_combination() CombinationType
+    - isColorRun() bool
+    - isThreeOfAKind() bool
+    - isRun() bool
+    - isColor() bool
+    + getSum() int
+    + getType() CombinationType
+    + getNumberCards() int 
+    + treatTacticCards();
+  }
+
+  class Border{
+    - claimed : bool = false
+    - winner* Player
+    - slot_number = 3 : unsigned int
+    - cardSlotsAvailable vector~bool~
+    - tactic_slot : Tactic_Card
+    - player_1_combination: Combination
+    - player_2_combination:  Combination
+    + addCard()
+    + getCombination(Player& player) : Combination
+  }
+
+  class Player{
+    - id: <1 or 2>
+    - player: ptr~Player~
+    - hand : vector~unique_ptr~Card~~
+    - max_cards : int<6 to 7>
+    - claimed_borders : vector~int~
+    + play_card()
+    + draw_card() Card
+    + getClaimed_stones()
+    + claim_stone()
+    + getNumber_of_cards() int
+  }
+
+  class Deck{
+    - cards: vector~Card*~
+    + Deck(Deck&&)
+    + operator=(Deck&&) Deck&
+    + isEmpty() bool
+    + drawCard() unique_ptr<Card>
+    + putCard(card : unique_ptr<Card>)
+    + getNumberRemainingCards() int
+  }
+
+
+class DeckFactory {
+  <<Factory>>
+  - cards : vector~unique_ptr~Card~~
+  - number_cards : int
+  - number_colors : int
+  - min_card_value : int
+  - max_card_value : int
+  - setRangeValue(min_value: int, max_value: int)
+  - setNumberColors(num_colors: int)
+  - createValuedCard()
+  - createTacticCard()
+  - build() Deck
+  + createClanDeck() Deck
+  + createTacticDeck() Deck
+  }
+
+  class Score{
+    - score_p1: int
+    - score_p2: int
+    - round: int
+    +p1_gagne()
+    +p2_gagne()
+  }
+  
+  class Observer { 
+  + update()}
+  
+  class GameTracker {
+  - remainingCardsDeck : Deck 
+  - playedCardsDeck : Deck 
+  + update() override}
+
+%%-------- Enum class
+  class CardColor {
+    <<Enumeration>>
+    blue
+    purple
+    green
+    red
+    orange
+    brown
+  }
+
+class TacticType {
+    <<Enumeration>>
+joker
+spy
+shield_bearer
+blind_man_bluff
+mud_fight
+recruiter
+strategist
+banshee
+traiter
+}
+
+
+
+class CombinationType{
+  <<Enumeration>>
+  ColorRun
+    Run
+    Color
+    ThreeOfAKind
+    Sum
+}
+```
