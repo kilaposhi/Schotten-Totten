@@ -27,11 +27,12 @@ public:
 
 public:
     void shuffle();
-    bool isEmpty() const;
+    [[nodiscard]] bool isEmpty() const;
     unique_ptr<Card> drawCard();
     void putCard(unique_ptr<Card> card);
-    int getNumberRemainingCards() const;
+    [[nodiscard]] int getNumberRemainingCards() const;
     void print() const;
+    void clear();
 
 private:
     vector<unique_ptr<Card>> cards_;
@@ -40,3 +41,4 @@ private:
 ostream& operator<<(ostream& stream, const Deck& deck);
 
 #endif //SCHOTTEN_TOTTEN_DECK_H
+
