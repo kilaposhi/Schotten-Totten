@@ -3,17 +3,14 @@
 #include "Border.h"
 
 
-
-Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3)
-        {}
-
+Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3){}
 
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
     int playerId = player->getId();
     if (playerId == 1) {
-        player_1_combination.push_back(std::move(valued_card));
+        player_1_combination.push_back(std::move(valued_card)); // Utilise std::move ici
     } else if (playerId == 2) {
-        player_2_combination.push_back(std::move(valued_card));
+        player_2_combination.push_back(std::move(valued_card)); // Utilise std::move ici
     }
 }
 
@@ -72,8 +69,14 @@ string Border::print() const {
     return border.str();
 }
 
-void Border::setClaimed(bool claimed) {
+//void Border::Claimed(bool claimed) {}
 
+int Board::getNumberBorder() const{
+    return borders.size();
+}
+
+Player* Board::getWinner() const{
+    return winner;
 }
 
 
@@ -81,4 +84,3 @@ ostream &operator<<(ostream &stream, const Border& border) {
     stream << border.print();
     return stream;
 }
-
