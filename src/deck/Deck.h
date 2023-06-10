@@ -1,26 +1,10 @@
-#ifndef SCHOTTEN_TOTTEN_DECK_H
-#define SCHOTTEN_TOTTEN_DECK_H
-
-#include <algorithm>
-#include <random>
-#include <memory>
-#include <vector>
-
-#include "DeckFactory.h"
-#include "Card.h"
-
-
-using std::shuffle, std::random_device, std::mt19937, std::vector, std::cout;
-using std::move, std::make_unique, std::unique_ptr;
-
-
 class Deck {
 public:
 
     Deck()=default;
     Deck(vector<unique_ptr<Card>>&& cards); // constructor used by 'DeckFactory'
     ~Deck()=default;
-    Deck(const Deck&) = default;
+    Deck(const Deck&) = delete;
     Deck& operator=(const Deck &) = delete;
     Deck(Deck&&) noexcept ;
     Deck& operator=(Deck &&otherDeck) noexcept;
