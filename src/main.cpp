@@ -1,196 +1,70 @@
+#ifndef SCHOTTEN_TOTTEN_PLAYER_H
+#define SCHOTTEN_TOTTEN_PLAYER_H
+
 #include <iostream>
+#include <utility>
+#include <vector>
+#include <list>
 #include <string>
+#include <variant>
 
+#include "deck/Card.h"
+#include "board/Border.h"
 
-#include "deck/DeckFactory.h"
-#include "board/Board.h"
-#include "game/Game.h"
+using std::vector;
+using std::list;
+using std::array;
+using std::string;
 
-int main() {
+class Border;
+class Deck;
 
+class PlayerException : public std::exception {
+private:
+    std::string message;
 
-        //on construit les cartes
-        Deck clanDeck = DeckFactory().createClanDeck();
-        clanDeck.shuffle();
-        clanDeck.print();
+public:
+    explicit PlayerException(string  errorMessage)
+            : message(std::move(errorMessage)) {}
 
-        Board board(9);
-
-        int max_cards_per_hand;
-        static bool tactic;
-        bool valid = false;
-
-        while(!valid){
-            std::cout << "Would you like to play the tactic version ? yes/no \n";
-            std::string answer;
-            std::cin >> answer;
-            if (answer == "yes"){
-                Deck tacticDeck = DeckFactory().createTacticDeck();
-                tacticDeck.shuffle();
-                tacticDeck.print();
-                max_cards_per_hand = 7;
-                tactic = true;
-                valid = true;
-            }
-            else if (answer == "no") {
-                max_cards_per_hand = 6;
-                tactic = false;
-                valid = true;
-            }
-        }
-
-        // board.print();
-        std::cout << "Who traveled near Scotland the most recently. \n";
-        std::cout << "You are player 1! Please give your name and id \n.";
-        std::string name;
-        std::cin >> name;
-        Player player1(name, 1, max_cards_per_hand);
-        std::cout << "Player 2 please give your name and id \n.";
-        std::cin >> name;
-        Player player2(name, 2, max_cards_per_hand);
-        Game game( &player1, &player2);
-        game.play(player1, player2, board);
-
-        return 0;
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
     }
+};
 
 
+class Player {
+private:
+    string name;
+    int id;
+    vector<unique_ptr<Card>> hand;
+    int max_cards;
+    vector<unsigned int> claimed_borders;
 
-/*
-    // conversion ValuedCard vers Card est implicite
-    unique_ptr<Card> reCard = std::move(reCard);
+public:
 
-// ----------------Deck
-    // createClanDeck() return Deck (Deck is an r-value)
-    // So we are using the move constructor here
-//    Deck clanDeck = DeckFactory().createClanDeck();
-//    Deck clanDeck;
-//    clanDeck = DeckFactory().createClanDeck(); // Move assignement
+    ~Player()=default;
+    explicit Player(string nom_, int id_, int max_card);
 
-//    Deck otherDeck = clanDeck; // Error copy constructor is deleted
-//    Deck otherDeck = std::move(clanDeck); // Move constructor only
+    Player& operator = (const Player&) = delete;
+    Player(const Player&) = delete;
 
-//----------- Combination
-try {
-    unique_ptr<Card> card_test = make_unique<ValuedCard>(2, CardColor::orange);
-    unique_ptr<ValuedCard> valuedCard= make_unique<ValuedCard>(move(card_test));
-    Combination combination(4);
-//    combination.push_back(move(valuedCard));
-//    combination.push_back(make_unique<TacticCard>(TacticType::traiter));
-    combination.push_back(make_unique<ValuedCard>(6, CardColor::orange));
-    combination.push_back(make_unique<ValuedCard>(7, CardColor::brown));
-    combination.push_back(make_unique<ValuedCard>(5, CardColor::brown));
-    combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
-    //cout << "numberCardRemaining :" << combination.getSum();
-    cout << combination ;
+    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.
 
-} catch(CombinationException e){
-    cout << e.what();
-}
 
-    //-----launch_Schotten_Totten1:
-
-    unique_ptr<Card> card1 = make_unique<ValuedCard>(2, CardColor::orange);
-    cout << "Carte 1: " << *card1 << '\n' << '\n';
-    // cout << "Test de la méthode print() de Card:\n";
-    // card1->print();
-    // Ce test ne fonctionne pas
-
-    unique_ptr<Card> card2 = make_unique<ValuedCard>(5, CardColor::red);
-    cout << "Carte 2: " << *card2 << '\n' << '\n';
-
-    unique_ptr<Card> card3 = make_unique<ValuedCard>(5, CardColor::blue);
-    cout << "Carte 3: " << *card3 << '\n' << '\n';
-
-    unique_ptr<Card> card4 = make_unique<ValuedCard>(4, CardColor::brown);
-    cout << "Carte 4: " << *card4 << '\n' << '\n';
-
-    unique_ptr<Card> card5 = make_unique<ValuedCard>(3, CardColor::red);
-    cout << "Carte 5: " << *card5 << '\n' << '\n';
-
-    unique_ptr<Card> card6 = make_unique<ValuedCard>(1, CardColor::red);
-    cout << "Carte 6: " << *card6 << '\n' << '\n';
-
-    unique_ptr<Card> card7 = make_unique<ValuedCard>(1, CardColor::blue);
-    cout << "Carte 7: " << *card7 << '\n' << '\n';
-    //Test du constructeur de Player OK
-
-    unique_ptr<Card> card8 = make_unique<ValuedCard>(1, CardColor::yellow);
-    cout << "Carte 8: " << *card8 << '\n' << '\n';
-
-    int playerId1 = 1;
-    int playerId2 = 2;
-    int max_card = 7;
-    vector<unsigned int> borders;
-    borders.push_back(1);
-    borders.push_back(4);
-    borders.push_back(5);
-   
-
-    // Test de print_player() OK
-
-    int id1, id2;
-    player1.print_player();
-    player2.print_player();
-
-    id1 = player1.getId();
-    id2 = player2.getId();
+    friend std::ostream& operator<<(std::ostream& f, const Player& player);
+    void play_card(int card_index, Border& border);
+    void draw_card(Deck deck_);
+    void claim_borders(Border& border_);
+    vector<unsigned int> getClaimed_borders(); // --> OK
+    [[nodiscard]] int getNumber_of_cards() const; // --> OK
+    [[nodiscard]] int getId() const; // --> OK
+    void displayHand() const; // --> OK
+    void print_player() const; // --> OK
+};
 
 
 
 
-    // cout << "id1: " << id1 << "\n";
-    // cout << "id2: " << id2 << "\n";
-
-
-    // Test de add_cart_into_hand OK (Je l'ai remise en private tt de suite après)
-    /*
-    player1.add_card_into_hand(std::move(card1));
-    player1.add_card_into_hand(std::move(card2));
-    player1.add_card_into_hand(std::move(card3));
-    player1.add_card_into_hand(std::move(card4));
-    player1.add_card_into_hand(std::move(card5));
-    player1.add_card_into_hand(std::move(card6));
-    player1.add_card_into_hand(std::move(card7));
-
-
-    cout << "Avec des cartes dans la main?\n";
-    player1.print_player();
-
-    player1.remove_card_from_hand(3);
-
-    cout << "Avec une carte en moins?\n";
-    player1.print_player();
-
-    player1.add_card_into_hand(std::move(card8));
-
-    int player1_nb_cards;
-    player1_nb_cards = player1.getNumber_of_cards();
-
-    cout << "nb de cartes de player1: " << player1_nb_cards;
-    */
-
-    /*
-  
-    //on crée les cartes, les mélange et les affiche
-//    create_borders();
-    //on crée les bornes
-    //on demande aux 2 joueurs quels ids ils souhaitent choisir
-//    Player(int id1,  Player* p, int max_cards_)
-//    Player(int id2,  Player* p, int max_cards_)
-    //on crée les joueurs
-    //on distribue les cartes aux joueurs
-    //on a
-   // std::vector<std::unique_ptr<Border>> = create_borders();
-
-
-
-
-    Deck discardDeck;
-    for (int i = 0; i < 15; ++i)
-        discardDeck.putCard(clanDeck.drawCard());
-    discardDeck.print();
-    cout << '\n';
-
-    clanDeck.print();
-    */
+#endif// SCHOTTEN_TOTTEN_PLAYER_H
