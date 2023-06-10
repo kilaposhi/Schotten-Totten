@@ -1,11 +1,12 @@
 #include <iostream>
+#include <string>
+
 
 #include "deck/Card.h"
 #include "deck/Deck.h"
 #include "player/Player.h"
 #include "board/Board.h"
 #include "game/Game.h"
-#include <string>
 
 int main() {
 

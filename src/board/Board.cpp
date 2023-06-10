@@ -1,22 +1,22 @@
 //
 // Created by berth on 09/06/2023.
 //
-#include "Board.h"
 #include "Border.h"
+#include "Board.h"
 
-#include <iostream>
-#include <stdexcept>
 #include <vector>
 #include <string>
 
-Board::Board (){
-    for (unsigned int i=1; i<=getNumberBorder(); i++){
-        Border border(i);
+
+Board::Board() {
+    for (int i = 1; i <= numberBorder; i++) {
+        Border border = *new Border(i);
         borders.push_back(border);
     }
 }
 
-const int Board::getNumberBorder() const {
+
+int Board::getNumberBorder() const {
     return numberBorder;
 }
 
@@ -27,6 +27,7 @@ Player* Board::getWinner() const {
 const std::vector<Border>& Board::getBorders() const {
     return borders;
 }
+
 
 /* string Board::print() const {
     std::stringstream board("");

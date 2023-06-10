@@ -24,15 +24,15 @@ public:
 
 class Board {
 private :
-    const int numberBorder = 9;
     std::vector<Border> borders;
+    const int numberBorder = 9;
     Player* winner = nullptr;
 
 public :
     Board();
     ~Board() = default;
 
-    const int getNumberBorder() const;
+    int getNumberBorder() const;
     Player* getWinner() const ;
     const std::vector<Border>& getBorders() const;
 

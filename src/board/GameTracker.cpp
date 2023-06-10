@@ -6,15 +6,40 @@
 #include "deck/Card.h"
 #include "deck/Deck.h"
 
+GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
+    copyDeck(tacticDeck, clanDeck);
+}
+
+
+const Deck& GameTracker::getRemainingCardDeck() const {
+    return remainingCardsDeck;
+}
+
+
+const Deck& GameTracker::getPlayerCardsDeck() const {
+    return playedCardsDeck;
+}
+
+
 void GameTracker::update() {
     playedCardsDeck.putCard(remainingCardsDeck.drawCard());
 }
 
-void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
-    remainingCardsDeck.clear(); // Supprime les cartes existantes dans remainingCardsDeck
-    remainingCardsDeck.putCard(tacticDeck.drawCard()); // Ajoute les cartes du tacticDeck
-    remainingCardsDeck.putCard(clanDeck.drawCard()); // Ajoute les cartes du clanDeck
+
+void GameTracker::copyDeck(const Deck& tacticDeck, const Deck& clanDeck) {
+    remainingCardsDeck.clear();  // Efface toutes les cartes actuellement présentes dans remainingCardsDeck
+
+    // Copie les cartes du tacticDeck
+    for (const auto& card : tacticDeck.getCards()) {
+        remainingCardsDeck.addCard(std::make_unique<Card>(*card));
+    }
+
+    // Copie les cartes du clanDeck
+    for (const auto& card : clanDeck.getCards()) {
+        remainingCardsDeck.addCard(std::make_unique<Card>(*card));
+    }
 }
+
 
 void GameTracker::transferCard() {
     if (remainingCardsDeck.isEmpty()) {
