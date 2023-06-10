@@ -83,6 +83,16 @@ class Border{
     + setClaimed()
 }
 
+class Game{
+    - bool gameOver
+    - int version
+    + Game()
+    + create_game()
+    + round(Player player1, Player player2, Board board)
+    + play(Board board)
+    + pause(int n)
+    + isGameOver() bool 
+
 class GameTracker{
     - Deck remainingCardsDeck
     - Deck playedCardsDeck
