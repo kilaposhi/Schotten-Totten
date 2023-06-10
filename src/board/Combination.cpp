@@ -103,7 +103,7 @@ CombinationType Combination::compute_combination(){
 }
 
 bool Combination::isColorRun() {
-    int n = valuedCards_.size();
+    // int n = valuedCards_.size(); pas besoin de cette ligne
     if (isColor() && isRun())
         return true;
     return false;
@@ -115,7 +115,7 @@ bool Combination::isColor(){
     int i = 0;
     while (i < n - 1 && color)
     {
-        if (color = (valuedCards_[i]->getColor() != valuedCards_[i + 1]->getColor())) color = false;
+        if (color == (valuedCards_[i]->getColor() != valuedCards_[i + 1]->getColor())) color = false;
         i++;
     }
     return color;
