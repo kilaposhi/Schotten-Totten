@@ -3,10 +3,17 @@
 #include <thread>
 #include <chrono>
 
-Game::Game(Player *player1, Player *player2) {
-    player1ID = (player1->getId());
-    player2ID = (player2->getId()) ;
+[[noreturn]] Game::Game(): gameOver(0){
+    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
+    int version_ = 1;
+    std::cin >> version_;
+    while(version_ != 1 or version_ != 2){
+        std::cout << "Vous n'avez pas entré une valeur acceptable. \n A quelle version jouez vous: [1] Classique | [2] Tactique:";
+        std::cin >> version_;
+    }
+    version = version_;
 }
+
 
 Board create_board(){
     //Create Board:
