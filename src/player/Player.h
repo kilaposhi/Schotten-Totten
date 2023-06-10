@@ -40,6 +40,8 @@ private:
     vector<unique_ptr<Card>> hand;
     int max_cards;
     vector<unsigned int> claimed_borders;
+    void add_card_into_hand(std::unique_ptr<Card>  card_); 
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
 
 public:
 
@@ -47,14 +49,10 @@ public:
     explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
-    Player(const Player&) = delete;
-
-    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.
-
+    Player(const Player&) = delete
 
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
-    void play_card(int card_index, Border& border);
+    void play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck);
     void draw_card(Deck deck_);
     void claim_borders(Border& border_);
     vector<unsigned int> getClaimed_borders(); // --> OK
