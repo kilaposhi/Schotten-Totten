@@ -47,7 +47,7 @@ public:
     explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
-    Player(const Player&) = default;
+    Player(const Player&) = delete;
 
     void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
     std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.

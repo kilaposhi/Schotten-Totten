@@ -9,8 +9,7 @@
 #include <algorithm>
 
 #include "deck/Card.h"
-#include "player/Player.h"
-#include "board/Border.h"
+
 enum class CombinationType {
     NONE,
     ColorRun,
@@ -23,9 +22,11 @@ enum class CombinationType {
 class Combination {
 public:
     explicit Combination(int maxNumberCards);
-    Combination(const Combination&) = default;
-    Combination& operator=(const Combination&) = delete;
     ~Combination() = default;
+    Combination(const Combination&) = delete;
+    Combination& operator=(const Combination&) = delete;
+    Combination(Combination&& combination);
+    Combination& operator=(Combination&& combination);
 
 public:
     [[nodiscard]] int getSum() const;

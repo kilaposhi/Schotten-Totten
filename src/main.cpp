@@ -14,7 +14,7 @@ int main() {
         clanDeck.shuffle();
         clanDeck.print();
 
-        Board board;
+        Board board(9);
 
         int max_cards_per_hand;
         static bool tactic;

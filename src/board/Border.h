@@ -11,11 +11,8 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "board/Combination.h"
-#include "board/Board.h"
+#include "Combination.h"
 
-class Combination;
-class Player;
 
 class BorderException : public std::exception {
 private:
@@ -30,6 +27,8 @@ public:
     }
 };
 
+class Player;
+
 class Border {
 private:
     bool claimed;
@@ -41,7 +40,10 @@ private:
 public:
     explicit Border(unsigned int slot_number);
     ~Border() = default;
+    Border(const Border&) = delete;
     Border& operator=(const Border& border) = delete;
+    Border(Border&& border);
+    Border& operator=(Border&& border);
 
 
 public:

@@ -5,9 +5,9 @@
 #include <string>
 
 Board::Board(int numberBorder_): numberBorder(numberBorder_), winner(nullptr) {
+    borders.reserve(numberBorder);
     for (int i = 1; i <= numberBorder; i++) {
-        Border border = *new Border(i);
-        borders.push_back(border);
+        borders.emplace_back(i);
     }
 }
 

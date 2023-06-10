@@ -3,7 +3,30 @@
 #include "Border.h"
 
 
-Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3){}
+Border::Border(unsigned int slot_number):
+        claimed(false),
+        slot_number(slot_number),
+        player_1_combination(3),
+        player_2_combination(3),
+        winner(nullptr)
+        {}
+
+Border::Border(Border &&border) :
+        claimed(border.claimed),
+        slot_number(border.slot_number),
+        winner(border.winner),
+        player_1_combination(std::move(border.player_1_combination)),
+        player_2_combination(std::move(border.player_2_combination))
+        { }
+
+Border &Border::operator=(Border &&border) {
+    this->claimed = border.claimed;
+    this->slot_number = border.slot_number;
+    this->winner = border.winner;
+    this->player_1_combination = std::move(border.player_1_combination);
+    this->player_2_combination = std::move(border.player_2_combination);
+    return *this;
+}
 
 void Border::addValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
     int playerId = player->getId();
@@ -70,14 +93,6 @@ string Border::print() const {
 }
 
 //void Border::Claimed(bool claimed) {}
-
-int Board::getNumberBorder() const{
-    return borders.size();
-}
-
-Player* Board::getWinner() const{
-    return winner;
-}
 
 
 ostream &operator<<(ostream &stream, const Border& border) {

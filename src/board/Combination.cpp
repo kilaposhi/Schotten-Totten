@@ -10,6 +10,27 @@ Combination::Combination(int maxNumberCards) : maxNumberCards_(maxNumberCards) {
     tacticCards_.reserve(1);
 }
 
+Combination::Combination(Combination &&combination) :
+        maxNumberCards_ {combination.maxNumberCards_},
+        combinationType_{combination.combinationType_},
+        hasTacticCard_{combination.hasTacticCard_},
+        sumValues_{combination.sumValues_}
+        {
+            this->valuedCards_ = std::move(combination.valuedCards_);
+            this->tacticCards_= std::move(combination.tacticCards_);
+}
+
+Combination &Combination::operator=(Combination &&combination) {
+        maxNumberCards_ =combination.maxNumberCards_;
+        combinationType_=combination.combinationType_;
+        hasTacticCard_=combination.hasTacticCard_;
+        sumValues_=combination.sumValues_;
+        this->valuedCards_ = std::move(combination.valuedCards_);
+        this->tacticCards_= std::move(combination.tacticCards_);
+    return *this;
+}
+
+
 int Combination::getSum() const {
     if (combinationType_== CombinationType::NONE)
         throw CombinationException("Combination does not have a type yet, is not complete");
