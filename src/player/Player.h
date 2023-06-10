@@ -2,6 +2,7 @@
 #define SCHOTTEN_TOTTEN_PLAYER_H
 
 #include <iostream>
+#include <utility>
 #include <vector>
 #include <list>
 #include <string>
@@ -23,8 +24,8 @@ private:
     std::string message;
 
 public:
-    explicit PlayerException(const string& errorMessage)
-            : message(errorMessage) {}
+    explicit PlayerException(string  errorMessage)
+            : message(std::move(errorMessage)) {}
 
     [[nodiscard]]const char* what() const noexcept override {
         return message.c_str();
@@ -54,7 +55,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
     void play_card(int card_index, Border& border);
-    // void draw_card(Deck deck_);
+    void draw_card(Deck deck_);
     void claim_borders(Border& border_);
     vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
