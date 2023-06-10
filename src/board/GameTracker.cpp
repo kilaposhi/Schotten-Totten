@@ -1,3 +1,9 @@
+#include "GameTracker.h"
+
+#include <stdexcept>
+#include <vector>
+
+#include "deck/Card.h"
 #include "deck/Deck.h"
 
 GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
