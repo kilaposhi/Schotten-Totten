@@ -28,7 +28,7 @@ class Player;
 class Board {
 private :
     int numberBorder;
-    std::vector<Border> borders;
+    std::vector<Border*> borders; //Les borders sont accédé par pointeur
     Player* winner;
 
 public :
@@ -37,8 +37,7 @@ public :
 
     [[nodiscard]] int getNumberBorder() const;
     [[nodiscard]] Player* getWinner() const ;
-    [[nodiscard]] const std::vector<Border>& getBorders() const;
+    [[nodiscard]] const std::vector<Border*>& getBorders() const;
     [[nodiscard]] virtual string print() const;
 };
 #endif //SHOTTEN_TOTTEN_BOARD_H
-
