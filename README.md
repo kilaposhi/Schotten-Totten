@@ -56,8 +56,8 @@ Deck "1"*-- "0..*" Card
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
 Combination "1"*--"1" CombinationType
-Combination "0..*" --> "1..*" ValuedCard
-Combination "0..*" --> "1..*" TacticCard
+Combination "0..*" --> "0..*" ValuedCard
+Combination "0..*" --> "0..*" TacticCard
 Player "1"*--"1" Hand
 Player --> Card
 Player --> Border
