@@ -2,6 +2,7 @@
 #define SHOTTEN_TOTTEN_BOARD_H
 
 #include "Border.h"
+#include "player/Player.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -21,22 +22,23 @@ public:
     [[nodiscard]] const char* what() const noexcept override{ return exception_.c_str();}
 };
 
+class Border;
+class Player;
 
 class Board {
 private :
+    int numberBorder;
     std::vector<Border> borders;
-    const int numberBorder = 9;
-    Player* winner = nullptr;
+    Player* winner;
 
 public :
-    Board();
+    explicit Board(int numberBorder_);
     ~Board() = default;
 
-    int getNumberBorder() const;
-    Player* getWinner() const ;
-    const std::vector<Border>& getBorders() const;
-
-
-    virtual string print() const;
+    [[nodiscard]] int getNumberBorder() const;
+    [[nodiscard]] Player* getWinner() const ;
+    [[nodiscard]] const std::vector<Border>& getBorders() const;
+    [[nodiscard]] virtual string print() const;
 };
 #endif //SHOTTEN_TOTTEN_BOARD_H
+
