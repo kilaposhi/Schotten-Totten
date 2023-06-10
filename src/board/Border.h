@@ -2,16 +2,13 @@
 #define PROJET_BORDER_H
 
 #include <iostream>
-//#include <initializer_list>
 #include <exception>
 #include <string>
-//#include <sstream>
-//#include <memory>
-//#include <utility>
 
 #include "Combination.h"
 
 class Player;
+
 class BorderException : public std::exception {
 private:
     std::string message;
@@ -34,7 +31,7 @@ private:
     Combination player_2_combination;
 
 public:
-    Border(unsigned int slot_number);
+    explicit Border(unsigned int slot_number);
     ~Border() = default;
     Border& operator=(const Border& border) = delete;
 
@@ -50,6 +47,7 @@ public:
     string print() const;
     // A FAIRE
     void setClaimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
+
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);

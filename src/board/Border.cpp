@@ -3,6 +3,7 @@
 #include "Border.h"
 
 
+
 Border::Border(unsigned int slot_number): claimed(false), slot_number(slot_number), player_1_combination(3), player_2_combination(3)
         {}
 

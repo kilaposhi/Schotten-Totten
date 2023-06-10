@@ -11,7 +11,6 @@ GameTracker::GameTracker(const Deck& tacticDeck, const Deck& clanDeck) {
     copyDeck(tacticDeck, clanDeck);
 }
 
-
 const Deck& GameTracker::getRemainingCardDeck() const {
     return remainingCardsDeck;
 }

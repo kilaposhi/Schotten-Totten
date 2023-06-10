@@ -20,7 +20,7 @@ public:
     Deck()=default;
     Deck(vector<unique_ptr<Card>>&& cards); // constructor used by 'DeckFactory'
     ~Deck()=default;
-    Deck(const Deck&) = delete;
+    Deck(const Deck&) = default;
     Deck& operator=(const Deck &) = delete;
     Deck(Deck&&) noexcept ;
     Deck& operator=(Deck &&otherDeck) noexcept;

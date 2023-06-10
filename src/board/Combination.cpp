@@ -1,6 +1,7 @@
 #ifndef SCHOTTEN_TOTTEN_COMBINATION_H
 #define SCHOTTEN_TOTTEN_COMBINATION_H
 
+#include <algorithm>
 #include "Combination.h"
 #include "deck/Card.h"
 
