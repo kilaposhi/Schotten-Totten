@@ -14,6 +14,7 @@ classDiagram
     Game "1..1" -- "2..2" Player
     Game "1..1" -- "9..9" Border
     Game "1..1" -- "1..1" Board
+    Game "1..1" -- "0..n" Deck
     Card <|-- Tactic_card
     Card <|-- ValuedCard
     Deck "1"*-- "0..*" Card
@@ -195,6 +196,7 @@ classDiagram
 Game "1..1" -- "2..2" Player
 Game "1..1" -- "9..9" Border
 Game "1..1" -- "1..1" Board
+Game "1..1" -- "0..n" Deck
 Card <|-- Tactic_card
 Card <|-- ValuedCard
 Deck *-- Card
