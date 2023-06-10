@@ -57,4 +57,3 @@ ostream& operator<<(ostream& stream, const Deck& deck){
     stream  << "Remaining cards : " << deck.getNumberRemainingCards();
     return stream;
 }
-
