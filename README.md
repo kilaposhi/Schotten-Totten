@@ -107,6 +107,8 @@ Border "1" -- "0..*" TacticCard
     +getWinner() Player*
     +getBorders() const std::vector<Border>&
     +print() string
+    +hasWinner() Player*
+    +setWinner()
   }
 
   
