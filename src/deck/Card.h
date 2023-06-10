@@ -48,8 +48,8 @@ enum class CardColor{
 class ValuedCard : public Card {
 public:
     ValuedCard(int Value, CardColor Color);
-    explicit ValuedCard(Card& valuedCard, CardColor Color);
-    explicit ValuedCard(Card* valuedCard, CardColor Color);
+    explicit ValuedCard(Card& valuedCard);
+    explicit ValuedCard(Card* valuedCard);
     explicit ValuedCard(unique_ptr<Card> valuedCard);
     ~ValuedCard() override = default;
     ValuedCard(const ValuedCard& valuedCard) = default;

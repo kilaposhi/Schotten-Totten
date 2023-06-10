@@ -3,7 +3,7 @@
 // -------------------Constructors
 ValuedCard::ValuedCard(int Value, CardColor Color) : value_(Value), color_(Color) {}
 
-ValuedCard::ValuedCard(Card& valuedCard, CardColor Color): color_(Color){
+ValuedCard::ValuedCard(Card& valuedCard){
     if (dynamic_cast<ValuedCard*>(&valuedCard) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
@@ -17,7 +17,7 @@ ValuedCard::ValuedCard(unique_ptr<Card> valuedCard) {
     *this = *(dynamic_cast<ValuedCard*>(valuedCard.release()));
 }
 
-ValuedCard::ValuedCard(Card *valuedCard, CardColor Color): color_(Color) {
+ValuedCard::ValuedCard(Card *valuedCard) {
     if (dynamic_cast<ValuedCard*>(valuedCard) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 

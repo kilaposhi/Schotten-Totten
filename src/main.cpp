@@ -15,56 +15,25 @@ using std::vector;
 using std::list;
 using std::array;
 using std::string;
+using std::cout, std::make_unique;
 
-class Border;
-class Deck;
-
-class PlayerException : public std::exception {
-private:
-    std::string message;
-
-public:
-    explicit PlayerException(string  errorMessage)
-            : message(std::move(errorMessage)) {}
-
-    [[nodiscard]]const char* what() const noexcept override {
-        return message.c_str();
-    }
-};
-
-
-class Player {
-private:
-    string name;
-    int id;
-    vector<unique_ptr<Card>> hand;
-    int max_cards;
-    vector<unsigned int> claimed_borders;
-
-public:
-
-    ~Player()=default;
-    explicit Player(string nom_, int id_, int max_card);
-
-    Player& operator = (const Player&) = delete;
-    Player(const Player&) = delete;
-
-    void add_card_into_hand(std::unique_ptr<Card>  card_); // ATTENTION, c'est temporaire.
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); // ATTENTION, c'est temporaire.
-
-
-    friend std::ostream& operator<<(std::ostream& f, const Player& player);
-    void play_card(int card_index, Border& border);
-    void draw_card(Deck deck_);
-    void claim_borders(Border& border_);
-    vector<unsigned int> getClaimed_borders(); // --> OK
-    [[nodiscard]] int getNumber_of_cards() const; // --> OK
-    [[nodiscard]] int getId() const; // --> OK
-    void displayHand() const; // --> OK
-    void print_player() const; // --> OK
-};
-
-
-
+int main(){
+try {
+unique_ptr<Card> card_test = make_unique<ValuedCard>(2, CardColor::orange);
+unique_ptr<ValuedCard> valuedCard= make_unique<ValuedCard>(std::move(card_test));
+Combination combination(4);
+//    combination.push_back(move(valuedCard));
+//    combination.push_back(make_unique<TacticCard>(TacticType::traiter));
+combination.push_back(make_unique<ValuedCard>(6, CardColor::orange));
+combination.push_back(make_unique<ValuedCard>(7, CardColor::brown));
+combination.push_back(make_unique<ValuedCard>(5, CardColor::brown));
+combination.push_back(make_unique<ValuedCard>(1, CardColor::orange));
+//cout << "numberCardRemaining :" << combination.getSum();
+cout << combination ;
+} catch(CombinationException e){
+cout << e.what();
+}
+return 0;
+}
 
 #endif// SCHOTTEN_TOTTEN_PLAYER_H
