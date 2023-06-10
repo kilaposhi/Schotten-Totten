@@ -8,7 +8,7 @@
 7) Réindentation des atributs de Player
 8) Changement d'écriture de mes using ... car Clion me l'a demandé (étrange mais bon...)
 9) Ajout d'un attribut nom au Player. C'est plus sympas pour l'affichage du jeu
-10) Ajout d'une méthode print_player() pour afficher le joueur
+10) Ajout d'une méthode print() pour afficher le joueur
 11) Changements du main mis en commentaire 
 12) Copier coller de Card.h Car impossible de le merge 
 13) Remplacement de Tactic_card par TacticCard pour être en accord 

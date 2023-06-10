@@ -50,7 +50,7 @@ public:
     ValuedCard(int Value, CardColor Color);
     explicit ValuedCard(Card& valuedCard, CardColor Color);
     explicit ValuedCard(Card* valuedCard, CardColor Color);
-    explicit ValuedCard(unique_ptr<Card> valuedCard, CardColor Color);
+    explicit ValuedCard(unique_ptr<Card> valuedCard);
     ~ValuedCard() override = default;
     ValuedCard(const ValuedCard& valuedCard) = default;
     ValuedCard& operator=(const ValuedCard& valuedCard) = default;

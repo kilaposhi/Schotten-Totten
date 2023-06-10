@@ -40,6 +40,11 @@ int Combination::getSum() const {
     return sumValues_;
 }
 
+CombinationType Combination::getType() const {
+    if (combinationType_ == CombinationType::NONE)
+        throw CombinationException("Combination does not have a type yet");
+    return combinationType_;
+}
 
 int Combination::getNumberValuedCards() const {
     return valuedCards_.size() ;
@@ -193,7 +198,6 @@ bool Combination::isThreeOfAKind(){
             count++;
             if (count == 3) {
                 three = true;
-                std::cout << "brelan";
             }
         } else {
             count = 1; // Reset count for a new value

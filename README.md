@@ -52,7 +52,6 @@ Deck "1"*-- "0..*" Card
 Deck -- DeckFactory
 %%    Card "0..7" --* "0..1" Hand
   Combination "1" --* "2" Border
-  Player "1"*--"1" Hand
   Combination "2" --* "1" Border
   Board "1" *-- "9" Border
 

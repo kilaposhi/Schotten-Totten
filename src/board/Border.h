@@ -5,13 +5,14 @@
 #include <initializer_list>
 #include <exception>
 #include <string>
+#include <sstream>
+#include <memory>
+#include <utility>
 
 #include "deck/Card.h"
 #include "player/Player.h"
 #include "Combination.h"
-#include "Board.h"
 
-class Player;
 
 class BorderException : public std::exception {
 private:
@@ -26,20 +27,23 @@ public:
     }
 };
 
-//class Combination;
+class Player;
 
 class Border {
 private:
     bool claimed;
-    Player* winner;
+    Player* winner{};
     unsigned int slot_number;
     Combination player_1_combination;
     Combination player_2_combination;
 
 public:
-    Border(unsigned int slot_number);
+    explicit Border(unsigned int slot_number);
     ~Border() = default;
+    Border(const Border&) = delete;
     Border& operator=(const Border& border) = delete;
+    Border(Border&& border);
+    Border& operator=(Border&& border);
 
 
 public:

@@ -10,7 +10,7 @@ ValuedCard::ValuedCard(Card& valuedCard, CardColor Color): color_(Color){
     *this = dynamic_cast<ValuedCard&>(valuedCard);
 }
 
-ValuedCard::ValuedCard(unique_ptr<Card> valuedCard, CardColor Color): color_(Color){
+ValuedCard::ValuedCard(unique_ptr<Card> valuedCard) {
     if (dynamic_cast<ValuedCard*>(valuedCard.get()) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
