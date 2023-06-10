@@ -3,13 +3,14 @@
 
 #include <iostream>
 #include <stdexcept>
-//#include <vector>
-//#include <string>
-//#include <algorithm>
+#include <utility>
+#include <vector>
+#include <string>
+#include <algorithm>
 
 #include "deck/Card.h"
 #include "player/Player.h"
-
+#include "board/Border.h"
 enum class CombinationType {
     NONE,
     ColorRun,
@@ -21,22 +22,22 @@ enum class CombinationType {
 
 class Combination {
 public:
-    Combination(int maxNumberCards);
+    explicit Combination(int maxNumberCards);
     Combination(const Combination&) = default;
     Combination& operator=(const Combination&) = delete;
     ~Combination() = default;
 
 public:
-    int getSum() const;
-    CombinationType getType() const;
-    int getNumberCards() const;
-    int getMaxNumberCards() const;
+    [[nodiscard]] int getSum() const;
+    [[nodiscard]] CombinationType getType() const;
+    [[nodiscard]] int getNumberCards() const;
+    [[nodiscard]] int getMaxNumberCards() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
     void pop_card(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
     void pop_card(unique_ptr<TacticCard> tacticCard);
     void treatTacticCards();
-    string print() const;
+    [[nodiscard]] string print() const;
 
 private:
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
@@ -55,19 +56,21 @@ private:
     bool isColor();
 };
 
-ostream& operator<<(ostream& stream, const Combination& Combination);
+// ostream& operator<<(ostream& stream, const Border& Border);
 
-class CombinationException{
+class CombinationException: public std::exception{
 private:
-    string exception;
+    std::string message;
 public:
-    CombinationException(string Exception) : exception(Exception){}
-    string what() const { return exception;}
+    explicit CombinationException(string  errorMessage)
+            : message(std::move(errorMessage)) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
 
 };
-
+ostream& operator<<(ostream& stream, const Combination& combination);
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
 string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
-
-
