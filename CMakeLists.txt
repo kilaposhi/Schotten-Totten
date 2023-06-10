@@ -7,19 +7,33 @@ include_directories(src)
 
 add_executable(
         Schotten_Totten
-        src/main.cpp
+        #src/main.cpp
 
-        src/deck/Deck.cpp
-        src/deck/Deck.h
-        src/deck/DeckFactory.cpp
-        src/deck/DeckFactory.h
-        src/deck/Card.cpp
-        src/deck/Card.h
+        #src/board/Board.cpp
+        #src/board/Board.h
+        #src/board/Combination.cpp
+        #src/board/Combination.h
+        #src/board/Border.cpp
+        #src/board/Border.h
+        #src/board/GameTracker.cpp
+        #src/board/GameTracker.h
 
-        src/Game_interface.cpp
-        src/Game_interface.h
+        #src/deck/Card.cpp
+        #src/deck/Card.h
+        #src/deck/Deck.cpp
+        #src/deck/Deck.h
+        #src/deck/DeckFactory.cpp
+        #src/deck/DeckFactory.h
 
-#        src/player/Player.cpp
-#        src/player/Player.h
+        #src/game/Game.cpp
+        #src/game/Game.h
 
+        #src/player/Player.cpp
+        #src/player/Player.h
+
+        #src/Game_interface.cpp
+        #src/Game_interface.h
+
+        #src/GameVIew.cpp
+        #src/GameVIew.h
 )

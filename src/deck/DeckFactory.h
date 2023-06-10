@@ -41,12 +41,17 @@ private:
 
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors);
 
-class DeckFactoryException{
-public:
-    DeckFactoryException(string&& message) : message_(std::move(message)) { }
-    string what() const noexcept { return message_; }
+class DeckFactoryException: std::exception{
 private:
-    string message_;
+    std::string message;
+
+public:
+    explicit DeckFactoryException(string  errorMessage)
+    : message(std::move(errorMessage)) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
 };
 
 #endif //SCHOTTEN_TOTTEN_DECKFACTORY_H

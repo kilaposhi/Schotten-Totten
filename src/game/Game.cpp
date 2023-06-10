@@ -1,24 +1,24 @@
-# include "Game.h"
+#include "Game.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
 
-#include "board/Border.h"
-
-class Border;
-
-void create_borders(){
-    borders = vector<new Border, 9>;
-    
+Game::Game(Player *player1, Player *player2) {
+    player1ID = (player1->getId());
+    player2ID = (player2->getId()) ;
 }
 
+void Game::play(Player player1, Player player2, Board board) {
+    std::cout << "Start of the game\n";
 
-void Game::play(Player player1, Player player2) {
-    std::cout << "Début de la partie\n";
-    create_game();
+    pause(15);
+    while (round) {
+        play(player1);
+        round = ?;
+        play(player2);
 
-    while (true) {
-        std::cout << "Tour du joueur " << player1ID << std::endl;
+
+
         //afficher la main du joueur
         //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
         //jouer la carte
@@ -51,10 +51,10 @@ void Game::play(Player player1, Player player2) {
     quit();
 }
 
-void pause() {
-    std::cout << "Pause de 30 secondes...\n";
-    std::this_thread::sleep_for(std::chrono::seconds(30));
-    std::cout << "Reprise de la partie\n";
+void pause(int n) {
+    //std::cout << "Pause de 30 secondes...\n";
+    std::this_thread::sleep_for(std::chrono::seconds(n));
+    //std::cout << "Reprise de la partie\n";
 }
 
 bool Game::isGameOver() {
@@ -71,6 +71,33 @@ bool Game::isGameOver() {
     return false;
 }
 
+
 void Game::quit() {
     gameOver = true;
+}
+void Game::play(Player player)
+{
+    std::cout << "Player <<player.getId() <<, it is your turn !" << player1ID << std::endl;
+    player.displayHand();
+    pause(2);
+    std::cout << "Please type the index of the card you want to pick.\n";
+    int card_index;
+    std::cin >> card_index;
+    std::cout << "Please type the index of the border you want to pick.\n";
+    int border_index;
+    std::cin >> border_index;
+    player1.play_card(card_index, borders[border_index]);
+    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+    std::cin >> border_index;
+    if (border_index<0 || border_index>9)
+    {
+        throw PlayerException("The index is not valid.");
+    }
+    else if (border_index==0) break;
+    else {
+
+        borders[border_index].getClaimed();
+
+    }
+    if (!deck.isEmpty) player.draw_card( deck_);
 }

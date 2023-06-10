@@ -3,12 +3,16 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "deck/Card.h"
 #include "player/Player.h"
+#include "board/Border.h"
 enum class CombinationType {
+    NONE,
     ColorRun,
     Run,
     Color,
@@ -17,35 +21,56 @@ enum class CombinationType {
 };
 
 class Combination {
-private:
-    std::vector<Card> cards;
-    int sumValues;
-    CombinationType type = NULL;
+public:
+    explicit Combination(int maxNumberCards);
+    Combination(const Combination&) = default;
+    Combination& operator=(const Combination&) = delete;
+    ~Combination() = default;
 
 public:
-    int getSum() const;
-    CombinationType getType() const;
-    void push_back(const ValuedCard &card);
-    CombinationType compute_combination() const;
-    bool ColorRun(int n );
-    bool ThreeOfAKind(int n);
-    bool Run(int n);
-    friend class Border;
-};
+    [[nodiscard]] int getSum() const;
+    [[nodiscard]] CombinationType getType() const;
+    [[nodiscard]] int getNumberCards() const;
+    [[nodiscard]] int getMaxNumberCards() const;
+    void push_back(unique_ptr<ValuedCard> valuedCard);
+    void pop_card(unique_ptr<ValuedCard> valuedCard);
+    void push_back(unique_ptr<TacticCard> tacticCard);
+    void pop_card(unique_ptr<TacticCard> tacticCard);
+    void treatTacticCards();
+    [[nodiscard]] string print() const;
 
-class CombinationException{
 private:
-    string exception;
+    std::vector<unique_ptr<ValuedCard>> valuedCards_;
+    std::vector<unique_ptr<TacticCard>> tacticCards_;
+    bool hasTacticCard_{false};
+    int maxNumberCards_{0};
+    int sumValues_{0};
+    CombinationType combinationType_{CombinationType::NONE};
+
+private:
+    void setMaxNumberCards(int maxNumberCards);
+    CombinationType compute_combination();
+    bool isColorRun();
+    bool isThreeOfAKind();
+    bool isRun();
+    bool isColor();
+};
+
+// ostream& operator<<(ostream& stream, const Border& Border);
+
+class CombinationException: public std::exception{
+private:
+    std::string message;
 public:
-    CombinationException(string Exception) : exception(Exception){}
-    CombinationType getType() const;
-    string what() const { return exception;}
+    explicit CombinationException(string  errorMessage)
+            : message(std::move(errorMessage)) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
 
 };
+ostream& operator<<(ostream& stream, const Combination& combination);
+const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
+string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
-
-
-
-
-
-
