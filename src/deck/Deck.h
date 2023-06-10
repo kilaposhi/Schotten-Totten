@@ -1,3 +1,19 @@
+#ifndef SCHOTTEN_TOTTEN_DECK_H
+#define SCHOTTEN_TOTTEN_DECK_H
+
+#include <algorithm>
+#include <random>
+#include <memory>
+#include <vector>
+
+#include "DeckFactory.h"
+#include "Card.h"
+
+
+using std::shuffle, std::random_device, std::mt19937, std::vector, std::cout;
+using std::move, std::make_unique, std::unique_ptr;
+
+
 class Deck {
 public:
 
@@ -25,4 +41,3 @@ private:
 ostream& operator<<(ostream& stream, const Deck& deck);
 
 #endif //SCHOTTEN_TOTTEN_DECK_H
-
