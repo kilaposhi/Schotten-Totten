@@ -30,8 +30,8 @@ public:
     void update() override;
     void copyDeck(Deck tacticDeck, Deck clanDeck);
     void transferCard();
-    const Deck& getRemainingCardDeck() const;
-    const Deck& getPlayerCardsDeck() const;
+    [[nodiscard]] const Deck& getRemainingCardDeck() const;
+    [[nodiscard]] const Deck& getPlayerCardsDeck() const;
 };
 
 
