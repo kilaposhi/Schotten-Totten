@@ -29,10 +29,10 @@ class Board {
 private :
     int numberBorder_;
     std::vector<Border> borders_;
-    Player* winner;
+    Player* winner_{nullptr};
 
 public :
-    explicit Board(int numberBorder);
+    explicit Board(int numberBorder, Player* player1, Player* player2);
     ~Board() = default;
 
     [[nodiscard]] int getNumberBorder() const;
