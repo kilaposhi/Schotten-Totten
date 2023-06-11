@@ -36,4 +36,6 @@ add_executable(
 
         #src/GameVIew.cpp
         #src/GameVIew.h
+        src/player/TacticHandler.cpp
+        src/player/TacticHandler.h
 )
