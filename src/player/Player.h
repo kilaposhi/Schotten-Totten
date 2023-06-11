@@ -38,7 +38,6 @@ class Border;
 class Player {
 private:
     string name;
-    int id;
     vector<unique_ptr<Card>> hand;
     int max_cards;
     vector<unsigned int> claimed_borders;
@@ -48,7 +47,7 @@ private:
 public:
 
     ~Player()=default;
-    explicit Player(string nom_, int id_, int max_card);
+    explicit Player(string nom_, int max_card);
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = delete;
@@ -59,7 +58,7 @@ public:
     void claim_borders(Border& border_);
     vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
-    [[nodiscard]] int getId() const; // --> OK
+    string getName() const { return name; }
     string displayHand() const; // --> OK
     string print_player() const; // --> OK
 };

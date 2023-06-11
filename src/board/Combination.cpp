@@ -251,25 +251,27 @@ bool Combination::isRun(){
 }
 
 
-string Combination::print() const {
-    std::stringstream combination;
-    if (this->getNumberCards() == 0)
-        return "No cards !";
+string Combination::str() const {
+    std::stringstream stream("");
+//    stream << *player_  << " :";
+    if (this->getNumberCards() == 0) {
+        stream << "No cards !";
+        return stream.str();
+    }
     for (const auto& valuedCard : valuedCards_) {
-        combination << valuedCard->print() << " ";
+        stream << valuedCard->print() << " ";
     }
 
     for (const auto& tacticCard : tacticCards_) {
-        combination << tacticCard->print() << " ";
+        stream << tacticCard->print() << " ";
     }
-
-    return combination.str();
+    return stream.str();
 }
 
 
 ostream& operator<<(ostream& stream, const Combination& combination)
 {
-    stream << combination.print();
+    stream << combination.str();
     return stream;
 }
 

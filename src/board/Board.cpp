@@ -33,11 +33,14 @@ Border &Board::getBorderByID(int ID) {
 }
 
 string Board::print() const {
-    std::stringstream board("");
+    std::stringstream stream("");
+    stream << "\t\t Player 1 \t\t\t||||\t\t\t\t Player2\n ";
+    stream << "------------------------------------------------";
+    stream << "-------------------------------------------------\n";
     for (int i=0; i<numberBorder_; i++) {
-        board << borders_[i].print() << '\n'; //créer une méthode dans border
+        stream << borders_[i].str() << '\n' << '\n';
     }
-    return board.str();
+    return stream.str();
 }
 
 
@@ -58,7 +61,7 @@ Player* Board::hasWinner() {
     }
     int player1;
     if (win != nullptr) {
-        player1 = win->getId();
+//        player1 = win->getId();
     }
     else {
         player1 = -1;
@@ -73,12 +76,12 @@ Player* Board::hasWinner() {
             else {
                 adjacentCount = 1;
             }
-            if (winner->getId() == player1) {
-                player1Count += 1;
-            }
-            else {
-                player2Count +=1;
-            }
+//            if (winner->getId() == player1) {
+//                player1Count += 1;
+//            }
+//            else {
+//                player2Count +=1;
+//            }
 
         }
         i++;

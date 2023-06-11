@@ -28,19 +28,6 @@ TacticHandler &TacticHandler::getInstance(Deck *normalDeck, DeckInfo* normalDeck
 }
 
 
-void TacticHandler::playEliteTroop(unique_ptr<TacticCard> tacticCard, Player *player, int borderId) {
-    board_->getBorderByID(borderId).addTacticalCard(std::move(tacticCard), player);
-}
-
-void TacticHandler::playBlindManBluff(int borderId) {
-    board_->getBorderByID(borderId).setNoCombinationRules();
-}
-
-
-void TacticHandler::playMudFight(int borderId) {
-    board_->getBorderByID(borderId).setMaxNumberCard(4);
-}
-
 void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *player, int borderID) {
     TacticType type = tacticCard->getName();
     bool isEliteTroop = type == TacticType::joker || type == TacticType::spy || type == TacticType::shield_bearer;
@@ -55,6 +42,12 @@ void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *pl
 //// Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
 //throw PlayerException("Unsupported tactic card type");
 }
+
+
+void TacticHandler::playEliteTroop(unique_ptr<TacticCard> tacticCard, Player *player, int borderId) {
+    board_->getBorderByID(borderId).addTacticalCard(std::move(tacticCard), player);
+}
+
 
 void TacticHandler::activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combination* combination) {
     Player *player = combination->getPlayerID();
@@ -78,26 +71,13 @@ void TacticHandler::activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combinat
 
 }
 
-int askPlayerValue(Player* player, std::array<int,2> rangeValue){
-    int result;
-    bool isValid = false;
-    do {
-        cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1];
-        std::cin >> result;
-        if (result >= rangeValue[0] && result <= rangeValue[1])
-            isValid = true;
-    } while(!isValid);
-    return result;
+void TacticHandler::playBlindManBluff(int borderId) {
+    board_->getBorderByID(borderId).setNoCombinationRules();
 }
 
-CardColor askPlayerColor(Player* player, int numberColors){
-    cout << "Here are the colors : \n";
-    auto color_iterator = cardColors.begin();
-    for (size_t i = 0; i < numberColors; i++){
-        CardColor color = *color_iterator++;
-        cout << i << " : " << cardColorToString(color) << "\t";
-    }
-    int color_index = askPlayerValue(player, {0, numberColors});
-    CardColor result = *(cardColors.begin() + color_index);
-    return result;
+
+void TacticHandler::playMudFight(int borderId) {
+    board_->getBorderByID(borderId).setMaxNumberCard(4);
 }
+
+

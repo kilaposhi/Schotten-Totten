@@ -14,7 +14,10 @@ private:
     int player1ID;
     int player2ID;
     bool gameOver;
+    int maxPlayerCard;
+    unique_ptr<Player> player1, player2;
     Deck clanDeck, tacticDeck, discardDeck;
+    DeckInfo deckInfo;
     unique_ptr<Board> board;
     bool tacticVersion_{false};
 
@@ -23,7 +26,7 @@ public :
     void launchSchottenTotten1();
     void setGameVersion();
     Board create_board();
-    void create_player1();
+    void create_players();
     void create_player2();
     void create_deck();
     void start_game();

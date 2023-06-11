@@ -65,30 +65,43 @@ bool Border::getClaimed() const {
 }
 
 void Border::setMaxNumberCard(int maxNumberCard) {
+    mudFight = true;
     player_1_combination->setMaxNumberCards(maxNumberCard);
     player_2_combination->setMaxNumberCards(maxNumberCard);
 }
 
 void Border::setNoCombinationRules() {
+    blindManBluff = true;
     player_1_combination->setNoCombinationRule();
     player_2_combination->setNoCombinationRule();
 }
 
-string Border::print() const {
-    std::stringstream border("");
-    border << "Border " << borderID_ << " : \n";
-    border << "\t Player 1 :";
-    border << player_1_combination->print();
-    border << "\t Player 2 :";
-    border << player_2_combination->print();
-    return border.str();
+string Border::str() const {
+    std::stringstream stream("");
+//    stream << "Border " << borderID_ << " : \n";
+    stream << "[ " << player_1_combination->str() << "] ";
+    stream << " Border " << borderID_ << " ";
+    if (claimed)
+        stream << "claimed by" << *winner_ ;
+    else
+        stream << "is unclaimed";
+    stream << " (Tactic Card :";
+    if (!blindManBluff && !mudFight)
+        stream << " None ";
+    if (blindManBluff)
+        stream << " Blind-Man's Bluff ";
+    if (mudFight)
+        stream << " Mud Fight ";
+    stream << ")  ";
+    stream << "[ " << player_2_combination->str() << "] ";
+    return stream.str();
 }
 
 //void Border::Claimed(bool claimed) {}
 
 
 ostream &operator<<(ostream &stream, const Border& border) {
-    stream << border.print();
+    stream << border.str();
     return stream;
 }
 

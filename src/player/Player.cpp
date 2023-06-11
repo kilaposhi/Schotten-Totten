@@ -13,10 +13,10 @@ class Border;
 class Deck;
 
 
-Player::Player(string name_, int id_, int max_card) : name(std::move(name_)), id(id_), hand{}, max_cards(max_card), claimed_borders{} {}
+Player::Player(string name_, int max_card) : name(std::move(name_)), hand{}, max_cards(max_card), claimed_borders{} {}
 
 std::ostream& operator<<(std::ostream& stream, const Player& player){
-   stream << player.print_player();
+   stream << "Player " << player.getName();
     return stream;
 }
 
@@ -34,8 +34,7 @@ string Player::displayHand() const{
 string Player::print_player() const{
     std::stringstream stream("");
     stream << "-----------------\n";
-    stream << "Player " << id << "\n";
-    stream << "Name: " << name << "\n";
+    stream << "Player :" << name << "\n";
     stream << displayHand();
     stream << '\n';
     stream << "-----------------\n";
@@ -80,7 +79,6 @@ void Player::play_card(int card_index, Border& border) {
                 this,
                 border.getBorderId()
                 );
-//            border.addTacticalCard(std::move(unique_tactic_card), this);
     }
 }
 
@@ -92,7 +90,7 @@ void Player::draw_card(Deck& deck_) {
 void Player::claim_borders(Border& border_){
     unsigned int borderId = border_.getBorderId();
     //border_.getClaimed();
-    if (borderId > 9 || borderId < 0) {                                   // Remarque 1
+    if (borderId > 9 || borderId < 0) {
         throw std::out_of_range("The border index > 9");
     }
     claimed_borders.push_back(borderId);
@@ -111,9 +109,6 @@ vector<unsigned int> Player::getClaimed_borders(){
 
 int Player::getNumber_of_cards() const{return hand.size();}
 
-int Player::getId() const{
-    return id;
-}
 
 
 

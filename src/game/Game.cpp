@@ -10,75 +10,40 @@ Game::Game(): gameOver(false){
 }
 
 void Game::setGameVersion() {
-    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
-    int version;
-    std::cin >> version;
-    while(version != 1 && version != 2){
-        std::cout << "Vous n'avez pas entré une valeur acceptable. \n A quelle version jouez vous: [1] Classique | [2] Tactique:";
-        std::cin >> version;
-    }
+    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique: '\n";
+    int version = askValue({1,2});
     if (version == 2)
         tacticVersion_ = true;
+    tacticVersion_ = false;
 }
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
-    board = std::make_unique<Board>(9);
-    int maxPlayerCards = 6;
+    maxPlayerCard = 6;
     DeckFactory deckFactory;
     clanDeck = deckFactory.createClanDeck();
+    deckInfo = deckFactory.getDeckInfo();
+    board = std::make_unique<Board>(9, player1.get(), player2.get());
     if (tacticVersion_){
         tacticDeck = deckFactory.createTacticDeck();
         discardDeck.clear();
         //Initialize tacticHandler
-        TacticHandler::getInstance(&clanDeck, &tacticDeck, &discardDeck, board.get());
-        maxPlayerCards = 7;
+        TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board.get());
+        maxPlayerCard = 7;
     }
+    create_players();
 }
 
 
-Board create_board(){
-    //Create Board:
-    std::cout << "how many borders are there ?" << "\n";
-    int nbBorders;
-    std::cin >> nbBorders;
-    Board board(nbBorders);
-    return board;
-}
-
-void Game::create_player1(){
+void Game::create_players(){
     std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
     std::cout<<"Player 1 Please give your name: \n.";
     std::string name;
     std::cin>>name;
-    if(version == 1){
-        Player player1(name, 1, 6);
-    }
-    else{
-        Player player1(name, 1, 7);
-    }
+    player1 = std::make_unique<Player>(name, 1, maxPlayerCard);
+    player2 = std::make_unique<Player>(name, 1, maxPlayerCard);
 }
 
-void Game::create_player2(){
-    std::cout<<"Player 2 Please give your name: \n.";
-    std::string name;
-    std::cin>>name;
-    if(version == 1){
-        Player player2(name, 1, 6);
-    }
-    else{
-        Player player2(name, 1, 7);
-    }
-}
-
-void Game::create_deck(){ // Créer les cartes par la même occasion
-    Deck clanDeck = DeckFactory().createClanDeck();
-    clanDeck.shuffle();
-    if(version == 2){
-        Deck tacticDeck = DeckFactory().createTacticDeck();
-        tacticDeck.shuffle();
-    }
-}
 
 void Game::startGame() {
     //demande qui a voyagé le plus près de l'ecosse

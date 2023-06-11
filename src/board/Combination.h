@@ -48,7 +48,7 @@ public:
     void treatTacticCards();
     ValuedCard* getValuedCard(int index) const;
     TacticCard* getTacticCard(int index) const;
-    [[nodiscard]] string print() const;    
+    [[nodiscard]] string str() const;
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
