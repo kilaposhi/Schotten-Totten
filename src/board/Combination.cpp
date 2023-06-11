@@ -6,16 +6,18 @@
 #include "deck/Card.h"
 
 
-Combination::Combination(int maxNumberCards) : maxNumberCards_(maxNumberCards) {
+Combination::Combination(int maxNumberCards, Player* player) : maxNumberCards_(maxNumberCards), player_(player) {
     valuedCards_.reserve(maxNumberCards_);
     tacticCards_.reserve(1);
 }
 
 
 Combination::Combination(Combination &&combination) :
+        player_(combination.player_),
         maxNumberCards_ {combination.maxNumberCards_},
         combinationType_{combination.combinationType_},
         hasTacticCard_{combination.hasTacticCard_},
+        noCombinationRule_(combination.noCombinationRule_),
         sumValues_{combination.sumValues_}
 {
     this->valuedCards_ = std::move(combination.valuedCards_);
@@ -24,9 +26,13 @@ Combination::Combination(Combination &&combination) :
 
 
 Combination &Combination::operator=(Combination &&combination) {
+    if (this == &combination)
+        return *this;
+    player_ = combination.player_;
     maxNumberCards_ =combination.maxNumberCards_;
     combinationType_=combination.combinationType_;
     hasTacticCard_=combination.hasTacticCard_;
+    noCombinationRule_ = combination.noCombinationRule_;
     sumValues_=combination.sumValues_;
     this->valuedCards_ = std::move(combination.valuedCards_);
     this->tacticCards_= std::move(combination.tacticCards_);
@@ -66,6 +72,11 @@ int Combination::getMaxNumberCards() const {
 }
 
 
+Player *Combination::getPlayerID() const {
+    return player_;
+}
+
+
 ValuedCard* Combination::getValuedCard(int index) const {
     if (index < 0 || index >= valuedCards_.size()) {
         throw CombinationException("Index out of range");
@@ -96,6 +107,8 @@ void Combination::push_back(unique_ptr<ValuedCard> valuedCard) {
     valuedCards_.push_back(std::move(valuedCard));
     if (valuedCards_.size() == maxNumberCards_)
         combinationType_ = compute_combination();
+
+
 }
 
 
@@ -134,10 +147,14 @@ void Combination::pop_card(unique_ptr<TacticCard> tacticCard) {
     }
 }
 
+void Combination::setNoCombinationRule() {
+    noCombinationRule_ = true;
+}
 
 void Combination::treatTacticCards() {
-    for (const auto& tacticCard : tacticCards_){
-//        push_back(std::make_unique<ValuedCard>())
+    while (!tacticCards_.empty()) {
+        TacticHandler::getInstance().activeEliteTroop(std::move(tacticCards_.back()), this);
+        tacticCards_.pop_back();
     }
     hasTacticCard_ = false;
     combinationType_ = compute_combination();
@@ -147,6 +164,8 @@ void Combination::treatTacticCards() {
 CombinationType Combination::compute_combination(){
     if (hasTacticCard_)
         throw CombinationException("Need to treat the tactic cards before computing the combination");
+    if (noCombinationRule_)
+        return CombinationType::Sum;
     int n  = getNumberValuedCards();
     if (n < maxNumberCards_)
     {
