@@ -27,7 +27,6 @@ public:
     Combination& operator=(const Combination&) = delete;
     Combination(Combination&& combination);
     Combination& operator=(Combination&& combination);
-    bool hasTacticCard_{false};
 public:
     [[nodiscard]] int getSum() const;
     [[nodiscard]] CombinationType getType() const;
@@ -48,6 +47,7 @@ private:
     std::vector<unique_ptr<TacticCard>> tacticCards_;
     int maxNumberCards_{0};
     int sumValues_{0};
+    bool hasTacticCard_{false};
     CombinationType combinationType_{CombinationType::NONE};
 
 private:

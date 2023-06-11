@@ -234,7 +234,8 @@ bool Combination::isRun(){
 
 string Combination::print() const {
     std::stringstream combination;
-
+    if (this->getNumberCards() == 0)
+        return "No cards !";
     for (const auto& valuedCard : valuedCards_) {
         combination << valuedCard->print() << " ";
     }
@@ -249,17 +250,7 @@ string Combination::print() const {
 
 ostream& operator<<(ostream& stream, const Combination& combination)
 {
-    unsigned int n = combination.getNumberValuedCards();
-
-    for (unsigned int i = 0; i <n; i++)
-    {
-        std::cout<< *(combination.getValuedCard(i));
-    }
-    unsigned int m = combination.getNumberTacticCards();
-    for (unsigned int i = 0; i <m; i++)
-    {
-        std::cout<< *(combination.getTacticCard(i));
-    }
+    stream << combination.print();
     return stream;
 }
 
