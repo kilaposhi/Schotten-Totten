@@ -27,18 +27,20 @@ class Player;
 
 class Board {
 private :
-    int numberBorder;
-    std::vector<Border*> borders; //Les borders sont accédé par pointeur
+    int numberBorder_;
+    std::vector<Border> borders_;
     Player* winner;
 
 public :
-    explicit Board(int numberBorder_);
+    explicit Board(int numberBorder);
     ~Board() = default;
 
     [[nodiscard]] int getNumberBorder() const;
     [[nodiscard]] Player* getWinner() const ;
-    [[nodiscard]] const std::vector<Border*>& getBorders() const;
-    [[nodiscard]] virtual string print() const;
+    [[nodiscard]] const std::vector<Border>& getBorders() const;
+    Border& getBorderByID(int ID);
+
+    string print() const;
     Player* hasWinner();
     void setWinner();
 };
