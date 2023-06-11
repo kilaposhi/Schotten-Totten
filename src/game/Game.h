@@ -8,18 +8,20 @@
 #include "board/Border.h"
 #include "board/Board.h"
 
-class Player;
-class Border;
 
 class Game {
 private:
     int player1ID;
     int player2ID;
     bool gameOver;
-    int version;
+    Deck clanDeck, tacticDeck, discardDeck;
+    unique_ptr<Board> board;
+    bool tacticVersion_{false};
 
 public :
-    [[noreturn]] Game();
+    Game();
+    void launchSchottenTotten1();
+    void setGameVersion();
     Board create_board();
     void create_player1();
     void create_player2();
