@@ -7,10 +7,10 @@
 #include <vector>
 #include <string>
 
-Board::Board(int numberBorder): numberBorder_(numberBorder), winner(nullptr) {
+Board::Board(int numberBorder, Player* player1, Player* player2): numberBorder_(numberBorder), winner_(nullptr) {
     borders_.reserve(numberBorder_);
     for (int borderID = 0; borderID < numberBorder_; borderID++) {
-        borders_.emplace_back(borderID);
+        borders_.emplace_back(borderID, player1, player2);
     }
 }
 
@@ -19,7 +19,7 @@ int Board::getNumberBorder() const {
 }
 
 Player* Board::getWinner() const {
-    return winner;
+    return winner_;
 }
 
 const std::vector<Border>& Board::getBorders() const {
@@ -92,7 +92,7 @@ Player* Board::hasWinner() {
 }
 
 void Board::setWinner() {
-    winner = this->hasWinner();
+    winner_ = this->hasWinner();
 }
 
 

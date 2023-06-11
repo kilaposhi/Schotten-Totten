@@ -5,15 +5,35 @@
 #include "deck/DeckFactory.h"
 
 
-[[noreturn]] Game::Game(): gameOver(0){
+Game::Game(): gameOver(false){
+    launchSchottenTotten1();
+}
+
+void Game::setGameVersion() {
     std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
-    int version_ = 1;
-    std::cin >> version_;
-    while(version_ != 1 or version_ != 2){
+    int version;
+    std::cin >> version;
+    while(version != 1 && version != 2){
         std::cout << "Vous n'avez pas entré une valeur acceptable. \n A quelle version jouez vous: [1] Classique | [2] Tactique:";
-        std::cin >> version_;
+        std::cin >> version;
     }
-    version = version_;
+    if (version == 2)
+        tacticVersion_ = true;
+}
+
+void Game::launchSchottenTotten1() {
+    setGameVersion();
+    board = std::make_unique<Board>(9);
+    int maxPlayerCards = 6;
+    DeckFactory deckFactory;
+    clanDeck = deckFactory.createClanDeck();
+    if (tacticVersion_){
+        tacticDeck = deckFactory.createTacticDeck();
+        discardDeck.clear();
+        //Initialize tacticHandler
+        TacticHandler::getInstance(&clanDeck, &tacticDeck, &discardDeck, board.get());
+        maxPlayerCards = 7;
+    }
 }
 
 

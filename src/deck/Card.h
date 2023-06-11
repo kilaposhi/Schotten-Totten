@@ -80,8 +80,9 @@ enum class TacticType {
 class TacticCard : public Card {
 public :
     explicit TacticCard(TacticType type);
-    TacticCard(const TacticCard&) = delete;
-    TacticCard& operator=(const TacticCard&) = delete;
+    TacticCard(unique_ptr<Card> tacticCard);
+    TacticCard(const TacticCard&) = default;
+    TacticCard& operator=(const TacticCard&) = default;
 
     [[nodiscard]] TacticType getName() const;
     [[nodiscard]] string getDescription() const;

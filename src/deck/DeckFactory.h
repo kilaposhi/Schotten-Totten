@@ -12,6 +12,15 @@ class Deck;
 
 using std::move, std::vector, std::make_unique, std::unique_ptr, std::string;
 
+extern initializer_list<TacticType> tacticTypes;
+extern initializer_list<CardColor> cardColors;
+
+struct DeckInfo{
+    int total_number_cards;
+    int min_card_value, max_card_value;
+    int number_colors;
+};
+
 // Factory : https://refactoring.guru/fr/design-patterns/factory-method
 class DeckFactory {
 public:
@@ -21,6 +30,7 @@ public:
     ~DeckFactory()=default;
 
     [[nodiscard]] Deck createClanDeck();
+    DeckInfo getDeckInfo();
     [[nodiscard]] Deck createTacticDeck();
 
 private: // attributes
