@@ -15,32 +15,31 @@ class Deck;
 
 Player::Player(string name_, int id_, int max_card) : name(std::move(name_)), id(id_), hand{}, max_cards(max_card), claimed_borders{} {}
 
-std::ostream& operator<<(std::ostream& f, const Player& player){
-    int i = 0;
-    for (const auto& card : player.hand) {
-        // Afficher les informations de la carte dans le flux
-        f << "carte" << i << *card << " ";
-        i ++;
-    }
-    return f;
+std::ostream& operator<<(std::ostream& stream, const Player& player){
+   stream << player.print_player();
+    return stream;
 }
 
 
-void Player::displayHand() const{
-    cout << "Player's hand: ";
+string Player::displayHand() const{
+    std::stringstream stream("");
+    stream << "Player's hand: ";
+    int i =0;
     for (const auto& cardPtr : hand) {
-        cout << *cardPtr;  // Utilisez la méthode print() de la classe Card pour afficher le contenu de chaque carte
+        stream << " (" << i++ << "): " << *cardPtr << " ";  // Utilisez la méthode print() de la classe Card pour afficher le contenu de chaque carte
     }
-
+    return stream.str();
 }
 
-void Player::print_player() const{
-    std::cout << "-----------------\n";
-    std::cout << "Player " << id << "\n";
-    std::cout << "Name: " << name << "\n";
-    displayHand();
-    cout << "\n";
-    std::cout << "-----------------\n";
+string Player::print_player() const{
+    std::stringstream stream("");
+    stream << "-----------------\n";
+    stream << "Player " << id << "\n";
+    stream << "Name: " << name << "\n";
+    stream << displayHand();
+    stream << '\n';
+    stream << "-----------------\n";
+    return stream.str();
 }
 
 
@@ -53,7 +52,6 @@ void Player::add_card_into_hand(std::unique_ptr<Card>  card_) {
 }
 
 std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
-    card_index -= 1;
     if (hand.empty()) {
         throw PlayerException("The hand is empty");
     }
@@ -66,7 +64,7 @@ std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
 }
 
 
-void Player::play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck) {
+void Player::play_card(int card_index, Border& border) {
     if (card_index < 0 || card_index >= hand.size()) {
         throw PlayerException("Invalid card index");
     }
@@ -74,40 +72,30 @@ void Player::play_card(int card_index, Border& border, vector<unique_ptr<Card>>&
     std::unique_ptr<Card> card = remove_card_from_hand(card_index);
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
-        std::unique_ptr<ValuedCard> unique_valued_card = std::make_unique<ValuedCard>(*valued_card);
-        border.addValueCard(std::move(unique_valued_card), this);
-    } else if (auto tactic_card = dynamic_cast<TacticCard*>(card.get())) {
-        TacticType type = tactic_card->getName();
-        if (type == TacticType::joker || type == TacticType::spy || type == TacticType::shield_bearer ||
-            type == TacticType::blind_man_bluff || type == TacticType::mud_fight) {
-            std::unique_ptr<TacticCard> unique_tactic_card(tactic_card);
-            border.addTacticalCard(std::move(unique_tactic_card), this);
-        } else if (type == TacticType::recruiter || type == TacticType::strategist ||
-                   type == TacticType::banshee || type == TacticType::traiter) {
-            // Ajouter la carte à la défausse
-            discardDeck.push_back(std::move(card));
-        } else {
-            // Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
-            throw PlayerException("Unsupported tactic card type");
-        }
+        border.addValueCard(std::make_unique<ValuedCard>(std::move(card)), this);
     } else {
-        // Type de carte non pris en charge, vous pouvez gérer l'erreur en conséquence
-        throw PlayerException("Unsupported card type");
+        dynamic_cast<TacticCard*>(card.get());
+        TacticHandler::getInstance().playTacticCard(
+                std::make_unique<TacticCard>(std::move(card)),
+                this,
+                border.getBorderId()
+                );
+//            border.addTacticalCard(std::move(unique_tactic_card), this);
     }
 }
 
-void Player::draw_card(Deck deck_) {
+void Player::draw_card(Deck& deck_) {
     auto drawn_card = deck_.drawCard();
     add_card_into_hand(std::move(drawn_card));
 }
 
 void Player::claim_borders(Border& border_){
-    unsigned int border_num = border_.getSlotNumber();
+    unsigned int borderId = border_.getBorderId();
     //border_.getClaimed();
-    if (border_num > 9) {                                   // Remarque 1
+    if (borderId > 9 || borderId < 0) {                                   // Remarque 1
         throw std::out_of_range("The border index > 9");
     }
-    claimed_borders.push_back(border_num);
+    claimed_borders.push_back(borderId);
 
 }
 

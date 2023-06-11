@@ -7,17 +7,18 @@
 #include <list>
 #include <string>
 #include <variant>
+#include <sstream>
 
 #include "deck/Card.h"
 #include "board/Border.h"
+#include "deck/Deck.h"
+#include "TacticHandler.h"
 
 using std::vector;
 using std::list;
 using std::array;
 using std::string;
 
-class Border;
-class Deck;
 
 class PlayerException : public std::exception {
 private:
@@ -32,6 +33,7 @@ public:
     }
 };
 
+class Border;
 
 class Player {
 private:
@@ -49,17 +51,17 @@ public:
     explicit Player(string nom_, int id_, int max_card);
 
     Player& operator = (const Player&) = delete;
-    Player(const Player&) = delete
+    Player(const Player&) = delete;
 
     friend std::ostream& operator<<(std::ostream& f, const Player& player);
-    void play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck);
-    void draw_card(Deck deck_);
+    void play_card(int card_index, Border& border);
+    void draw_card(Deck& deck_);
     void claim_borders(Border& border_);
     vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
     [[nodiscard]] int getId() const; // --> OK
-    void displayHand() const; // --> OK
-    void print_player() const; // --> OK
+    string displayHand() const; // --> OK
+    string print_player() const; // --> OK
 };
 
 
