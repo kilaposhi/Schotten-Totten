@@ -38,6 +38,13 @@ TacticCard::TacticCard(TacticType type) {
     description = createTacticDescription(type);
 }
 
+TacticCard::TacticCard(unique_ptr<Card> tacticCard) {
+    if (dynamic_cast<TacticCard*>(tacticCard.get()) == nullptr)
+        throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
+
+    *this = *(dynamic_cast<TacticCard*>(tacticCard.release()));
+}
+
 TacticType TacticCard::getName() const{
     return name;
 }
