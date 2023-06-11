@@ -66,7 +66,7 @@ std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
 }
 
 
-void Player::play_card(int card_index, Border& border) {
+void Player::play_card(int card_index, Border& border, vector<unique_ptr<Card>>&& discardDeck) {
     if (card_index < 0 || card_index >= hand.size()) {
         throw PlayerException("Invalid card index");
     }
@@ -85,7 +85,7 @@ void Player::play_card(int card_index, Border& border) {
         } else if (type == TacticType::recruiter || type == TacticType::strategist ||
                    type == TacticType::banshee || type == TacticType::traiter) {
             // Ajouter la carte à la défausse
-            // defausse.push_back(std::move(card)); --> où est défausse
+            discardDeck.push_back(std::move(card));
         } else {
             // Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
             throw PlayerException("Unsupported tactic card type");
