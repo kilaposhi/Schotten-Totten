@@ -1,6 +1,6 @@
- ```mermaid
+```mermaid
  ---
-title: Architecture Schotten-Totten V2
+title: Architecture Schotten-Totten
 ---
 classDiagram
 
