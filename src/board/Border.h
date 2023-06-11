@@ -33,12 +33,13 @@ class Border {
 private:
     bool claimed;
     Player* winner{};
-    unsigned int slot_number;
+    int borderID_;
+    const int NUMBER_CARDS = 3;
     Combination player_1_combination;
     Combination player_2_combination;
 
 public:
-    explicit Border(unsigned int slot_number);
+    Border(int borderId);
     ~Border() = default;
     Border(const Border&) = delete;
     Border& operator=(const Border& border) = delete;
@@ -51,8 +52,8 @@ public:
     void removeValueCard(unique_ptr<ValuedCard> valued_card, Player* player);
     void addTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
-    [[nodiscard]] unsigned int getSlotNumber() const;
     [[nodiscard]] Player* getWinnerBorder() const;
+    int getBorderId() const { return borderID_; }
     [[nodiscard]] bool getClaimed() const;
     [[nodiscard]] string print() const;
     // A FAIRE

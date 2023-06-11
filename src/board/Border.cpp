@@ -3,25 +3,25 @@
 #include "Border.h"
 
 
-Border::Border(unsigned int slot_number):
+Border::Border(int borderID):
+        borderID_(borderID),
         claimed(false),
-        slot_number(slot_number),
-        player_1_combination(3),
-        player_2_combination(3),
+        player_1_combination(NUMBER_CARDS),
+        player_2_combination(NUMBER_CARDS),
         winner(nullptr)
         {}
 
 Border::Border(Border &&border) :
+        borderID_(border.borderID_),
         claimed(border.claimed),
-        slot_number(border.slot_number),
         winner(border.winner),
         player_1_combination(std::move(border.player_1_combination)),
         player_2_combination(std::move(border.player_2_combination))
         { }
 
 Border &Border::operator=(Border &&border) {
+    this->borderID_ = border.borderID_;
     this->claimed = border.claimed;
-    this->slot_number = border.slot_number;
     this->winner = border.winner;
     this->player_1_combination = std::move(border.player_1_combination);
     this->player_2_combination = std::move(border.player_2_combination);
@@ -69,11 +69,6 @@ void Border::removeTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player*
 }
 
 
-unsigned int Border::getSlotNumber() const {
-    return slot_number;
-}
-
-
 Player* Border::getWinnerBorder() const {
     return winner;
 }
@@ -85,9 +80,10 @@ bool Border::getClaimed() const {
 
 string Border::print() const {
     std::stringstream border("");
-    border << "Player 1 :";
+    border << "Border " << borderID_ << " : \n";
+    border << "\t Player 1 :";
     border << player_1_combination.print();
-    border << "Player 2 :";
+    border << "\t Player 2 :";
     border << player_2_combination.print();
     return border.str();
 }
