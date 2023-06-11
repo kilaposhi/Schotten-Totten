@@ -3,7 +3,6 @@
 Deck DeckFactory::build() {
     if (this->cards_.empty())
         throw DeckFactoryException("Building an empty Deck (cards_ is empty)");
-
     return {std::move(this->cards_)};
 }
 
@@ -39,6 +38,15 @@ Deck DeckFactory::createClanDeck() {
     this->createValuedCards();
 
     return this->build();
+}
+
+DeckInfo DeckFactory::getDeckInfo() {
+    DeckInfo deckInfo{};
+    deckInfo.min_card_value = min_card_value_;
+    deckInfo.max_card_value = max_card_value_;
+//    deckInfo.total_number_cards = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
+    deckInfo.number_colors = number_colors_;
+    return deckInfo;
 }
 
 
