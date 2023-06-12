@@ -26,11 +26,6 @@ string Player::displayHand() const{
     }
     return stream.str();
 }
-string Player::displayCard(int index_card)  const {
-    std::stringstream card("");
-    card << *hand[index_card];
-    return card.str();
-}
 
 string Player::displayCard(int index_card)  const {
     std::stringstream card("");
@@ -138,5 +133,10 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     return stream;
 }
 
+std::unique_ptr<Card> AI::pick_a_card(Board *board) {
+    vector<Combination> possibilities;
 
+    for (unsigned int i = 0; i<9; i++)
+        for (unsigned int i = 0; i)
+}
 

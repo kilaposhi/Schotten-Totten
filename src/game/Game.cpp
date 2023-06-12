@@ -103,7 +103,42 @@ void Game::round() {
     std::cout << "End of the game\n";
     quit();
 }
+void Game::roundAI(){
+    create_deck();
+    create_board();
+    player1_->fillHand(clanDeck);
+    player1_->fillHand(clanDeck);
 
+
+    std::cout << "Start of the game\n";
+
+    while (board_.hasWinner() == nullptr) {
+        std::cout << "It is your turn" << std::endl;
+        play(player1_, board_);
+
+        pause(10);
+
+        if (isGameOver()) {
+            std::cout << "You won!\n";
+            break;
+        }
+
+        pause(15);
+
+        std::cout << "The computer is playing..." << std::endl;
+        playAI();
+
+        if (isGameOver()) {
+            std::cout << "You lost!\n";
+            break;
+        }
+
+        pause(15);
+    }
+
+    std::cout << "End of the game\n";
+    quit();
+}
 
 void Game::play(Player* player) {
     cout << board_->str() << '\n';
@@ -128,42 +163,9 @@ void Game::play(Player* player) {
     pause(5);
     clearScreen();
 }
-void Game::roundAI(Player* player, Board board){
-    create_deck();
 
-    std::cout << "Start of the game\n";
 
-    while (board.hasWinner() == nullptr) {
-        std::cout << "Player " << player->getId() <<"'s turn" << std::endl;
-        play(player, board);
-
-        pause(15);
-
-        if (isGameOver()) {
-            std::cout << "You won!\n";
-            break;
-        }
-
-        pause(15);
-
-        std::cout << "The computer is playing..." << std::endl;
-        playAI(board);
-
-        if (isGameOver()) {
-            std::cout << "You lost!\n";
-            break;
-        }
-
-        pause(15);
-    }
-
-    std::cout << "End of the game\n";
-    quit();
-}
-
-void Game::playAI(Player* computer, Board board) {
-    std::cout << "The computer is playing !" << std::endl;
-    pause(4);
+void Game::playAI(AI* computer ) {
     int card_index;
     int border_index;
     std::cout << "The computer has played the card" << computer->displayCard(card_index) << "on the border" <<border_index << ".\n" ;

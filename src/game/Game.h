@@ -29,7 +29,7 @@ public :
     void start_game();
     void round();
     void roundAI();
-    void playAI();
+    void playAI(AI * computer);
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);

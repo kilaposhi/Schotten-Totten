@@ -14,6 +14,7 @@
 #include "board/Board.h"
 #include "deck/Deck.h"
 #include "TacticHandler.h"
+#include "board/Combination.h"
 
 using std::vector;
 using std::list;
@@ -67,6 +68,10 @@ public:
     string print_player() const; // --> OK
 };
 
+class AI : public Player {
+    std::unique_ptr<Card> pick_a_card();
+
+};
 std::ostream& operator<<(std::ostream& f, const Player& player);
 
 
