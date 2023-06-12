@@ -1,11 +1,15 @@
-#include "Game.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <cstdlib>
 #include "deck/DeckFactory.h"
+#include "board/Board.h"
+#include "Game.h"
 
 
-Game::Game(): gameOver(false){
+class Board;
+
+Game::Game(): gameOver(false), player1(nullptr), player2(nullptr){
     launchSchottenTotten1();
 }
 
@@ -23,70 +27,71 @@ void Game::setGameVersion() {
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
-    board = std::make_unique<Board>(9);
-    int maxPlayerCards = 6;
-    DeckFactory deckFactory;
-    clanDeck = deckFactory.createClanDeck();
-    if (tacticVersion_){
-        tacticDeck = deckFactory.createTacticDeck();
-        discardDeck.clear();
-        //Initialize tacticHandler
-        TacticHandler::getInstance(&clanDeck, &tacticDeck, &discardDeck, board.get());
-        maxPlayerCards = 7;
-    }
-}
 
+    // Création de la board
+    Board board_(9, player1, player2);
 
-Board create_board(){
-    //Create Board:
-    std::cout << "how many borders are there ?" << "\n";
-    int nbBorders;
-    std::cin >> nbBorders;
-    Board board(nbBorders);
-    return board;
-}
+    // Création des decks
+    clanDeck = DeckFactory().createClanDeck();
+    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
+    clanDeck.shuffle();
+    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board_);
 
-void Game::create_player1(){
+    // Initialisations des infos des players
     std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
     std::cout<<"Player 1 Please give your name: \n.";
-    std::string name;
-    std::cin>>name;
-    if(version == 1){
-        Player player1(name, 1, 6);
-    }
-    else{
-        Player player1(name, 1, 7);
-    }
-}
-
-void Game::create_player2(){
+    std::string name1;
+    name1 = "Josette"; //std::cin>>name1;
     std::cout<<"Player 2 Please give your name: \n.";
-    std::string name;
-    std::cin>>name;
-    if(version == 1){
-        Player player2(name, 1, 6);
+    std::string name2;
+    name2 = "Franck"; // std::cin>>name2;
+    int maxPlayerCards = 6;
+
+    if(tacticVersion_){ // Si on joue à la version tactique
+        // Création du tacticDeck
+        tacticDeck = DeckFactory().createTacticDeck();
+        discardDeck.clear();
+        //Initialize tacticHandler
+        TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board_);
+        maxPlayerCards = 7;
     }
-    else{
-        Player player2(name, 1, 7);
-    }
+
+    // Création des Players
+    Player player1_(name1, 1, maxPlayerCards);
+    Player player2_(name2, 2,maxPlayerCards);
+    player1 = &player1_;
+    player2 = &player2_;
+    cout << *player1;
+    cout << *player2;
+    startGame();
 }
 
-void Game::create_deck(){ // Créer les cartes par la même occasion
-    Deck clanDeck = DeckFactory().createClanDeck();
-    clanDeck.shuffle();
-    if(version == 2){
-        Deck tacticDeck = DeckFactory().createTacticDeck();
-        tacticDeck.shuffle();
-    }
-}
 
 void Game::startGame() {
-    //demande qui a voyagé le plus près de l'ecosse
-    //demandes aux joueurs leurs noms
-    //lance plusieurs rounds
-    //annonce le vainqueur final (pourrait peut être être un attribut de Game
+    if(tacticVersion_){
+        // tacticDeck.drawCard();
+        int x;
+        for (int i=0; i <2 ; i++) {
+            x = rand() % 2;
+            if (x == 0) {j
+                player1->draw_card(clanDeck);
+                player2->draw_card(clanDeck);
+            }
+            else {
+                player1->draw_card(tacticDeck);
+                player2->draw_card(tacticDeck);
+            }
+        }
+    }
+    for (int i=0; i <6; i++) {
+        player1->draw_card(clanDeck);
+        player2->draw_card(clanDeck);
+    }
+    cout << *player1;
+    cout << *player2;
 }
 
+/*
 void Game::round(Player* player1, Player* player2, Board board) {
     create_deck();
 
@@ -174,4 +179,4 @@ bool Game::isGameOver() {
 void Game::quit() {
     gameOver = true;
 }
-
+*/
