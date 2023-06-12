@@ -12,34 +12,6 @@ Combination::Combination(int maxNumberCards, Player* player) : maxNumberCards_(m
 }
 
 
-Combination::Combination(Combination &&combination) :
-        player_(combination.player_),
-        maxNumberCards_ {combination.maxNumberCards_},
-        combinationType_{combination.combinationType_},
-        hasTacticCard_{combination.hasTacticCard_},
-        noCombinationRule_(combination.noCombinationRule_),
-        sumValues_{combination.sumValues_}
-{
-    this->valuedCards_ = std::move(combination.valuedCards_);
-    this->tacticCards_= std::move(combination.tacticCards_);
-}
-
-
-Combination &Combination::operator=(Combination &&combination) {
-    if (this == &combination)
-        return *this;
-    player_ = combination.player_;
-    maxNumberCards_ =combination.maxNumberCards_;
-    combinationType_=combination.combinationType_;
-    hasTacticCard_=combination.hasTacticCard_;
-    noCombinationRule_ = combination.noCombinationRule_;
-    sumValues_=combination.sumValues_;
-    this->valuedCards_ = std::move(combination.valuedCards_);
-    this->tacticCards_= std::move(combination.tacticCards_);
-    return *this;
-}
-
-
 int Combination::getSum() const {
     if (combinationType_ == CombinationType::NONE)
         throw CombinationException("Combination does not have a type yet, is not complete");
@@ -259,11 +231,11 @@ string Combination::str() const {
         return stream.str();
     }
     for (const auto& valuedCard : valuedCards_) {
-        stream << valuedCard->print() << " ";
+        stream << valuedCard->str() << " ";
     }
 
     for (const auto& tacticCard : tacticCards_) {
-        stream << tacticCard->print() << " ";
+        stream << tacticCard->str() << " ";
     }
     return stream.str();
 }

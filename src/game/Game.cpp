@@ -19,37 +19,44 @@ void Game::setGameVersion() {
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
-    maxPlayerCard = 6;
+    create_player(1);
+    create_player(2);
+    create_deck();
+    create_board();
+
+}
+
+
+void Game::create_player(int id){
+    if (id == 1)
+        std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
+    std::cout<<"Player " << id << " please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    int maxPlayerCard = 6;
+    if (tacticVersion_)
+        maxPlayerCard = 7;
+    if (id == 1)
+        player1 = std::make_unique<Player>(name, id, maxPlayerCard);
+    else
+        player2 = std::make_unique<Player>(name, id , maxPlayerCard);
+}
+
+
+void Game::create_deck() {
     DeckFactory deckFactory;
     clanDeck = deckFactory.createClanDeck();
     deckInfo = deckFactory.getDeckInfo();
-    board = std::make_unique<Board>(9, player1.get(), player2.get());
     if (tacticVersion_){
         tacticDeck = deckFactory.createTacticDeck();
         discardDeck.clear();
-        //Initialize tacticHandler
-        TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board.get());
-        maxPlayerCard = 7;
     }
-    create_players();
 }
 
-
-void Game::create_players(){
-    std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
-    std::cout<<"Player 1 Please give your name: \n.";
-    std::string name;
-    std::cin>>name;
-    player1 = std::make_unique<Player>(name, 1, maxPlayerCard);
-    player2 = std::make_unique<Player>(name, 1, maxPlayerCard);
-}
-
-
-void Game::startGame() {
-    //demande qui a voyagé le plus près de l'ecosse
-    //demandes aux joueurs leurs noms
-    //lance plusieurs rounds
-    //annonce le vainqueur final (pourrait peut être être un attribut de Game
+void Game::create_board() {
+    board = std::make_unique<Board>(9, player1.get(), player2.get());
+    if (tacticVersion_)
+        TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board.get());
 }
 
 void Game::round(Player* player1, Player* player2, Board board) {
@@ -59,23 +66,23 @@ void Game::round(Player* player1, Player* player2, Board board) {
 
 
     while (board.hasWinner() == nullptr) {
-        std::cout << "Player " << player1->getId() <<"'s turn" << std::endl;
+        std::cout << "Player " << player1->getID() <<"'s turn" << std::endl;
         play(player1, board);
 
         pause(15);
 
         if (isGameOver()) {
-            std::cout << "Player " << player1->getId() << " won!\n";
+            std::cout << "Player " << player1->getID() << " won!\n";
             break;
         }
 
         pause(15);
 
-        std::cout << "Player " << player2->getId() <<"'s turn" << std::endl;
+        std::cout << *player2 <<  "turn" << std::endl;
         play(player2, board);
 
         if (isGameOver()) {
-            std::cout << "Player " << player2->getId() << " won!\n";
+            std::cout << "Player " << player2->getID() << " won!\n";
             break;
         }
 
@@ -87,31 +94,29 @@ void Game::round(Player* player1, Player* player2, Board board) {
 }
 
 
-void Game::play(Player* player, Board board) {
-    std::cout << "Player" << player->getId() <<", it is your turn !" << std::endl;
-    player->displayHand();
+void Game::play(Player* player, Board* board) {
+    std::cout << "Player" << player->getID() <<", it is your turn !" << std::endl;
     pause(2);
+    cout << board->str() << '\n';
+    cout << player->displayHand() << '\n';
     std::cout << "Please type the index of the card you want to pick.\n";
-    int card_index;
-    std::cin >> card_index;
+    int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() -1});
     std::cout << "Please type the index of the border you want to pick.\n";
-    int border_index;
-    std::cin >> border_index;
-    std::vector<Border> borders = board.getBorders();
-    player.play_card(card_index, [border_index]);
-    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
+    int border_index = askPlayerValue(player, {0, board->getNumberBorder() - 1});
+    player->play_card(card_index, border_index, board);
+    std::cout << *board << '\n';
+    bool playerWantToClaim = askYesNo("Would you like to claim a border?");
+    if (playerWantToClaim){
+        std::cout << "Please type the index of the border you want to pick.\n";
+        int border_index = askPlayerValue(player, {0, board->getNumberBorder() - 1});
+        try {
+            board->getBorderByID(border_index); // .claim
+        }catch  (BorderException e) {
+            cout << e.what();
+        }
     }
-    else if (border_index==0) break;
-    else {
 
-        borders[border_index].getClaimed();
-
-    }
-    if (!deck.isEmpty) player.draw_card( deck_);
+//    if (!clanDeck.isEmpty) player.draw_card( deck_);
 }
 
 

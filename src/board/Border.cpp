@@ -60,7 +60,7 @@ Player* Border::getWinnerBorder() const {
 }
 
 
-bool Border::getClaimed() const {
+bool Border::isClaimed() const {
     return claimed;
 }
 

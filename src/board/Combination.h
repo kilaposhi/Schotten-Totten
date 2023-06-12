@@ -29,8 +29,6 @@ public:
     ~Combination() = default;
     Combination(const Combination&) = delete;
     Combination& operator=(const Combination&) = delete;
-    Combination(Combination&& combination);
-    Combination& operator=(Combination&& combination);
 public:
     [[nodiscard]] int getSum() const;
     [[nodiscard]] CombinationType getType() const;

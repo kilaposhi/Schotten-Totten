@@ -7,6 +7,7 @@
 #include "player/Player.h"
 #include "board/Border.h"
 #include "board/Board.h"
+#include "console.h"
 
 
 class Game {
@@ -14,7 +15,7 @@ private:
     int player1ID;
     int player2ID;
     bool gameOver;
-    int maxPlayerCard;
+//    int maxPlayerCard;
     unique_ptr<Player> player1, player2;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
@@ -25,13 +26,12 @@ public :
     Game();
     void launchSchottenTotten1();
     void setGameVersion();
-    Board create_board();
-    void create_players();
-    void create_player2();
+    void create_board();
+    void create_player(int id);
     void create_deck();
     void start_game();
     void round(Player player1, Player player2, Board board);
-    void play(Board board);
+    void play(Player* player, Board* board);
     void pause(int n);
     bool isGameOver();
 

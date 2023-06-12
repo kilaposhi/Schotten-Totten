@@ -1,12 +1,6 @@
  ```mermaid
-
----
-title: Architecture Schotten-Totten V2
----
-
 classDiagram
-    %% ------ Relations
-    Card <|-- TacticCard
+Card <|-- TacticCard
     Card <|-- ValuedCard
     CardColor -- ValuedCard
     TacticType -- TacticCard
@@ -124,6 +118,7 @@ classDiagram
         + displayHand() const
         + print_player() const
     }
+    
     class Deck{
         - cards: std::vector<Card*>
         + Deck(Deck&&)

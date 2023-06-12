@@ -59,7 +59,7 @@ public:
     void removeTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     [[nodiscard]] Player* getWinnerBorder() const;
     int getBorderId() const { return borderID_; }
-    [[nodiscard]] bool getClaimed() const;
+    [[nodiscard]] bool isClaimed() const;
     [[nodiscard]] string str() const;
     void setNoCombinationRules();
     void setMaxNumberCard(int  maxNumberCard);

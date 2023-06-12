@@ -1,8 +1,30 @@
 #include "console.h"
 
 int askPlayerValue(Player* player, std::array<int,2> rangeValue){
-    cout << *player << '\n';
+    cout << *player << " ";
     return askValue(rangeValue);
+}
+
+bool askYesNo( string question){
+    bool result;
+    string answer;
+    bool isValid = false;
+    do {
+        cout<< question << " (Y/n) " << '\n';
+        std::cin >> answer;
+        transform(answer.begin(), answer.end(), answer.begin(), ::tolower);
+        bool yes = answer == "yes" || answer == "y";
+        bool no = answer == "no" || answer == "n";
+        if (yes) {
+            result = true;
+            isValid = true;
+        }
+        if (no){
+            result = false;
+            isValid = true;
+        }
+    } while(!isValid);
+    return result;
 }
 
 int askValue(std::array<int,2> rangeValue){

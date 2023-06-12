@@ -30,7 +30,7 @@ public:
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
 
-    [[nodiscard]] virtual string print() const = 0;
+    [[nodiscard]] virtual string str() const = 0;
 };
 
 
@@ -57,7 +57,7 @@ public:
 public:
     [[nodiscard]] CardColor getColor() const;
     [[nodiscard]] int getValue() const;
-    [[nodiscard]] string print() const override;
+    [[nodiscard]] string str() const override;
 private:
     CardColor color_;
     int value_{};
@@ -86,7 +86,7 @@ public :
 
     [[nodiscard]] TacticType getName() const;
     [[nodiscard]] string getDescription() const;
-    [[nodiscard]] string print() const override;
+    [[nodiscard]] string str() const override;
 private :
     TacticType name;
     string description;

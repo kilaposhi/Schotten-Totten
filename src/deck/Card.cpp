@@ -86,14 +86,14 @@ string tacticTypeToString(TacticType type) {
     }
 }
 
-string ValuedCard::print() const {
+string ValuedCard::str() const {
     std::stringstream card("");
     card << "|" << value_ << "_" << cardColorToString(color_) << "|";
     return card.str();
 }
 
 
-string TacticCard::print() const {
+string TacticCard::str() const {
     std::stringstream card("");
     card << "|" << tacticTypeToString(name) << "|";
     return card.str();
@@ -102,19 +102,19 @@ string TacticCard::print() const {
 
 
 ostream& operator<<(ostream& stream, const Card& card){
-    stream << card.print();
+    stream << card.str();
     return stream;
 }
 
 // cout << Valued_Card;  Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card){
-    stream << valued_card.print();
+    stream << valued_card.str();
     return stream;
 }
 
 
 ostream& operator<<(ostream& stream, const TacticCard& tactic_card){
-    stream << tactic_card.print();
+    stream << tactic_card.str();
     return stream;
 }
 
