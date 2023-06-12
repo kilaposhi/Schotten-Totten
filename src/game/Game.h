@@ -11,8 +11,8 @@
 
 class Game {
 private:
-    int player1ID;
-    int player2ID;
+    Player* player1;
+    Player* player2;
     bool gameOver;
     Deck clanDeck, tacticDeck, discardDeck;
     unique_ptr<Board> board;
@@ -22,11 +22,7 @@ public :
     Game();
     void launchSchottenTotten1();
     void setGameVersion();
-    Board create_board();
-    void create_player1();
-    void create_player2();
-    void create_deck();
-    void start_game();
+    void startGame();
     void round(Player player1, Player player2, Board board);
     void play(Board board);
     void pause(int n);
