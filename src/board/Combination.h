@@ -56,14 +56,14 @@ private:
 
 ostream& operator<<(ostream& stream, const Border& Border);
 
-class CombinationException{
+class CombinationException : public std::exception {
 private:
     string exception;
 public:
     CombinationException(string Exception) : exception(Exception){}
-    string what() const { return exception;}
-
+    const char* what() const noexcept override { return exception.c_str();}
 };
+
 ostream& operator<<(ostream& stream, const Combination& combination);
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
 string combinationTypeToString(CombinationType type) ;
