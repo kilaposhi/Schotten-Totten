@@ -1,11 +1,15 @@
-#include "Game.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <cstdlib>
 #include "deck/DeckFactory.h"
+#include "board/Board.h"
+#include "Game.h"
 
 
-Game::Game(): gameOver(false){
+class Board;
+
+Game::Game(): gameOver(false), player1(nullptr), player2(nullptr){
     launchSchottenTotten1();
 }
 
@@ -53,6 +57,7 @@ void Game::create_deck() {
         tacticDeck = deckFactory.createTacticDeck();
         tacticDeck.shuffle();
         discardDeck.clear();
+
     }
 }
 
@@ -180,4 +185,3 @@ bool Game::isGameOver() {
 void Game::quit() {
     gameOver = true;
 }
-

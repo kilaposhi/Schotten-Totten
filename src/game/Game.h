@@ -13,7 +13,6 @@
 class Game {
 private:
     bool gameOver;
-//    int maxPlayerCard;
     unique_ptr<Player> player1_, player2_;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
