@@ -30,8 +30,10 @@ bool askYesNo( string question){
 int askValue(std::array<int,2> rangeValue){
     int result;
     bool isValid = false;
+    if (rangeValue[0] > rangeValue[1])
+        throw std::out_of_range("rangeValue is impossible");
     do {
-        cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1];
+        cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1] << '\n';
         std::cin >> result;
         if (result >= rangeValue[0] && result <= rangeValue[1])
             isValid = true;

@@ -12,14 +12,12 @@
 
 class Game {
 private:
-    int player1ID;
-    int player2ID;
     bool gameOver;
 //    int maxPlayerCard;
-    unique_ptr<Player> player1, player2;
+    unique_ptr<Player> player1_, player2_;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
-    unique_ptr<Board> board;
+    unique_ptr<Board> board_;
     bool tacticVersion_{false};
 
 public :
@@ -30,13 +28,15 @@ public :
     void create_player(int id);
     void create_deck();
     void start_game();
-    void round(Player player1, Player player2, Board board);
-    void play(Player* player, Board* board);
+    void round();
+    void play(Player* player);
+    void drawCard(Player* player);
     void pause(int n);
     bool isGameOver();
 
     void quit();
 };
+void clearScreen();
 
 #endif //SCHOTTEN_TOTTEN_GAME_H
 
