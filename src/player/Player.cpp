@@ -13,20 +13,16 @@ class Border;
 class Deck;
 
 
-Player::Player(string name_, int id_, int max_card) : name(std::move(name_)), id(id_), hand{}, max_cards(max_card), claimed_borders{} {}
+Player::Player(string name_, int id, int max_card) : name(std::move(name_)), id_(id), max_cards(max_card){}
 
-std::ostream& operator<<(std::ostream& stream, const Player& player){
-   stream << player.print_player();
-    return stream;
-}
 
 
 string Player::displayHand() const{
     std::stringstream stream("");
-    stream << "Player's hand: ";
+    stream << "Player's " << id_ <<" hand: ";
     int i =0;
     for (const auto& cardPtr : hand) {
-        stream << " (" << i++ << "): " << *cardPtr << " ";  // Utilisez la méthode print() de la classe Card pour afficher le contenu de chaque carte
+        stream << " (" << i++ << "): " << *cardPtr << " ";
     }
     return stream.str();
 }
@@ -34,8 +30,7 @@ string Player::displayHand() const{
 string Player::print_player() const{
     std::stringstream stream("");
     stream << "-----------------\n";
-    stream << "Player " << id << "\n";
-    stream << "Name: " << name << "\n";
+    stream << "Player "<< id_ <<":" << name << "\n";
     stream << displayHand();
     stream << '\n';
     stream << "-----------------\n";
@@ -64,35 +59,50 @@ std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
 }
 
 
-void Player::play_card(int card_index, Border& border) {
+void Player::play_card(int card_index, int borderIndex, Board* board) {
     if (card_index < 0 || card_index >= hand.size()) {
         throw PlayerException("Invalid card index");
+    }
+    if (borderIndex < 0 || borderIndex >= board->getNumberBorder()) {
+        throw PlayerException("Invalid border index");
     }
 
     std::unique_ptr<Card> card = remove_card_from_hand(card_index);
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
-        border.addValueCard(std::make_unique<ValuedCard>(std::move(card)), this);
+        board->getBorderByID(borderIndex).addValueCard(
+                std::make_unique<ValuedCard>(std::move(card)),
+                this
+                );
     } else {
-        dynamic_cast<TacticCard*>(card.get());
         TacticHandler::getInstance().playTacticCard(
                 std::make_unique<TacticCard>(std::move(card)),
                 this,
-                border.getBorderId()
+                borderIndex
                 );
-//            border.addTacticalCard(std::move(unique_tactic_card), this);
     }
 }
 
 void Player::draw_card(Deck& deck_) {
-    auto drawn_card = deck_.drawCard();
-    add_card_into_hand(std::move(drawn_card));
+    if (!deck_.isEmpty()) {
+        auto drawn_card = deck_.drawCard();
+        add_card_into_hand(std::move(drawn_card));
+    }
+    else throw PlayerException("Can't darw card because the deck is empty");
+}
+
+void Player::fillHand(Deck &deck) {
+    if (hand.size() == max_cards)
+        throw PlayerException("The hand is already full");
+
+    for (size_t i = hand.size(); i < max_cards; i++)
+        draw_card(deck);
 }
 
 void Player::claim_borders(Border& border_){
     unsigned int borderId = border_.getBorderId();
     //border_.getClaimed();
-    if (borderId > 9 || borderId < 0) {                                   // Remarque 1
+    if (borderId > 9 || borderId < 0) {
         throw std::out_of_range("The border index > 9");
     }
     claimed_borders.push_back(borderId);
@@ -111,8 +121,11 @@ vector<unsigned int> Player::getClaimed_borders(){
 
 int Player::getNumber_of_cards() const{return hand.size();}
 
-int Player::getId() const{
-    return id;
+int Player::getID() const { return id_; }
+
+std::ostream& operator<<(std::ostream& stream, const Player& player){
+    stream << "Player " << player.getID();
+    return stream;
 }
 
 

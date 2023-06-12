@@ -31,7 +31,7 @@ public:
     unique_ptr<Card> drawCard();
     void putCard(unique_ptr<Card> card);
     [[nodiscard]] int getNumberRemainingCards() const;
-    void print() const;
+    void str() const;
     void clear();
 
 private:

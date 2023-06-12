@@ -48,7 +48,7 @@ void Deck::clear(){
     cards_.clear();
 }
 
-void Deck::print() const {
+void Deck::str() const {
     for (auto& card : cards_)
         cout << *card << '\n';
 }

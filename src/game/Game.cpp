@@ -14,108 +14,86 @@ Game::Game(): gameOver(false), player1(nullptr), player2(nullptr){
 }
 
 void Game::setGameVersion() {
-    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
-    int version;
-    std::cin >> version;
-    while(version != 1 && version != 2){
-        std::cout << "Vous n'avez pas entré une valeur acceptable. \n A quelle version jouez vous: [1] Classique | [2] Tactique:";
-        std::cin >> version;
-    }
+    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique: '\n";
+    int version = askValue({1,2});
+    tacticVersion_ = false;
     if (version == 2)
         tacticVersion_ = true;
 }
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
+    create_player(1);
+    create_player(2);
+    cout << "How many rounds do you want to play ? \n";
+    int numberRound = askValue({1, 15});
+    for (size_t i =0; i < numberRound; i++)
+        round();
+}
 
-    // Création de la board
-    Board board_(9, player1, player2);
 
-    // Création des decks
-    clanDeck = DeckFactory().createClanDeck();
-    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
+void Game::create_player(int id){
+    if (id == 1)
+        std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
+    std::cout<<"Player " << id << " please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    int maxPlayerCard = 6;
+    if (tacticVersion_)
+        maxPlayerCard = 7;
+    if (id == 1)
+        player1_ = std::make_unique<Player>(name, id, maxPlayerCard);
+    else
+        player2_ = std::make_unique<Player>(name, id , maxPlayerCard);
+}
+
+
+void Game::create_deck() {
+    DeckFactory deckFactory;
+    clanDeck = deckFactory.createClanDeck();
     clanDeck.shuffle();
-    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board_);
-
-    // Initialisations des infos des players
-    std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
-    std::cout<<"Player 1 Please give your name: \n.";
-    std::string name1;
-    name1 = "Josette"; //std::cin>>name1;
-    std::cout<<"Player 2 Please give your name: \n.";
-    std::string name2;
-    name2 = "Franck"; // std::cin>>name2;
-    int maxPlayerCards = 6;
-
-    if(tacticVersion_){ // Si on joue à la version tactique
-        // Création du tacticDeck
-        tacticDeck = DeckFactory().createTacticDeck();
+    deckInfo = deckFactory.getDeckInfo();
+    if (tacticVersion_){
+        tacticDeck = deckFactory.createTacticDeck();
+        tacticDeck.shuffle();
         discardDeck.clear();
-        //Initialize tacticHandler
-        TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board_);
-        maxPlayerCards = 7;
-    }
 
-    // Création des Players
-    Player player1_(name1, 1, maxPlayerCards);
-    Player player2_(name2, 2,maxPlayerCards);
-    player1 = &player1_;
-    player2 = &player2_;
-    cout << *player1;
-    cout << *player2;
-    startGame();
+    }
 }
 
-
-void Game::startGame() {
-    if(tacticVersion_){
-        // tacticDeck.drawCard();
-        int x;
-        for (int i=0; i <2 ; i++) {
-            x = rand() % 2;
-            if (x == 0) {j
-                player1->draw_card(clanDeck);
-                player2->draw_card(clanDeck);
-            }
-            else {
-                player1->draw_card(tacticDeck);
-                player2->draw_card(tacticDeck);
-            }
-        }
-    }
-    for (int i=0; i <6; i++) {
-        player1->draw_card(clanDeck);
-        player2->draw_card(clanDeck);
-    }
-    cout << *player1;
-    cout << *player2;
+void Game::create_board() {
+    board_ = std::make_unique<Board>(9, player1_.get(), player2_.get());
+    if (tacticVersion_)
+        TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
 
-/*
-void Game::round(Player* player1, Player* player2, Board board) {
+void Game::round() {
     create_deck();
+    create_board();
+    player1_->fillHand(clanDeck);
+    player2_->fillHand(clanDeck);
 
     std::cout << "Start of the game\n";
 
 
-    while (board.hasWinner() == nullptr) {
-        std::cout << "Player " << player1->getId() <<"'s turn" << std::endl;
-        play(player1, board);
+    while (board_->hasWinner() == nullptr) {
+        std::cout << "Player " << player1_->getName() << " it's your turn !";
+        cout << "Player " << player2_->getName() << " don't look at the screen !\n";
+        play(player1_.get());
 
-        pause(15);
+        pause(2);
 
         if (isGameOver()) {
-            std::cout << "Player " << player1->getId() << " won!\n";
+            std::cout << "Player " << player1_->getID() << " won!\n";
             break;
         }
 
-        pause(15);
 
-        std::cout << "Player " << player2->getId() <<"'s turn" << std::endl;
-        play(player2, board);
+        std::cout << *player2_ << "turn" << std::endl;
+        play(player2_.get());
 
         if (isGameOver()) {
-            std::cout << "Player " << player2->getId() << " won!\n";
+            std::cout << "Player " << player2_->getID() << " won!\n";
             break;
         }
 
@@ -127,35 +105,63 @@ void Game::round(Player* player1, Player* player2, Board board) {
 }
 
 
-void Game::play(Player* player, Board board) {
-    std::cout << "Player" << player->getId() <<", it is your turn !" << std::endl;
-    player->displayHand();
-    pause(2);
+void Game::play(Player* player) {
+    cout << board_->str() << '\n';
+    cout << player->displayHand() << '\n';
     std::cout << "Please type the index of the card you want to pick.\n";
-    int card_index;
-    std::cin >> card_index;
+    int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
     std::cout << "Please type the index of the border you want to pick.\n";
-    int border_index;
-    std::cin >> border_index;
-    std::vector<Border> borders = board.getBorders();
-    player.play_card(card_index, [border_index]);
-    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
+    int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+    player->play_card(card_index, border_index, board_.get());
+    std::cout << *board_ << '\n';
+    bool playerWantToClaim = askYesNo("Would you like to claim a border?");
+    if (playerWantToClaim){
+        std::cout << "Please type the index of the border you want to pick.\n";
+        int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+        try {
+            board_->getBorderByID(border_index); // .claim
+        }catch  (BorderException e) {
+            cout << e.what();
+        }
     }
-    else if (border_index==0) break;
-    else {
-
-        borders[border_index].getClaimed();
-
-    }
-    if (!deck.isEmpty) player.draw_card( deck_);
+    drawCard(player);
+    pause(5);
+    clearScreen();
 }
 
+void clearScreen(){
+    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+}
 
-void pause(int n) {
+void Game::drawCard(Player* player){
+    cout << "Drawing a card \n";
+    bool playerHasDrawn = false;
+
+    if (tacticVersion_){
+        cout << "From which deck do you want to draw ? ";
+        cout << "[0] Normal Deck (" << clanDeck.getNumberRemainingCards() <<" cards remaining) ";
+        cout << "[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining) \n";
+        //règle tactique
+        int answer = askPlayerValue(player, {0,1});
+        if (answer == 1) {
+            if (tacticDeck.isEmpty()) {
+                cout << "The tactic Deck is empty ! \n";
+            } else {
+                player->draw_card(tacticDeck);
+                playerHasDrawn = true;
+            }
+        }
+    }
+    if (!playerHasDrawn) {
+        if (clanDeck.isEmpty()){
+            cout << "The clan Deck is empty ! \n";
+        }else
+            player->draw_card(clanDeck);
+    }
+    cout << "New hand " << player->displayHand() << '\n';
+}
+
+void Game::pause(int n) {
     //std::cout << "Pause de 30 secondes...\n";
     std::this_thread::sleep_for(std::chrono::seconds(n));
     //std::cout << "Reprise de la partie\n";
@@ -179,4 +185,3 @@ bool Game::isGameOver() {
 void Game::quit() {
     gameOver = true;
 }
-*/

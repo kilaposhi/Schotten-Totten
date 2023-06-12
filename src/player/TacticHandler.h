@@ -10,6 +10,7 @@
 #include "board/Board.h"
 #include "deck/Deck.h"
 #include "deck/DeckFactory.h"
+#include "console.h"
 
 using std::unique_ptr;
 
@@ -35,7 +36,7 @@ private:
     void playBlindManBluff(int borderId);
     void playMudFight(int borderId);
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
-//    playRecruiter(Player* player)
+    void playRecruiter(Player* player);
 //    playStragist(Player* player)
 //    playBanshee(Player* opponent)
 //    playTraiter(Player* player, Player* opponent)
@@ -47,9 +48,6 @@ private:
     Board *board_{nullptr};
 };
 
-
-int askPlayerValue(Player* player, std::array<int,2> rangeValue);
-CardColor askPlayerColor(Player* player, int numberColors);
 
 class TacticHandlerException : public std::exception {
 private:

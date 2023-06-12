@@ -25,8 +25,8 @@ add_executable(
         src/deck/DeckFactory.cpp
         src/deck/DeckFactory.h
 
-        #src/game/Game.cpp
-        #src/game/Game.h
+        src/game/Game.cpp
+        src/game/Game.h
 
         src/player/Player.cpp
         src/player/Player.h
@@ -38,4 +38,4 @@ add_executable(
         #src/GameVIew.h
         src/player/TacticHandler.cpp
         src/player/TacticHandler.h
-)
+        src/console.h src/console.cpp)

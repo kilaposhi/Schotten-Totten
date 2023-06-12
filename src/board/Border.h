@@ -37,6 +37,8 @@ private:
     Player* winner_{nullptr};
     int borderID_;
     const int NUMBER_CARDS = 3;
+    bool blindManBluff{false};
+    bool mudFight{false};
     unique_ptr<Combination> player_1_combination;
     unique_ptr<Combination> player_2_combination;
 
@@ -57,8 +59,8 @@ public:
     void removeTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     [[nodiscard]] Player* getWinnerBorder() const;
     int getBorderId() const { return borderID_; }
-    [[nodiscard]] bool getClaimed() const;
-    [[nodiscard]] string print() const;
+    [[nodiscard]] bool isClaimed() const;
+    [[nodiscard]] string str() const;
     void setNoCombinationRules();
     void setMaxNumberCard(int  maxNumberCard);
     // A FAIRE
