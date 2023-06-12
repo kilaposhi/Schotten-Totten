@@ -12,6 +12,15 @@ class Deck;
 
 using std::move, std::vector, std::make_unique, std::unique_ptr, std::string;
 
+extern initializer_list<TacticType> tacticTypes;
+extern initializer_list<CardColor> cardColors;
+
+struct DeckInfo{
+    int total_number_cards;
+    int min_card_value, max_card_value;
+    int number_colors;
+};
+
 // Factory : https://refactoring.guru/fr/design-patterns/factory-method
 class DeckFactory {
 public:
@@ -21,6 +30,7 @@ public:
     ~DeckFactory()=default;
 
     [[nodiscard]] Deck createClanDeck();
+    DeckInfo getDeckInfo();
     [[nodiscard]] Deck createTacticDeck();
 
 private: // attributes
@@ -41,12 +51,17 @@ private:
 
 unsigned int compute_number_cards(unsigned int min_value, unsigned int max_value, unsigned int num_colors);
 
-class DeckFactoryException{
-public:
-    DeckFactoryException(string&& message) : message_(std::move(message)) { }
-    string what() const noexcept { return message_; }
+class DeckFactoryException: std::exception{
 private:
-    string message_;
+    std::string message;
+
+public:
+    explicit DeckFactoryException(string  errorMessage)
+    : message(std::move(errorMessage)) {}
+
+    [[nodiscard]]const char* what() const noexcept override {
+        return message.c_str();
+    }
 };
 
 #endif //SCHOTTEN_TOTTEN_DECKFACTORY_H

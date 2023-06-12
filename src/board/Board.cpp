@@ -4,42 +4,95 @@
 #include "Board.h"
 #include "Border.h"
 
-#include <iostream>
-#include <stdexcept>
 #include <vector>
 #include <string>
 
-Board::Board (){
-    for (unsigned int i=1; i<=getNumberBorder(); i++){
-        Border border(i);
-        borders.push_back(border);
+Board::Board(int numberBorder, Player* player1, Player* player2): numberBorder_(numberBorder), winner_(nullptr) {
+    borders_.reserve(numberBorder_);
+    for (int borderID = 0; borderID < numberBorder_; borderID++) {
+        borders_.emplace_back(borderID, player1, player2);
     }
 }
 
-const int Board::getNumberBorder() const {
-    return numberBorder;
+int Board::getNumberBorder() const {
+    return numberBorder_;
 }
 
 Player* Board::getWinner() const {
-    return winner;
+    return winner_;
 }
 
 const std::vector<Border>& Board::getBorders() const {
-    return borders;
+    return borders_;
 }
 
-/* string Board::print() const {
+Border &Board::getBorderByID(int ID) {
+    if (ID < 0 || ID >= numberBorder_)
+        throw BoardException("This Border id does not exist");
+    return borders_[ID];
+}
+
+string Board::print() const {
     std::stringstream board("");
-    const Border* borders= this->getBorders();
-    for (int i=0; i<getNumberBorder(); i++) {
-        board << borders[i].print() //créer une méthode dans border
+    for (int i=0; i<numberBorder_; i++) {
+        board << borders_[i].print() << '\n'; //créer une méthode dans border
     }
     return board.str();
-} */
+}
 
-ostream& operator<<(ostream& stream, const Board& board){
+
+ostream &operator<<(ostream &stream, const Board &board) {
     stream << board.print();
     return stream;
+}
+
+Player* Board::hasWinner() {
+    int player1Count = 0;
+    int player2Count = 0;
+    int adjacentCount = 1;
+    Player* win = borders_[0].getWinnerBorder();
+    int i = 1;
+    while (win == nullptr && i<getNumberBorder()) {
+        win = borders_[i].getWinnerBorder();
+        i++;
+    }
+    int player1;
+    if (win != nullptr) {
+        player1 = win->getId();
+    }
+    else {
+        player1 = -1;
+    }
+    Player* last = win;
+    while ((i<getNumberBorder()) && (player1Count<5) && (player2Count<5) && (adjacentCount<3) ) {
+        Player* winner = borders_[i].getWinnerBorder();
+        if (winner != nullptr) {
+            if (winner == last) {
+                adjacentCount += 1;
+            }
+            else {
+                adjacentCount = 1;
+            }
+            if (winner->getId() == player1) {
+                player1Count += 1;
+            }
+            else {
+                player2Count +=1;
+            }
+
+        }
+        i++;
+    }
+    if (i>=getNumberBorder() && (player1Count<5) && (player2Count<5) && (adjacentCount<3)) {
+        return nullptr;
+    }
+    else {
+        return win;
+    }
+}
+
+void Board::setWinner() {
+    winner_ = this->hasWinner();
 }
 
 

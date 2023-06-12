@@ -26,10 +26,14 @@ private:
     Deck playedCardsDeck;
 
 public:
+    GameTracker(const Deck& tacticDeck, const Deck& clanDeck);
     void update() override;
     void copyDeck(Deck tacticDeck, Deck clanDeck);
     void transferCard();
+    [[nodiscard]] const Deck& getRemainingCardDeck() const;
+    [[nodiscard]] const Deck& getPlayerCardsDeck() const;
 };
+
 
 
 

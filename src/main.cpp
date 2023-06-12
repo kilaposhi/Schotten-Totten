@@ -1,21 +1,44 @@
 #include <iostream>
-
-#include "deck/Card.h"
-#include "deck/Deck.h"
-#include "player/Player.h"
-#include "board/Board.h"
-#include "game/Game.h"
 #include <string>
 
+
+#include "deck/DeckFactory.h"
+#include "board/Board.h"
+#include "game/Game.h"
+
+using std::cout;
+
 int main() {
+    Player player1("oui", 1, 7);
+    Player player2("non", 2,7);
+    Board board(9, &player1, &player2);
+    Deck clanDeck = DeckFactory().createClanDeck();
+    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
+    clanDeck.shuffle();
+    Deck tacticDeck = DeckFactory().createTacticDeck();
+    Deck discardDeck;
+    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board);
 
 
-        //on construit les cartes
-        Deck clanDeck = DeckFactory().createClanDeck();
-        clanDeck.shuffle();
-        clanDeck.print();
+    for (int i=0; i <4 ; i++)
+        player1.draw_card(clanDeck);
 
-        Board board;
+    for (int i=0; i <7 ; i++)
+        tacticDeck.drawCard();
+    player1.draw_card(tacticDeck);
+    player1.draw_card(tacticDeck);
+    cout << player1;
+    player1.play_card(1, board.getBorderByID(0));
+    player1.play_card(1, board.getBorderByID(0));
+    cout << player1;
+    player1.play_card(3, board.getBorderByID(0));
+    cout << player1;
+    cout << board.print();
+
+}
+
+/*
+        Board board(9);
 
         int max_cards_per_hand;
         static bool tactic;
@@ -56,7 +79,7 @@ int main() {
     }
 
 
-
+*/
 /*
     // conversion ValuedCard vers Card est implicite
     unique_ptr<Card> reCard = std::move(reCard);

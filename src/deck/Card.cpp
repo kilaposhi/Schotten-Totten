@@ -10,7 +10,7 @@ ValuedCard::ValuedCard(Card& valuedCard){
     *this = dynamic_cast<ValuedCard&>(valuedCard);
 }
 
-ValuedCard::ValuedCard(unique_ptr<Card> valuedCard){
+ValuedCard::ValuedCard(unique_ptr<Card> valuedCard) {
     if (dynamic_cast<ValuedCard*>(valuedCard.get()) == nullptr)
         throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
 
@@ -36,6 +36,13 @@ int ValuedCard::getValue() const {
 TacticCard::TacticCard(TacticType type) {
     name = type;
     description = createTacticDescription(type);
+}
+
+TacticCard::TacticCard(unique_ptr<Card> tacticCard) {
+    if (dynamic_cast<TacticCard*>(tacticCard.get()) == nullptr)
+        throw CardException("Trying to convert another derived class of 'Card' into a 'ValuedCard'");
+
+    *this = *(dynamic_cast<TacticCard*>(tacticCard.release()));
 }
 
 TacticType TacticCard::getName() const{
@@ -176,5 +183,3 @@ string createTacticDescription(TacticType type) {
             throw CardException("Trying to get the description of an unknown tactic card");
     }
 }
-
-

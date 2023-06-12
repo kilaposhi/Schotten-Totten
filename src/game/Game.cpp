@@ -2,54 +2,153 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include "deck/DeckFactory.h"
 
-Game::Game(Player *player1, Player *player2) {
-    player1ID = (player1->getId());
-    player2ID = (player2->getId()) ;
+
+Game::Game(): gameOver(false){
+    launchSchottenTotten1();
 }
 
-void Game::play(Player player1, Player player2, Board board) {
+void Game::setGameVersion() {
+    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique:";
+    int version;
+    std::cin >> version;
+    while(version != 1 && version != 2){
+        std::cout << "Vous n'avez pas entré une valeur acceptable. \n A quelle version jouez vous: [1] Classique | [2] Tactique:";
+        std::cin >> version;
+    }
+    if (version == 2)
+        tacticVersion_ = true;
+}
+
+void Game::launchSchottenTotten1() {
+    setGameVersion();
+    board = std::make_unique<Board>(9);
+    int maxPlayerCards = 6;
+    DeckFactory deckFactory;
+    clanDeck = deckFactory.createClanDeck();
+    if (tacticVersion_){
+        tacticDeck = deckFactory.createTacticDeck();
+        discardDeck.clear();
+        //Initialize tacticHandler
+        TacticHandler::getInstance(&clanDeck, &tacticDeck, &discardDeck, board.get());
+        maxPlayerCards = 7;
+    }
+}
+
+
+Board create_board(){
+    //Create Board:
+    std::cout << "how many borders are there ?" << "\n";
+    int nbBorders;
+    std::cin >> nbBorders;
+    Board board(nbBorders);
+    return board;
+}
+
+void Game::create_player1(){
+    std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
+    std::cout<<"Player 1 Please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    if(version == 1){
+        Player player1(name, 1, 6);
+    }
+    else{
+        Player player1(name, 1, 7);
+    }
+}
+
+void Game::create_player2(){
+    std::cout<<"Player 2 Please give your name: \n.";
+    std::string name;
+    std::cin>>name;
+    if(version == 1){
+        Player player2(name, 1, 6);
+    }
+    else{
+        Player player2(name, 1, 7);
+    }
+}
+
+void Game::create_deck(){ // Créer les cartes par la même occasion
+    Deck clanDeck = DeckFactory().createClanDeck();
+    clanDeck.shuffle();
+    if(version == 2){
+        Deck tacticDeck = DeckFactory().createTacticDeck();
+        tacticDeck.shuffle();
+    }
+}
+
+void Game::startGame() {
+    //demande qui a voyagé le plus près de l'ecosse
+    //demandes aux joueurs leurs noms
+    //lance plusieurs rounds
+    //annonce le vainqueur final (pourrait peut être être un attribut de Game
+}
+
+void Game::round(Player* player1, Player* player2, Board board) {
+    create_deck();
+
     std::cout << "Start of the game\n";
 
-    pause(15);
-    while (round) {
-        play(player1);
-        round = ?;
-        play(player2);
 
+    while (board.hasWinner() == nullptr) {
+        std::cout << "Player " << player1->getId() <<"'s turn" << std::endl;
+        play(player1, board);
 
-
-        //afficher la main du joueur
-        //lui demander l'index de la carte qu'il souhaite joueur et sur quelle borne
-        //jouer la carte
-        //demander si le joueur souhaite revandiquer une borne, si oui, laquelle ?
-        // : on peut faire un case
-        //vérfier que 3 cartes sont sur chaque frontière de la borne
-        //trouver le gagnant de la borne, vérifier qu'il n'y a pas de gagnant de la partie
-        // piocher une carte
-
+        pause(15);
 
         if (isGameOver()) {
-            std::cout << "Le joueur " << player1ID << " a gagné !\n";
+            std::cout << "Player " << player1->getId() << " won!\n";
             break;
         }
 
-        pause();
+        pause(15);
 
-        std::cout << "Tour du joueur " << player2ID << std::endl;
-        // Logique de jeu pour le joueur 2
+        std::cout << "Player " << player2->getId() <<"'s turn" << std::endl;
+        play(player2, board);
 
         if (isGameOver()) {
-            std::cout << "Le joueur " << player2ID << " a gagné !\n";
+            std::cout << "Player " << player2->getId() << " won!\n";
             break;
         }
 
-        pause();
+        pause(15);
     }
 
-    std::cout << "Fin de la partie\n";
+    std::cout << "End of the game\n";
     quit();
 }
+
+
+void Game::play(Player* player, Board board) {
+    std::cout << "Player" << player->getId() <<", it is your turn !" << std::endl;
+    player->displayHand();
+    pause(2);
+    std::cout << "Please type the index of the card you want to pick.\n";
+    int card_index;
+    std::cin >> card_index;
+    std::cout << "Please type the index of the border you want to pick.\n";
+    int border_index;
+    std::cin >> border_index;
+    std::vector<Border> borders = board.getBorders();
+    player.play_card(card_index, [border_index]);
+    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
+    std::cin >> border_index;
+    if (border_index<0 || border_index>9)
+    {
+        throw PlayerException("The index is not valid.");
+    }
+    else if (border_index==0) break;
+    else {
+
+        borders[border_index].getClaimed();
+
+    }
+    if (!deck.isEmpty) player.draw_card( deck_);
+}
+
 
 void pause(int n) {
     //std::cout << "Pause de 30 secondes...\n";
@@ -75,29 +174,4 @@ bool Game::isGameOver() {
 void Game::quit() {
     gameOver = true;
 }
-void Game::play(Player player)
-{
-    std::cout << "Player <<player.getId() <<, it is your turn !" << player1ID << std::endl;
-    player.displayHand();
-    pause(2);
-    std::cout << "Please type the index of the card you want to pick.\n";
-    int card_index;
-    std::cin >> card_index;
-    std::cout << "Please type the index of the border you want to pick.\n";
-    int border_index;
-    std::cin >> border_index;
-    player1.play_card(card_index, borders[border_index]);
-    std::cout << "Would you like to claim a border? If yes, please select an index, otherwise you can type 0.\n";
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
-    }
-    else if (border_index==0) break;
-    else {
 
-        borders[border_index].getClaimed();
-
-    }
-    if (!deck.isEmpty) player.draw_card( deck_);
-}

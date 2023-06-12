@@ -1,4 +1,3 @@
-
 #ifndef SCHOTTEN_TOTTEN_CARD_H
 #define SCHOTTEN_TOTTEN_CARD_H
 
@@ -31,7 +30,7 @@ public:
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
 
-    virtual string print() const = 0;
+    [[nodiscard]] virtual string print() const = 0;
 };
 
 
@@ -56,12 +55,12 @@ public:
     ValuedCard(const ValuedCard& valuedCard) = default;
     ValuedCard& operator=(const ValuedCard& valuedCard) = default;
 public:
-    CardColor getColor() const;
-    int getValue() const;
-    string print() const override;
+    [[nodiscard]] CardColor getColor() const;
+    [[nodiscard]] int getValue() const;
+    [[nodiscard]] string print() const override;
 private:
     CardColor color_;
-    int value_;
+    int value_{};
 };
 
 string cardColorToString(CardColor color);
@@ -80,13 +79,14 @@ enum class TacticType {
 
 class TacticCard : public Card {
 public :
-    TacticCard(TacticType type);
-    TacticCard(const TacticCard&) = delete;
-    TacticCard& operator=(const TacticCard&) = delete;
+    explicit TacticCard(TacticType type);
+    TacticCard(unique_ptr<Card> tacticCard);
+    TacticCard(const TacticCard&) = default;
+    TacticCard& operator=(const TacticCard&) = default;
 
-    TacticType getName() const;
-    string getDescription() const;
-    string print() const override;
+    [[nodiscard]] TacticType getName() const;
+    [[nodiscard]] string getDescription() const;
+    [[nodiscard]] string print() const override;
 private :
     TacticType name;
     string description;
