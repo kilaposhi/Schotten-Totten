@@ -73,7 +73,7 @@ Border "1" -- "0..*" TacticCard
 
   class Card {
       <<abstact>>
-    + virtual print() string
+    + virtual str() string
   }
 
 
@@ -81,7 +81,7 @@ Border "1" -- "0..*" TacticCard
     - color_ : CardColor
     - value_ : int<1 to 9>
     + ValuedCard(int, CardColor)
-    + print() string
+    + str() string
     + getColor() CardColor
     + getValue() int
   }
@@ -90,7 +90,7 @@ Border "1" -- "0..*" TacticCard
     - name: TacticType
     - description: string
     + TacticCard(TacticType)
-    + print() string
+    + str() string
     + getName() TacticType
     + getDescription() string
   }
@@ -104,7 +104,7 @@ Border "1" -- "0..*" TacticCard
     +getNumberBorder() const int
     +getWinner() Player*
     +getBorders() const std::vector<Border>&
-    +print() string
+    +str() string
     +hasWinner() Player*
     +setWinner()
   }
@@ -133,7 +133,7 @@ Border "1" -- "0..*" TacticCard
         +treatTacticCards()
         +getValuedCard(int) const ValuedCard*
         +getTacticCard(int) const TacticCard*
-        +print() const string
+        +str() const string
     }
   class Border {
         -claimed: bool
@@ -150,7 +150,7 @@ Border "1" -- "0..*" TacticCard
         +getSlotNumber() unsigned int
         +getWinnerBorder() Player*
         +getClaimed()  bool
-        +print() string
+        +str() string
     }
 
     class Player{
@@ -178,7 +178,7 @@ Border "1" -- "0..*" TacticCard
     + operator=(Deck&&) Deck&
     + isEmpty() bool
     + shuffle()
-    + print()
+    + str()
     + clear()
     + drawCard() unique_ptr<Card>
     + putCard(card : unique_ptr<Card>)

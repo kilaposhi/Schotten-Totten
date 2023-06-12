@@ -32,19 +32,17 @@ Border &Board::getBorderByID(int ID) {
     return borders_[ID];
 }
 
-string Board::print() const {
-    std::stringstream board("");
+string Board::str() const {
+    std::stringstream stream("");
+    stream << "The board :\t\t Player 1 \t\t\t||||\t\t\t\t Player2\n ";
+    stream << "------------------------------------------------";
+    stream << "-------------------------------------------------\n";
     for (int i=0; i<numberBorder_; i++) {
-        board << borders_[i].print() << '\n'; //créer une méthode dans border
+        stream << borders_[i].str() << '\n' ;
     }
-    return board.str();
+    return stream.str();
 }
 
-
-ostream &operator<<(ostream &stream, const Board &board) {
-    stream << board.print();
-    return stream;
-}
 
 Player* Board::hasWinner() {
     int player1Count = 0;
@@ -52,13 +50,13 @@ Player* Board::hasWinner() {
     int adjacentCount = 1;
     Player* win = borders_[0].getWinnerBorder();
     int i = 1;
-    while (win == nullptr && i<getNumberBorder()) {
+    while (win == nullptr && i < getNumberBorder()) {
         win = borders_[i].getWinnerBorder();
         i++;
     }
     int player1;
     if (win != nullptr) {
-        player1 = win->getId();
+        player1 = win->getID();
     }
     else {
         player1 = -1;
@@ -73,7 +71,7 @@ Player* Board::hasWinner() {
             else {
                 adjacentCount = 1;
             }
-            if (winner->getId() == player1) {
+            if (winner->getID() == player1) {
                 player1Count += 1;
             }
             else {
@@ -95,4 +93,8 @@ void Board::setWinner() {
     winner_ = this->hasWinner();
 }
 
+ostream &operator<<(ostream &stream, const Board &board) {
+    stream << board.str();
+    return stream;
+}
 

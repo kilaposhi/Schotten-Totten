@@ -40,8 +40,11 @@ public :
     [[nodiscard]] const std::vector<Border>& getBorders() const;
     Border& getBorderByID(int ID);
 
-    string print() const;
+    string str() const;
     Player* hasWinner();
     void setWinner();
 };
+
+ostream &operator<<(ostream &stream, const Board &board);
+
 #endif //SHOTTEN_TOTTEN_BOARD_H

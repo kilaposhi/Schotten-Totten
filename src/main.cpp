@@ -9,31 +9,39 @@
 using std::cout;
 
 int main() {
-    Player player1("oui", 1, 7);
-    Player player2("non", 2,7);
-    Board board(9, &player1, &player2);
-    Deck clanDeck = DeckFactory().createClanDeck();
-    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
-    clanDeck.shuffle();
-    Deck tacticDeck = DeckFactory().createTacticDeck();
-    Deck discardDeck;
-    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board);
+    Game();
+//    Player player1("oui",1, 7);
+//    Player player2("non",2, 7);
+//    Board board(9, &player1, &player2);
+//    Deck clanDeck = DeckFactory().createClanDeck();
+//    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
+//    clanDeck.shuffle();
+//    Deck tacticDeck = DeckFactory().createTacticDeck();
+//    Deck discardDeck;
+//    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board);
+//
 
+//    for (int i = 0; i < 4; i++) {
+//        player1.draw_card(clanDeck);
+//        player2.draw_card(clanDeck);
+//    }
+//    player1.fillHand(clanDeck);
+//    cout << player1.displayHand();
+//
+//    for (int i = 0; i < 4; i++) {
+//        tacticDeck.drawCard();
+//    }
+//    cout << player1.displayHand() << "\n";
+//    player1.play_card(1, board.getBorderByID(0));
+//    player1.play_card(1, board.getBorderByID(0));
+//    player1.play_card(3, board.getBorderByID(0));
+//    player2.play_card(1, board.getBorderByID(0));
+//    player2.play_card(1, board.getBorderByID(0));
+//    player2.play_card(1, board.getBorderByID(0));
+//    player1.play_card(2, board.getBorderByID(0));
+//    player2.play_card(0, board.getBorderByID(0));
 
-    for (int i=0; i <4 ; i++)
-        player1.draw_card(clanDeck);
-
-    for (int i=0; i <7 ; i++)
-        tacticDeck.drawCard();
-    player1.draw_card(tacticDeck);
-    player1.draw_card(tacticDeck);
-    cout << player1;
-    player1.play_card(1, board.getBorderByID(0));
-    player1.play_card(1, board.getBorderByID(0));
-    cout << player1;
-    player1.play_card(3, board.getBorderByID(0));
-    cout << player1;
-    cout << board.print();
+//    cout << board.str();
 
 }
 
@@ -149,7 +157,7 @@ try {
     borders.push_back(1);
     borders.push_back(4);
     borders.push_back(5);
-   
+
 
     // Test de print_player() OK
 
@@ -168,7 +176,7 @@ try {
 
 
     // Test de add_cart_into_hand OK (Je l'ai remise en private tt de suite après)
-    /*
+
     player1.add_card_into_hand(std::move(card1));
     player1.add_card_into_hand(std::move(card2));
     player1.add_card_into_hand(std::move(card3));
@@ -195,7 +203,7 @@ try {
     */
 
     /*
-  
+
     //on crée les cartes, les mélange et les affiche
 //    create_borders();
     //on crée les bornes

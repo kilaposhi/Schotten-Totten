@@ -29,8 +29,6 @@ public:
     ~Combination() = default;
     Combination(const Combination&) = delete;
     Combination& operator=(const Combination&) = delete;
-    Combination(Combination&& combination);
-    Combination& operator=(Combination&& combination);
 public:
     [[nodiscard]] int getSum() const;
     [[nodiscard]] CombinationType getType() const;
@@ -48,7 +46,7 @@ public:
     void treatTacticCards();
     ValuedCard* getValuedCard(int index) const;
     TacticCard* getTacticCard(int index) const;
-    [[nodiscard]] string print() const;    
+    [[nodiscard]] string str() const;
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
