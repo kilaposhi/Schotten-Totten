@@ -9,12 +9,12 @@
 
 class Board;
 
-Game::Game(): gameOver(false), player1(nullptr), player2(nullptr){
+Game::Game(): gameOver(false), player1_(nullptr), player2_(nullptr){
     launchSchottenTotten1();
 }
 
 void Game::setGameVersion() {
-    std::cout << "A quelle version jouez vous: [1] Classique | [2] Tactique: '\n";
+    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic '\n";
     int version = askValue({1,2});
     tacticVersion_ = false;
     if (version == 2)
@@ -25,7 +25,7 @@ void Game::launchSchottenTotten1() {
     setGameVersion();
     create_player(1);
     create_player(2);
-    cout << "How many rounds do you want to play ? \n";
+    cout << "How many rounds do you want to play? \n";
     int numberRound = askValue({1, 15});
     for (size_t i =0; i < numberRound; i++)
         round();
@@ -35,7 +35,7 @@ void Game::launchSchottenTotten1() {
 void Game::create_player(int id){
     if (id == 1)
         std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
-    std::cout<<"Player " << id << " please give your name: \n.";
+    std::cout<<"Player " << id << " please give your name: \n";
     std::string name;
     std::cin>>name;
     int maxPlayerCard = 6;
@@ -77,8 +77,8 @@ void Game::round() {
 
 
     while (board_->hasWinner() == nullptr) {
-        std::cout << "Player " << player1_->getName() << " it's your turn !";
-        cout << "Player " << player2_->getName() << " don't look at the screen !\n";
+        std::cout << "Player " << player1_->getName() << " it's your turn!";
+        cout << "Player " << player2_->getName() << " don't look at the screen!\n";
         play(player1_.get());
 
         pause(2);
