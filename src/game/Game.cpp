@@ -9,17 +9,20 @@
 
 class Board;
 
+
 Game::Game(): gameOver(false), player1_(nullptr), player2_(nullptr){
     launchSchottenTotten1();
 }
 
+
 void Game::setGameVersion() {
-    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic '\n";
+    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic\n";
     int version = askValue({1,2});
     tacticVersion_ = false;
     if (version == 2)
         tacticVersion_ = true;
 }
+
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
@@ -61,45 +64,37 @@ void Game::create_deck() {
     }
 }
 
+
 void Game::create_board() {
     board_ = std::make_unique<Board>(9, player1_.get(), player2_.get());
     if (tacticVersion_)
         TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
 
+
 void Game::round() {
     create_deck();
     create_board();
     player1_->fillHand(clanDeck);
     player2_->fillHand(clanDeck);
-
     std::cout << "Start of the game\n";
-
-
     while (board_->hasWinner() == nullptr) {
         std::cout << "Player " << player1_->getName() << " it's your turn!";
         cout << "Player " << player2_->getName() << " don't look at the screen!\n";
         play(player1_.get());
-
         pause(2);
-
         if (isGameOver()) {
             std::cout << "Player " << player1_->getID() << " won!\n";
             break;
         }
-
-
         std::cout << *player2_ << "turn" << std::endl;
         play(player2_.get());
-
         if (isGameOver()) {
             std::cout << "Player " << player2_->getID() << " won!\n";
             break;
         }
-
         pause(15);
     }
-
     std::cout << "End of the game\n";
     quit();
 }
@@ -128,14 +123,12 @@ void Game::play(Player* player) {
     pause(5);
     clearScreen();
 }
-void Game::roundAI(Player* player, Board board){
-    create_deck();
 
-    std::cout << "Start of the game\n";
 
 void clearScreen(){
     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
+
 
 void Game::drawCard(Player* player){
     cout << "Drawing a card \n";
@@ -165,11 +158,13 @@ void Game::drawCard(Player* player){
     cout << "New hand " << player->displayHand() << '\n';
 }
 
+
 void Game::pause(int n) {
     //std::cout << "Pause de 30 secondes...\n";
     std::this_thread::sleep_for(std::chrono::seconds(n));
     //std::cout << "Reprise de la partie\n";
 }
+
 
 bool Game::isGameOver() {
     // Exemple d'implémentation de la logique de fin de partie
