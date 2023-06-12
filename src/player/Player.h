@@ -63,6 +63,7 @@ public:
     int getID() const;
     string getName() const { return name; }
     string displayHand() const; // --> OK
+    string displayCard(int index_card) const;
     string print_player() const; // --> OK
 };
 

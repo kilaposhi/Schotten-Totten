@@ -28,6 +28,8 @@ public :
     void create_deck();
     void start_game();
     void round();
+    void roundAI();
+    void playAI();
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);

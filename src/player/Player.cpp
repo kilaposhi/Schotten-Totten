@@ -26,6 +26,11 @@ string Player::displayHand() const{
     }
     return stream.str();
 }
+string Player::displayCard(int index_card)  const {
+    std::stringstream card("");
+    card << *hand[index_card];
+    return card.str();
+}
 
 string Player::print_player() const{
     std::stringstream stream("");
