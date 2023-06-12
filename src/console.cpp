@@ -32,22 +32,22 @@ bool askYesNo( string question){
 
 
 int askValue(std::array<int, 2> rangeValue){
-    int resultat;
+    int result;
     bool isValid = false;
     if (rangeValue[0] > rangeValue[1])
         throw std::out_of_range("rangeValue is impossible");
     do {
         std::cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1] << '\n';
-        std::cin >> resultat;
+        std::cin >> result;
         if (std::cin.fail()) {
             std::cout<< "Wrong input, please try again!\n";
             std::cin.clear(); // Reset std::cin error state
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the line
-        } else if (resultat >= rangeValue[0] && resultat <= rangeValue[1]) {
+        } else if (result >= rangeValue[0] && result <= rangeValue[1]) {
             isValid = true;
         }
     } while(!isValid);
-    return resultat;
+    return result;
 }
 
 

@@ -142,7 +142,7 @@ void Game::drawCard(Player* player){
         int answer = askPlayerValue(player, {0,1});
         if (answer == 1) {
             if (tacticDeck.isEmpty()) {
-                cout << "The tactic Deck is empty ! \n";
+                cout << "The tactic Deck is empty! \n";
             } else {
                 player->draw_card(tacticDeck);
                 playerHasDrawn = true;
@@ -151,7 +151,7 @@ void Game::drawCard(Player* player){
     }
     if (!playerHasDrawn) {
         if (clanDeck.isEmpty()){
-            cout << "The clan Deck is empty ! \n";
+            cout << "The clan Deck is empty! \n";
         }else
             player->draw_card(clanDeck);
     }
