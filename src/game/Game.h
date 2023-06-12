@@ -27,8 +27,10 @@ public :
     void create_player2();
     void create_deck();
     void start_game();
-    void round(Player player1, Player player2, Board board);
-    void play(Board board);
+    void round(Player* player1, Player* player2, Board board);
+    void roundAI(Player* player, Board board);
+    void playAI(Player* computer, Board board);
+    void play(Player* player, Board board);
     void pause(int n);
     bool isGameOver();
 

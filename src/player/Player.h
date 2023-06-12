@@ -61,6 +61,7 @@ public:
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
     [[nodiscard]] int getId() const; // --> OK
     string displayHand() const; // --> OK
+    string displayCard(int n) const;
     string print_player() const; // --> OK
 };
 
