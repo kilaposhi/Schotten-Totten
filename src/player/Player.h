@@ -14,6 +14,7 @@
 #include "board/Board.h"
 #include "deck/Deck.h"
 #include "TacticHandler.h"
+#include "board/Combination.h"
 
 using std::vector;
 using std::list;
@@ -45,6 +46,8 @@ private:
     vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
     std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
+protected:
+    vector<unique_ptr<Card>> hand;
 
 public:
 
@@ -68,7 +71,11 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& f, const Player& player);
+class AI : public Player {
+public:
+     int pick_a_card(Border* border);
 
+};
 
 
 #endif// SCHOTTEN_TOTTEN_PLAYER_H
