@@ -8,13 +8,13 @@ Deck DeckFactory::build() {
 
 
 initializer_list<CardColor> cardColors = {
-        CardColor::red,
-        CardColor::green,
-        CardColor::blue,
-        CardColor::yellow,
-        CardColor::purple,
-        CardColor::brown,
-        CardColor::orange
+    CardColor::red,
+    CardColor::green,
+    CardColor::blue,
+    CardColor::yellow,
+    CardColor::purple,
+    CardColor::brown,
+    CardColor::orange
 };
 
 void DeckFactory::createValuedCards(){
@@ -44,7 +44,7 @@ DeckInfo DeckFactory::getDeckInfo() {
     DeckInfo deckInfo{};
     deckInfo.min_card_value = min_card_value_;
     deckInfo.max_card_value = max_card_value_;
-//    deckInfo.total_number_cards = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
+    //    deckInfo.total_number_cards = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
     deckInfo.number_colors = number_colors_;
     return deckInfo;
 }
@@ -65,16 +65,16 @@ void DeckFactory::setNumberColors(unsigned int number_colors) {
 }
 
 initializer_list<TacticType> tacticTypes = {
-        TacticType::joker, // There is two joker in the Shotten-Totten
-        TacticType::joker,
-        TacticType::banshee,
-        TacticType::shield_bearer,
-        TacticType::blind_man_bluff,
-        TacticType::mud_fight,
-        TacticType::recruiter,
-        TacticType::spy,
-        TacticType::strategist,
-        TacticType::traiter
+    TacticType::joker, // There is two joker in the Shotten-Totten
+    TacticType::joker,
+    TacticType::banshee,
+    TacticType::shield_bearer,
+    TacticType::blind_man_bluff,
+    TacticType::mud_fight,
+    TacticType::recruiter,
+    TacticType::spy,
+    TacticType::strategist,
+    TacticType::traiter
 };
 
 void DeckFactory::createTacticCards() {
