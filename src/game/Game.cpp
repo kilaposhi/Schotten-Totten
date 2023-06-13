@@ -138,7 +138,6 @@ void Game::drawCard(Player* player){
         cout << "From which deck do you want to draw ? ";
         cout << "[0] Normal Deck (" << clanDeck.getNumberRemainingCards() <<" cards remaining) ";
         cout << "[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining) \n";
-        //règle tactique
         int answer = askPlayerValue(player, {0,1});
         if (answer == 1) {
             if (tacticDeck.isEmpty()) {
