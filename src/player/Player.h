@@ -15,6 +15,7 @@
 #include "deck/Deck.h"
 #include "TacticHandler.h"
 #include "board/Combination.h"
+#include "board/GameTracker.h"
 
 using std::vector;
 using std::list;
@@ -40,7 +41,6 @@ class Border;
 class Player {
 protected:
     string name;
-    vector<unique_ptr<Card>> hand;
     int max_cards;
     int id_;
     vector<unsigned int> claimed_borders;
@@ -70,6 +70,7 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& f, const Player& player);
+
 class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);

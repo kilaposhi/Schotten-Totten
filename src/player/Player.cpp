@@ -16,7 +16,7 @@ AI::AI(unsigned int max_cards, const string& name) : Player(name, 2, max_cards) 
 
 string Player::displayHand() const {
     std::stringstream stream("");
-    stream << "Player's " << id_ << " hand: ";
+    stream << "Player " << id_ << " hand: ";
     int i = 0;
     for (const auto& cardPtr : hand) {
         stream << " (" << i++ << "): " << *cardPtr << " ";
@@ -138,42 +138,14 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     return stream;
 }
 
-unsigned int AI::pick_a_card(Border* border) {
-    vector<Combination> possibilities;
-    if (border->getPlayerCombination(this).getNumberCards() == 0) {
-        int index = rand() % hand.size();
-        return index;
-    }
-
-    for (unsigned int j = 0; j < hand.size(); j++) {
-        std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
-
-        Combination combination(border->getPlayerCombination(this));
-        combination.push_back(std::move(card));
-
-        possibilities.push_back(std::move(combination));
-    }
-
-    unsigned int index = findBestCombination(possibilities);
-
-    return index;
+int AI::pick_a_card(Border* border) {
+    // Ajoutez ici la logique pour choisir la meilleure carte parmi les possibilités
+    // Remplacez cette ligne par votre logique réelle
+    return 0; // Exemple : retourne une valeur par défaut
 }
 
-unsigned int AI::claim_a_border(Board* board, Player* enemy) {
-    unsigned int numBorders = board->getNumberBorder();
-    unsigned int index = 0;
-
-    for (unsigned int j = 0; j < numBorders; j++) {
-        if (board->getBorderByID(j).isClaimed() || board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
-            continue;
-        }
-
-        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this), board->getBorderByID(j).getPlayerCombination(enemy))) {
-            index = j;
-            break;
-        }
-    }
-
-    return index;
+int AI::claim_a_border(Board* board, Player* enemy) {
+    // Ajoutez ici la logique pour choisir la meilleure frontière à réclamer
+    // Remplacez cette ligne par votre logique réelle
+    return 0; // Exemple : retourne une valeur par défaut
 }
-
