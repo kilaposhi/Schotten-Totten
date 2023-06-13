@@ -47,6 +47,7 @@ public:
     ValuedCard* getValuedCard(int index) const;
     TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string str() const;
+    int getRank() const;
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
@@ -82,5 +83,6 @@ public:
 };
 ostream& operator<<(ostream& stream, const Combination& combination);
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
+const Combination& findBestCombination(const std::vector<Combination>& combinations);
 string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
