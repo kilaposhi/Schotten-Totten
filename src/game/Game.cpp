@@ -2,9 +2,18 @@
 #include <thread>
 #include <chrono>
 #include <cstdlib>
+#include<string>
+
+#include <QApplication>
+#include <QMessageBox>
+#include <QString>
+#include <QInputDialog>
+
 #include "deck/DeckFactory.h"
 #include "board/Board.h"
 #include "Game.h"
+
+
 
 
 class Board;
@@ -35,19 +44,22 @@ void Game::launchSchottenTotten1() {
 }
 
 
-void Game::create_player(int id){
+void Game::create_player(int id)
+{
     if (id == 1)
-        std::cout<<"The one who traveled near Scotland the most recently is the player 1 \n";
-    std::cout<<"Player " << id << " please give your name: \n";
-    std::string name;
-    std::cin>>name;
+        QMessageBox::information(nullptr, "Player Identification", "The one who traveled near Scotland the most recently is Player 1");
+
+    QString prompt = "Player " + QString::number(id) + ", please enter your name:";
+    QString name = QInputDialog::getText(nullptr, "Player Name", prompt);
+
     int maxPlayerCard = 6;
     if (tacticVersion_)
         maxPlayerCard = 7;
+
     if (id == 1)
-        player1_ = std::make_unique<Player>(name, id, maxPlayerCard);
+        player1_ = std::make_unique<Player>(name.toStdString(), id, maxPlayerCard);
     else
-        player2_ = std::make_unique<Player>(name, id , maxPlayerCard);
+        player2_ = std::make_unique<Player>(name.toStdString(), id, maxPlayerCard);
 }
 
 

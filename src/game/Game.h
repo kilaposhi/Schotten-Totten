@@ -40,4 +40,3 @@ public :
 void clearScreen();
 
 #endif //SCHOTTEN_TOTTEN_GAME_H
-
