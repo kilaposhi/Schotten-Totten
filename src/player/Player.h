@@ -38,7 +38,7 @@ public:
 class Border;
 
 class Player {
-private:
+protected:
     string name;
     vector<unique_ptr<Card>> hand;
     int max_cards;
@@ -46,8 +46,6 @@ private:
     vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
     std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
-protected:
-    vector<unique_ptr<Card>> hand;
 
 public:
 
@@ -73,7 +71,10 @@ public:
 std::ostream& operator<<(std::ostream& f, const Player& player);
 class AI : public Player {
 public:
-     int pick_a_card(Border* border);
+    AI(unsigned int max_cards, const string& name);
+    unsigned int pick_a_card(Border* border);
+    std::unique_ptr<Card>& getCardAtIndex(int index);
+    unsigned int claim_a_border(Board * board, Player* enemy);
 
 };
 

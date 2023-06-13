@@ -27,7 +27,13 @@ void Game::setGameVersion() {
 void Game::launchSchottenTotten1() {
     setGameVersion();
     create_player(1);
-    create_player(2);
+    cout << "Do you want to play against the AI ? [1] Yes | [2] No\n";
+    int version = askValue({1,2});
+    if (version == 2)
+        create_IA();
+    else
+        create_player(2);
+
     cout << "How many rounds do you want to play? \n";
     int numberRound = askValue({1, 15});
     for (size_t i =0; i < numberRound; i++)
@@ -48,6 +54,15 @@ void Game::create_player(int id){
         player1_ = std::make_unique<Player>(name, id, maxPlayerCard);
     else
         player2_ = std::make_unique<Player>(name, id , maxPlayerCard);
+}
+void Game::create_IA(){
+    std::cout<<"Player please give a name to your adversary : \n";
+    std::string name;
+    std::cin>>name;
+    int maxPlayerCard = 6;
+    if (tacticVersion_)
+        maxPlayerCard = 7;
+    player2_ = std::make_unique<AI>(maxPlayerCard, name);
 }
 
 
@@ -107,14 +122,19 @@ void Game::play(Player* player) {
     int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
     std::cout << "Please type the index of the border you want to pick.\n";
     int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+    while ((board_->getBorderByID(border_index)).isClaimed())
+    {
+        throw BorderException("The border is already claimed.");
+        border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+    }
     player->play_card(card_index, border_index, board_.get());
     std::cout << *board_ << '\n';
     bool playerWantToClaim = askYesNo("Would you like to claim a border?");
     if (playerWantToClaim){
         std::cout << "Please type the index of the border you want to pick.\n";
-        int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+        int border_index2 = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
         try {
-            board_->getBorderByID(border_index); // .claim
+            board_->getBorderByID(border_index2); // .claim
         }catch  (BorderException e) {
             cout << e.what();
         }
@@ -128,14 +148,14 @@ void Game::roundAI(){
     create_deck();
     create_board();
     player1_->fillHand(clanDeck);
-    player1_->fillHand(clanDeck);
+    player2_->fillHand(clanDeck);
 
 
     std::cout << "Start of the game\n";
 
-    while (board_.hasWinner() == nullptr) {
+    while (board_->hasWinner() == nullptr) {
         std::cout << "It is your turn" << std::endl;
-        play(player1_, board_);
+        play(player1_.get());
 
         pause(10);
 
@@ -147,7 +167,7 @@ void Game::roundAI(){
         pause(15);
 
         std::cout << "The computer is playing..." << std::endl;
-        playAI();
+        playAI(player2_.get());
 
         if (isGameOver()) {
             std::cout << "You lost!\n";
@@ -160,25 +180,52 @@ void Game::roundAI(){
     std::cout << "End of the game\n";
     quit();
 }
-
-void Game::playAI(AI* computer ) {
+void Game::playAI(AI* computer) {
     int card_index;
     int border_index;
-    std::cout << "The computer has played the card" << computer->displayCard(card_index) << "on the border" <<border_index << ".\n" ;
-    std::vector<Border> borders = board.getBorders();
-    computer->play_card(card_index, borders[border_index]);
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
+    if (tacticVersion_) {
+        border_index = rand() % board_->getNumberBorder() - 1;
+        while (board_->getBorderByID(border_index).isClaimed()) {
+            border_index = rand() % board_->getNumberBorder() - 1;
+        }
+    } else {
+        vector<Combination> possibilities;
+        for (int i = 0; i < board_->getNumberBorder(); i++) {
+            card_index = computer->pick_a_card(&board_->getBorderByID(i));
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*computer->getCardAtIndex(card_index));
+
+            Combination combination(board_->getBorderByID(i).getPlayerCombination(computer));
+            combination.push_back(std::move(card));
+            possibilities.push_back(std::move(combination));
+        }
+
+        border_index = findBestCombination(possibilities);
     }
-    else if (border_index !=0)
-    {
-        std::cout << "The computer has claimed the border "<<border_index<< ".\n";
-        borders[border_index].getClaimed();
+
+    computer->play_card(card_index, border_index, board_.get());
+    std::cout << "The computer is playing the card " << computer->displayCard(card_index) << " on the border " << border_index << ".\n";
+
+    border_index = computer->claim_a_border(board_.get(), player1_.get());
+    if (border_index != 0) {
+        std::cout << "The computer is claiming the border " << border_index << ".\n";
+        // board_->getBorderByID(border_index).claim();
     }
-    if (!deck.isEmpty) computer->draw_card( deck_);
+
+    cout << "Drawing a card \n";
+    bool playerHasDrawn = false;
+    if (tacticVersion_ && !tacticDeck.isEmpty()) {
+        int answer = rand() % 2;
+        if (answer == 1) {
+            computer->draw_card(tacticDeck);
+            playerHasDrawn = true;
+        }
+    }
+
+    if (!playerHasDrawn && !clanDeck.isEmpty()) {
+        computer->draw_card(clanDeck);
+    }
 }
+
 
 
 void clearScreen(){

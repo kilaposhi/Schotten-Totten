@@ -130,6 +130,10 @@ bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard){
 bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard){
     return !operator< (leftCard,rightCard);
 }
+//les cartes sont uniques mais comme on en crée des nouvelles pour l'ia on doit les comparer dans la tête de l'ia
+bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard) {
+    return (leftCard.getValue() == rightCard.getValue()) && (leftCard.getColor() == rightCard.getColor());
+}
 
 
 string createTacticDescription(TacticType type) {

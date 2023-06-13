@@ -10,7 +10,20 @@ Combination::Combination(int maxNumberCards, Player* player) : maxNumberCards_(m
     valuedCards_.reserve(maxNumberCards_);
     tacticCards_.reserve(1);
 }
-
+Combination::Combination(const Combination& other)
+        : player_(other.player_),
+          valuedCards_(other.valuedCards_.size()),
+          tacticCards_(other.tacticCards_.size()),
+          maxNumberCards_(other.maxNumberCards_),
+          sumValues_(other.sumValues_),
+          hasTacticCard_(other.hasTacticCard_),
+          noCombinationRule_(other.noCombinationRule_),
+          combinationType_(other.combinationType_)
+          {
+    for (size_t i = 0; i < other.valuedCards_.size(); ++i) {
+        valuedCards_[i] = std::make_unique<ValuedCard>(*other.valuedCards_[i]);
+    }
+}
 
 int Combination::getSum() const {
     if (combinationType_ == CombinationType::NONE)
@@ -135,7 +148,7 @@ void Combination::treatTacticCards() {
 
 CombinationType Combination::compute_combination(){
     if (hasTacticCard_)
-        throw CombinationException("Need to treat the tactic cards before computing the combination");
+        treatTacticCards();
     if (noCombinationRule_)
         return CombinationType::Sum;
     int n  = getNumberValuedCards();
@@ -289,65 +302,32 @@ const Combination& bestCombination(const Combination& combo1, const Combination&
     }
 }
 
-const Combination& findBestCombination(const std::vector<Combination>& combinations) {
+bool Combination::operator==(const Combination& other) const {
+    // Comparez les attributs des combinaisons pour déterminer si elles sont égales
+    return (valuedCards_ == other.valuedCards_) ;
+} //on ne les trie pas car on veut que les combinaisons soient identiques
+
+
+unsigned int findBestCombination(const std::vector<Combination>& combinations) {
     if (combinations.empty()) {
         throw std::logic_error("The list of combinations is empty.");
     }
 
     const Combination* best = &combinations[0];
-
+    unsigned int index = 0;
     for (size_t i = 1; i < combinations.size(); ++i) {
         const Combination& current = combinations[i];
-        best = &bestCombination(*best, current);
+        if (current == bestCombination(*best, current)) {
+            best = &current;
+            index = i;
+        }
     }
 
-    return *best;
+    return index;
 }
 
-int Combination::getRank() const {
-    switch (combinationType_) {
-        case CombinationType::NONE:
-            return 0;
-        case CombinationType::Sum:
-            return 1;
-        case CombinationType::ThreeOfAKind:
-            return 2;
-        case CombinationType::Color:
-            return 3;
-        case CombinationType::Run:
-            return 4;
-        case CombinationType::ColorRun:
-            return 5;
-        default:
-            throw CombinationException("Invalid combination type");
-    }
-}
-const Combination& bestCombination(const Combination& combo1, const Combination& combo2) {
-    if (combo1.getRank() < combo2.getRank()) {
-        return combo2;
-    }
-    else if (combo1.getRank() > combo2.getRank()) {
-        return combo1;
-    }
-    else {
-        return (combo1.getSum() > combo2.getSum()) ? combo1 : combo2;
-    }
-}
 
-const Combination& findBestCombination(const std::vector<Combination>& combinations) {
-    if (combinations.empty()) {
-        throw std::logic_error("The list of combinations is empty.");
-    }
 
-    const Combination* best = &combinations[0];
-
-    for (size_t i = 1; i < combinations.size(); ++i) {
-        const Combination& current = combinations[i];
-        best = &bestCombination(*best, current);
-    }
-
-    return *best;
-}
 
 
 

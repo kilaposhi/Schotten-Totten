@@ -16,6 +16,9 @@ class Deck;
 Player::Player(string name_, int id, int max_card) : name(std::move(name_)), id_(id), max_cards(max_card){}
 
 
+AI::AI(unsigned int max_cards, const string& name)
+        : Player(name, 2, max_cards){}
+
 
 string Player::displayHand() const{
     std::stringstream stream("");
@@ -31,7 +34,12 @@ string Player::displayCard(int index_card)  const {
     card << *hand[index_card];
     return card.str();
 }
-
+std::unique_ptr<Card>& AI::getCardAtIndex(int index) {
+    if (index < 0 || index >= hand.size()) {
+        throw PlayerException("Invalid card index.");
+    }
+    return hand[index];
+}
 
 string Player::print_player() const{
     std::stringstream stream("");
@@ -133,21 +141,47 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     stream << "Player " << player.getID();
     return stream;
 }
-int AI::pick_a_card(Border* border) {
 
-    vector<Combination*> possibilities;
 
-        for (unsigned int j = 0; j < hand.size(); j++)
-        {
-            Combination possibilities[0] = board->getBorderByID(i).getPlayerCombination(this);
-            po
+unsigned int AI::pick_a_card(Border* border) {
+    vector<Combination> possibilities;
+
+    // Génération des combinaisons possibles
+    for (unsigned int j = 0; j < hand.size(); j++) {
+        std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+
+        Combination combination(border->getPlayerCombination(this));
+        combination.push_back(std::move(card));
+
+        possibilities.push_back(std::move(combination));
+    }
+
+    unsigned int index = findBestCombination(possibilities);
+
+    return index;
+}
+
+
+unsigned int AI::claim_a_border(Board* board, Player* enemy) {
+    unsigned int numBorders = board->getNumberBorder();
+    unsigned int index = 0;
+
+    for (unsigned int j = 0; j < numBorders; j++) {
+        // Vérifier si le bord est déjà revendiqué ou si la combinaison du joueur actuel n'est pas complète
+        if (board->getBorderByID(j).isClaimed() || board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
+            continue;  // Passer à l'itération suivante
+        }
+
+        // Vérifier si la combinaison du joueur actuel est la meilleure combinaison parmi celle du joueur actuel et du joueur ennemi
+        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this), board->getBorderByID(j).getPlayerCombination(enemy))) {
+            index = j;  // Enregistrer l'index du bord
+            break;  // Interrompre la boucle
         }
     }
 
-    // Ajoutez ici la logique pour choisir la meilleure carte parmi les possibilités
-
-    // Retournez la carte choisie (remplacez cette ligne par votre logique réelle)
-    return std::make_unique<Card>(); // Exemple : renvoie une carte nulle
+    return index;
 }
+
+
 
 
