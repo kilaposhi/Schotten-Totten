@@ -1,50 +1,49 @@
 #include <iostream>
 #include <string>
-
+#include <QApplication>
+#include <QMainWindow>
 
 #include "deck/DeckFactory.h"
 #include "board/Board.h"
 #include "game/Game.h"
+#include "GameView.h"
 
 using std::cout;
 
-int main() {
-    Game();
-//    Player player1("oui",1, 7);
-//    Player player2("non",2, 7);
-//    Board board(9, &player1, &player2);
-//    Deck clanDeck = DeckFactory().createClanDeck();
-//    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
-//    clanDeck.shuffle();
-//    Deck tacticDeck = DeckFactory().createTacticDeck();
-//    Deck discardDeck;
-//    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board);
-//
-
-//    for (int i = 0; i < 4; i++) {
-//        player1.draw_card(clanDeck);
-//        player2.draw_card(clanDeck);
-//    }
-//    player1.fillHand(clanDeck);
-//    cout << player1.displayHand();
-//
-//    for (int i = 0; i < 4; i++) {
-//        tacticDeck.drawCard();
-//    }
-//    cout << player1.displayHand() << "\n";
-//    player1.play_card(1, board.getBorderByID(0));
-//    player1.play_card(1, board.getBorderByID(0));
-//    player1.play_card(3, board.getBorderByID(0));
-//    player2.play_card(1, board.getBorderByID(0));
-//    player2.play_card(1, board.getBorderByID(0));
-//    player2.play_card(1, board.getBorderByID(0));
-//    player1.play_card(2, board.getBorderByID(0));
-//    player2.play_card(0, board.getBorderByID(0));
-
-//    cout << board.str();
-
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    GameView window;
+    window.show();
+    return app.exec();
 }
 
+    /*Game();
+    Player player1("oui",1, 7);
+    Player player2("non",2, 7);
+    Board board(9, &player1, &player2);
+    Deck clanDeck = DeckFactory().createClanDeck();
+    DeckInfo clanDeckInfo = DeckFactory().getDeckInfo();
+    clanDeck.shuffle();
+    Deck tacticDeck = DeckFactory().createTacticDeck();
+    Deck discardDeck;
+    TacticHandler instance = TacticHandler::getInstance(&clanDeck, &clanDeckInfo, &tacticDeck, &discardDeck, &board);
+    //
+
+    for (int i = 0; i < 4; i++) {
+        player1.draw_card(clanDeck);
+        player2.draw_card(clanDeck);
+    }
+        player1.fillHand(clanDeck);
+        cout << player1.displayHand();
+
+    for (int i = 0; i < 4; i++) {
+        tacticDeck.drawCard();
+    }
+    cout << player1.displayHand() << "\n";
+    cout << board.str();
+    return app.exec();
+}
+*/
 /*
         Board board(9);
 
@@ -202,7 +201,7 @@ try {
     cout << "nb de cartes de player1: " << player1_nb_cards;
     */
 
-    /*
+/*
 
     //on crée les cartes, les mélange et les affiche
 //    create_borders();
