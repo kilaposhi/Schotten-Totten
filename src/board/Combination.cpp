@@ -291,7 +291,16 @@ int Combination::getRank() const {
     }
 }
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) {
-    if (combo1.getRank() < combo2.getRank()) {
+    if (combo1.getType() == CombinationType::NONE && combo2.getType() == CombinationType::NONE) {
+        return combo1;
+    }
+    else if (combo1.getType() == CombinationType::NONE) {
+        return combo2;
+    }
+    else if (combo2.getType() == CombinationType::NONE) {
+        return combo1;
+    }
+    else if (combo1.getRank() < combo2.getRank()) {
         return combo2;
     }
     else if (combo1.getRank() > combo2.getRank()) {
@@ -301,6 +310,7 @@ const Combination& bestCombination(const Combination& combo1, const Combination&
         return (combo1.getSum() > combo2.getSum()) ? combo1 : combo2;
     }
 }
+
 
 bool Combination::operator==(const Combination& other) const {
     // Comparez les attributs des combinaisons pour déterminer si elles sont égales
