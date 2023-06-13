@@ -304,6 +304,51 @@ const Combination& findBestCombination(const std::vector<Combination>& combinati
     return *best;
 }
 
+int Combination::getRank() const {
+    switch (combinationType_) {
+        case CombinationType::NONE:
+            return 0;
+        case CombinationType::Sum:
+            return 1;
+        case CombinationType::ThreeOfAKind:
+            return 2;
+        case CombinationType::Color:
+            return 3;
+        case CombinationType::Run:
+            return 4;
+        case CombinationType::ColorRun:
+            return 5;
+        default:
+            throw CombinationException("Invalid combination type");
+    }
+}
+const Combination& bestCombination(const Combination& combo1, const Combination& combo2) {
+    if (combo1.getRank() < combo2.getRank()) {
+        return combo2;
+    }
+    else if (combo1.getRank() > combo2.getRank()) {
+        return combo1;
+    }
+    else {
+        return (combo1.getSum() > combo2.getSum()) ? combo1 : combo2;
+    }
+}
+
+const Combination& findBestCombination(const std::vector<Combination>& combinations) {
+    if (combinations.empty()) {
+        throw std::logic_error("The list of combinations is empty.");
+    }
+
+    const Combination* best = &combinations[0];
+
+    for (size_t i = 1; i < combinations.size(); ++i) {
+        const Combination& current = combinations[i];
+        best = &bestCombination(*best, current);
+    }
+
+    return *best;
+}
+
 
 
 #endif //SCHOTTEN_TOTTEN_COMBINATION_H

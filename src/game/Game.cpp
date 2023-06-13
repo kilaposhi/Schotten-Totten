@@ -124,9 +124,65 @@ void Game::play(Player* player) {
     clearScreen();
 }
 
+void Game::roundAI(){
+    create_deck();
+    create_board();
+    player1_->fillHand(clanDeck);
+    player1_->fillHand(clanDeck);
+
+
+    std::cout << "Start of the game\n";
+
+    while (board_.hasWinner() == nullptr) {
+        std::cout << "It is your turn" << std::endl;
+        play(player1_, board_);
+
+        pause(10);
+
+        if (isGameOver()) {
+            std::cout << "You won!\n";
+            break;
+        }
+
+        pause(15);
+
+        std::cout << "The computer is playing..." << std::endl;
+        playAI();
+
+        if (isGameOver()) {
+            std::cout << "You lost!\n";
+            break;
+        }
+
+        pause(15);
+    }
+
+    std::cout << "End of the game\n";
+    quit();
+}
+
+void Game::playAI(AI* computer ) {
+    int card_index;
+    int border_index;
+    std::cout << "The computer has played the card" << computer->displayCard(card_index) << "on the border" <<border_index << ".\n" ;
+    std::vector<Border> borders = board.getBorders();
+    computer->play_card(card_index, borders[border_index]);
+    std::cin >> border_index;
+    if (border_index<0 || border_index>9)
+    {
+        throw PlayerException("The index is not valid.");
+    }
+    else if (border_index !=0)
+    {
+        std::cout << "The computer has claimed the border "<<border_index<< ".\n";
+        borders[border_index].getClaimed();
+    }
+    if (!deck.isEmpty) computer->draw_card( deck_);
+}
+
 
 void clearScreen(){
-    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
 
 

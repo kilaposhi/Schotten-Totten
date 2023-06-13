@@ -26,6 +26,11 @@ string Player::displayHand() const{
     }
     return stream.str();
 }
+string Player::displayCard(int index_card)  const {
+    std::stringstream card("");
+    card << *hand[index_card];
+    return card.str();
+}
 
 
 string Player::print_player() const{
@@ -128,7 +133,6 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     stream << "Player " << player.getID();
     return stream;
 }
-
 int AI::pick_a_card(Border* border) {
 
     vector<Combination*> possibilities;
@@ -145,3 +149,5 @@ int AI::pick_a_card(Border* border) {
     // Retournez la carte choisie (remplacez cette ligne par votre logique réelle)
     return std::make_unique<Card>(); // Exemple : renvoie une carte nulle
 }
+
+
