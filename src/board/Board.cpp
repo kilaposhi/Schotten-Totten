@@ -34,7 +34,7 @@ Border &Board::getBorderByID(int ID) {
 
 string Board::str() const {
     std::stringstream stream("");
-    stream << "The board :\t\t Player 1 \t\t\t||||\t\t\t\t Player2\n ";
+    stream << "The board :\n Player 1 \t\t\t||||\t\t\t\t Player2\n ";
     stream << "------------------------------------------------";
     stream << "-------------------------------------------------\n";
     for (int i=0; i<numberBorder_; i++) {
