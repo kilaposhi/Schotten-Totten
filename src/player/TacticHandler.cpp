@@ -1,4 +1,7 @@
 #include "TacticHandler.h"
+#include "Console.h"
+
+#include <array>
 
 TacticHandler::TacticHandler(Deck *normalDeck, DeckInfo *normalDeckInfo, Deck *tacticDeck, Deck *discardDeck, Board *board):
     normalDeck_(normalDeck),
