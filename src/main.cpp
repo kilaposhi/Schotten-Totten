@@ -157,7 +157,7 @@ try {
     borders.push_back(1);
     borders.push_back(4);
     borders.push_back(5);
-   
+
 
     // Test de print_player() OK
 
@@ -176,7 +176,7 @@ try {
 
 
     // Test de add_cart_into_hand OK (Je l'ai remise en private tt de suite après)
-    /*
+
     player1.add_card_into_hand(std::move(card1));
     player1.add_card_into_hand(std::move(card2));
     player1.add_card_into_hand(std::move(card3));
@@ -203,7 +203,7 @@ try {
     */
 
     /*
-  
+
     //on crée les cartes, les mélange et les affiche
 //    create_borders();
     //on crée les bornes

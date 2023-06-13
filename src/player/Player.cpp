@@ -26,6 +26,12 @@ string Player::displayHand() const{
     }
     return stream.str();
 }
+string Player::displayCard(int index_card)  const {
+    std::stringstream card("");
+    card << *hand[index_card];
+    return card.str();
+}
+
 
 string Player::print_player() const{
     std::stringstream stream("");
@@ -50,7 +56,7 @@ std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
     if (hand.empty()) {
         throw PlayerException("The hand is empty");
     }
-    if (card_index == hand.size()) {
+    if (card_index > hand.size()) {
         throw PlayerException("Index not found in hand");
     }
     std::unique_ptr<Card> returned_card = std::move(hand[card_index]);
@@ -128,5 +134,21 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     return stream;
 }
 
+int AI::pick_a_card(Border* border) {
+
+    vector<Combination*> possibilities;
+
+        for (unsigned int j = 0; j < hand.size(); j++)
+        {
+            Combination possibilities[0] = board->getBorderByID(i).getPlayerCombination(this);
+            po
+        }
+    }
+
+    // Ajoutez ici la logique pour choisir la meilleure carte parmi les possibilités
+
+    // Retournez la carte choisie (remplacez cette ligne par votre logique réelle)
+    return std::make_unique<Card>(); // Exemple : renvoie une carte nulle
+}
 
 
