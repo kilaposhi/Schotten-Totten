@@ -23,11 +23,11 @@ enum class CombinationType {
 
 class Player;
 
-class Combination {
+class Combination : public std::unique_ptr {
 public:
     explicit Combination(int maxNumberCards, Player* player);
     ~Combination() = default;
-    Combination(const Combination&) = delete;
+    Combination(const Combination&) ;
     Combination& operator=(const Combination&) = delete;
 public:
     [[nodiscard]] int getSum() const;
@@ -35,6 +35,9 @@ public:
     [[nodiscard]] int getNumberCards() const;
     int getNumberValuedCards() const;
     int getNumberTacticCards() const;
+    const std::vector<std::unique_ptr<ValuedCard>>& getValuedCards() const {
+        return valuedCards_;
+    }
     Player* getPlayerID() const;
     [[nodiscard]] int getMaxNumberCards() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
@@ -48,6 +51,7 @@ public:
     TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string str() const;
     int getRank() const;
+    bool operator==(const Combination& other) const;
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
@@ -81,8 +85,9 @@ public:
     }
 
 };
+
 ostream& operator<<(ostream& stream, const Combination& combination);
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
-const Combination& findBestCombination(const std::vector<Combination>& combinations);
+unsigned int findBestCombination(const std::vector<Combination>& combinations);
 string combinationTypeToString(CombinationType type) ;
 #endif //PROJET_COMBINATION_H
