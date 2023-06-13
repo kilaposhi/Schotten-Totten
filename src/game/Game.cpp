@@ -9,17 +9,20 @@
 
 class Board;
 
+
 Game::Game(): gameOver(false), player1_(nullptr), player2_(nullptr){
     launchSchottenTotten1();
 }
 
+
 void Game::setGameVersion() {
-    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic '\n";
+    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic\n";
     int version = askValue({1,2});
     tacticVersion_ = false;
     if (version == 2)
         tacticVersion_ = true;
 }
+
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
@@ -61,84 +64,41 @@ void Game::create_deck() {
     }
 }
 
+
 void Game::create_board() {
     board_ = std::make_unique<Board>(9, player1_.get(), player2_.get());
     if (tacticVersion_)
         TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
 
+
 void Game::round() {
     create_deck();
     create_board();
     player1_->fillHand(clanDeck);
     player2_->fillHand(clanDeck);
-
     std::cout << "Start of the game\n";
-
-
     while (board_->hasWinner() == nullptr) {
         std::cout << "Player " << player1_->getName() << " it's your turn!";
         cout << "Player " << player2_->getName() << " don't look at the screen!\n";
         play(player1_.get());
-
         pause(2);
-
         if (isGameOver()) {
             std::cout << "Player " << player1_->getID() << " won!\n";
             break;
         }
-
-
         std::cout << *player2_ << "turn" << std::endl;
         play(player2_.get());
-
         if (isGameOver()) {
             std::cout << "Player " << player2_->getID() << " won!\n";
             break;
         }
-
         pause(15);
     }
-
     std::cout << "End of the game\n";
     quit();
 }
-void Game::roundAI(){
-    create_deck();
-    create_board();
-    player1_->fillHand(clanDeck);
-    player1_->fillHand(clanDeck);
 
-
-    std::cout << "Start of the game\n";
-
-    while (board_.hasWinner() == nullptr) {
-        std::cout << "It is your turn" << std::endl;
-        play(player1_, board_);
-
-        pause(10);
-
-        if (isGameOver()) {
-            std::cout << "You won!\n";
-            break;
-        }
-
-        pause(15);
-
-        std::cout << "The computer is playing..." << std::endl;
-        playAI();
-
-        if (isGameOver()) {
-            std::cout << "You lost!\n";
-            break;
-        }
-
-        pause(15);
-    }
-
-    std::cout << "End of the game\n";
-    quit();
-}
 
 void Game::play(Player* player) {
     cout << board_->str() << '\n';
@@ -165,27 +125,10 @@ void Game::play(Player* player) {
 }
 
 
-void Game::playAI(AI* computer ) {
-    int card_index;
-    int border_index;
-    std::cout << "The computer has played the card" << computer->displayCard(card_index) << "on the border" <<border_index << ".\n" ;
-    std::vector<Border> borders = board.getBorders();
-    computer->play_card(card_index, borders[border_index]);
-    std::cin >> border_index;
-    if (border_index<0 || border_index>9)
-    {
-        throw PlayerException("The index is not valid.");
-    }
-    else if (border_index !=0)
-    {
-        std::cout << "The computer has claimed the border "<<border_index<< ".\n";
-        borders[border_index].getClaimed();
-    }
-    if (!deck.isEmpty) computer->draw_card( deck_);
-}
 void clearScreen(){
     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
+
 
 void Game::drawCard(Player* player){
     cout << "Drawing a card \n";
@@ -199,7 +142,7 @@ void Game::drawCard(Player* player){
         int answer = askPlayerValue(player, {0,1});
         if (answer == 1) {
             if (tacticDeck.isEmpty()) {
-                cout << "The tactic Deck is empty ! \n";
+                cout << "The tactic Deck is empty! \n";
             } else {
                 player->draw_card(tacticDeck);
                 playerHasDrawn = true;
@@ -208,18 +151,20 @@ void Game::drawCard(Player* player){
     }
     if (!playerHasDrawn) {
         if (clanDeck.isEmpty()){
-            cout << "The clan Deck is empty ! \n";
+            cout << "The clan Deck is empty! \n";
         }else
             player->draw_card(clanDeck);
     }
     cout << "New hand " << player->displayHand() << '\n';
 }
 
+
 void Game::pause(int n) {
     //std::cout << "Pause de 30 secondes...\n";
     std::this_thread::sleep_for(std::chrono::seconds(n));
     //std::cout << "Reprise de la partie\n";
 }
+
 
 bool Game::isGameOver() {
     // Exemple d'implémentation de la logique de fin de partie
