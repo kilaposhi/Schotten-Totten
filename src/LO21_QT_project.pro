@@ -11,7 +11,6 @@ HEADERS += \
     game/Game.h \
     player/Player.h \
     player/TacticHandler.h\
-    GameView.h
 
 SOURCES += \
     Console.cpp \
@@ -27,6 +26,6 @@ SOURCES += \
     main.cpp \
     player/Player.cpp \
     player/TacticHandler.cpp\
-    GameView.cpp
+
 
  QT += widgets

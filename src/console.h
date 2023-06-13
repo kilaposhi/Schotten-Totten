@@ -3,12 +3,11 @@
 
 #include <string>
 #include "player/Player.h"
-#include "deck/DeckFactory.h"
 
 
 int askPlayerValue(Player* player, std::array<int,2> rangeValue);
-int askValue(std::array<int,2> rangeValue);
-bool askYesNo( string question);
+int askValue(const std::array<int, 2>& rangeValue);
+bool askYesNo(const string& question);
 CardColor askPlayerColor(Player* player, int numberColors);
 
 

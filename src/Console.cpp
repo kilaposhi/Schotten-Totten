@@ -17,7 +17,7 @@ int askPlayerValue(Player* player, std::array<int,2> rangeValue){
 bool askYesNo(const string& question)
 {
     bool result = false;
-    QMessageBox::StandardButton reply = QMessageBox::question(nullptr, "Confirmation", "Do you want to claim a border?", QMessageBox::Yes | QMessageBox::No);
+    QMessageBox::StandardButton reply = QMessageBox::question(nullptr, "Confirmation", question.c_str(), QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
         result = true;
@@ -25,8 +25,6 @@ bool askYesNo(const string& question)
 
     return result;
 }
-
-
 
 
 int askValue(const std::array<int, 2>& rangeValue)
@@ -61,7 +59,7 @@ int askValue(const std::array<int, 2>& rangeValue)
 CardColor askPlayerColor(Player* player, int numberColors){
     cout << "Here are the colors : \n";
     auto color_iterator = cardColors.begin();
-    for (size_t i = 0; i < numberColors; i++){
+    for (int i = 0; i < numberColors; i++){
         CardColor color = *color_iterator++;
         cout << i << " : " << cardColorToString(color) << "\t";
     }

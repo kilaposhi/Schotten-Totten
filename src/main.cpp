@@ -3,10 +3,7 @@
 #include <QApplication>
 #include <QMainWindow>
 
-#include "deck/DeckFactory.h"
-#include "board/Board.h"
 #include "game/Game.h"
-#include "GameView.h"
 
 using std::cout;
 
@@ -14,6 +11,9 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     Game();
+    return app.exec();
+}
+    /*
     Player player1("oui",1, 7);
     Player player2("non",2, 7);
     Board board(9, &player1, &player2);
@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     }
     cout << player1.displayHand() << "\n";
     cout << board.str();
-    return app.exec();
-}
+
+}*/
 
 /*
         Board board(9);
