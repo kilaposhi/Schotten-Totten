@@ -23,7 +23,7 @@ enum class CombinationType {
 
 class Player;
 
-class Combination : public std::unique_ptr {
+class Combination {
 public:
     explicit Combination(int maxNumberCards, Player* player);
     ~Combination() = default;

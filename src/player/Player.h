@@ -62,6 +62,7 @@ public:
     vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
     int getID() const;
+    std::unique_ptr<Card>& getCardAtIndex(int index);
     string getName() const { return name; }
     string displayHand() const; // --> OK
     string displayCard(int index_card) const;
@@ -73,7 +74,6 @@ class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);
     unsigned int pick_a_card(Border* border);
-    std::unique_ptr<Card>& getCardAtIndex(int index);
     unsigned int claim_a_border(Board * board, Player* enemy);
 
 };

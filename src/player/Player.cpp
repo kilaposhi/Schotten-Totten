@@ -34,11 +34,11 @@ string Player::displayCard(int index_card)  const {
     card << *hand[index_card];
     return card.str();
 }
-std::unique_ptr<Card>& AI::getCardAtIndex(int index) {
+std::unique_ptr<Card>& Player::getCardAtIndex(int index) {
     if (index < 0 || index >= hand.size()) {
         throw PlayerException("Invalid card index.");
     }
-    return hand[index];
+    return reinterpret_cast<unique_ptr<Card> &>(*hand[index]);
 }
 
 string Player::print_player() const{
@@ -71,6 +71,7 @@ std::unique_ptr<Card>  Player::remove_card_from_hand(int card_index) {
     hand.erase(hand.begin() + card_index);
     return returned_card;
 }
+
 
 
 void Player::play_card(int card_index, int borderIndex, Board* board) {

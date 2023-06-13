@@ -25,7 +25,7 @@ public :
     void setGameVersion();
     void create_board();
     void create_player(int id);
-    void create_IA();
+    void create_AI();
     void create_deck();
     void start_game();
     void round();
