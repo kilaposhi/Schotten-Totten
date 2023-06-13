@@ -133,10 +133,19 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     return stream;
 }
 
-std::unique_ptr<Card> AI::pick_a_card(Board *board) {
-    vector<Combination> possibilities;
+int AI::pick_a_card(Border* border) {
 
-    for (unsigned int i = 0; i<9; i++)
-        for (unsigned int i = 0; i)
+    vector<Combination*> possibilities;
+
+        for (unsigned int j = 0; j < hand.size(); j++)
+        {
+            Combination possibilities[0] = board->getBorderByID(i).getPlayerCombination(this);
+            po
+        }
+    }
+
+    // Ajoutez ici la logique pour choisir la meilleure carte parmi les possibilités
+
+    // Retournez la carte choisie (remplacez cette ligne par votre logique réelle)
+    return std::make_unique<Card>(); // Exemple : renvoie une carte nulle
 }
-

@@ -40,13 +40,14 @@ class Border;
 class Player {
 private:
     string name;
-    vector<unique_ptr<Card>> hand;
     int max_cards;
     int id_;
     vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
 
+protected:
+    vector<unique_ptr<Card>> hand;
 public:
 
     ~Player()=default;
@@ -69,9 +70,11 @@ public:
 };
 
 class AI : public Player {
-    std::unique_ptr<Card> pick_a_card();
+public:
+     int pick_a_card(Border* border);
 
 };
+
 std::ostream& operator<<(std::ostream& f, const Player& player);
 
 
