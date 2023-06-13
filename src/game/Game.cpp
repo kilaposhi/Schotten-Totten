@@ -1,15 +1,9 @@
-#include <iostream>
-#include <thread>
-#include <chrono>
-#include <cstdlib>
-#include "deck/DeckFactory.h"
-#include "board/Board.h"
 #include "Game.h"
 
 
 class Board;
 
-Game::Game(): gameOver(false), player1(nullptr), player2(nullptr){
+Game::Game(): gameOver(false){
     launchSchottenTotten1();
 }
 
@@ -53,6 +47,9 @@ void Game::create_deck() {
     clanDeck = deckFactory.createClanDeck();
     clanDeck.shuffle();
     deckInfo = deckFactory.getDeckInfo();
+
+    //Initialization Singleton GameTracker
+    GameTracker::getInstance(player1_.get(), player2_.get());
     if (tacticVersion_){
         tacticDeck = deckFactory.createTacticDeck();
         tacticDeck.shuffle();
