@@ -77,15 +77,15 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
         board->getBorderByID(borderIndex).addValueCard(
-                std::make_unique<ValuedCard>(std::move(card)),
-                this
-                );
+            std::make_unique<ValuedCard>(std::move(card)),
+            this
+            );
     } else {
         TacticHandler::getInstance().playTacticCard(
-                std::make_unique<TacticCard>(std::move(card)),
-                this,
-                borderIndex
-                );
+            std::make_unique<TacticCard>(std::move(card)),
+            this,
+            borderIndex
+            );
     }
 }
 
@@ -133,6 +133,5 @@ std::ostream& operator<<(std::ostream& stream, const Player& player){
     stream << "Player " << player.getID();
     return stream;
 }
-
 
 

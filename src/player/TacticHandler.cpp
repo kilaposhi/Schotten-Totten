@@ -1,11 +1,11 @@
 #include "TacticHandler.h"
 
 TacticHandler::TacticHandler(Deck *normalDeck, DeckInfo *normalDeckInfo, Deck *tacticDeck, Deck *discardDeck, Board *board):
-        normalDeck_(normalDeck),
-        normalDeckInfo_(normalDeckInfo),
-        tacticDeck_(tacticDeck),
-        discardDeck_(discardDeck),
-        board_(board){}
+    normalDeck_(normalDeck),
+    normalDeckInfo_(normalDeckInfo),
+    tacticDeck_(tacticDeck),
+    discardDeck_(discardDeck),
+    board_(board){}
 
 
 TacticHandler &TacticHandler::getInstance(Deck *normalDeck, DeckInfo* normalDeckInfo, Deck *tacticDeck, Deck *discardDeck, Board *board) {
@@ -16,7 +16,7 @@ TacticHandler &TacticHandler::getInstance(Deck *normalDeck, DeckInfo* normalDeck
         return *instance;
 
     bool different_instance = instance->normalDeck_ != normalDeck || instance->normalDeckInfo_ != normalDeckInfo || instance->tacticDeck_ != tacticDeck ||
-            instance->discardDeck_ != discardDeck || instance->board_ != board;
+                              instance->discardDeck_ != discardDeck || instance->board_ != board;
     if (different_instance)
         instance.reset(new TacticHandler(normalDeck, normalDeckInfo, tacticDeck, discardDeck, board));
 
@@ -37,10 +37,10 @@ void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *pl
     if (type == TacticType::mud_fight) this->playMudFight(borderID);
 
 
-// else if (type == TacticType::recruiter || type == TacticType::strategist ||
-//type == TacticType::banshee || type == TacticType::traiter) {
-//// Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
-//throw PlayerException("Unsupported tactic card type");
+    // else if (type == TacticType::recruiter || type == TacticType::strategist ||
+    //type == TacticType::banshee || type == TacticType::traiter) {
+    //// Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
+    //throw PlayerException("Unsupported tactic card type");
 }
 
 
@@ -79,5 +79,4 @@ void TacticHandler::playBlindManBluff(int borderId) {
 void TacticHandler::playMudFight(int borderId) {
     board_->getBorderByID(borderId).setMaxNumberCard(4);
 }
-
 

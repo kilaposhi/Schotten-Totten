@@ -27,7 +27,7 @@ private:
 
 public:
     explicit PlayerException(string  errorMessage)
-            : message(std::move(errorMessage)) {}
+        : message(std::move(errorMessage)) {}
 
     [[nodiscard]]const char* what() const noexcept override {
         return message.c_str();
@@ -43,8 +43,8 @@ private:
     int max_cards;
     int id_;
     vector<unsigned int> claimed_borders;
-    void add_card_into_hand(std::unique_ptr<Card>  card_); 
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
+    void add_card_into_hand(std::unique_ptr<Card>  card_);
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
 
 public:
 

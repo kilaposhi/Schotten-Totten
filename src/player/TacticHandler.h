@@ -22,12 +22,12 @@ public:
     ~TacticHandler() = default;
 public:
     static TacticHandler& getInstance(
-            Deck* normalDeck = nullptr,
-            DeckInfo* normalDeckInfo = nullptr,
-            Deck* tacticDeck = nullptr,
-            Deck* discardDeck = nullptr,
-            Board* board = nullptr
-                    );
+        Deck* normalDeck = nullptr,
+        DeckInfo* normalDeckInfo = nullptr,
+        Deck* tacticDeck = nullptr,
+        Deck* discardDeck = nullptr,
+        Board* board = nullptr
+        );
     void playTacticCard(unique_ptr<TacticCard> tacticCard, Player* player, int borderID = -1);
     void activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combination* combination);
 private:
@@ -37,9 +37,9 @@ private:
     void playMudFight(int borderId);
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
     void playRecruiter(Player* player);
-//    playStragist(Player* player)
-//    playBanshee(Player* opponent)
-//    playTraiter(Player* player, Player* opponent)
+    //    playStragist(Player* player)
+    //    playBanshee(Player* opponent)
+    //    playTraiter(Player* player, Player* opponent)
 private:
     Deck *normalDeck_{nullptr};
     DeckInfo* normalDeckInfo_{nullptr};
@@ -55,7 +55,7 @@ private:
 
 public:
     explicit TacticHandlerException(string  errorMessage)
-            : message(std::move(errorMessage)) {}
+        : message(std::move(errorMessage)) {}
 
     [[nodiscard]]const char* what() const noexcept override {
         return message.c_str();
