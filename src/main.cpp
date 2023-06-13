@@ -12,12 +12,8 @@ using std::cout;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    GameView window;
-    window.show();
-    return app.exec();
-}
 
-    /*Game();
+    Game();
     Player player1("oui",1, 7);
     Player player2("non",2, 7);
     Board board(9, &player1, &player2);
@@ -43,7 +39,7 @@ int main(int argc, char *argv[]) {
     cout << board.str();
     return app.exec();
 }
-*/
+
 /*
         Board board(9);
 
