@@ -144,11 +144,11 @@ CombinationType Combination::compute_combination(){
         throw CombinationException("There is not enough cards to claim the stone");
     }
     else
-    if (isColorRun()) return CombinationType::ColorRun ;
-    else if (isColor()) return CombinationType::Color;
-    else if (isThreeOfAKind()) return CombinationType::ThreeOfAKind;
-    else if (isRun()) return CombinationType::Run;
-    else return CombinationType::Sum;
+        if (isColorRun()) return CombinationType::ColorRun ;
+        else if (isColor()) return CombinationType::Color;
+        else if (isThreeOfAKind()) return CombinationType::ThreeOfAKind;
+        else if (isRun()) return CombinationType::Run;
+        else return CombinationType::Sum;
 }
 
 
@@ -225,7 +225,7 @@ bool Combination::isRun(){
 
 string Combination::str() const {
     std::stringstream stream("");
-//    stream << *player_  << " :";
+    //    stream << *player_  << " :";
     if (this->getNumberCards() == 0) {
         stream << "No cards !";
         return stream.str();
@@ -249,14 +249,14 @@ ostream& operator<<(ostream& stream, const Combination& combination)
 
 string combinationTypeToString(CombinationType type) {
     switch (type) {
-        case CombinationType::ColorRun: return "Color run";
-        case CombinationType::Color : return "Color";
-        case CombinationType::Run : return "Run";
-        case CombinationType::ThreeOfAKind : return "Three of a kind";
-        case CombinationType::Sum : return "Sum";
-        case CombinationType::NONE : return "NONE";
-        default:
-            throw CombinationException("Trying to convert unknown combination type to string");
+    case CombinationType::ColorRun: return "Color run";
+    case CombinationType::Color : return "Color";
+    case CombinationType::Run : return "Run";
+    case CombinationType::ThreeOfAKind : return "Three of a kind";
+    case CombinationType::Sum : return "Sum";
+    case CombinationType::NONE : return "NONE";
+    default:
+        throw CombinationException("Trying to convert unknown combination type to string");
     }
 }
 

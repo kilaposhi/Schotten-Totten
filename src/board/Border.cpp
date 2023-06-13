@@ -4,18 +4,18 @@
 
 
 Border::Border(int borderID, Player* player1, Player* player2):
-        borderID_(borderID),
-        player_1_combination(make_unique<Combination>(NUMBER_CARDS, player1)),
-        player_2_combination(make_unique<Combination>(NUMBER_CARDS, player2))
-        {}
+    borderID_(borderID),
+    player_1_combination(make_unique<Combination>(NUMBER_CARDS, player1)),
+    player_2_combination(make_unique<Combination>(NUMBER_CARDS, player2))
+{}
 
 Border::Border(Border &&border) :
-        borderID_(border.borderID_),
-        claimed(border.claimed),
-        winner_(border.winner_),
-        player_1_combination(std::move(border.player_1_combination)),
-        player_2_combination(std::move(border.player_2_combination))
-        { }
+    borderID_(border.borderID_),
+    claimed(border.claimed),
+    winner_(border.winner_),
+    player_1_combination(std::move(border.player_1_combination)),
+    player_2_combination(std::move(border.player_2_combination))
+{ }
 
 Border &Border::operator=(Border &&border) {
     if (this == &border)
@@ -78,7 +78,7 @@ void Border::setNoCombinationRules() {
 
 string Border::str() const {
     std::stringstream stream("");
-//    stream << "Border " << borderID_ << " : \n";
+    //    stream << "Border " << borderID_ << " : \n";
     stream << "[ " << player_1_combination->str() << "] ";
     stream << " Border " << borderID_ << " ";
     if (claimed)
@@ -104,4 +104,3 @@ ostream &operator<<(ostream &stream, const Border& border) {
     stream << border.str();
     return stream;
 }
-

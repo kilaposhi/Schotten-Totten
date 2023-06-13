@@ -73,7 +73,7 @@ private:
     std::string message;
 public:
     explicit CombinationException(string  errorMessage)
-            : message(std::move(errorMessage)) {}
+        : message(std::move(errorMessage)) {}
 
     [[nodiscard]]const char* what() const noexcept override {
         return message.c_str();

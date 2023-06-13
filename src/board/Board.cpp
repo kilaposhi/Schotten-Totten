@@ -97,4 +97,3 @@ ostream &operator<<(ostream &stream, const Board &board) {
     stream << board.str();
     return stream;
 }
-
