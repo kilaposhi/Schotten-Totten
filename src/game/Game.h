@@ -35,6 +35,7 @@ public :
     void round();
     void roundAI();
     void playAI(AI * computer);
+    void playAIBasic(AI* computer);
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);

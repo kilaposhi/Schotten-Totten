@@ -143,23 +143,22 @@ unsigned int AI::pick_a_card(Border* border) {
     unsigned int index = rand() % hand.size();
 
     if (border->getPlayerCombination(this).getNumberCards() == 0) {
-        return index;
-    }
+        return index;   }
     else if (border->getPlayerCombination(this).getNumberCards() == 1) {
         for (unsigned int j = 0; j < hand.size(); j++) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
             int potential = 0;
 
-            if (card->getValue() == border->getPlayerCombination(this).getValuedCards()[0]->getValue()) {
+            if (card->getValue() == border->getPlayerCombination(this).getValuedCard(0)->getValue()) {
                 potential++;
             }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
                 potential++;
             }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
                 potential++;
             }
-            if (card->getColor() == border->getPlayerCombination(this).getValuedCards()[0]->getColor()) {
+            if (card->getColor() == border->getPlayerCombination(this).getValuedCard(0)->getColor()) {
                 potential++;
             }
 
@@ -168,7 +167,6 @@ unsigned int AI::pick_a_card(Border* border) {
                 index = j;
             }
         }
-        return index;
     }
     else {
         vector<Combination> possibilities;
@@ -181,11 +179,51 @@ unsigned int AI::pick_a_card(Border* border) {
         }
 
         index = findBestCombination(possibilities);
-        return index;
     }
+    return index;
 }
 
+unsigned int AI::pick_a_border(Board *board) {
+    unsigned int max = 0;
+    unsigned int index = rand() % board->getNumberBorder() ;
+    vector<Combination> possibilities;
+    for (unsigned int j = 0; j < board->getNumberBorder(); j++) {
+        if (board->getBorderByID(j).getPlayerCombination(this).getNumberCards() == 0) {
+            continue;
+        } else if (board->getBorderByID(j).getPlayerCombination(this).getNumberCards() == 1) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(
+                    *hand[this->pick_a_card(&(board->getBorderByID(j)))]);
+            int potential = 0;
+            if (card->getValue() == board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) {
+                potential++;
+            } else if (abs(card->getValue() -
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
+                potential++;
+            } else if (abs(card->getValue() -
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
+                potential++;
+            }
+            if (card->getColor() == board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getColor()) {
+                potential++;
+            }
 
+            if (potential > max) {
+                max = potential;
+                index = j;
+            }
+        } else {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(
+                    *hand[this->pick_a_card(&(board->getBorderByID(j)))]);
+            Combination combination(board->getBorderByID(j).getPlayerCombination(this));
+            combination.push_back(std::move(card));
+            possibilities.push_back(combination);
+            index = findBestCombination(possibilities);
+
+        }
+    }
+
+   return index;
+}
 
 unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
