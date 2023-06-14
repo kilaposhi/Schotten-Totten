@@ -106,6 +106,7 @@ void Game::playAI(AI* computer) {
     unsigned int border_index = computer->pick_a_border(board_.get());
     Border* selected_border = &board_->getBorderByID(border_index);
     unsigned int card_index = computer->pick_a_card(selected_border);
+    std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
 
     computer->play_card(card_index, border_index, board_.get());
     std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
@@ -262,8 +263,8 @@ void Game::roundAI() {
         if (tacticVersion_) {
             playAIBasic(static_cast<AI*>(player2_.get()));
         } else {
-            //playAI(static_cast<AI*>(player2_.get()));
-            playAIBasic(static_cast<AI*>(player2_.get()));
+            playAI(static_cast<AI*>(player2_.get()));
+           // playAIBasic(static_cast<AI*>(player2_.get()));
 
         }
 
