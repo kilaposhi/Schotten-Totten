@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 #include <cstdlib>
+#include <process.h>
+
 
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
@@ -40,7 +42,7 @@ public :
     void drawCard(Player* player);
     void pause(int n);
     bool isGameOver();
-
+    void playAIBasic(AI* computer);
     void quit();
 };
 void clearScreen();

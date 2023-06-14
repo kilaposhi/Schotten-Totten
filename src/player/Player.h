@@ -17,6 +17,8 @@
 #include "board/Combination.h"
 #include "board/GameTracker.h"
 
+class GameTracker;
+
 using std::vector;
 using std::list;
 using std::array;
@@ -78,6 +80,7 @@ public:
     unsigned int pick_a_card(Border* border);
     unsigned int pick_a_border(Board * board);
     unsigned int claim_a_border(Board * board, Player* enemy);
+    unsigned int pick_a_border(Board * board);
 
 };
 
