@@ -15,12 +15,12 @@ TacticHandler &TacticHandler::getInstance(Deck *normalDeck, DeckInfo* normalDeck
     if (no_argument)
         return *instance;
 
-    bool different_instance = instance->normalDeck_ != normalDeck || instance->normalDeckInfo_ != normalDeckInfo || instance->tacticDeck_ != tacticDeck ||
-            instance->discardDeck_ != discardDeck || instance->board_ != board;
+    bool different_instance = instance->normalDeck_ != normalDeck && instance->normalDeckInfo_ != normalDeckInfo && instance->tacticDeck_ != tacticDeck &&
+            instance->discardDeck_ != discardDeck && instance->board_ != board;
     if (different_instance)
         instance.reset(new TacticHandler(normalDeck, normalDeckInfo, tacticDeck, discardDeck, board));
 
-    bool emptyInstance = !instance->normalDeck_ || !instance->normalDeckInfo_ || !instance->tacticDeck_ || !instance->discardDeck_ || !instance->board_;
+    bool emptyInstance = !instance->normalDeck_ && !instance->normalDeckInfo_ && !instance->tacticDeck_ && !instance->discardDeck_ && !instance->board_;
     if (emptyInstance)
         throw TacticHandlerException("Returning an empty instance of TacticHandler (not initialized)");
 

@@ -16,7 +16,7 @@ AI::AI(unsigned int max_cards, const string& name) : Player(name, 2, max_cards) 
 
 string Player::displayHand() const {
     std::stringstream stream("");
-    stream << "Player's " << id_ << " hand: ";
+    stream << "Player " << id_ << " hand: ";
     int i = 0;
     for (const auto& cardPtr : hand) {
         stream << " (" << i++ << "): " << *cardPtr << " ";
@@ -137,6 +137,7 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     stream << "Player " << player.getID();
     return stream;
 }
+
 unsigned int AI::pick_a_card(Border* border) {
     unsigned int max = 0;
     unsigned int index = rand() % hand.size();
@@ -186,7 +187,6 @@ unsigned int AI::pick_a_card(Border* border) {
 
 
 
-
 unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
     unsigned int index = 0;
@@ -204,4 +204,3 @@ unsigned int AI::claim_a_border(Board* board, Player* enemy) {
 
     return index;
 }
-
