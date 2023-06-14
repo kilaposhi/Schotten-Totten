@@ -78,9 +78,10 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
         if (!gameTracker.canPlayTacticCard(this))
             throw PlayerException("Player can't play more than 1 TacticCard more than it's opponent");
         auto tacticCard = dynamic_cast<TacticCard*>(card.get());
-        if (tacticCard->getName() == TacticType::joker)
+        if (tacticCard->getName() == TacticType::joker) {
             if (!gameTracker.canPlayJoker(this))
                 throw PlayerException("Player can't play more than one joker per round");
+        }
         gameTracker.trackCard(this, *tacticCard);
         TacticHandler::getInstance().playTacticCard(
                 std::make_unique<TacticCard>(std::move(card)),
@@ -222,11 +223,15 @@ unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int index = 0;
 
     for (unsigned int j = 0; j < numBorders; j++) {
-        if (board->getBorderByID(j).isClaimed() || board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
+        if (board->getBorderByID(j).isClaimed() ||
+            board->getBorderByID(j).getPlayerCombination(this).getNumberCards() !=
+            board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
             continue;
         }
 
-        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this), board->getBorderByID(j).getPlayerCombination(enemy))) {
+        if (board->getBorderByID(j).getPlayerCombination(this) ==
+            bestCombination(board->getBorderByID(j).getPlayerCombination(this),
+                            board->getBorderByID(j).getPlayerCombination(enemy))) {
             index = j;
             break;
         }
