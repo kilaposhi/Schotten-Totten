@@ -45,7 +45,8 @@ protected:
     int id_;
     vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
+    vector<unique_ptr<Card>> hand;
 
 public:
 
@@ -81,3 +82,4 @@ public:
 
 
 #endif// SCHOTTEN_TOTTEN_PLAYER_H
+
