@@ -135,6 +135,9 @@ bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard) {
     return (leftCard.getValue() == rightCard.getValue()) && (leftCard.getColor() == rightCard.getColor());
 }
 
+inline bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard){
+    return !(leftCard == rightCard);
+}
 
 string createTacticDescription(TacticType type) {
     switch(type) {

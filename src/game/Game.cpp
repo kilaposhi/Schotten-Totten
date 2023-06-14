@@ -5,7 +5,7 @@ Game::Game() : gameOver(false), player1_(nullptr), player2_(nullptr) {
 }
 
 void Game::setGameVersion() {
-    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic\n";
+    std::cout << "Which version do you want to play? : [1] Classic | [2] Tactic\n";
     int version = askValue({1, 2});
     tacticVersion_ = (version == 2);
 }
@@ -22,9 +22,9 @@ void Game::launchSchottenTotten1() {
     int numberRound = askValue({1, 15});
     for (size_t i = 0; i < numberRound; i++) {
         if (playAgainstAI)
-            roundAI(); // Jouer contre l'IA
+            roundAI();
         else
-            round(); // Jouer contre un autre joueur
+            round();
     }
 }
 
@@ -45,6 +45,7 @@ void Game::create_AI() {
     std::cout << player1_->getName() << " please enter a name for the AI opponent:\n";
     std::string name;
     std::cin >> name;
+    name += " AI";
     int maxPlayerCard = (tacticVersion_) ? 7 : 6;
     player2_ = std::make_unique<AI>(maxPlayerCard, name);
 }
@@ -63,6 +64,8 @@ void Game::create_deck() {
 
 void Game::create_board() {
     board_ = std::make_unique<Board>(9, player1_.get(), player2_.get());
+    //initialization GameTracker Sinleton
+    GameTracker::getInstance(player1_.get(), player2_.get());
     if (tacticVersion_)
         TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
@@ -88,7 +91,7 @@ void Game::round() {
             std::cout << "Player " << player2_->getName() << " won!\n";
             break;
         }
-        pause(15);
+        pause(6);
     }
     std::cout << "End of the game\n";
     quit();
@@ -243,13 +246,13 @@ void Game::roundAI() {
 }
 
 void Game::drawCard(Player* player) {
-    std::cout << "Drawing a card\n";
+    std::cout << "Drawing a card...\n";
     bool playerHasDrawn = false;
 
     if (tacticVersion_ && !tacticDeck.isEmpty()) {
         std::cout << "From which deck do you want to draw?\n";
-        std::cout << "[0] Normal Deck (" << clanDeck.getNumberRemainingCards() << " cards remaining)\n";
-        std::cout << "[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining)\n";
+        std::cout << "\t[0] Normal Deck (" << clanDeck.getNumberRemainingCards() << " cards remaining)\n";
+        std::cout << "\t[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining)\n";
         int answer = askPlayerValue(player, {0, 1});
 
         if (answer == 1) {
@@ -262,8 +265,8 @@ void Game::drawCard(Player* player) {
         player->draw_card(clanDeck);
     }
 
+    cout << "Card obtained :" << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
     std::cout << "New hand: " << player->displayHand() << '\n';
-    clearScreen();
 }
 
 void Game::pause(int n) {
@@ -289,5 +292,6 @@ void Game::quit() {
 }
 
 void clearScreen() {
-    std::cout << "\033c";
+//    std::cout << "\033c";
+    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }

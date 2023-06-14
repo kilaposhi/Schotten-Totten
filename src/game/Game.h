@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 #include <cstdlib>
+#include <process.h>
+
 
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
