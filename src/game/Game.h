@@ -41,7 +41,7 @@ public :
     void drawCard(Player* player);
     void pause(int n);
     bool isGameOver();
-
+    void playAIBasic(AI* computer);
     void quit();
 };
 void clearScreen();
