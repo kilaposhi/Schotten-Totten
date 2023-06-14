@@ -78,8 +78,8 @@ class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);
     unsigned int pick_a_card(Border* border);
-    unsigned int claim_a_border(Board * board, Player* enemy);
     unsigned int pick_a_border(Board * board);
+    unsigned int claim_a_border(Board * board, Player* enemy);
 
 };
 

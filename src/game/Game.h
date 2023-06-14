@@ -24,6 +24,7 @@ private:
     DeckInfo deckInfo;
     unique_ptr<Board> board_;
     bool tacticVersion_{false};
+    bool basic_ ;
 
 public :
     Game();
@@ -37,11 +38,11 @@ public :
     void round();
     void roundAI();
     void playAI(AI * computer);
+    void playAIBasic(Player* computer);
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);
     bool isGameOver();
-    void playAIBasic(AI* computer);
     void quit();
 };
 void clearScreen();
