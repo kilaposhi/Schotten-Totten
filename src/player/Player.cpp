@@ -137,27 +137,55 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     stream << "Player " << player.getID();
     return stream;
 }
-
 unsigned int AI::pick_a_card(Border* border) {
-    vector<Combination> possibilities;
+    unsigned int max = 0;
+    unsigned int index = rand() % hand.size();
+
     if (border->getPlayerCombination(this).getNumberCards() == 0) {
-        int index = rand() % hand.size();
         return index;
     }
+    else if (border->getPlayerCombination(this).getNumberCards() == 1) {
+        for (unsigned int j = 0; j < hand.size(); j++) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+            int potential = 0;
 
-    for (unsigned int j = 0; j < hand.size(); j++) {
-        std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+            if (card->getValue() == border->getPlayerCombination(this).getValuedCards()[0]->getValue()) {
+                potential++;
+            }
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
+                potential++;
+            }
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
+                potential++;
+            }
+            if (card->getColor() == border->getPlayerCombination(this).getValuedCards()[0]->getColor()) {
+                potential++;
+            }
 
-        Combination combination(border->getPlayerCombination(this));
-        combination.push_back(std::move(card));
-
-        possibilities.push_back(std::move(combination));
+            if (potential > max) {
+                max = potential;
+                index = j;
+            }
+        }
+        return index;
     }
+    else {
+        vector<Combination> possibilities;
 
-    unsigned int index = findBestCombination(possibilities);
+        for (unsigned int j = 0; j < hand.size(); j++) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+            Combination combination(border->getPlayerCombination(this));
+            combination.push_back(std::move(card));
+            possibilities.push_back(combination);
+        }
 
-    return index;
+        index = findBestCombination(possibilities);
+        return index;
+    }
 }
+
+
+
 
 unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();

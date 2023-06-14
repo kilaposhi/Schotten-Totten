@@ -163,6 +163,42 @@ void Game::play(Player* player) {
     pause(5);
     clearScreen();
 }
+void Game::roundAI() {
+    create_deck();
+    create_board();
+    player1_->fillHand(clanDeck);
+    player2_->fillHand(clanDeck);
+
+    std::cout << "Start of the game\n";
+
+    while (!isGameOver()) {
+        std::cout << "It's your turn, " << player1_->getName() << "!\n";
+        play(player1_.get());
+
+        pause(0);
+
+        if (isGameOver()) {
+            std::cout << "Congratulations! You won!\n";
+            break;
+        }
+
+        pause(5);
+
+        std::cout << "The computer is playing...\n";
+        playAI(static_cast<AI *>(player2_.get()));
+        std::cout << "The computer is playing...\n";
+        if (isGameOver()) {
+            std::cout << "You lost! Better luck next time!\n";
+            break;
+        }
+
+        pause(15);
+    }
+
+    std::cout << "End of the game\n";
+    quit();
+}
+
 void Game::playAI(AI* computer) {
     int card_index = rand () % computer->getNumber_of_cards(); // Initialise card_index à une valeur par défaut
     int border_index;
@@ -178,12 +214,12 @@ void Game::playAI(AI* computer) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*computer->getCardAtIndex(card_index));
 
             Combination combination(board_->getBorderByID(i).getPlayerCombination(computer));
-            if (!combination.getNumberCards()==0 && combination.getType() != CombinationType::NONE) {
+            if (combination.getNumberCards() > 0 && combination.getType() != CombinationType::NONE) {
                 combination.push_back(std::move(card));
                 possibilities.push_back(std::move(combination));
             }
         }
-        if (possibilities.size() != 0 ) border_index = findBestCombination(possibilities);
+        if (possibilities.size() != 0) border_index = findBestCombination(possibilities);
     }
 
     computer->play_card(card_index, border_index, board_.get());
@@ -208,42 +244,6 @@ void Game::playAI(AI* computer) {
     if (!playerHasDrawn && !clanDeck.isEmpty()) {
         computer->draw_card(clanDeck);
     }
-}
-
-void Game::roundAI() {
-    create_deck();
-    create_board();
-    player1_->fillHand(clanDeck);
-    player2_->fillHand(clanDeck);
-
-    std::cout << "Start of the game\n";
-
-    while (board_->hasWinner() == nullptr) {
-        std::cout << "It's your turn, " << player1_->getName() << "!\n";
-        //1play(player1_.get());
-
-        pause(0);
-
-        if (isGameOver()) {
-            std::cout << "Congratulations! You won!\n";
-            break;
-        }
-
-        pause(5);
-
-        std::cout << "The computer is playing...\n";
-        playAI(static_cast<AI *>(player2_.get()));
-        std::cout << "The computer is playing...\n";
-        if (isGameOver()) {
-            std::cout << "You lost! Better luck next time!\n";
-            break;
-        }
-
-        pause(15);
-    }
-
-    std::cout << "End of the game\n";
-    quit();
 }
 
 void Game::drawCard(Player* player) {
