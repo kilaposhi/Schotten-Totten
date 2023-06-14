@@ -318,7 +318,7 @@ bool Combination::operator==(const Combination& other) const {
 } //on ne les trie pas car on veut que les combinaisons soient identiques
 
 
-unsigned int findBestCombination(const std::vector<Combination>& combinations) {
+int findBestCombination(const std::vector<Combination>& combinations) {
     if (combinations.empty()) {
         throw std::logic_error("The list of combinations is empty.");
     }
@@ -342,3 +342,4 @@ unsigned int findBestCombination(const std::vector<Combination>& combinations) {
 
 
 #endif //SCHOTTEN_TOTTEN_COMBINATION_H
+
