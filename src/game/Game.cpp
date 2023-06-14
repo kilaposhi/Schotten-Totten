@@ -160,41 +160,55 @@ void Game::play(Player* player) {
     clearScreen();
 }
 
-void Game::playAI(AI* computer) {
-    int card_index = rand() % computer->getNumber_of_cards(); // Initialise card_index à une valeur par défaut
-    int border_index;
-    if (tacticVersion_) {
-        border_index = rand() % board_->getNumberBorder();
-        while (board_->getBorderByID(border_index).isClaimed()) {
-            border_index = rand() % board_->getNumberBorder();
-        }
-    } else {
-        vector<Combination> possibilities;
-        for (int i = 0; i < board_->getNumberBorder(); i++) {
-            card_index = computer->pick_a_card(&board_->getBorderByID(i));
-            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*computer->getCardAtIndex(card_index));
 
-            Combination combination(board_->getBorderByID(i).getPlayerCombination(computer));
-            if (!combination.getNumberCards() == 0 && combination.getType() != CombinationType::NONE) {
-                combination.push_back(std::move(card));
-                possibilities.push_back(std::move(combination));
-            }
-        }
-        if (!possibilities.empty()) {
-            border_index = findBestCombination(possibilities);
-        }
-    }
+void Game::playAIBasic(AI* computer) {
+    int card_index = rand() % computer->getNumber_of_cards();
+    unsigned int border_index;
+
+    do {
+        border_index = rand() % board_->getNumberBorder();
+    } while (board_->getBorderByID(border_index).isClaimed());
 
     computer->play_card(card_index, border_index, board_.get());
-    std::cout << "The computer is playing the card " << computer->displayCard(card_index) << " on the border " << border_index << ".\n";
+    std::cout << "The computer is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
 
     border_index = computer->claim_a_border(board_.get(), player1_.get());
     if (border_index != 0) {
-        std::cout << "The computer is claiming the border " << border_index << ".\n";
+        std::cout << "The computer is claiming border " << border_index << ".\n";
         // board_->getBorderByID(border_index).claim();
     }
 
-    std::cout << "Drawing a card\n";
+    std::cout << "Drawing a card.\n";
+    bool playerHasDrawn = false;
+
+    if (tacticVersion_ && !tacticDeck.isEmpty()) {
+        int answer = rand() % 2;
+        if (answer == 1) {
+            computer->draw_card(tacticDeck);
+            playerHasDrawn = true;
+        }
+    }
+
+    if (!playerHasDrawn && !clanDeck.isEmpty()) {
+        computer->draw_card(clanDeck);
+    }
+}
+
+}void Game::playAI(AI* computer) {
+    int border_index = computer->pick_a_border(board_.get());
+    Border* selected_border = &board_.get()->getBorderByID(border_index);
+    int card_index = computer->pick_a_card(selected_border);
+
+    computer->play_card(card_index, border_index, board_.get());
+    std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
+
+    border_index = computer->claim_a_border(board_.get(), player1_.get());
+    if (border_index != 0) {
+        std::cout << computer->getName() << " is claiming border " << border_index << ".\n";
+        // board_->getBorderByID(border_index).claim();
+    }
+
+    std::cout << computer->getName() << " is drawing a card.\n";
     bool playerHasDrawn = false;
     if (tacticVersion_ && !tacticDeck.isEmpty()) {
         int answer = rand() % 2;
@@ -208,6 +222,8 @@ void Game::playAI(AI* computer) {
         computer->draw_card(clanDeck);
     }
 }
+
+
 
 void Game::roundAI() {
     create_deck();
@@ -231,7 +247,12 @@ void Game::roundAI() {
         pause(5);
 
         std::cout << "The computer is playing...\n";
-        playAI(static_cast<AI*>(player2_.get()));
+        if (tacticVersion_) {
+            playAIBasic(static_cast<AI*>(player2_.get()));
+
+        } else {
+        playAI(static_cast<AI*>(player2_.get()));}
+
         std::cout << "The computer is playing...\n";
         if (isGameOver()) {
             std::cout << "You lost! Better luck next time!\n";
