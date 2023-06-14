@@ -17,6 +17,8 @@
 #include "board/Combination.h"
 #include "board/GameTracker.h"
 
+class GameTracker;
+
 using std::vector;
 using std::list;
 using std::array;

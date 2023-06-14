@@ -8,13 +8,12 @@ int askPlayerValue(Player* player, std::array<int,2> rangeValue){
 }
 
 
-bool askYesNo( string question){
+bool askYesNo(const string& question){
     bool result;
     string answer;
     bool isValid = false;
     do {
-        cout<< question << " (Y/n) " << '\n';
-        //cout<< question << " (y/n) " << '\n';
+        cout<< question << " (y/n) " << '\n';
         std::cin >> answer;
         transform(answer.begin(), answer.end(), answer.begin(), ::tolower);
         bool yes = answer == "yes" || answer == "y";
@@ -22,9 +21,6 @@ bool askYesNo( string question){
         if (yes) {
             result = true;
             isValid = true;
-
-
-
         }
         if (no){
             result = false;
@@ -45,8 +41,6 @@ int askValue(std::array<int, 2> rangeValue){
         std::cin >> result;
         if (result >= rangeValue[0] && result <= rangeValue[1])
             isValid = true;
-        // std::cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1] << '\n';
-        // std::cin >> result;
         if (std::cin.fail()) {
             std::cout<< "Wrong input, please try again!\n";
             std::cin.clear(); // Reset std::cin error state

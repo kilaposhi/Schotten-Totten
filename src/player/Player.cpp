@@ -1,14 +1,5 @@
 #include "Player.h"
-#include "board/Border.h"
-#include "deck/Deck.h"
 
-#include <iostream>
-#include <utility>
-#include <vector>
-#include <memory>
-#include <sstream>
-
-using namespace std;
 
 Player::Player(string name_, int id, int max_card) : name(std::move(name_)), id_(id), max_cards(max_card) {}
 
@@ -75,13 +66,22 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
     }
 
     std::unique_ptr<Card> card = remove_card_from_hand(card_index);
+    GameTracker& gameTracker = GameTracker::getInstance();
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
+        gameTracker.trackCard(this, *valued_card);
         board->getBorderByID(borderIndex).addValueCard(
                 std::make_unique<ValuedCard>(std::move(card)),
                 this
         );
     } else {
+        if (!gameTracker.canPlayTacticCard(this))
+            throw PlayerException("Player can't play more than 1 TacticCard more than it's opponent");
+        auto tacticCard = dynamic_cast<TacticCard*>(card.get());
+        if (tacticCard->getName() == TacticType::joker)
+            if (!gameTracker.canPlayJoker(this))
+                throw PlayerException("Player can't play more than one joker per round");
+        gameTracker.trackCard(this, *tacticCard);
         TacticHandler::getInstance().playTacticCard(
                 std::make_unique<TacticCard>(std::move(card)),
                 this,
@@ -150,16 +150,16 @@ unsigned int AI::pick_a_card(Border* border) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
             int potential = 0;
 
-            if (card->getValue() == border->getPlayerCombination(this).getValuedCards()[0]->getValue()) {
+            if (card->getValue() == border->getPlayerCombination(this).getValuedCard(0)->getValue()) {
                 potential++;
             }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
                 potential++;
             }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
+            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
                 potential++;
             }
-            if (card->getColor() == border->getPlayerCombination(this).getValuedCards()[0]->getColor()) {
+            if (card->getColor() == border->getPlayerCombination(this).getValuedCard(0)->getColor()) {
                 potential++;
             }
 

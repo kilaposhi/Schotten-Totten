@@ -16,6 +16,7 @@ using std::unique_ptr;
 
 class Board;
 class Combination;
+
 //Singleton
 class TacticHandler {
 public:
