@@ -108,7 +108,6 @@ void Player::fillHand(Deck& deck) {
         draw_card(deck);
     }
 }
-
 void Player::claim_borders(Border& border_) {
     unsigned int borderId = border_.getBorderId();
     if (borderId > 9 || borderId < 0) {
@@ -118,12 +117,9 @@ void Player::claim_borders(Border& border_) {
 }
 
 vector<unsigned int> Player::getClaimed_borders() {
-    vector<unsigned int> tab_of_claimed_borders;
-    for (unsigned int borders : claimed_borders) {
-        tab_of_claimed_borders.push_back(borders);
-    }
-    return tab_of_claimed_borders;
+    return claimed_borders;
 }
+
 
 int Player::getNumber_of_cards() const {
     return hand.size();
@@ -143,19 +139,17 @@ unsigned int AI::pick_a_card(Border* border) {
     unsigned int index = rand() % hand.size();
 
     if (border->getPlayerCombination(this).getNumberCards() == 0) {
-        return index;   }
-    else if (border->getPlayerCombination(this).getNumberCards() == 1) {
+        return index;
+    } else if (border->getPlayerCombination(this).getNumberCards() == 1) {
         for (unsigned int j = 0; j < hand.size(); j++) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
             int potential = 0;
 
             if (card->getValue() == border->getPlayerCombination(this).getValuedCard(0)->getValue()) {
                 potential++;
-            }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
                 potential++;
-            }
-            else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
                 potential++;
             }
             if (card->getColor() == border->getPlayerCombination(this).getValuedCard(0)->getColor()) {
@@ -167,8 +161,7 @@ unsigned int AI::pick_a_card(Border* border) {
                 index = j;
             }
         }
-    }
-    else {
+    } else {
         vector<Combination> possibilities;
 
         for (unsigned int j = 0; j < hand.size(); j++) {
@@ -183,9 +176,9 @@ unsigned int AI::pick_a_card(Border* border) {
     return index;
 }
 
-unsigned int AI::pick_a_border(Board *board) {
+unsigned int AI::pick_a_border(Board* board) {
     unsigned int max = 0;
-    unsigned int index = rand() % board->getNumberBorder() ;
+    unsigned int index = rand() % board->getNumberBorder();
     vector<Combination> possibilities;
     for (unsigned int j = 0; j < board->getNumberBorder(); j++) {
         if (board->getBorderByID(j).getPlayerCombination(this).getNumberCards() == 0) {
@@ -222,9 +215,8 @@ unsigned int AI::pick_a_border(Board *board) {
         }
     }
 
-   return index;
+    return index;
 }
-
 unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
     unsigned int index = 0;
