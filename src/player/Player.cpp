@@ -116,7 +116,10 @@ void Player::claim_borders(Border& border_) {
     }
     claimed_borders.push_back(borderId);
 }
-
+unsigned Player::newScore(int add) {
+    score = score + add;
+    return score;
+}
 vector<unsigned int> Player::getClaimed_borders() {
     return claimed_borders;
 }
@@ -135,7 +138,7 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     return stream;
 }
 
-unsigned int AI::pick_a_card(Border* border) {
+unsigned int Player::pick_a_card(Border* border) {
     unsigned int max = 0;
     unsigned int index = rand() % hand.size();
 
@@ -177,7 +180,7 @@ unsigned int AI::pick_a_card(Border* border) {
     return index;
 }
 
-unsigned int AI::pick_a_border(Board* board) {
+unsigned int Player::pick_a_border(Board* board) {
     unsigned int max = 0;
     unsigned int index = rand() % board->getNumberBorder();
     vector<Combination> possibilities;
@@ -218,19 +221,17 @@ unsigned int AI::pick_a_border(Board* board) {
 
     return index;
 }
-unsigned int AI::claim_a_border(Board* board, Player* enemy) {
+unsigned int Player::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
     unsigned int index = 0;
 
     for (unsigned int j = 0; j < numBorders; j++) {
         if (board->getBorderByID(j).isClaimed() ||
-            board->getBorderByID(j).getPlayerCombination(this).getNumberCards() !=
-            board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
+            board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
             continue;
         }
 
-        if (board->getBorderByID(j).getPlayerCombination(this) ==
-            bestCombination(board->getBorderByID(j).getPlayerCombination(this),
+        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this),
                             board->getBorderByID(j).getPlayerCombination(enemy))) {
             index = j;
             break;

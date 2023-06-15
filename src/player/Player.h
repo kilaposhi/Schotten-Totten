@@ -49,6 +49,7 @@ protected:
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
     std::unique_ptr<Card>  remove_card_from_hand(int card_index);
     vector<unique_ptr<Card>> hand;
+    unsigned int score;
 
 public:
 
@@ -67,9 +68,16 @@ public:
     int getID() const;
     std::unique_ptr<Card>& getCardAtIndex(int index);
     string getName() const { return name; }
+    unsigned int getScore() const {return score;}
+    unsigned int newScore(int add) ;
     string displayHand() const; // --> OK
     string displayCard(int index_card) const;
     string print_player() const; // --> OK
+
+    unsigned int pick_a_card(Border* border);
+    unsigned int pick_a_border(Board * board);
+    unsigned int claim_a_border(Board * board, Player* enemy);
+
 };
 
 std::ostream& operator<<(std::ostream& f, const Player& player);
@@ -77,9 +85,7 @@ std::ostream& operator<<(std::ostream& f, const Player& player);
 class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);
-    unsigned int pick_a_card(Border* border);
-    unsigned int pick_a_border(Board * board);
-    unsigned int claim_a_border(Board * board, Player* enemy);
+
 };
 
 
