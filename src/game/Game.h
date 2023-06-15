@@ -25,6 +25,7 @@ private:
     unique_ptr<Board> board_;
     bool tacticVersion_{false};
     bool basic_ ;
+    bool expert_;
 
 public :
     Game();
@@ -42,8 +43,8 @@ public :
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);
-    bool isGameOver();
     void quit();
+    void gameAIvsAI();
 };
 void clearScreen();
 
