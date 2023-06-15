@@ -52,20 +52,25 @@ void Game::create_player(int id) {
 }
 
 void Game::gameAIvsAI() {
-    std::cout << player1_->getName() << ", please enter a name for the AI opponent:\n";
-    std::string name;
-    std::cin >> name;
-    name += " AI";
+    std::cout << "Enter a name for AI player 1:\n";
+    std::string name1;
+    std::cin >> name1;
+    name1 += " AI";
     int maxPlayerCard = (tacticVersion_) ? 7 : 6;
-    player1_ = std::make_unique<Player>(name, 1, maxPlayerCard);
-    player2_ = std::make_unique<Player>(name, 2, maxPlayerCard);
+    player1_ = std::make_unique<Player>(name1, 1, maxPlayerCard);
+
+    std::cout << "Enter a name for AI player 2:\n";
+    std::string name2;
+    std::cin >> name2;
+    name2 += " AI";
+    player2_ = std::make_unique<Player>(name2, 2, maxPlayerCard);
     create_deck();
     create_board();
     player1_->fillHand(clanDeck);
     player2_->fillHand(clanDeck);
     std::cout << "Start of the game\n";
+    std::cout << "How many rounds ?\n";
     int numberRound = askValue({1, 15});
-
     for (size_t i = 0; i < numberRound; i++) {
         while (board_->hasWinner() == nullptr) {
             std::cout << "It is the turn of " << player1_->getName() << "!\n";
