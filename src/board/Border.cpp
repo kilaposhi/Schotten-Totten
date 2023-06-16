@@ -28,7 +28,7 @@ Border &Border::operator=(Border &&border) {
     return *this;
 }
 
-Combination &Border::getPlayerCombination(Player *player) {
+Combination &Border::getPlayerCombination(Player *player) const{
     bool isPlayer1 = player == player_1_combination->getPlayerID();
     if (isPlayer1)
         return *player_1_combination;

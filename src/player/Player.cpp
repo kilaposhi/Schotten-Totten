@@ -56,7 +56,6 @@ std::unique_ptr<Card> Player::remove_card_from_hand(int card_index) {
     hand.erase(hand.begin() + card_index);
     return returned_card;
 }
-
 void Player::play_card(int card_index, int borderIndex, Board* board) {
     if (card_index < 0 || card_index >= hand.size()) {
         throw PlayerException("Invalid card index");
@@ -149,14 +148,14 @@ unsigned int Player::pick_a_card(Border* border) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
             int potential = 0;
 
-            if (card->getValue() == border->getPlayerCombination(this).getValuedCard(0)->getValue()) {
+            if (card->getValue() == border->getPlayerCombination(this).getValuedCards()[0]->getValue()) {
                 potential++;
-            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
                 potential++;
-            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
                 potential++;
             }
-            if (card->getColor() == border->getPlayerCombination(this).getValuedCard(0)->getColor()) {
+            if (card->getColor() == border->getPlayerCombination(this).getValuedCards()[0]->getColor()) {
                 potential++;
             }
 
@@ -191,16 +190,16 @@ unsigned int Player::pick_a_border(Board* board) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(
                     *hand[this->pick_a_card(&(board->getBorderByID(j)))]);
             int potential = 0;
-            if (card->getValue() == board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) {
+            if (card->getValue() == board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) {
                 potential++;
             } else if (abs(card->getValue() -
-                           board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) == 1) {
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
                 potential++;
             } else if (abs(card->getValue() -
-                           board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getValue()) == 2) {
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
                 potential++;
             }
-            if (card->getColor() == board->getBorderByID(j).getPlayerCombination(this).getValuedCard(0)->getColor()) {
+            if (card->getColor() == board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getColor()) {
                 potential++;
             }
 

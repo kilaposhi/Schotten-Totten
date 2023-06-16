@@ -23,7 +23,7 @@ public:
     ~TacticHandler() = default;
 public:
     static TacticHandler& getInstance(
-            Deck* normalDeck = nullptr,
+            Deck* normalDeck=nullptr,
             DeckInfo* normalDeckInfo = nullptr,
             Deck* tacticDeck = nullptr,
             Deck* discardDeck = nullptr,
@@ -37,10 +37,10 @@ private:
     void playBlindManBluff(int borderId);
     void playMudFight(int borderId);
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
-    void playRecruiter(Player* player);
-//    playStragist(Player* player)
-//    playBanshee(Player* opponent)
-//    playTraiter(Player* player, Player* opponent)
+    void playRecruiter( Player* player);
+    void playStrategist(Player* player);
+    void playBanshee(Player* player, Player* opponent);
+    void playTraitor(Player* player, Player* opponent);
 private:
     Deck *normalDeck_{nullptr};
     DeckInfo* normalDeckInfo_{nullptr};

@@ -30,7 +30,8 @@ private :
     int numberBorder_;
     std::vector<Border> borders_;
     Player* winner_{nullptr};
-
+    Player * player1_;
+    Player * player2_;
 public :
     explicit Board(int numberBorder, Player* player1, Player* player2);
     ~Board() = default;
@@ -39,10 +40,13 @@ public :
     [[nodiscard]] Player* getWinner() const ;
     [[nodiscard]] const std::vector<Border>& getBorders() const;
     Border& getBorderByID(int ID);
-
     string str() const;
     Player* hasWinner();
+    Player* getPlayer (int id);
     void setWinner();
+    int findBorderIndexByValuedCard( const ValuedCard& valuedCard, Player* player) const ;
+    int findBorderIndexByTacticCard(const TacticCard& tacticCard, Player* player) const;
+
 };
 
 ostream &operator<<(ostream &stream, const Board &board);

@@ -43,9 +43,10 @@ public:
     void pop_card(unique_ptr<TacticCard> tacticCard);
     void setMaxNumberCards(int maxNumberCards);
     void setNoCombinationRule();
+    void removeCardFromCombination(Card* card);
     void treatTacticCards();
-    ValuedCard* getValuedCard(int index) const;
-    TacticCard* getTacticCard(int index) const;
+    std::vector<ValuedCard*>  getValuedCards() const;
+    std::vector<TacticCard*>  getTacticCards() const;
     [[nodiscard]] string str() const;
     int getRank() const;
     bool operator==(const Combination& other) const;

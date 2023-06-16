@@ -7,24 +7,23 @@
 #include <cstdlib>
 #include <process.h>
 
-
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
+//#include "player/AI.h"
 #include "board/Border.h"
 #include "board/Board.h"
 #include "console.h"
 #include "board/GameTracker.h"
 
-
 class Game {
 private:
     bool gameOver;
-    unique_ptr<Player> player1_, player2_;
+    std::unique_ptr<Player> player1_, player2_;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
-    unique_ptr<Board> board_;
+    std::unique_ptr<Board> board_;
     bool tacticVersion_{false};
-    bool basic_ ;
+    bool basic_;
     bool expert_;
 
 public :
@@ -38,7 +37,7 @@ public :
     void start_game();
     void round();
     void roundAI();
-    void playAI(AI * computer);
+    void playAI(AI* computer);
     void playAIBasic(Player* computer);
     void play(Player* player);
     void drawCard(Player* player);
@@ -46,7 +45,7 @@ public :
     void quit();
     void gameAIvsAI();
 };
+
 void clearScreen();
 
-#endif //SCHOTTEN_TOTTEN_GAME_H
-
+#endif // SCHOTTEN_TOTTEN_GAME_H

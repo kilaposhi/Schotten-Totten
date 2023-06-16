@@ -198,7 +198,7 @@ mud_fight
 recruiter
 strategist
 banshee
-traiter
+traitor
 }
 
 
