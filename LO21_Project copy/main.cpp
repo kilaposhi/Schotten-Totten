@@ -4,6 +4,7 @@
 #include <string>
 #include <QDebug>
 #include "gameconfiguration/GameConfiguration.h"
+#include "game/Game.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,8 +29,11 @@ int main(int argc, char *argv[])
     QString player2 = gameConfig.getPlayer2();
     qDebug() << player2 << Qt::endl;
 
-    int version = gameConfig.getVersion();
+    bool version = gameConfig.getVersion();
     qDebug() << "version : " << version << Qt::endl;
+
+    bool expert = gameConfig.getExpert();
+    qDebug() << "expert : " << expert << Qt::endl;
 
     bool ai = gameConfig.getAI();
     qDebug() << "AI : " << ai << Qt::endl;
@@ -39,6 +43,7 @@ int main(int argc, char *argv[])
     int numberBorders = 9;
 
     MainWindow mainWindow(nullptr, numberCardsPlayer1, numberCardsPlayer2, numberBorders, false, true, true);
+
     mainWindow.show();
 
     // Exécute la boucle d'événements de l'application
