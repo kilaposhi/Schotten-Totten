@@ -16,20 +16,19 @@
 
 
 GameConfiguration::GameConfiguration(QWidget *parent) : QWidget(parent) {
-    QRadioButton *radio1 = new QRadioButton(tr("Classic mode"));
-    QRadioButton *radio2 = new QRadioButton(tr("Tactic mode"));
-    QRadioButton *radio3 = new QRadioButton(tr("Expert mode"));
+    QRadioButton* radio1_ = new QRadioButton(tr("Classic mode"));
+    QRadioButton* radio2_ = new QRadioButton(tr("Tactic mode"));
 
-    radio1->setChecked(true);
+    radio1_->setChecked(true);
 
-
-    QCheckBox *ai = new QCheckBox("Playing against AI");
+    QCheckBox* expert_ = new QCheckBox("Play in expert mode");
+    QCheckBox* ai_ = new QCheckBox("Playing against AI");
 
     QHBoxLayout *n1 = new QHBoxLayout;
-    n1->addWidget(radio1);
-    n1->addWidget(radio2);
-    n1->addWidget(radio3);
-    n1->addWidget(ai);
+    n1->addWidget(radio1_);
+    n1->addWidget(radio2_);
+    n1->addWidget(expert_);
+    n1->addWidget(ai_);
 
     QLabel *scotland = new QLabel("The one who traveled near Scotland the most recently is Player 1");
 
@@ -72,16 +71,10 @@ GameConfiguration::GameConfiguration(QWidget *parent) : QWidget(parent) {
         nbRound = round->value() ;
         player1 = p1->text();
         player2 = p2->text();
-        if(radio1->isChecked()){
-            version = 0;
-        }
-        else if(radio2->isChecked()){
-            version = 1;
-        }
-        else{
-            version = 2;
-        }
-        AI = ai->isChecked();
+
+        version = radio2_->isChecked();
+        expert = expert_->isChecked();
+        AI = ai_->isChecked();
         close();});
 
     setLayout(verti);
@@ -99,8 +92,12 @@ QString GameConfiguration::getPlayer2(){
     return player2;
 }
 
-int GameConfiguration::getVersion() {
+bool GameConfiguration::getVersion(){
     return version;
+}
+
+bool GameConfiguration::getExpert() {
+    return expert;
 }
 
 bool GameConfiguration::getAI(){
