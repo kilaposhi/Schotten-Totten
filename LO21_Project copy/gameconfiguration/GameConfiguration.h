@@ -12,9 +12,7 @@ class GameConfiguration : public QWidget
 public:
     GameConfiguration(QWidget *parent = nullptr);
     int getNbRound();
-    bool getClassic();
-    bool getTactic();
-    bool getExpert();
+    int getVersion();
     bool getAI();
     QString getPlayer1();
     QString getPlayer2();
@@ -24,9 +22,7 @@ protected:
 
 private:
     int nbRound;
-    bool classic;
-    bool tactic;
-    bool expert;
+    int version;
     bool AI;
     QString player1;
     QString player2;

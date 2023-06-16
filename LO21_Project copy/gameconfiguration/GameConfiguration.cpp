@@ -72,9 +72,15 @@ GameConfiguration::GameConfiguration(QWidget *parent) : QWidget(parent) {
         nbRound = round->value() ;
         player1 = p1->text();
         player2 = p2->text();
-        classic = radio1->isChecked();
-        tactic = radio2->isChecked();
-        expert = radio3->isChecked();
+        if(radio1->isChecked()){
+            version = 0;
+        }
+        else if(radio2->isChecked()){
+            version = 1;
+        }
+        else{
+            version = 2;
+        }
         AI = ai->isChecked();
         close();});
 
@@ -93,16 +99,8 @@ QString GameConfiguration::getPlayer2(){
     return player2;
 }
 
-bool GameConfiguration::getClassic() {
-    return classic;
-}
-
-bool GameConfiguration::getTactic() {
-    return tactic;
-}
-
-bool GameConfiguration::getExpert() {
-    return expert;
+int GameConfiguration::getVersion() {
+    return version;
 }
 
 bool GameConfiguration::getAI(){
