@@ -52,13 +52,15 @@ public:
 
 
 public:
-    Combination& getPlayerCombination(Player* player);
+    Combination& getPlayerCombination(Player* player) const;
     void addValueCard(unique_ptr<ValuedCard> valued_card, Player* player);
     void removeValueCard(unique_ptr<ValuedCard> valued_card, Player* player);
     void addTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     void removeTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     [[nodiscard]] Player* getWinnerBorder() const;
     int getBorderId() const { return borderID_; }
+    bool hasBlindManBluff() const{return blindManBluff ;}
+    bool hasMudFight() const {return mudFight;}
     [[nodiscard]] bool isClaimed() const;
     [[nodiscard]] string str() const;
     void setNoCombinationRules();

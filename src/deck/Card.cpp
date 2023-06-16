@@ -80,12 +80,19 @@ string tacticTypeToString(TacticType type) {
         case TacticType::recruiter : return "recruiter";
         case TacticType::strategist : return "strategist";
         case TacticType::banshee : return "banshee";
-        case TacticType::traiter : return "traiter";
+        case TacticType::traitor : return "traitor";
         default:
             throw CardException("Trying to convert unknown TacticType to string");
     }
 }
+bool TacticCard::isRuse() {
 
+    TacticType type = name;
+    if (type == TacticType::recruiter || type == TacticType::strategist || type == TacticType::banshee ||
+        type == TacticType::traitor) return true;
+    else return false;
+
+}
 string ValuedCard::str() const {
     std::stringstream card("");
     card << "|" << value_ << "_" << cardColorToString(color_) << "|";
@@ -182,7 +189,7 @@ string createTacticDescription(TacticType type) {
                                           "card on your opponent’s side of the \n"
                                           "border on an unclaimed Stone and \n"
                                           "discard it face-up next to the deck. ";
-        case TacticType::traiter : return "Choose a Clan card on your \n"
+        case TacticType::traitor : return "Choose a Clan card on your \n"
                                           "opponent’s side of the border on an \n"
                                           "unclaimed Stone and place it on an \n"
                                           "unclaimed Stone on your side.";

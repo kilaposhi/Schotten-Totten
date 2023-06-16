@@ -248,12 +248,21 @@ void Game::play(Player* player) {
         if (playerWantsToPass) {
             std::cout << "Please enter the index of the card you want to pick:\n";
             int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
-            std::cout << "Please enter the index of the border you want to pick:\n";
-            int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-            while (board_->getBorderByID(border_index).isClaimed()) {
-                std::cout << "The border is already claimed. Please enter a different index:\n";
-                border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+            int border_index;
+            if (player->getCardAtIndex(card_index)->isRuse())
+            {
+                border_index=-1;
             }
+            else {
+                std::cout << "Please enter the index of the border you want to pick:\n";
+                border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+                while (board_->getBorderByID(border_index).isClaimed())
+                {
+                    std::cout << "The border is already claimed. Please enter a different index:\n";
+                    border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+                }
+            }
+
             player->play_card(card_index, border_index, board_.get());
             std::cout << *board_ << '\n';
         }
@@ -296,7 +305,7 @@ void Game::playAIBasic(Player* computer) {
     } while (board_->getBorderByID(border_index).isClaimed());
 
     if (expert_) {
-        for (unsigned int j = 0; j< board_->getNumberBorder(); j++) {
+        for (unsigned int j = 0; j < board_->getNumberBorder(); j++) {
             if (board_->getBorderByID(j).getPlayerCombination(player1_.get()).getNumberCards() >= 3 && board_->getBorderByID(j).getPlayerCombination(player2_.get()).getNumberCards() >= 3)
             {
                 if (board_->getBorderByID(j).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(j).getPlayerCombination(computer),board_->getBorderByID(j).getPlayerCombination(player2_.get())))
@@ -310,6 +319,7 @@ void Game::playAIBasic(Player* computer) {
     std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
     computer->play_card(card_index, border_index, board_.get());
     std::cout << *board_ << '\n';
+
     if (!expert_) {
         if (board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getNumberCards() >= 3 && board_->getBorderByID(border_index).getPlayerCombination(player2_.get()).getNumberCards() >= 3)
         {

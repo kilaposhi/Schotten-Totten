@@ -50,7 +50,7 @@ protected:
     std::unique_ptr<Card>  remove_card_from_hand(int card_index);
     vector<unique_ptr<Card>> hand;
     unsigned int score;
-
+    friend class TacticHandler;
 public:
 
     ~Player()=default;
@@ -60,6 +60,7 @@ public:
     Player(const Player&) = delete;
 
     void play_card(int card_index, int borderIndex, Board* board);
+    void play_ruses(int card_index, Board* board);
     void draw_card(Deck& deck_);
     void fillHand(Deck& deck);
     void claim_borders(Border& border_);
