@@ -15,11 +15,11 @@ add_executable(
         src/board/Combination.h
         src/board/Border.cpp
         src/board/Border.h
-<<<<<<< HEAD
-=======
+
+
         src/board/GameTracker.cpp
         src/board/GameTracker.h
->>>>>>> origin/main
+
 
         src/deck/Card.cpp
         src/deck/Card.h
@@ -30,11 +30,10 @@ add_executable(
 
         src/game/Game.cpp
         src/game/Game.h
-<<<<<<< HEAD
+
         src/board/GameTracker.cpp
         src/board/GameTracker.h
-=======
->>>>>>> origin/main
+
 
         src/player/Player.cpp
         src/player/Player.h
@@ -46,9 +45,5 @@ add_executable(
         #src/GameVIew.h
         src/player/TacticHandler.cpp
         src/player/TacticHandler.h
-<<<<<<< HEAD
         src/console.h src/console.cpp)
-=======
-        src/console.h src/console.cpp
-)
->>>>>>> origin/main
+

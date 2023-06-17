@@ -8,9 +8,10 @@
 
 #include "deck/Card.h"
 #include "player/Player.h"
-#include "board/Combination.h"
+#include "Combination.h"
 #include "deck/DeckFactory.h"
 
+class Combination;
 
 class TrackedPlayer{
 public:
@@ -42,16 +43,24 @@ public:
     bool canPlayJoker(Player* player);
     [[nodiscard]] const Deck& getRemainingCardDeck() const;
     [[nodiscard]] const Deck& getPlayerCardsDeck() const;
+    const Combination& getOpponentBestPossibleCombinationClassicVersion(const Combination&);
+    void transferValuedCardToCombination(Combination& combination);
+    void transferTacticCardToCombination(Combination& combination);
+
+
 private:
     GameTracker(Player* player1, Player* player2);
     TrackedPlayer& getTrackedPlayer(Player* player);
     TrackedPlayer& getOpponentTrackedPlayer(Player* player);
+
 private:
-    Deck remainingCards_;
-//    Player *player1, *player2;
+    Deck remainingValuedCardsDeck;
+    Deck remainingTacticCardsDeck;
+    //    Player *player1, *player2;
     TrackedPlayer player1_, player2_;
 
 };
+
 
 
 class GameTrackerException : public std::exception {
@@ -66,6 +75,7 @@ public:
         return message.c_str();
     }
 };
+
 
 
 #endif //SCHOTTEN_TOTTEN_GAMETRACKER_H

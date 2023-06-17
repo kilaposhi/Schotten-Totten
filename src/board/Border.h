@@ -12,6 +12,10 @@
 #include "deck/Card.h"
 #include "player/Player.h"
 #include "Combination.h"
+#include "game/Game.h"
+#include "board/GameTracker.h"
+
+class GameTracker;
 
 using std::unique_ptr, std::make_unique;
 
@@ -63,8 +67,7 @@ public:
     [[nodiscard]] string str() const;
     void setNoCombinationRules();
     void setMaxNumberCard(int  maxNumberCard);
-    // A FAIRE
-    // void Claimed(bool claimed); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
+    bool claim(Player* claimer, Player* opponent, GameTracker& gameTracker); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);

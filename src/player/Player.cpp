@@ -109,12 +109,18 @@ void Player::fillHand(Deck& deck) {
     }
 }
 
-void Player::claim_borders(Border& border_) {
+void Player::claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker) {
     unsigned int borderId = border_.getBorderId();
     if (borderId > 9 || borderId < 0) {
         throw std::out_of_range("The border index > 9");
     }
-    claimed_borders.push_back(borderId);
+    int isClaimSuccesful = border_.claim(this, opponent, gameTracker);
+    if(isClaimSuccesful){
+        claimed_borders.push_back(borderId);
+    }
+    else{
+        return;
+    }
 }
 
 vector<unsigned int> Player::getClaimed_borders() {

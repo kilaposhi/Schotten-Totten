@@ -67,23 +67,32 @@ void Game::create_board() {
         TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
 
+GameTracker& Game::createGameTracker(){
+    GameTracker& gameTracker = GameTracker::getInstance();
+    return gameTracker;
+}
+
+
+
+
 void Game::round() {
     create_deck();
     create_board();
+    GameTracker& gameTracker = createGameTracker();
     player1_->fillHand(clanDeck);
     player2_->fillHand(clanDeck);
     std::cout << "Start of the game\n";
     while (board_->hasWinner() == nullptr) {
         std::cout << "Player " << player1_->getName() << ", it's your turn!\n";
         cout << "Player " << player2_->getName() << ", don't look at the screen!\n";
-        play(player1_.get());
+        play(player1_.get(), player2_.get(), gameTracker);
         pause(2);
         if (isGameOver()) {
             std::cout << "Player " << player1_->getName() << " won!\n";
             break;
         }
         std::cout << *player2_ << "'s turn\n";
-        play(player2_.get());
+        play(player2_.get(), player1_.get(), gameTracker);
         if (isGameOver()) {
             std::cout << "Player " << player2_->getName() << " won!\n";
             break;
@@ -94,7 +103,7 @@ void Game::round() {
     quit();
 }
 
-void Game::play(Player* player) {
+void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
     cout << board_->str() << '\n';
     cout << player->displayHand() << '\n';
 
@@ -146,17 +155,18 @@ void Game::play(Player* player) {
         std::cout << "Please enter the index of the border you want to claim:\n";
         int border_index2 = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
         try {
-            // board_->getBorderByID(border_index2).claim();
+            board_->getBorderByID(border_index2).claim(player, opponent, gameTracker);
         } catch (const BorderException& e) {
             std::cout << e.what() << '\n';
         }
     }
 
     drawCard(player);
-    pause(5);
+    pause(2);
     clearScreen();
 }
 
+/*
 void Game::playAI(AI* computer) {
     int card_index = rand() % computer->getNumber_of_cards(); // Initialise card_index à une valeur par défaut
     int border_index;
@@ -205,7 +215,7 @@ void Game::playAI(AI* computer) {
         computer->draw_card(clanDeck);
     }
 }
-
+*/
 void Game::roundAI() {
     create_deck();
     create_board();
@@ -225,17 +235,17 @@ void Game::roundAI() {
             break;
         }
 
-        pause(5);
+        pause(2);
 
         std::cout << "The computer is playing...\n";
-        playAI(static_cast<AI*>(player2_.get()));
+        // playAI(static_cast<AI*>(player2_.get()));
         std::cout << "The computer is playing...\n";
         if (isGameOver()) {
             std::cout << "You lost! Better luck next time!\n";
             break;
         }
 
-        pause(15);
+        pause(4);
     }
 
     std::cout << "End of the game\n";
@@ -291,3 +301,5 @@ void Game::quit() {
 void clearScreen() {
     std::cout << "\033c";
 }
+
+

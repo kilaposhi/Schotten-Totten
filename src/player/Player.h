@@ -45,7 +45,8 @@ protected:
     int id_;
     vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card>  card_); 
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index); 
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
+    vector<unique_ptr<Card>> hand;
 
 public:
 
@@ -58,7 +59,7 @@ public:
     void play_card(int card_index, int borderIndex, Board* board);
     void draw_card(Deck& deck_);
     void fillHand(Deck& deck);
-    void claim_borders(Border& border_);
+    void claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker);
     vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
     int getID() const;

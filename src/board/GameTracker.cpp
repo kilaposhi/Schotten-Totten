@@ -32,9 +32,7 @@ bool TrackedPlayer::canPlayJoker() const {
 
 
 GameTracker::GameTracker(Player *player1, Player *player2)
-    : player1_(player1), player2_(player2){
-
-}
+    : player1_(player1), player2_(player2){}
 
 GameTracker &GameTracker::getInstance(Player *player1, Player *player2) {
     static unique_ptr<GameTracker> instance (new GameTracker(player1, player2));
@@ -84,27 +82,137 @@ bool GameTracker::canPlayJoker(Player *player) {
     return getTrackedPlayer(player).canPlayJoker();
 }
 
+
+const Combination& GameTracker::getOpponentBestPossibleCombinationClassicVersion(const Combination& opponentCombination){
+    Combination tempCombiVC(3, nullptr);
+    Combination bestCombi(3, nullptr);
+    int N = remainingValuedCardsDeck.getNumberRemainingCards();
+    if(opponentCombination.getNumberCards() == 0) {
+        for (int i = 0; i < N - 2; i++) {
+            for (int j = i + 1; j < N - 1; i++) {
+                for (int k = j + 1; j < N; j++) {
+                    std::unique_ptr<Card> card1 = remainingValuedCardsDeck.drawCardByIndex(
+                            i); // Retirer la carte du remainingCardsDeck
+                    std::unique_ptr<ValuedCard> Vcard1(dynamic_cast<ValuedCard *>(card1.release()));
+                    tempCombiVC.push_back(std::move(Vcard1));
+                    std::unique_ptr<Card> card2 = remainingValuedCardsDeck.drawCardByIndex(
+                            j); // Retirer la carte du remainingCardsDeck
+                    std::unique_ptr<ValuedCard> Vcard2(dynamic_cast<ValuedCard *>(card2.release()));
+                    tempCombiVC.push_back(std::move(Vcard2));
+                    std::unique_ptr<Card> card3 = remainingValuedCardsDeck.drawCardByIndex(
+                            k); // Retirer la carte du remainingCardsDeck
+                    std::unique_ptr<ValuedCard> Vcard3(dynamic_cast<ValuedCard *>(card3.release()));
+                    tempCombiVC.push_back(std::move(Vcard3));
+                    const Combination &bestCombiRef = bestCombination(tempCombiVC, bestCombi);
+                    if (bestCombiRef == tempCombiVC) {
+                        bestCombi = tempCombiVC;
+                    }
+                    unique_ptr<Card> Ccard1 = std::move(tempCombiVC.valuedCardBack());
+                    remainingValuedCardsDeck.putCard(std::move(Ccard1));
+                    unique_ptr<Card> Ccard2 = std::move(tempCombiVC.valuedCardBack());
+                    remainingValuedCardsDeck.putCard(std::move(Ccard2));
+                    unique_ptr<Card> Ccard3 = std::move(tempCombiVC.valuedCardBack());
+                    remainingValuedCardsDeck.putCard(std::move(Ccard3));
+                }
+            }
+        }
+    }
+    else if(opponentCombination.getNumberCards() == 1){
+        bestCombi = opponentCombination;
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = i + 1; j < N; i++) {
+                    std::unique_ptr<Card> card1 = remainingValuedCardsDeck.drawCardByIndex(
+                            i); // Retirer la carte du remainingCardsDeck
+                    std::unique_ptr<ValuedCard> Vcard1(dynamic_cast<ValuedCard *>(card1.release()));
+                    tempCombiVC.push_back(std::move(Vcard1));
+                    std::unique_ptr<Card> card2 = remainingValuedCardsDeck.drawCardByIndex(
+                            j); // Retirer la carte du remainingCardsDeck
+                    std::unique_ptr<ValuedCard> Vcard2(dynamic_cast<ValuedCard *>(card2.release()));
+                    tempCombiVC.push_back(std::move(Vcard2));
+                    const Combination &bestCombiRef = bestCombination(tempCombiVC, bestCombi);
+                    if (bestCombiRef == tempCombiVC) {
+                        bestCombi = tempCombiVC;
+                    }
+                    unique_ptr<Card> Ccard1 = std::move(tempCombiVC.valuedCardBack());
+                    remainingValuedCardsDeck.putCard(std::move(Ccard1));
+                    unique_ptr<Card> Ccard2 = std::move(tempCombiVC.valuedCardBack());
+                    remainingValuedCardsDeck.putCard(std::move(Ccard2));
+            }
+        }
+    }
+    else if(opponentCombination.getNumberCards() == 2){
+        bestCombi = opponentCombination;
+        for (int i = 0; i < N; i++) {
+                std::unique_ptr<Card> card1 = remainingValuedCardsDeck.drawCardByIndex(
+                        i); // Retirer la carte du remainingCardsDeck
+                std::unique_ptr<ValuedCard> Vcard1(dynamic_cast<ValuedCard *>(card1.release()));
+                tempCombiVC.push_back(std::move(Vcard1));
+                const Combination &bestCombiRef = bestCombination(tempCombiVC, bestCombi);
+                if (bestCombiRef == tempCombiVC) {
+                    bestCombi = tempCombiVC;
+                }
+                unique_ptr<Card> Ccard1 = std::move(tempCombiVC.valuedCardBack());
+                remainingValuedCardsDeck.putCard(std::move(Ccard1));
+        }
+    }
+
+        return bestCombi;
+}
+
+
+
+
 /*void GameTracker::copyDeck(Deck tacticDeck, Deck clanDeck) {
-    // Copie des cartes tactiques dans remainingCardsDeck
+    // Copie des cartes tactiques dans remainingTacticCardsDeck
     for (int i = 0; i < tacticDeck.getNumberRemainingCards(); i++) {
         std::unique_ptr<Card> tacticCard = tacticDeck.drawCard();
         remainingCardsDeck.putCard(std::move(tacticCard));
     }
 
     // Copie des cartes de valeur dans remainingCardsDeck
-    for (int i = 0; i < clanDeck.getNumberRemainingCards(); i++) {
+    for (int i = 0; i < clanDeck.getNumberRemainingValuedCards(); i++) {
         std::unique_ptr<Card> valuedCard = clanDeck.drawCard();
         remainingCardsDeck.putCard(std::move(valuedCard));
     }
 }
 */
 
+void GameTracker::transferValuedCardToCombination(Combination& combination) {
+    if (remainingValuedCardsDeck.isEmpty()) {
+        throw std::runtime_error("Le deck remainingValuedCardsDeck est vide.");
+    }
 
-//void GameTracker::transferCard() {
-//    if (remainingCardsDeck.isEmpty()) {
-//        throw std::runtime_error("Le deck remainingCardsDeck est vide.");
+    std::unique_ptr<Card> transferredCard = remainingValuedCardsDeck.drawCard(); // Retirer la carte du remainingCardsDeck
+    std::unique_ptr<ValuedCard> transferredValuedCard(dynamic_cast<ValuedCard*>(transferredCard.release()));
+    combination.push_back(std::move(transferredValuedCard));
+    //(std::move(transferredCard)); // Transférer la carte au playedCardsDeck
+}
+
+void GameTracker::transferTacticCardToCombination(Combination& combination) {
+    if (remainingTacticCardsDeck.isEmpty()) {
+        throw std::runtime_error("Le deck remainingTacticCardsDeck est vide.");
+    }
+
+    std::unique_ptr<Card> transferredCard = remainingTacticCardsDeck.drawCard(); // Retirer la carte du remainingCardsDeck
+    std::unique_ptr<TacticCard> transferredTacticCard(dynamic_cast<TacticCard*>(transferredCard.release()));
+    combination.push_back(std::move(transferredTacticCard));
+    combination.push_back(std::move(transferredTacticCard)); // Transférer la carte au playedCardsDeck
+}
+
+//void GameTracker::transferValuedCardToPlayedCardsDeck() {
+//    if (remainingValuedCardsDeck.isEmpty()) {
+//        throw std::runtime_error("Le deck remainingValuedCardsDeck est vide.");
 //    }
 //
-//    std::unique_ptr<Card> transferredCard = remainingCardsDeck.drawCard(); // Retirer la carte du remainingCardsDeck
+//    std::unique_ptr<Card> transferredCard = remainingValuedCardsDeck.drawCard(); // Retirer la carte du remainingCardsDeck
+//    playedCardsDeck.putCard(std::move(transferredCard)); // Transférer la carte au playedCardsDeck
+//}
+
+//void GameTracker::transferTacticCardToPlayedCardsDeck() {
+//    if (remainingTacticCardsDeck.isEmpty()) {
+//        throw std::runtime_error("Le deck remainingTacticCardsDeck est vide.");
+//    }
+//
+//    std::unique_ptr<Card> transferredCard = remainingTacticCardsDeck.drawCard(); // Retirer la carte du remainingCardsDeck
 //    playedCardsDeck.putCard(std::move(transferredCard)); // Transférer la carte au playedCardsDeck
 //}

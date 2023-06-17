@@ -57,3 +57,7 @@ ostream& operator<<(ostream& stream, const Deck& deck){
     stream  << "Remaining cards : " << deck.getNumberRemainingCards();
     return stream;
 }
+
+unique_ptr<Card> Deck::drawCardByIndex(int index){
+    return std::move(cards_[index]);
+}

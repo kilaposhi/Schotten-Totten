@@ -27,8 +27,8 @@ class Combination {
 public:
     explicit Combination(int maxNumberCards, Player* player);
     ~Combination() = default;
-    Combination(const Combination&) = delete;
-    Combination& operator=(const Combination&) = delete;
+    Combination(const Combination&);
+    Combination& operator=(const Combination&);
 public:
     [[nodiscard]] int getSum() const;
     [[nodiscard]] CombinationType getType() const;
@@ -44,10 +44,17 @@ public:
     void setMaxNumberCards(int maxNumberCards);
     void setNoCombinationRule();
     void treatTacticCards();
-    ValuedCard* getValuedCard(int index) const;
-    TacticCard* getTacticCard(int index) const;
+    [[nodiscard]] ValuedCard* getValuedCard(int index) const;
+    [[nodiscard]] TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string str() const;
     int getRank() const;
+    bool operator==(const Combination& other) const;
+    const Combination& getConstReference();
+    unique_ptr<ValuedCard> valuedCardBack();
+    unique_ptr<TacticCard> tacticCardBack();
+    //Combination& operator=(const Combination& other);
+
+
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;
@@ -82,5 +89,5 @@ public:
 
 };
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) ;
-const Combination& findBestCombination(const std::vector<Combination>& combinations);
+int findBestCombination(const std::vector<Combination>& combinations);
 #endif //PROJET_COMBINATION_H

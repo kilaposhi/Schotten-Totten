@@ -13,6 +13,7 @@
 #include "console.h"
 #include "board/GameTracker.h"
 
+class GameTracker;
 
 class Game {
 private:
@@ -22,6 +23,7 @@ private:
     DeckInfo deckInfo;
     unique_ptr<Board> board_;
     bool tacticVersion_{false};
+    //GameTracker& gameTracker1 = GameTracker::getInstance();
 
 public :
     Game();
@@ -34,13 +36,13 @@ public :
     void start_game();
     void round();
     void roundAI();
-    void playAI(AI * computer);
-    void play(Player* player);
+    //void playAI(AI * computer);
+    void play(Player* player, Player* opponent, GameTracker& gameTracker);
     void drawCard(Player* player);
     void pause(int n);
     bool isGameOver();
-
     void quit();
+    GameTracker& createGameTracker();
 };
 void clearScreen();
 

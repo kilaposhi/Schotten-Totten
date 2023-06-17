@@ -318,7 +318,7 @@ bool Combination::operator==(const Combination& other) const {
 } //on ne les trie pas car on veut que les combinaisons soient identiques
 
 
-unsigned int findBestCombination(const std::vector<Combination>& combinations) {
+int findBestCombination(const std::vector<Combination>& combinations) {
     if (combinations.empty()) {
         throw std::logic_error("The list of combinations is empty.");
     }
@@ -336,7 +336,40 @@ unsigned int findBestCombination(const std::vector<Combination>& combinations) {
     return index;
 }
 
+const Combination& Combination::getConstReference() {
+    return *this;
+}
 
+unique_ptr<ValuedCard> Combination::valuedCardBack(){
+    return std::move(valuedCards_.back());
+}
+unique_ptr<TacticCard> Combination::tacticCardBack(){
+    return std::move(tacticCards_.back());
+}
+
+Combination& Combination::operator=(const Combination& other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    // Copier les membres de other dans this
+    player_ = other.player_;
+    valuedCards_.clear();
+    for (const auto& valuedCard : other.valuedCards_) {
+        valuedCards_.push_back(std::make_unique<ValuedCard>(*valuedCard));
+    }
+    tacticCards_.clear();
+    for (const auto& tacticCard : other.tacticCards_) {
+        tacticCards_.push_back(std::make_unique<TacticCard>(*tacticCard));
+    }
+    maxNumberCards_ = other.maxNumberCards_;
+    sumValues_ = other.sumValues_;
+    hasTacticCard_ = other.hasTacticCard_;
+    noCombinationRule_ = other.noCombinationRule_;
+    combinationType_ = other.combinationType_;
+
+    return *this;
+}
 
 
 

@@ -33,6 +33,7 @@ public:
     [[nodiscard]] int getNumberRemainingCards() const;
     void str() const;
     void clear();
+    unique_ptr<Card> drawCardByIndex(int index);
 
 private:
     vector<unique_ptr<Card>> cards_;

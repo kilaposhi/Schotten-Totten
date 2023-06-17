@@ -1,6 +1,7 @@
 #include "deck/Card.h"
 #include "player/Player.h"
 #include "Border.h"
+#include "game/Game.h"
 
 
 Border::Border(int borderID, Player* player1, Player* player2):
@@ -74,6 +75,46 @@ void Border::setNoCombinationRules() {
     blindManBluff = true;
     player_1_combination->setNoCombinationRule();
     player_2_combination->setNoCombinationRule();
+}
+
+
+
+bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
+    bool isClaimSuceeded = false;
+    if(isClaimed())
+        throw BorderException("The border is already claimed");
+    if(getPlayerCombination(claimer).getNumberCards() < getPlayerCombination(claimer).getMaxNumberCards())
+        throw BorderException("You have not placed enough cards on this border");
+    if(getPlayerCombination(opponent).getNumberCards() == getPlayerCombination(opponent).getMaxNumberCards()){
+        const Combination& best = bestCombination(getPlayerCombination(claimer).getConstReference(),
+                                                  getPlayerCombination(opponent).getConstReference());
+        if (best == getPlayerCombination(opponent))
+            throw BorderException("Your combination is less than your opponent’s");
+        claimed = true;
+        winner_ = claimer;
+        isClaimSuceeded = true;
+        cout << "You have won the border " << borderID_ << "\n";
+        return isClaimSuceeded;
+    }
+    else if(getPlayerCombination(opponent).getNumberCards() < getPlayerCombination(opponent).getMaxNumberCards()){
+        if(//isTacticVersion()
+        0 == 1 ){ // pour ne jamais y passer pour le moment
+            throw BorderException("Je l'ai pas fait encore");
+        }
+        else {
+            const Combination &best = bestCombination(getPlayerCombination(claimer).getConstReference(),
+                                                      gameTracker.getOpponentBestPossibleCombinationClassicVersion(
+                                                              getPlayerCombination(opponent)));
+            if (best == getPlayerCombination(opponent))
+                throw BorderException("Your opponent can still have a better combination on this border");
+            claimed = true;
+            winner_ = claimer;
+            isClaimSuceeded = true;
+            cout << "You have won the border " << borderID_ << "\n";
+            return isClaimSuceeded;
+        }
+    }
+    return isClaimSuceeded;
 }
 
 string Border::str() const {
