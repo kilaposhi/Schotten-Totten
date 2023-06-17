@@ -74,10 +74,9 @@ public:
     string displayHand() const; // --> OK
     string displayCard(int index_card) const;
     string print_player() const; // --> OK
+    virtual void dummy() {};
 
-    unsigned int pick_a_card(Border* border);
-    unsigned int pick_a_border(Board * board);
-    unsigned int claim_a_border(Board * board, Player* enemy);
+
 
 };
 
@@ -86,7 +85,10 @@ std::ostream& operator<<(std::ostream& f, const Player& player);
 class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);
-
+    unsigned int pick_a_card(Border* border);
+    unsigned int pick_a_border(Board * board);
+    unsigned int claim_a_border(Board * board, Player* enemy);
+    void dummy() override {}
 };
 
 
