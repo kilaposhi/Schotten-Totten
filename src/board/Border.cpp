@@ -80,7 +80,7 @@ void Border::setNoCombinationRules() {
 
 
 bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
-    bool isClaimSuceeded = false;
+    bool isClaimSucceeded = false;
     if(isClaimed())
         throw BorderException("The border is already claimed");
     if(getPlayerCombination(claimer).getNumberCards() < getPlayerCombination(claimer).getMaxNumberCards())
@@ -92,9 +92,9 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
             throw BorderException("Your combination is less than your opponent’s");
         claimed = true;
         winner_ = claimer;
-        isClaimSuceeded = true;
+        isClaimSucceeded = true;
         cout << "You have won the border " << borderID_ << "\n";
-        return isClaimSuceeded;
+        return isClaimSucceeded;
     }
     else if(getPlayerCombination(opponent).getNumberCards() < getPlayerCombination(opponent).getMaxNumberCards()){
         if(//isTacticVersion()
@@ -109,12 +109,12 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
                 throw BorderException("Your opponent can still have a better combination on this border");
             claimed = true;
             winner_ = claimer;
-            isClaimSuceeded = true;
+            isClaimSucceeded = true;
             cout << "You have won the border " << borderID_ << "\n";
-            return isClaimSuceeded;
+            return isClaimSucceeded;
         }
     }
-    return isClaimSuceeded;
+    return isClaimSucceeded;
 }
 
 string Border::str() const {
