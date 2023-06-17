@@ -39,6 +39,7 @@ public:
 };
 
 class Border;
+class AI;
 
 
 class Player {
@@ -56,12 +57,12 @@ public:
 
     ~Player()=default;
     explicit Player(string nom_, int id, int max_card);
+    Player();
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = delete;
 
     void play_card(int card_index, int borderIndex, Board* board);
-    void play_ruses(int card_index, Board* board);
     void draw_card(Deck& deck_);
     void fillHand(Deck& deck);
     void claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker);
@@ -77,19 +78,19 @@ public:
     string print_player() const; // --> OK
     virtual void dummy() {};
 
-
-
 };
+
+std::ostream& operator<<(std::ostream& f, const Player& player);
+
 
 class AI : public Player {
 public:
-    AI(unsigned int max_cards, const string& name);
+    AI(const string& name, int id, unsigned int max_cards );
     unsigned int pick_a_card(Border* border);
     unsigned int pick_a_border(Board * board);
     unsigned int claim_a_border(Board * board, Player* enemy);
     void dummy() override {}
 };
-std::ostream& operator<<(std::ostream& f, const Player& player);
 
 
 #endif// SCHOTTEN_TOTTEN_PLAYER_H

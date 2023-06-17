@@ -7,13 +7,15 @@
 #include <cstdlib>
 #include <process.h>
 
+class Player;
+class AI;
+
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
 #include "board/Border.h"
 #include "board/Board.h"
 #include "console.h"
 #include "board/GameTracker.h"
-
 class GameTracker;
 
 class Game {
@@ -42,10 +44,11 @@ public :
     void playAI(AI* computer, Player* opponent, GameTracker& gameTracker);
     void playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker);
     void play(Player* player, Player* opponent, GameTracker& gameTracker);
-    void drawCard(Player* player);
+    void draw_card(Player* player);
     void pause(int n);
     void quit();
     void gameAIvsAI();
+    void clearScreen();
     GameTracker& createGameTracker();
 
 };

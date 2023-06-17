@@ -12,7 +12,6 @@ using namespace std;
 
 Player::Player(string name_, int id, int max_card) : name(std::move(name_)), id_(id), max_cards(max_card) {}
 
-AI::AI(unsigned int max_cards, const string& name) : Player(name, 2, max_cards) {}
 
 string Player::displayHand() const {
     std::stringstream stream("");
@@ -124,8 +123,8 @@ void Player::claim_borders(Border& border_, Player* opponent, GameTracker& gameT
     if (borderId > 9 || borderId < 0) {
         throw std::out_of_range("The border index > 9");
     }
-    int isClaimSuccesful = border_.claim(this, opponent, gameTracker);
-    if(isClaimSuccesful){
+    int isClaimSuccessful = border_.claim(this, opponent, gameTracker);
+    if(isClaimSuccessful){
         claimed_borders.push_back(borderId);
     }
     else{
@@ -152,6 +151,8 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     stream << "Player " << player.getID();
     return stream;
 }
+
+AI::AI(const string& name, int id, unsigned int max_cards ) : Player(name, id, max_cards) {}
 
 unsigned int AI::pick_a_card(Border* border) {
     unsigned int max = 0;
@@ -248,7 +249,7 @@ unsigned int AI::claim_a_border(Board* board, Player* enemy) {
         }
 
         if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this),
-                            board->getBorderByID(j).getPlayerCombination(enemy))) {
+                                                                                  board->getBorderByID(j).getPlayerCombination(enemy))) {
             index = j;
             break;
         }
