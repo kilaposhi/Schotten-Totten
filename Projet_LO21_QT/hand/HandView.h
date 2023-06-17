@@ -16,6 +16,7 @@ public :
     HandView(QWidget *parent, Player* player);
     QList<CardView*> getHandList() const;
     void updateHV();
+    void clearSelectedCards();
 
 signals :
     void cardSelected(int cardIndex);

@@ -10,7 +10,7 @@
 
 #include <QString>
 
-
+class Player;
 class Game {
 private:
     bool gameOver;
@@ -22,11 +22,6 @@ private:
     bool expertVersion_{false};
 
 public :
-    /*Deck getClanDeck() const;
-    Deck getTacticDeck() const;
-    Deck getDiscardDeck() const;
-    DeckInfo getDeckInfo() const;
-    Board* getBoard() const;*/
     bool getVersion() const;
 
     Game(int argc, char *argv[]);
@@ -42,6 +37,7 @@ public :
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);
+    void clearScreen();
     bool isGameOver();
 
     void quit();

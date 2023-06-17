@@ -36,11 +36,11 @@ class Border;
 class Player {
 protected:
     std::string name;
-    int max_cards;
+    std::size_t max_cards;
     int id_;
     std::vector<unsigned int> claimed_borders;
     void add_card_into_hand(std::unique_ptr<Card> card_);
-    std::unique_ptr<Card> remove_card_from_hand(int card_index);
+    std::unique_ptr<Card> remove_card_from_hand(std::size_t card_index);
     std::vector<unique_ptr<Card>> hand;
 
 public:
@@ -58,7 +58,7 @@ public:
     std::vector<unsigned int> getClaimed_borders(); // --> OK
     [[nodiscard]] int getNumber_of_cards() const; // --> OK
     int getID() const;
-    std::unique_ptr<Card>& getCardAtIndex(std::size_t index);
+    std::unique_ptr<Card>& getCardAtIndex(int index);
     std::string getName() const { return name; }
     std::string displayHand() const; // --> OK
     std::string displayCard(int index_card) const;

@@ -2,11 +2,12 @@
 
 #include "game/GameTracker.h"
 #include "border/Border.h"
+#include "deck/Deck.h"
 
 #include <QDebug>
 
 
-Player::Player(string name_, int id, int max_card) : name(std::move(name_)), id_(id), max_cards(max_card) {}
+Player::Player(string name_, int id, int max_card) : name(std::move(name_)), max_cards(max_card), id_(id) {}
 
 AI::AI(unsigned int max_cards, const string& name) : Player(name, 2, max_cards) {}
 
@@ -26,8 +27,8 @@ string Player::displayCard(int index_card) const {
     return card.str();
 }
 
-std::unique_ptr<Card>& Player::getCardAtIndex(std::size_t index) {
-    if (index < 0 || index >= hand.size()) {
+std::unique_ptr<Card>& Player::getCardAtIndex(int index) {
+    if (index < 0 || index >= int(hand.size())) {
         throw PlayerException("Invalid card index.");
     }
     return hand[index];
@@ -50,7 +51,7 @@ void Player::add_card_into_hand(std::unique_ptr<Card> card_) {
     hand.push_back(std::move(card_));
 }
 
-std::unique_ptr<Card> Player::remove_card_from_hand(int card_index) {
+std::unique_ptr<Card> Player::remove_card_from_hand(std::size_t card_index) {
     if (hand.empty()) {
         throw PlayerException("The hand is empty");
     }
@@ -63,7 +64,7 @@ std::unique_ptr<Card> Player::remove_card_from_hand(int card_index) {
 }
 
 void Player::play_card(int card_index, int borderIndex, Board* board) {
-    if (card_index < 0 || card_index >= hand.size()) {
+    if (card_index < 0 || card_index >= int(hand.size())) {
         throw PlayerException("Invalid card index");
     }
     if (borderIndex < 0 || borderIndex >= board->getNumberBorder()) {
@@ -116,7 +117,7 @@ void Player::fillHand(Deck& deck) {
     }
 }
 void Player::claim_borders(Border& border_) {
-    unsigned int borderId = border_.getBorderId();
+    int borderId = border_.getBorderId();
     if (borderId > 9 || borderId < 0) {
         throw std::out_of_range("The border index > 9");
     }
@@ -150,7 +151,7 @@ unsigned int AI::pick_a_card(Border* border) {
     } else if (border->getPlayerCombination(this).getNumberCards() == 1) {
         for (unsigned int j = 0; j < hand.size(); j++) {
             std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
-            int potential = 0;
+            unsigned int potential = 0;
 
             if (card->getValue() == border->getPlayerCombination(this).getValuedCard(0)->getValue()) {
                 potential++;
@@ -245,3 +246,5 @@ unsigned int AI::claim_a_border(Board* board, Player* enemy) {
 
     return index;
 }
+
+

@@ -1,24 +1,24 @@
 SOURCES += \
     board/Board.cpp \
-    board/boardview.cpp \
+    board/boardview.cpp \    
     border/Border.cpp \
-    border/borderview.cpp \
+    border/borderview.cpp \    
     card/Card.cpp \
-    card/CardView.cpp \
+    card/CardView.cpp \    
     combination/Combination.cpp \
-    combination/CombinationView.cpp \
-    console/Console.cpp \
+    combination/CombinationView.cpp \    
+    console/Console.cpp \    
     deck/Deck.cpp \
     deck/DeckFactory.cpp \
-    deck/DeckView.cpp \
+    deck/DeckView.cpp \    
     game/Game.cpp \
     game/GameConfiguration.cpp \
     game/GameTracker.cpp \
-    #game/GameView.cpp \
+    #game/GameView.cpp \    
     hand/HandView.cpp \
-    hand/TacticHandler.cpp \
-    mainwindow/MainWindow.cpp \
+    hand/TacticHandler.cpp \    
     #mainwindow/MainWindow2.cpp \
+    mainwindow/MainWindow.cpp \
     messagebox/SignalMessageBox.cpp \
     player/Player.cpp \
     main.cpp
@@ -42,10 +42,9 @@ HEADERS += \
     #game/GameView.h \
     hand/HandView.h \
     hand/TacticHandler.h \
-    mainwindow/MainWindow.h \
     #mainwindow/MainWindow2.h \
+    mainwindow/MainWindow.h \
     messagebox/SignalMessageBox.h \
-    player/Player.h \
-    main.h
+    player/Player.h
 
 QT += widgets

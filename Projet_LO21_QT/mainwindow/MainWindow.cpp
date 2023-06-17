@@ -34,56 +34,32 @@ MainWindow::MainWindow(QWidget *parent, Player* player1, Player* player2, Deck* 
 
     setLayout(window);
     newTurn();
-
-    //while (board->hasWinner() == nullptr) {
-        /*QString turn1 =  QString::fromStdString(player1->getName()) + "it's your turn ! \n" +  QString::fromStdString(player2->getName())+ " don't look at the screen!\n";
-        QMessageBox *endTurn = new QMessageBox;
-        endTurn->setText(turn1);
-        //endTurn->exec();
-        connect(endTurn, &QMessageBox::accepted, this, &MainWindow::handleEndTurn);
-        endTurn->exec();//les cartes de la main du joueur sont cliquables*/
-
-        //connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-        //connect(boardV, &BoardView::borderChoice, this, &MainWindow::handleBorderSelected);
-
-        //connect(tacticDeckV, &TacticDeckView::clicked, this, &MainWindow::handleTacticDeckClicked);
-        //connect(clanDeckV, &ClanDeckView::clicked, this, &MainWindow::handleClanDeckClicked);
+    window->update();
+}
 
 
+void MainWindow::newTurn(){
+    //disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+    if (actualPlayer == player1) {
+        actualPlayer = player2;
+        otherPlayer = player1;
+        actualHand = handVP2;
+        //connect(handVP2, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+    }
+    else {
+        actualPlayer = player1;
+        otherPlayer = player2;
+        actualHand = handVP1;
+        //connect(handVP1, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+    }
 
-        //player1->play_card(handIndex, borderIndex, board);
-        window->update();
+    //connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
 
-        /*
-        play(player1_.get());
-        pause(2);
-        if (isGameOver()) {
-            QString over = "Player " + QString::number(player1_->getID()) + " won!\n";
-            QMessageBox::information(nullptr, "Game over", over);
-            break;
-        }
-        QString turn2 =  QString::fromStdString(player1_->getName()) + "it's your turn ! \n" +  QString::fromStdString(player2_->getName())+ " don't look at the screen!\n";
-        MyMessageBox messageBox2(nullptr, 2);
-        messageBox2.setText(turn2);
-        messageBox2.exec();
-        play(player2_.get());
-        if (isGameOver()) {
-            QString over = "Player " + QString::number(player2_->getID()) + " won!\n";
-            QMessageBox::information(nullptr, "Game over", over);
-            break;
-        }
-        pause(15);
-*/
-
-
-    //window->update();
-
-    //boardV = new BoardView(this, board);
-
-
-
-
-//}
+    QString turn1 =  QString::fromStdString(actualPlayer->getName()) + "it's your turn ! \n" +  QString::fromStdString(otherPlayer->getName())+ " don't look at the screen!\n";
+    QMessageBox *endTurn = new QMessageBox;
+    endTurn->setText(turn1);
+    connect(endTurn, &QMessageBox::accepted, this, &MainWindow::handleEndTurn);
+    endTurn->exec();//les cartes de la main du joueur sont cliquables
 }
 
 
@@ -93,20 +69,20 @@ void MainWindow::handleEndTurn() {
     qDebug() << "dans handleEndTurn";
     //disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
     qDebug() << "après disconnect";
-    //delete actualHand;
-    qDebug() << "après delete";
+        //delete actualHand;
+        qDebug() << "après delete";
 
-    actualHand = new HandView(this, actualPlayer);
+        actualHand = new HandView(this, actualPlayer);
     window->addWidget(actualHand, 2, 0);
     window->update();
     qDebug() << "après windows uptdate";
 
-    for (CardView* cardV : actualHand->getHandList()) {
+        for (CardView* cardV : actualHand->getHandList()) {
         cardV->setEnabled(true);
     }
     qDebug() << "après setEnable";
 
-    connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+        connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
     qDebug() << "après connect";
 
 
@@ -157,46 +133,48 @@ void MainWindow::handleBorderSelected(int index) {
 
 }
 
-void MainWindow::handleTacticDeckClicked(){
+void MainWindow::handleTacticDeckClicked() {
     clanDeckV->setEnabled(false);
     tacticDeckV->setEnabled(false);
 
-    actualPlayer->draw_card(*tacticDeck);
+    if (actualPlayer->getNumber_of_cards() < 6) {
+        actualPlayer->draw_card(*tacticDeck);
 
-    delete actualHand;
-    actualHand = new HandView(this, actualPlayer);
-    window->addWidget(actualHand, 2, 0);
-    window->update();
+        delete actualHand;
+        actualHand = new HandView(this, actualPlayer);
+        window->addWidget(actualHand, 2, 0);
+        window->update();
+    }
 
     if (game->isGameOver()) {
-        QString over = "Game over :" + QString::fromStdString(actualPlayer->getName()) + " won !";
+        QString over = "Game over: " + QString::fromStdString(actualPlayer->getName()) + " won!";
         QMessageBox::information(this, "Game Over", over);
-    }
-    else {
+    } else {
         newTurn();
     }
-
 }
 
-void MainWindow::handleClanDeckClicked(){
+void MainWindow::handleClanDeckClicked() {
     clanDeckV->setEnabled(false);
     tacticDeckV->setEnabled(false);
-    actualPlayer->draw_card(*clanDeck);
 
-    delete actualHand;
-    actualHand = new HandView(this, actualPlayer);
-    window->addWidget(actualHand, 2,0);
-    window->update();
+    if (actualPlayer->getNumber_of_cards() < 6) {
+        actualPlayer->draw_card(*clanDeck);
+
+        delete actualHand;
+        actualHand = new HandView(this, actualPlayer);
+        window->addWidget(actualHand, 2, 0);
+        window->update();
+    }
 
     if (game->isGameOver()) {
-        QString over = "Game over :" + QString::fromStdString(actualPlayer->getName()) + " won !";
+        QString over = "Game over: " + QString::fromStdString(actualPlayer->getName()) + " won!";
         QMessageBox::information(this, "Game Over", over);
-    }
-    else {
+    } else {
         newTurn();
     }
-
 }
+
 
 void MainWindow::askClaim() {
     int response = QMessageBox::question(this, "Claim", "Do you want to claim a border ?", QMessageBox::Yes | QMessageBox::No);
@@ -218,29 +196,7 @@ void MainWindow::askClaim() {
     }
 }
 
-void MainWindow::newTurn(){
-    //disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-    if (actualPlayer == player1) {
-        actualPlayer = player2;
-        otherPlayer = player1;
-        actualHand = handVP2;
-        //connect(handVP2, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-    }
-    else {
-        actualPlayer = player1;
-        otherPlayer = player2;
-        actualHand = handVP1;
-        //connect(handVP1, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-    }
 
-    //connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-
-    QString turn1 =  QString::fromStdString(actualPlayer->getName()) + "it's your turn ! \n" +  QString::fromStdString(otherPlayer->getName())+ " don't look at the screen!\n";
-    QMessageBox *endTurn = new QMessageBox;
-    endTurn->setText(turn1);
-    connect(endTurn, &QMessageBox::accepted, this, &MainWindow::handleEndTurn);
-    endTurn->exec();//les cartes de la main du joueur sont cliquables
-}
 
 
 void MainWindow::updateUI() {
@@ -249,4 +205,3 @@ void MainWindow::updateUI() {
     boardV->updateBV();
     window->update();
 }
-

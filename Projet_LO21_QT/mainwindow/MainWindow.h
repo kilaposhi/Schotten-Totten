@@ -13,12 +13,14 @@
 #include "deck/DeckView.h"
 
 class MainWindow : public QWidget {
+
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent, Player* player1, Player* player2, Deck* clanDeck, Deck* tacticDeck, Board* board, Game* game);
     void updateUI();
     void newTurn();
+    void enablePlayerActions();
 
 private slots :
     void handleEndTurn();
@@ -29,7 +31,7 @@ private slots :
     void askClaim();
 
 signals :
-    //void hasThrown();
+         //void hasThrown();
 
 private :
     Player* player1;
@@ -39,11 +41,11 @@ private :
     Board* board;
     Game* game;
 
-//    Player* player1_;
-//    Player* player2_;
-//    Deck* clanDeck_;
-//    Deck* tacticDeck_;
-//    BoardView* boardV;
+    //    Player* player1_;
+    //    Player* player2_;
+    //    Deck* clanDeck_;
+    //    Deck* tacticDeck_;
+    //    BoardView* boardV;
 
     TacticDeckView* tacticDeckV;
     ClanDeckView* clanDeckV;
@@ -51,7 +53,7 @@ private :
     HandView* handVP1 = nullptr;
     HandView* handVP2 = nullptr;
     HandView* actualHand;
-//    HandView* otherHand;
+    //    HandView* otherHand;
 
     BoardView* boardV;
     QGridLayout* window;
