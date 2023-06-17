@@ -21,6 +21,8 @@ int Board::getNumberBorder() const {
 Player* Board::getWinner() const {
     return winner_;
 }
+
+
 Player * Board ::getPlayer(int id) {
     if (id ==1)
         return player1_;

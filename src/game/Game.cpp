@@ -246,15 +246,16 @@ void Game::roundAI() {
 
     do {
         border_index = rand() % board_->getNumberBorder();
-    } while (board_->getBorderByID(border_index).isClaimed() && board_->getBorderByID(border_index).getPlayerCombination(computer).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(computer).getMaxNumberCards() - 1);
+    } while (board_->getBorderByID(border_index).isClaimed() || board_->getBorderByID(border_index).getPlayerCombination(computer).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(computer).getMaxNumberCards() );
 
     if (expert_) {
         for (unsigned int j = 0; j < board_->getNumberBorder(); j++) {
+            if (!board_->getBorderByID(j).isClaimed()){
             if (board_->getBorderByID(j).getPlayerCombination(player1_.get()).getNumberCards() == board_->getBorderByID(j).getPlayerCombination(player1_.get()).getMaxNumberCards() && board_->getBorderByID(j).getPlayerCombination(player2_.get()).getNumberCards() == board_->getBorderByID(j).getPlayerCombination(player1_.get()).getMaxNumberCards()) {
                 if (board_->getBorderByID(j).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(j).getPlayerCombination(computer), board_->getBorderByID(j).getPlayerCombination(player2_.get()))) {
                     board_->getBorderByID(j).claim(computer, opponent, gameTracker);
                 }
-            }
+            }}
         }
     }
 
@@ -278,12 +279,13 @@ void Game::roundAI() {
     }
 
     if (!expert_) {
+        if (!board_->getBorderByID(border_index).isClaimed()){
         if (board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getMaxNumberCards() && board_->getBorderByID(border_index).getPlayerCombination(player2_.get()).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getMaxNumberCards()) {
             if (board_->getBorderByID(border_index).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(border_index).getPlayerCombination(computer), board_->getBorderByID(border_index).getPlayerCombination(player2_.get()))) {
                 board_->getBorderByID(border_index).claim(computer, opponent, gameTracker);
             }
         }
-    }
+    }}
 
     if (!playerHasDrawn && !clanDeck.isEmpty()) {
         try {

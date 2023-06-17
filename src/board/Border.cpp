@@ -104,11 +104,11 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
                                                       gameTracker.getOpponentBestPossibleCombinationClassicVersion(
                                                               getPlayerCombination(opponent)));
             if (best == getPlayerCombination(opponent))
-                throw BorderException("Your opponent can still have a better combination on this border");
+                throw BorderException("Your opponent can still has a better combination on this border");
             claimed = true;
             winner_ = claimer;
             isClaimSucceeded = true;
-            cout << "You have won the border " << borderID_ << "\n";
+            cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
             return isClaimSucceeded;
         }
     }

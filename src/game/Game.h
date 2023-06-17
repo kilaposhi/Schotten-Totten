@@ -38,7 +38,6 @@ public :
     void create_player(int id);
     void create_AI();
     void create_deck();
-    void start_game();
     void round();
     void roundAI();
     void playAI(AI* computer, Player* opponent, GameTracker& gameTracker);
