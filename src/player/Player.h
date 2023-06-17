@@ -40,6 +40,7 @@ public:
 
 class Border;
 
+
 class Player {
 protected:
     string name;
@@ -80,8 +81,6 @@ public:
 
 };
 
-std::ostream& operator<<(std::ostream& f, const Player& player);
-
 class AI : public Player {
 public:
     AI(unsigned int max_cards, const string& name);
@@ -90,6 +89,7 @@ public:
     unsigned int claim_a_border(Board * board, Player* enemy);
     void dummy() override {}
 };
+std::ostream& operator<<(std::ostream& f, const Player& player);
 
 
 #endif// SCHOTTEN_TOTTEN_PLAYER_H

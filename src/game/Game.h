@@ -9,7 +9,6 @@
 
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
-//#include "player/AI.h"
 #include "board/Border.h"
 #include "board/Board.h"
 #include "console.h"
@@ -40,9 +39,9 @@ public :
     void start_game();
     void round();
     void roundAI();
-    void playAI(AI* computer);
-    void playAIBasic(AI* computer);
-    void play(Player* player);
+    void playAI(AI* computer, Player* opponent, GameTracker& gameTracker);
+    void playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker);
+    void play(Player* player, Player* opponent, GameTracker& gameTracker);
     void drawCard(Player* player);
     void pause(int n);
     void quit();
