@@ -137,7 +137,7 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     return stream;
 }
 
-unsigned int Player::pick_a_card(Border* border) {
+unsigned int AI::pick_a_card(Border* border) {
     unsigned int max = 0;
     unsigned int index = rand() % hand.size();
 
@@ -179,7 +179,7 @@ unsigned int Player::pick_a_card(Border* border) {
     return index;
 }
 
-unsigned int Player::pick_a_border(Board* board) {
+unsigned int AI::pick_a_border(Board* board) {
     unsigned int max = 0;
     unsigned int index = rand() % board->getNumberBorder();
     vector<Combination> possibilities;
@@ -220,7 +220,7 @@ unsigned int Player::pick_a_border(Board* board) {
 
     return index;
 }
-unsigned int Player::claim_a_border(Board* board, Player* enemy) {
+unsigned int AI::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
     unsigned int index = 0;
 

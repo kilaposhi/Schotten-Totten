@@ -18,7 +18,8 @@
 class Game {
 private:
     bool gameOver;
-    std::unique_ptr<Player> player1_, player2_;
+    std::unique_ptr<Player> player1_;
+    std::unique_ptr<Player> player2_;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
     std::unique_ptr<Board> board_;
@@ -38,7 +39,7 @@ public :
     void round();
     void roundAI();
     void playAI(AI* computer);
-    void playAIBasic(Player* computer);
+    void playAIBasic(AI* computer);
     void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);
