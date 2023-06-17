@@ -16,11 +16,6 @@ add_executable(
         src/board/Border.cpp
         src/board/Border.h
 
-
-        src/board/GameTracker.cpp
-        src/board/GameTracker.h
-
-
         src/deck/Card.cpp
         src/deck/Card.h
         src/deck/Deck.cpp
@@ -45,5 +40,7 @@ add_executable(
         #src/GameVIew.h
         src/player/TacticHandler.cpp
         src/player/TacticHandler.h
-        src/console.h src/console.cpp)
+        src/console.h
+        src/console.cpp
+)
 

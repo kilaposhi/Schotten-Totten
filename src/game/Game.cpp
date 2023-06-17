@@ -5,32 +5,43 @@ Game::Game() : gameOver(false), player1_(nullptr), player2_(nullptr) {
 }
 
 void Game::setGameVersion() {
-    std::cout << "Which version do you want to play: [1] Classic | [2] Tactic\n";
+    std::cout << "Which version do you want to play? [1] Classic | [2] Tactic\n";
     int version = askValue({1, 2});
     tacticVersion_ = (version == 2);
+    expert_ = askYesNo("Do you want to play the expert version ?");
 }
 
 void Game::launchSchottenTotten1() {
     setGameVersion();
-    create_player(1);
-    bool playAgainstAI = askYesNo("Do you want to play against the AI?");
-    if (playAgainstAI)
-        create_AI();
-    else
-        create_player(2);
-    cout << "How many rounds do you want to play?\n";
-    int numberRound = askValue({1, 15});
-    for (size_t i = 0; i < numberRound; i++) {
+    bool AIvsAI = askYesNo("Game AI vs AI");
+    if (AIvsAI) {
+        gameAIvsAI();
+    } else {
+        create_player(1);
+        int numberRound = askValue({1, 15});
+
+        bool playAgainstAI = askYesNo("Do you want to play against the AI?");
         if (playAgainstAI)
-            roundAI(); // Jouer contre l'IA
+        {
+            create_AI();
+            for (size_t i = 0; i < numberRound; i++)
+            {roundAI();}}
         else
-            round(); // Jouer contre un autre joueur
+            { create_player(2);
+            for (size_t i = 0; i < numberRound; i++)
+            {round();}}
     }
+
+
+    if (player1_->getScore() > player2_->getScore())
+        std::cout << player1_->getName() << " won the game\n";
+    else
+        std::cout << player2_->getName() << " won the game\n";
 }
 
 void Game::create_player(int id) {
     if (id == 1)
-        std::cout << "The one who traveled near Scotland the most recently is player 1.\n";
+        std::cout << "The one who traveled near Scotland most recently is player 1.\n";
     std::cout << "Player " << id << ", please enter your name:\n";
     std::string name;
     std::cin >> name;
@@ -41,12 +52,74 @@ void Game::create_player(int id) {
         player2_ = std::make_unique<Player>(name, id, maxPlayerCard);
 }
 
+void Game::gameAIvsAI() {
+    std::cout << "Enter a name for AI player 1:\n";
+    std::string name1;
+    std::cin >> name1;
+    name1 += " AI";
+    int maxPlayerCard = (tacticVersion_) ? 7 : 6;
+    player1_ = std::make_unique<Player>(name1, 1, maxPlayerCard);
+
+    std::cout << "Enter a name for AI player 2:\n";
+    std::string name2;
+    std::cin >> name2;
+    name2 += " AI";
+    player2_ = std::make_unique<Player>(name2, 2, maxPlayerCard);
+    create_deck();
+    create_board();
+    player1_->fillHand(clanDeck);
+    player2_->fillHand(clanDeck);
+    std::cout << "Start of the game\n";
+    std::cout << "How many rounds ?\n";
+    int numberRound = askValue({1, 15});
+    for (size_t i = 0; i < numberRound; i++) {
+        while (board_->hasWinner() == nullptr) {
+            std::cout << "It is the turn of " << player1_->getName() << "!\n";
+            playAIBasic(player1_.get());
+            pause(2);
+            if (board_.get()->hasWinner() != nullptr) {
+                std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+                Player *winner = board_.get()->hasWinner();
+                Player *looser;
+                (player1_.get() != board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+                winner->newScore(5);
+                looser->newScore(winner->getClaimed_borders().size());
+                break;
+            }
+            std::cout << "It is the turn of " << player2_->getName() << "!\n";
+            playAIBasic(player2_.get());
+            pause(2);
+            if (board_.get()->hasWinner() != nullptr) {
+                std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+                Player *winner = board_.get()->hasWinner();
+                Player *looser;
+                (player1_.get() != board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+                winner->newScore(5);
+                looser->newScore(winner->getClaimed_borders().size());
+                break;
+            }
+        }
+        clearScreen();
+        create_deck();
+        create_board();
+        player1_->fillHand(clanDeck);
+        player2_->fillHand(clanDeck);
+    }
+    std::cout << "End of the game\n";
+    quit();
+}
+
 void Game::create_AI() {
-    std::cout << player1_->getName() << " please enter a name for the AI opponent:\n";
+    std::cout << player1_->getName() << ", please enter a name for the AI opponent:\n";
     std::string name;
     std::cin >> name;
+    name += " AI";
     int maxPlayerCard = (tacticVersion_) ? 7 : 6;
-    player2_ = std::make_unique<AI>(maxPlayerCard, name);
+    basic_ = askYesNo("Do you want the AI to be basic ?");
+    if (basic_)
+        player2_ = std::make_unique<Player>(name, 2, maxPlayerCard);
+    else
+        player2_ = std::make_unique<AI>(maxPlayerCard, name);
 }
 
 void Game::create_deck() {
@@ -63,6 +136,8 @@ void Game::create_deck() {
 
 void Game::create_board() {
     board_ = std::make_unique<Board>(9, player1_.get(), player2_.get());
+    // Initialization of GameTracker Singleton
+    GameTracker::getInstance(player1_.get(), player2_.get());
     if (tacticVersion_)
         TacticHandler::getInstance(&clanDeck, &deckInfo, &tacticDeck, &discardDeck, board_.get());
 }
@@ -86,26 +161,81 @@ void Game::round() {
         std::cout << "Player " << player1_->getName() << ", it's your turn!\n";
         cout << "Player " << player2_->getName() << ", don't look at the screen!\n";
         play(player1_.get(), player2_.get(), gameTracker);
+        clearScreen();
         pause(2);
-        if (isGameOver()) {
-            std::cout << "Player " << player1_->getName() << " won!\n";
+        if ( board_.get()->hasWinner() != nullptr) {
+            std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+            Player * winner = board_.get()->hasWinner() ;
+            Player * looser;
+            (player1_.get()!=board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+            winner->newScore(5);
+            looser->newScore(winner->getClaimed_borders().size());
             break;
         }
-        std::cout << *player2_ << "'s turn\n";
+        std::cout << "Player " << player2_->getName() << "'s turn\n";
         play(player2_.get(), player1_.get(), gameTracker);
-        if (isGameOver()) {
-            std::cout << "Player " << player2_->getName() << " won!\n";
+        clearScreen();
+        if (board_.get()->hasWinner() != nullptr) {
+            std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+            Player * winner = board_.get()->hasWinner() ;
+            Player * looser;
+            (player1_.get()!=board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+            winner->newScore(5);
+            looser->newScore(winner->getClaimed_borders().size());
             break;
         }
-        pause(15);
+        pause(2);
     }
     std::cout << "End of the game\n";
     quit();
 }
 
+void Game::playAI(AI* computer) {
+    unsigned int border_index = computer->pick_a_border(board_.get());
+    Border* selected_border = &board_->getBorderByID(border_index);
+    unsigned int card_index = computer->pick_a_card(selected_border);
+    std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
+
+    computer->play_card(card_index, border_index, board_.get());
+    std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
+
+    border_index = computer->claim_a_border(board_.get(), player1_.get());
+    if (border_index != 0) {
+        std::cout << computer->getName() << " is claiming border " << border_index << ".\n";
+        // board_->getBorderByID(border_index).claim();
+    }
+
+    std::cout << computer->getName() << " is drawing a card.\n";
+    bool playerHasDrawn = false;
+    if (tacticVersion_ && !tacticDeck.isEmpty()) {
+        int answer = rand() % 2;
+        if (answer == 1) {
+            computer->draw_card(tacticDeck);
+            playerHasDrawn = true;
+        }
+    }
+
+    if (!playerHasDrawn && !clanDeck.isEmpty()) {
+        computer->draw_card(clanDeck);
+    }
+}
+
 void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
     cout << board_->str() << '\n';
     cout << player->displayHand() << '\n';
+    if (expert_) {
+        bool playerWantsToClaim = askYesNo("Would you like to claim a border?");
+        if (playerWantsToClaim) {
+            std::cout << "Please enter the index of the border you want to claim:\n";
+
+            unsigned int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+            try {
+                //board_->getBorderByID(border_index2).claim();
+            } catch (const BorderException &e) {
+                std::cout << e.what() << '\n';
+            }
+        }
+    }
 
     bool canPlayCard = false;
     for (unsigned int i = 0; i < player->getNumber_of_cards(); i++) {
@@ -128,11 +258,19 @@ void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
         if (playerWantsToPass) {
             std::cout << "Please enter the index of the card you want to pick:\n";
             int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
-            std::cout << "Please enter the index of the border you want to pick:\n";
-            int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-            while (board_->getBorderByID(border_index).isClaimed()) {
-                std::cout << "The border is already claimed. Please enter a different index:\n";
+            int border_index;
+            if (player->getCardAtIndex(card_index)->isRuse())
+            {
+                border_index=-1;
+            }
+            else {
+                std::cout << "Please enter the index of the border you want to pick:\n";
                 border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+                while (board_->getBorderByID(border_index).isClaimed())
+                {
+                    std::cout << "The border is already claimed. Please enter a different index:\n";
+                    border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+                }
             }
             player->play_card(card_index, border_index, board_.get());
             std::cout << *board_ << '\n';
@@ -149,15 +287,17 @@ void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
         player->play_card(card_index, border_index, board_.get());
         std::cout << *board_ << '\n';
     }
+    if (!expert_) {
+        bool playerWantsToClaim = askYesNo("Would you like to claim a border?");
+        while (playerWantsToClaim) {
+            std::cout << "Please enter the index of the border you want to claim:\n";
 
-    bool playerWantsToClaim = askYesNo("Would you like to claim a border?");
-    if (playerWantsToClaim) {
-        std::cout << "Please enter the index of the border you want to claim:\n";
-        int border_index2 = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-        try {
-            board_->getBorderByID(border_index2).claim(player, opponent, gameTracker);
-        } catch (const BorderException& e) {
-            std::cout << e.what() << '\n';
+            unsigned int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+            try {
+                board_->getBorderByID(border_index2).claim(player, opponent, gameTracker);
+            } catch (const BorderException &e) {
+                std::cout << e.what() << '\n';
+            }
         }
     }
 
@@ -166,56 +306,65 @@ void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
     clearScreen();
 }
 
-/*
-void Game::playAI(AI* computer) {
-    int card_index = rand() % computer->getNumber_of_cards(); // Initialise card_index à une valeur par défaut
-    int border_index;
-    if (tacticVersion_) {
-        border_index = rand() % board_->getNumberBorder();
-        while (board_->getBorderByID(border_index).isClaimed()) {
-            border_index = rand() % board_->getNumberBorder();
-        }
-    } else {
-        vector<Combination> possibilities;
-        for (int i = 0; i < board_->getNumberBorder(); i++) {
-            card_index = computer->pick_a_card(&board_->getBorderByID(i));
-            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*computer->getCardAtIndex(card_index));
+void Game::playAIBasic(Player* computer) {
+    int card_index = rand() % computer->getNumber_of_cards();
+    unsigned int border_index;
 
-            Combination combination(board_->getBorderByID(i).getPlayerCombination(computer));
-            if (!combination.getNumberCards() == 0 && combination.getType() != CombinationType::NONE) {
-                combination.push_back(std::move(card));
-                possibilities.push_back(std::move(combination));
+    do {
+        border_index = rand() % board_->getNumberBorder();
+    } while (board_->getBorderByID(border_index).isClaimed());
+
+    if (expert_) {
+        for (unsigned int j = 0; j < board_->getNumberBorder(); j++) {
+            if (board_->getBorderByID(j).getPlayerCombination(player1_.get()).getNumberCards() >= 3 && board_->getBorderByID(j).getPlayerCombination(player2_.get()).getNumberCards() >= 3)
+            {
+                if (board_->getBorderByID(j).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(j).getPlayerCombination(computer),board_->getBorderByID(j).getPlayerCombination(player2_.get())))
+                {
+                    //board_->getBorderByID(j).claim(computer, clanDeck_.get(), tacticDeck_.get());
+                }
             }
         }
-        if (!possibilities.empty()) {
-            border_index = findBestCombination(possibilities);
+    }
+
+    std::cout << computer->getName() << " is playing the card " << computer->displayCard(card_index) << " on border " << border_index << ".\n";
+    computer->play_card(card_index, border_index, board_.get());
+    std::cout << *board_ << '\n';
+
+    if (!expert_) {
+        if (board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getNumberCards() >= 3 && board_->getBorderByID(border_index).getPlayerCombination(player2_.get()).getNumberCards() >= 3)
+        {
+            if (board_->getBorderByID(border_index).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(border_index).getPlayerCombination(computer),board_->getBorderByID(border_index).getPlayerCombination(player2_.get())))
+            {
+                //board_->getBorderByID(border_index).claim(computer, clanDeck_.get(), tacticDeck_.get());
+            }
         }
     }
 
-    computer->play_card(card_index, border_index, board_.get());
-    std::cout << "The computer is playing the card " << computer->displayCard(card_index) << " on the border " << border_index << ".\n";
-
-    border_index = computer->claim_a_border(board_.get(), player1_.get());
-    if (border_index != 0) {
-        std::cout << "The computer is claiming the border " << border_index << ".\n";
-        // board_->getBorderByID(border_index).claim();
-    }
-
-    std::cout << "Drawing a card\n";
+    std::cout << computer->getName() << " is drawing a card.\n";
     bool playerHasDrawn = false;
     if (tacticVersion_ && !tacticDeck.isEmpty()) {
         int answer = rand() % 2;
         if (answer == 1) {
-            computer->draw_card(tacticDeck);
-            playerHasDrawn = true;
+            try {
+                computer->draw_card(tacticDeck);
+                playerHasDrawn = true;
+            } catch (const PlayerException& e) {
+                std::cout << "Error: " << e.what() << std::endl;
+                return;
+            }
         }
     }
 
     if (!playerHasDrawn && !clanDeck.isEmpty()) {
-        computer->draw_card(clanDeck);
+        try {
+            computer->draw_card(clanDeck);
+        } catch (const PlayerException& e) {
+            std::cout << "Error: " << e.what() << std::endl;
+            return;
+        }
     }
 }
-*/
+
 void Game::roundAI() {
     create_deck();
     create_board();
@@ -226,26 +375,42 @@ void Game::roundAI() {
 
     while (board_->hasWinner() == nullptr) {
         std::cout << "It's your turn, " << player1_->getName() << "!\n";
-        //1play(player1_.get());
+        play(player1_.get());
 
-        pause(0);
+        pause(2);
 
-        if (isGameOver()) {
-            std::cout << "Congratulations! You won!\n";
+        if (board_.get()->hasWinner() != nullptr) {
+            std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+            Player * winner = board_.get()->hasWinner() ;
+            Player * looser;
+            (player1_.get()!=board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+            winner->newScore(5);
+            looser->newScore(winner->getClaimed_borders().size());
             break;
         }
 
         pause(2);
 
-        std::cout << "The computer is playing...\n";
-        // playAI(static_cast<AI*>(player2_.get()));
-        std::cout << "The computer is playing...\n";
-        if (isGameOver()) {
-            std::cout << "You lost! Better luck next time!\n";
-            break;
+        std::cout << player2_->getName() << " is playing...\n";
+        if (tacticVersion_) {
+            playAIBasic(static_cast<AI*>(player2_.get()));
+        } else {
+            // playAI(static_cast<AI*>(player2_.get()));
+            playAIBasic(static_cast<AI*>(player2_.get()));
+
         }
 
-        pause(4);
+        std::cout << player2_->getName() << " is playing...\n";
+        if (board_.get()->hasWinner() != nullptr) {
+            std::cout << "Player " << board_.get()->hasWinner()->getName() << " won!\n";
+            Player * winner = board_.get()->hasWinner() ;
+            Player * looser;
+            (player1_.get()!=board_.get()->hasWinner()) ? looser = player1_.get() : looser = player2_.get();
+            winner->newScore(5);
+            looser->newScore(winner->getClaimed_borders().size());
+            break;
+        }
+        pause(3);
     }
 
     std::cout << "End of the game\n";
@@ -253,13 +418,13 @@ void Game::roundAI() {
 }
 
 void Game::drawCard(Player* player) {
-    std::cout << "Drawing a card\n";
+    std::cout << "Drawing a card...\n";
     bool playerHasDrawn = false;
 
     if (tacticVersion_ && !tacticDeck.isEmpty()) {
         std::cout << "From which deck do you want to draw?\n";
-        std::cout << "[0] Normal Deck (" << clanDeck.getNumberRemainingCards() << " cards remaining)\n";
-        std::cout << "[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining)\n";
+        std::cout << "\t[0] Normal Deck (" << clanDeck.getNumberRemainingCards() << " cards remaining)\n";
+        std::cout << "\t[1] Tactic Deck (" << tacticDeck.getNumberRemainingCards() << " cards remaining)\n";
         int answer = askPlayerValue(player, {0, 1});
 
         if (answer == 1) {
@@ -272,26 +437,12 @@ void Game::drawCard(Player* player) {
         player->draw_card(clanDeck);
     }
 
+    cout << "Card obtained: " << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
     std::cout << "New hand: " << player->displayHand() << '\n';
-    clearScreen();
 }
 
 void Game::pause(int n) {
     std::this_thread::sleep_for(std::chrono::seconds(n));
-}
-
-bool Game::isGameOver() {
-    // Exemple d'implémentation de la logique de fin de partie
-    // Ici, on considère que la partie est terminée si un joueur atteint un score de 10
-    int scorePlayer1 = 5; // Exemple de score pour le joueur 1
-    int scorePlayer2 = 8; // Exemple de score pour le joueur 2
-
-    if (scorePlayer1 >= 10 || scorePlayer2 >= 10) {
-        gameOver = true;
-        return true;
-    }
-
-    return false;
 }
 
 void Game::quit() {
@@ -301,5 +452,3 @@ void Game::quit() {
 void clearScreen() {
     std::cout << "\033c";
 }
-
-

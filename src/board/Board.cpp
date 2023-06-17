@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-Board::Board(int numberBorder, Player* player1, Player* player2): numberBorder_(numberBorder), winner_(nullptr) {
+Board::Board(int numberBorder, Player* player1, Player* player2): numberBorder_(numberBorder), winner_(nullptr), player1_(player1), player2_(player2) {
     borders_.reserve(numberBorder_);
     for (int borderID = 0; borderID < numberBorder_; borderID++) {
         borders_.emplace_back(borderID, player1, player2);
@@ -21,7 +21,11 @@ int Board::getNumberBorder() const {
 Player* Board::getWinner() const {
     return winner_;
 }
-
+Player * Board ::getPlayer(int id) {
+    if (id ==1)
+        return player1_;
+    else return player2_;
+}
 const std::vector<Border>& Board::getBorders() const {
     return borders_;
 }
@@ -96,5 +100,31 @@ void Board::setWinner() {
 ostream &operator<<(ostream &stream, const Board &board) {
     stream << board.str();
     return stream;
+}
+
+int Board::findBorderIndexByValuedCard(const ValuedCard& valuedCard, Player* player) const {
+    for (int i = 0; i < borders_.size(); ++i) {
+        const Combination& combination = borders_[i].getPlayerCombination(player);
+        const auto& valuedCards = combination.getValuedCards();
+        for (const auto& card : valuedCards){
+            if (card->getColor() == valuedCard.getColor() && card->getValue() == valuedCard.getValue()) {
+                return i;
+            }
+        }
+    }
+    throw BoardException("Valued card not found in any border");
+}
+
+int Board::findBorderIndexByTacticCard(const TacticCard& tacticCard, Player* player) const {
+    for (int i = 0; i < borders_.size(); ++i) {
+        const Combination& combination = borders_[i].getPlayerCombination(player);
+        const auto& tacticCards = combination.getTacticCards();
+        for (const auto& card : tacticCards){
+            if (card->getName() == tacticCard.getName()) {
+                return i;
+            }
+        }
+    }
+    throw BoardException("Tactic card not found in any border");
 }
 

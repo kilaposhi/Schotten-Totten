@@ -59,13 +59,13 @@ void DeckFactory::setRangeValueCard(unsigned int min_card_value, unsigned int ma
 
 void DeckFactory::setNumberColors(unsigned int number_colors) {
     if (number_colors > 7)
-        throw DeckFactoryException("There is only 7 colors implemented in the enum class `CardColor`, see 'Card.h'");
+        throw DeckFactoryException("There are only 7 colors implemented in the enum class `CardColor`, see 'Card.h'");
     this->number_colors_ = number_colors;
     this->number_cards_ = compute_number_cards(min_card_value_, max_card_value_, number_colors_);
 }
 
 initializer_list<TacticType> tacticTypes = {
-        TacticType::joker, // There is two joker in the Shotten-Totten
+        TacticType::joker, // There are two joker in the Schotten-Totten
         TacticType::joker,
         TacticType::banshee,
         TacticType::shield_bearer,
@@ -74,7 +74,7 @@ initializer_list<TacticType> tacticTypes = {
         TacticType::recruiter,
         TacticType::spy,
         TacticType::strategist,
-        TacticType::traiter
+        TacticType::traitor
 };
 
 void DeckFactory::createTacticCards() {

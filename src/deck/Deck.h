@@ -29,14 +29,16 @@ public:
     void shuffle();
     [[nodiscard]] bool isEmpty() const;
     unique_ptr<Card> drawCard();
+    void removeCard(const Card* card);
     void putCard(unique_ptr<Card> card);
     [[nodiscard]] int getNumberRemainingCards() const;
     void str() const;
     void clear();
     unique_ptr<Card> drawCardByIndex(int index);
-
+    void addToSide(unique_ptr<Card> card);
 private:
     vector<unique_ptr<Card>> cards_;
+    vector<unique_ptr<Card>> side_;
 };
 
 ostream& operator<<(ostream& stream, const Deck& deck);

@@ -108,7 +108,7 @@ try {
     unique_ptr<ValuedCard> valuedCard= make_unique<ValuedCard>(move(card_test));
     Combination combination(4);
 //    combination.push_back(move(valuedCard));
-//    combination.push_back(make_unique<TacticCard>(TacticType::traiter));
+//    combination.push_back(make_unique<TacticCard>(TacticType::traitor));
     combination.push_back(make_unique<ValuedCard>(6, CardColor::orange));
     combination.push_back(make_unique<ValuedCard>(7, CardColor::brown));
     combination.push_back(make_unique<ValuedCard>(5, CardColor::brown));

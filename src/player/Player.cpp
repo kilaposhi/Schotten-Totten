@@ -75,13 +75,23 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
     }
 
     std::unique_ptr<Card> card = remove_card_from_hand(card_index);
+    GameTracker& gameTracker = GameTracker::getInstance();
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
+        gameTracker.trackCard(this, *valued_card);
         board->getBorderByID(borderIndex).addValueCard(
                 std::make_unique<ValuedCard>(std::move(card)),
                 this
         );
     } else {
+        if (!gameTracker.canPlayTacticCard(this))
+            throw PlayerException("Player can't play more than 1 TacticCard more than it's opponent");
+        auto tacticCard = dynamic_cast<TacticCard*>(card.get());
+        if (tacticCard->getName() == TacticType::joker) {
+            if (!gameTracker.canPlayJoker(this))
+                throw PlayerException("Player can't play more than one joker per round");
+        }
+        gameTracker.trackCard(this, *tacticCard);
         TacticHandler::getInstance().playTacticCard(
                 std::make_unique<TacticCard>(std::move(card)),
                 this,
@@ -122,13 +132,12 @@ void Player::claim_borders(Border& border_, Player* opponent, GameTracker& gameT
         return;
     }
 }
-
+unsigned Player::newScore(int add) {
+    score = score + add;
+    return score;
+}
 vector<unsigned int> Player::getClaimed_borders() {
-    vector<unsigned int> tab_of_claimed_borders;
-    for (unsigned int borders : claimed_borders) {
-        tab_of_claimed_borders.push_back(borders);
-    }
-    return tab_of_claimed_borders;
+    return claimed_borders;
 }
 
 int Player::getNumber_of_cards() const {
@@ -144,37 +153,102 @@ std::ostream& operator<<(std::ostream& stream, const Player& player) {
     return stream;
 }
 
-unsigned int AI::pick_a_card(Border* border) {
-    vector<Combination> possibilities;
+unsigned int Player::pick_a_card(Border* border) {
+    unsigned int max = 0;
+    unsigned int index = rand() % hand.size();
+
     if (border->getPlayerCombination(this).getNumberCards() == 0) {
-        int index = rand() % hand.size();
+        //int index = rand() % hand.size();
         return index;
+    } else if (border->getPlayerCombination(this).getNumberCards() == 1) {
+        for (unsigned int j = 0; j < hand.size(); j++) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+            int potential = 0;
+
+            if (card->getValue() == border->getPlayerCombination(this).getValuedCards()[0]->getValue()) {
+                potential++;
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
+                potential++;
+            } else if (abs(card->getValue() - border->getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
+                potential++;
+            }
+            if (card->getColor() == border->getPlayerCombination(this).getValuedCards()[0]->getColor()) {
+                potential++;
+            }
+
+            if (potential > max) {
+                max = potential;
+                index = j;
+            }
+        }
+    } else {
+        vector<Combination> possibilities;
+
+        for (unsigned int j = 0; j < hand.size(); j++) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
+            Combination combination(border->getPlayerCombination(this));
+            combination.push_back(std::move(card));
+            possibilities.push_back(combination);
+        }
+
+        index = findBestCombination(possibilities);
     }
-
-    for (unsigned int j = 0; j < hand.size(); j++) {
-        std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(*hand[j]);
-
-        Combination combination(border->getPlayerCombination(this));
-        combination.push_back(std::move(card));
-
-        possibilities.push_back(std::move(combination));
-    }
-
-    unsigned int index = findBestCombination(possibilities);
-
     return index;
 }
 
-unsigned int AI::claim_a_border(Board* board, Player* enemy) {
+unsigned int Player::pick_a_border(Board* board) {
+    unsigned int max = 0;
+    unsigned int index = rand() % board->getNumberBorder();
+    vector<Combination> possibilities;
+    for (unsigned int j = 0; j < board->getNumberBorder(); j++) {
+        if (board->getBorderByID(j).getPlayerCombination(this).getNumberCards() == 0) {
+            continue;
+        } else if (board->getBorderByID(j).getPlayerCombination(this).getNumberCards() == 1) {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(
+                    *hand[this->pick_a_card(&(board->getBorderByID(j)))]);
+            int potential = 0;
+            if (card->getValue() == board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) {
+                potential++;
+            } else if (abs(card->getValue() -
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) == 1) {
+                potential++;
+            } else if (abs(card->getValue() -
+                           board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getValue()) == 2) {
+                potential++;
+            }
+            if (card->getColor() == board->getBorderByID(j).getPlayerCombination(this).getValuedCards()[0]->getColor()) {
+                potential++;
+            }
+
+            if (potential > max) {
+                max = potential;
+                index = j;
+            }
+        } else {
+            std::unique_ptr<ValuedCard> card = std::make_unique<ValuedCard>(
+                    *hand[this->pick_a_card(&(board->getBorderByID(j)))]);
+            Combination combination(board->getBorderByID(j).getPlayerCombination(this));
+            combination.push_back(std::move(card));
+            possibilities.push_back(combination);
+            index = findBestCombination(possibilities);
+
+        }
+    }
+
+    return index;
+}
+unsigned int Player::claim_a_border(Board* board, Player* enemy) {
     unsigned int numBorders = board->getNumberBorder();
     unsigned int index = 0;
 
     for (unsigned int j = 0; j < numBorders; j++) {
-        if (board->getBorderByID(j).isClaimed() || board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
+        if (board->getBorderByID(j).isClaimed() ||
+            board->getBorderByID(j).getPlayerCombination(this).getNumberCards() != board->getBorderByID(j).getPlayerCombination(this).getMaxNumberCards()) {
             continue;
         }
 
-        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this), board->getBorderByID(j).getPlayerCombination(enemy))) {
+        if (board->getBorderByID(j).getPlayerCombination(this) == bestCombination(board->getBorderByID(j).getPlayerCombination(this),
+                            board->getBorderByID(j).getPlayerCombination(enemy))) {
             index = j;
             break;
         }

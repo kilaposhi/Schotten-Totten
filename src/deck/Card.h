@@ -29,7 +29,7 @@ public:
     virtual ~Card() = default;
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
-
+    bool isRuse(){return false;}
     [[nodiscard]] virtual string str() const = 0;
 };
 
@@ -74,7 +74,7 @@ enum class TacticType {
     recruiter,
     strategist,
     banshee,
-    traiter
+    traitor
 };
 
 class TacticCard : public Card {
@@ -83,9 +83,9 @@ public :
     TacticCard(unique_ptr<Card> tacticCard);
     TacticCard(const TacticCard&) = default;
     TacticCard& operator=(const TacticCard&) = default;
-
     [[nodiscard]] TacticType getName() const;
     [[nodiscard]] string getDescription() const;
+    bool isRuse() ;
     [[nodiscard]] string str() const override;
 private :
     TacticType name;
@@ -100,6 +100,7 @@ inline bool operator>(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard);
+inline bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);

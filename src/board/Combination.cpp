@@ -61,6 +61,16 @@ Player *Combination::getPlayerID() const {
     return player_;
 }
 
+std::vector<ValuedCard*> Combination::getValuedCards() const {
+    std::vector<ValuedCard*> valuedCards;
+    valuedCards.reserve(valuedCards_.size());
+
+    for (const auto& card : valuedCards_) {
+        valuedCards.push_back(card.get());
+    }
+
+    return valuedCards;
+}
 
 ValuedCard* Combination::getValuedCard(int index) const {
     if (index < 0 || index >= valuedCards_.size()) {
@@ -69,7 +79,16 @@ ValuedCard* Combination::getValuedCard(int index) const {
     return valuedCards_[index].get();
 }
 
+std::vector<TacticCard*> Combination::getTacticCards() const {
+    std::vector<TacticCard*> tacticCards;
+    tacticCards.reserve(tacticCards_.size());
 
+    for (const auto& card : tacticCards_) {
+        tacticCards.push_back(card.get());
+    }
+
+    return tacticCards;
+}
 TacticCard* Combination::getTacticCard(int index) const {
     if (index < 0 || index >= tacticCards_.size()) {
         throw CombinationException("Index out of range");
@@ -334,6 +353,27 @@ int findBestCombination(const std::vector<Combination>& combinations) {
     }
 
     return index;
+}
+
+void Combination::removeCardFromCombination(Card* card) {
+    auto it = std::find_if(valuedCards_.begin(), valuedCards_.end(),
+                           [card](const std::unique_ptr<ValuedCard>& c) {
+                               return c.get() == card;
+                           });
+    if (it != valuedCards_.end()) {
+        valuedCards_.erase(it);
+        combinationType_ = compute_combination(); // Recalculer le type de combinaison après la suppression de la carte
+    } else {
+        auto it2 = std::find_if(tacticCards_.begin(), tacticCards_.end(),
+                                [card](const std::unique_ptr<TacticCard>& c) {
+                                    return c.get() == card;
+                                });
+        if (it2 != tacticCards_.end()) {
+            tacticCards_.erase(it2);
+        } else {
+            throw CombinationException("Card not found in the combination");
+        }
+    }
 }
 
 const Combination& Combination::getConstReference() {

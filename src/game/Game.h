@@ -5,9 +5,11 @@
 #include <thread>
 #include <chrono>
 #include <cstdlib>
+#include <process.h>
 
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
+//#include "player/AI.h"
 #include "board/Border.h"
 #include "board/Board.h"
 #include "console.h"
@@ -18,12 +20,13 @@ class GameTracker;
 class Game {
 private:
     bool gameOver;
-    unique_ptr<Player> player1_, player2_;
+    std::unique_ptr<Player> player1_, player2_;
     Deck clanDeck, tacticDeck, discardDeck;
     DeckInfo deckInfo;
-    unique_ptr<Board> board_;
+    std::unique_ptr<Board> board_;
     bool tacticVersion_{false};
-    //GameTracker& gameTracker1 = GameTracker::getInstance();
+    bool basic_;
+    bool expert_;
 
 public :
     Game();
@@ -36,14 +39,17 @@ public :
     void start_game();
     void round();
     void roundAI();
-    //void playAI(AI * computer);
-    void play(Player* player, Player* opponent, GameTracker& gameTracker);
+    void playAI(AI* computer);
+    void playAIBasic(Player* computer);
+    void play(Player* player);
     void drawCard(Player* player);
     void pause(int n);
-    bool isGameOver();
     void quit();
+    void gameAIvsAI();
     GameTracker& createGameTracker();
+
 };
+
 void clearScreen();
 
 #endif //SCHOTTEN_TOTTEN_GAME_H

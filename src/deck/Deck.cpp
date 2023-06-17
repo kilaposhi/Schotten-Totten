@@ -52,6 +52,17 @@ void Deck::str() const {
     for (auto& card : cards_)
         cout << *card << '\n';
 }
+void Deck::removeCard(const Card* card) {
+    auto it = std::find_if(cards_.begin(), cards_.end(), [card](const unique_ptr<Card>& c) {
+        return c.get() == card;
+    });
+    if (it != cards_.end()) {
+        cards_.erase(it);
+    }
+}
+void Deck::addToSide(unique_ptr<Card> card) {
+    side_.push_back(std::move(card));
+}
 
 ostream& operator<<(ostream& stream, const Deck& deck){
     stream  << "Remaining cards : " << deck.getNumberRemainingCards();
