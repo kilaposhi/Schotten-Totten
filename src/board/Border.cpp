@@ -91,7 +91,7 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
         claimed = true;
         winner_ = claimer;
         isClaimSucceeded = true;
-        cout << "You have won the border " << borderID_ << "\n";
+        cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
         return isClaimSucceeded;
     }
     else if(getPlayerCombination(opponent).getNumberCards() < getPlayerCombination(opponent).getMaxNumberCards()){

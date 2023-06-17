@@ -64,3 +64,7 @@ CardColor askPlayerColor(Player* player, int numberColors){
     CardColor result = *(cardColors.begin() + color_index);
     return result;
 }
+
+
+
+
