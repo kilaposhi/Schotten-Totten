@@ -83,8 +83,10 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
                 this
         );
     } else {
-        if (!gameTracker.canPlayTacticCard(this))
-            throw PlayerException("Player can't play more than 1 TacticCard more than it's opponent");
+        if (!gameTracker.canPlayTacticCard(this)) {
+            cout << "Player can't play more than 1 TacticCard more than it's opponent";
+            return;
+        }
         auto tacticCard = dynamic_cast<TacticCard*>(card.get());
         if (tacticCard->getName() == TacticType::joker) {
             if (!gameTracker.canPlayJoker(this))

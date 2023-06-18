@@ -137,13 +137,15 @@ size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
     bool playerHasNoCards = true;
     size_t borderIndex;
     do {
+        claimed = true;
+        playerHasNoCards = true;
         cout << text << '\n';
         borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
         if (!borderSelected.isClaimed())
             claimed = false;
         Combination& combination = borderSelected.getPlayerCombination(player);
-        if (combination.getNumberCards() == 0)
+        if (combination.getNumberCards() != 0)
             playerHasNoCards = false;
     } while (claimed || playerHasNoCards);
     return borderIndex;
@@ -180,7 +182,7 @@ void TacticHandler::playStrategist(Player* player)
     unique_ptr<ValuedCard> valuedCard = nullptr;
     unique_ptr<TacticCard> tacticCard = nullptr;
     bool tactic = false;
-    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+    if (combiIndex <= combiSelected.getNumberValuedCards() - 1)
         valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
     else {
         tactic = true;
@@ -221,7 +223,7 @@ void TacticHandler::playBanshee(Player* player, Player* opponent)
     unique_ptr<ValuedCard> valuedCard = nullptr;
     unique_ptr<TacticCard> tacticCard = nullptr;
     bool tactic = false;
-    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+    if (combiIndex <= combiSelected.getNumberValuedCards() - 1)
         valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
     else {
         tactic = true;
