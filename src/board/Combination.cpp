@@ -72,12 +72,6 @@ std::vector<ValuedCard*> Combination::getValuedCards() const {
     return valuedCards;
 }
 
-ValuedCard* Combination::getValuedCard(int index) const {
-    if (index < 0 || index >= valuedCards_.size()) {
-        throw CombinationException("Index out of range");
-    }
-    return valuedCards_[index].get();
-}
 
 std::vector<TacticCard*> Combination::getTacticCards() const {
     std::vector<TacticCard*> tacticCards;
@@ -89,11 +83,27 @@ std::vector<TacticCard*> Combination::getTacticCards() const {
 
     return tacticCards;
 }
-TacticCard* Combination::getTacticCard(int index) const {
+
+Card *Combination::getCardByIndex(size_t index) const{
+    if (index > this->getNumberValuedCards() - 1) {
+        return &getTacticCard(index);
+    }
+    return &getValuedCard(index);
+}
+
+ValuedCard& Combination::getValuedCard(size_t index) const {
+    if (index < 0 || index >= valuedCards_.size()) {
+        throw CombinationException("Index out of range");
+    }
+    return *valuedCards_[index];
+}
+
+TacticCard& Combination::getTacticCard(size_t index) const {
+    index -= this->getNumberValuedCards();
     if (index < 0 || index >= tacticCards_.size()) {
         throw CombinationException("Index out of range");
     }
-    return tacticCards_[index].get();
+    return *tacticCards_[index];
 }
 
 
@@ -123,32 +133,30 @@ void Combination::push_back(unique_ptr<TacticCard> tacticCard) {
     tacticCards_.push_back(std::move(tacticCard));
 }
 
-
-void Combination::pop_card(std::unique_ptr<ValuedCard> valueCard) {
+unique_ptr<ValuedCard> Combination::pop_card(const ValuedCard& valuedCard) {
     auto it = std::find_if(valuedCards_.begin(), valuedCards_.end(),
-                           [&valueCard](const std::unique_ptr<ValuedCard>& card) {
-                               return card.get() == valueCard.get();
+                           [&valuedCard](const std::unique_ptr<ValuedCard>& card) {
+                               return *card == valuedCard;
                            });
 
-    if (it == valuedCards_.end()) {
+    if (it == valuedCards_.end())
         throw CombinationException("This card is not present in the combination ");
-    } else {
-        valuedCards_.erase(it);
-    }
+    auto card = std::move(*it);
+    valuedCards_.erase(it);
+    return std::move(card);
 }
 
-
-void Combination::pop_card(unique_ptr<TacticCard> tacticCard) {
+unique_ptr<TacticCard> Combination::pop_card(const TacticCard &tacticCard) {
     auto it = std::find_if(tacticCards_.begin(), tacticCards_.end(),
                            [&tacticCard](const std::unique_ptr<TacticCard>& card) {
-                               return card.get() == tacticCard.get();
+                               return *card == tacticCard;
                            });
 
-    if (it == tacticCards_.end()) {
+    if (it == tacticCards_.end())
         throw CombinationException("This card is not present in the combination ");
-    } else {
-        tacticCards_.erase(it);
-    }
+    auto card = std::move(*it);
+    tacticCards_.erase(it);
+    return std::move(card);
 }
 
 void Combination::setNoCombinationRule() {
@@ -257,7 +265,6 @@ bool Combination::isRun(){
 
 string Combination::str() const {
     std::stringstream stream("");
-//    stream << *player_  << " :";
     if (this->getNumberCards() == 0) {
         stream << "No cards !";
         return stream.str();
@@ -268,6 +275,19 @@ string Combination::str() const {
 
     for (const auto& tacticCard : tacticCards_) {
         stream << tacticCard->str() << " ";
+    }
+    return stream.str();
+}
+
+string Combination::displayCards() const {
+    std::stringstream stream("");
+    stream << *player_ << '\n';
+    int i = 0;
+    for (const auto& cardPtr : valuedCards_) {
+        stream << " (" << i++ << "): " << *cardPtr << " ";
+    }
+    for (const auto& cardPtr : tacticCards_) {
+        stream << " (" << i++ << "): " << *cardPtr << " ";
     }
     return stream.str();
 }

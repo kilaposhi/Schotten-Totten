@@ -38,26 +38,26 @@ public:
     Player* getPlayerID() const;
     [[nodiscard]] int getMaxNumberCards() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
-    void pop_card(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
-    void pop_card(unique_ptr<TacticCard> tacticCard);
+    unique_ptr<ValuedCard> pop_card(const ValuedCard& valuedCard);
+    unique_ptr<TacticCard> pop_card(const TacticCard& tacticCard);
     void setMaxNumberCards(int maxNumberCards);
     void setNoCombinationRule();
     void removeCardFromCombination(Card* card);
     void treatTacticCards();
     std::vector<ValuedCard*>  getValuedCards() const;
     std::vector<TacticCard*>  getTacticCards() const;
-    [[nodiscard]] ValuedCard* getValuedCard(int index) const;
-    [[nodiscard]] TacticCard* getTacticCard(int index) const;
     [[nodiscard]] string str() const;
+    string displayCards() const;
     int getRank() const;
     bool operator==(const Combination& other) const;
     const Combination& getConstReference();
     unique_ptr<ValuedCard> valuedCardBack();
     unique_ptr<TacticCard> tacticCardBack();
     //Combination& operator=(const Combination& other);
-
-
+//    Card* getCardByIndex(size_t index) const;
+    [[nodiscard]] ValuedCard& getValuedCard(size_t index) const;
+    [[nodiscard]] TacticCard& getTacticCard(size_t index) const;
 private:
     Player* player_;
     std::vector<unique_ptr<ValuedCard>> valuedCards_;

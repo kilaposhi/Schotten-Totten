@@ -2,7 +2,7 @@
 #define SCHOTTEN_TOTTEN_TACTICHANDLER_H
 
 #include <memory>
-#include <ostream>
+#include <iostream>
 
 #include "deck/Card.h"
 #include "board/Combination.h"
@@ -33,10 +33,10 @@ public:
     void activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combination* combination);
 private:
     TacticHandler(Deck *normalDeck, DeckInfo* normalDeckInfo, Deck *tacticDeck, Deck *discardDeck, Board *board);
-    void discardCard(unique_ptr<Card> card) const;
     void playBlindManBluff(int borderId);
     void playMudFight(int borderId);
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
+    size_t chooseBorder(const string& text, Player* player);
     void playRecruiter( Player* player);
     void playStrategist(Player* player);
     void playBanshee(Player* player, Player* opponent);

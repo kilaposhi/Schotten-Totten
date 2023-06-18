@@ -45,14 +45,16 @@ class AI;
 class Player {
 protected:
     string name;
-    int max_cards;
+    size_t max_cards;
     int id_;
     vector<unsigned int> claimed_borders;
-    void add_card_into_hand(std::unique_ptr<Card>  card_); 
-    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
     vector<unique_ptr<Card>> hand;
     unsigned int score;
     friend class TacticHandler;
+protected:
+    void add_card_into_hand(std::unique_ptr<Card>  card_);
+    std::unique_ptr<Card>  remove_card_from_hand(int card_index);
+    void setMaxNumberCards(size_t number);
 public:
 
     ~Player()=default;
@@ -80,7 +82,7 @@ public:
 
 };
 
-std::ostream& operator<<(std::ostream& f, const Player& player);
+std::ostream& operator<<(std::ostream& s, const Player& player);
 
 
 class AI : public Player {

@@ -44,9 +44,6 @@ public :
     Player* hasWinner();
     Player* getPlayer (int id);
     void setWinner();
-    int findBorderIndexByValuedCard( const ValuedCard& valuedCard, Player* player) const ;
-    int findBorderIndexByTacticCard(const TacticCard& tacticCard, Player* player) const;
-
 };
 
 ostream &operator<<(ostream &stream, const Board &board);

@@ -32,7 +32,8 @@ bool TrackedPlayer::canPlayJoker() const {
 
 
 GameTracker::GameTracker(Player *player1, Player *player2)
-    : player1_(player1), player2_(player2){}
+    : player1_(player1), player2_(player2),
+    player1_id(player1), player2_id(player2){}
 
 GameTracker &GameTracker::getInstance(Player *player1, Player *player2) {
     static unique_ptr<GameTracker> instance (new GameTracker(player1, player2));
@@ -58,9 +59,7 @@ TrackedPlayer &GameTracker::getTrackedPlayer(Player *player) {
 }
 
 TrackedPlayer &GameTracker::getOpponentTrackedPlayer(Player *player) {
-    if (player == player1_.getPlayer())
-        return player2_;
-    return player1_;
+    return this->getTrackedPlayer(this->getOpponent(player));
 }
 
 void GameTracker::trackCard(Player *player, const ValuedCard& card) {
@@ -82,6 +81,11 @@ bool GameTracker::canPlayJoker(Player *player) {
     return getTrackedPlayer(player).canPlayJoker();
 }
 
+Player *GameTracker::getOpponent(Player *player) {
+    if (player == player1_id)
+        return player2_id;
+    return player1_id;
+}
 
 const Combination& GameTracker::getOpponentBestPossibleCombinationClassicVersion(const Combination& opponentCombination){
     Combination tempCombiVC(3, nullptr);

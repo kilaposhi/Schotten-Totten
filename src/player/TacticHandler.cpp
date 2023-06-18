@@ -32,31 +32,19 @@ void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *pl
     TacticType type = tacticCard->getName();
     bool isEliteTroop = type == TacticType::joker || type == TacticType::spy || type == TacticType::shield_bearer;
     if (isEliteTroop)
-        this->playEliteTroop(std::move(tacticCard), player, borderID);
-    if (type == TacticType::blind_man_bluff) this->playBlindManBluff(borderID);
-    if (type == TacticType::mud_fight) this->playMudFight(borderID);
-    else if (tacticCard->isRuse())
+        return this->playEliteTroop(std::move(tacticCard), player, borderID);
+    if (type == TacticType::blind_man_bluff) return this->playBlindManBluff(borderID);
+    if (type == TacticType::mud_fight) return this->playMudFight(borderID);
+    if (tacticCard->isRuse())
     {
         discardDeck_->putCard(std::move(tacticCard));
-        if (type == TacticType::recruiter) playRecruiter(player);
-        if (type == TacticType::strategist) playStrategist(player);
-        if (type == TacticType::banshee ) {
-            if (board_->getPlayer(1) == player)
-                playBanshee(player, board_->getPlayer(2) );
-            else playBanshee(player, board_->getPlayer(1));
-
-        }
-        if (type == TacticType::traitor) {
-            if (board_->getPlayer(1) == player)
-                playTraitor(player, board_->getPlayer(2) );
-            else playTraitor(player, board_->getPlayer(1));
-        }
+        if (type == TacticType::recruiter) return playRecruiter(player);
+        if (type == TacticType::strategist) return playStrategist(player);
+        Player* opponent  = GameTracker::getInstance().getOpponent(player);
+        if (type == TacticType::banshee ) return playBanshee(player, opponent);
+        if (type == TacticType::traitor) return playTraitor(player, opponent);
     }
 
-// else if  || ||
-//type  || ) {
-//// Type de carte tactique non pris en charge, vous pouvez gérer l'erreur en conséquence
-//throw PlayerException("Unsupported tactic card type");
 }
 
 
@@ -102,193 +90,148 @@ void TacticHandler::playMudFight(int borderId) {
     board_->getBorderByID(borderId).setMaxNumberCard(4);
 }
 
+
 void TacticHandler::playRecruiter( Player* player) {
+    size_t maxNumberCards = player->max_cards;
+    player->setMaxNumberCards(maxNumberCards + 3);
 
-    std::cout << "Please pick a deck. [1] Clan Deck [2] Tactic Deck\n";
-    int deck = askPlayerValue(player, {1, 2});
-
-    std::cout << "Here's your current hand :\n";
-    player->displayHand();
-
-    if (deck == 1) {
-        std::cout << "Drawing 3 cards from the Clan Deck...\n";
-        for (int j = 0; j < 3; j++) {
+    for (size_t i = 0; i < 3; i++){
+        std::cout << "Please pick a deck. [1] Clan Deck [2] Tactic Deck\n";
+        int deckIndex = askPlayerValue(player, {1, 2});
+        if (deckIndex == 1) {
             player->draw_card(*normalDeck_);
         }
-    } else {
-        std::cout << "Drawing 3 cards from the Tactic Deck...\n";
-        for (int j = 0; j < 3; j++) {
+        else {
             player->draw_card(*tacticDeck_);
-        }
+            }
+        cout << "\tCard drawn : " << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
     }
 
-    std::cout << "Here is your new hand after drawing:\n";
+    std::cout << "Please choose two cards from your hand you want ot get rid of\n";
     player->displayHand();
 
-    std::cout << "Please choose two cards from your hand to place under the corresponding deck.\n";
-    player->displayHand();
-
-    for (int i = 0; i < 2; i++) {
-        std::cout << "Choose card " << (i+1) << ": ";
-        int cardIndex = askPlayerValue(player, {player->getNumber_of_cards() - 3, player->getNumber_of_cards() - 1});
-        Card* selectedCard = player->getCardAtIndex(cardIndex).get();
-        player->remove_card_from_hand(cardIndex);
-
-        if (deck == 1) {
-            normalDeck_->putCard(std::unique_ptr<Card>(selectedCard));
-        } else {
-            tacticDeck_->putCard(std::unique_ptr<Card>(selectedCard));
-        }
+    for (int i = 1; i <= 2; i++) {
+        std::cout << "Choose card " << (i) << ": ";
+        int cardIndex = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
+        auto selectedCard = player->remove_card_from_hand(cardIndex);
+        if (dynamic_cast<ValuedCard*>(selectedCard.get()))
+            normalDeck_->putCard(std::move(selectedCard));
+        else
+            tacticDeck_->putCard(std::move(selectedCard));
     }
 
     std::cout << "Cards placed under the decks.\n";
     std::cout << "Here is your final hand:\n";
     player->displayHand();
+    player->setMaxNumberCards(maxNumberCards);
 }
+
+size_t TacticHandler::chooseBorder(const string& text, Player* player){
+    cout << board_->str() << '\n';
+    bool unclaimed =  true;
+    bool playerHasCards = true;
+    size_t borderIndex;
+    do {
+        cout << text << '\n';
+        borderIndex = askValue( {0, board_->getNumberBorder() -1});
+        Border& borderSelected = board_->getBorderByID(borderIndex);
+        if (!borderSelected.isClaimed())
+            unclaimed = false;
+        if (borderSelected.getPlayerCombination(player).getNumberCards() == 0)
+            playerHasCards = false;
+    } while (!unclaimed && !playerHasCards);
+    return borderIndex;
+}
+
 void TacticHandler::playStrategist(Player* player)
 {
-    std::vector<Card*> allCards;
-    int index = 0;
+    size_t borderIndex = chooseBorder("Choose an unclaimed Border then one of your Card to move somewhere else", player);
+    Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(player);
 
-    for (int i = 0; i < board_->getNumberBorder(); i++)
-    {
-        if (board_->getBorderByID(i).isClaimed()) continue;
+    cout << "Here are yours cards on the Border " << borderIndex <<" ";
+    cout <<  combiSelected.displayCards() << '\n';
+    std::cout << "Pick a card. Type the index of the card you would like to pick: \n";
+    int combiIndex = askPlayerValue(player, {0, combiSelected.getNumberCards() -1});
 
-        const auto& valuedCards = board_->getBorderByID(i).getPlayerCombination(player).getValuedCards();
-        for (const auto& valuedCard : valuedCards) {
-            allCards.push_back(valuedCard);
-            std::cout << " [" << index++ << "] " << *valuedCard; // Utilisez *valuedCard pour afficher la carte
-        }
-
-        const auto& tacticCards = board_->getBorderByID(i).getPlayerCombination(player).getTacticCards();
-        for (const auto& tacticCard : tacticCards) {
-            allCards.push_back(tacticCard);
-            std::cout << " [" << index++ << "] " << *tacticCard; // Utilisez *tacticCard pour afficher la carte
-        }
+    unique_ptr<ValuedCard> valuedCard = nullptr;
+    unique_ptr<TacticCard> tacticCard = nullptr;
+    bool tactic = false;
+    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+        valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
+    else {
+        tactic = true;
+        tacticCard = combiSelected.pop_card(combiSelected.getTacticCard(combiIndex));
     }
 
-    std::cout << "Pick a card. Type the index of the card you would like to pick: ";
-    int card = askPlayerValue(player, {0, index});
-    const Card* selectedCard = allCards[card];
-    discardDeck_->removeCard(selectedCard);
-    int borderIndex;
-    if (typeid(selectedCard) == typeid(ValuedCard)) {
-        borderIndex = board_->findBorderIndexByValuedCard(*static_cast<const ValuedCard*>(selectedCard), player);
-    } else {
-        borderIndex = board_->findBorderIndexByTacticCard(*static_cast<const TacticCard*>(selectedCard), player);
-    }
-
-    board_->getBorderByID(borderIndex).getPlayerCombination(player).removeCardFromCombination(
-            const_cast<Card *>(selectedCard));
-    player->add_card_into_hand( unique_ptr<Card> (std::move(allCards[card])));
     std::cout << "Do you want to play it on a border [1] or to put it back in the deck [2] ?";
     int choice = askPlayerValue(player, {1,2});
     if (choice == 1)
     {
-        std::cout << "Please enter the index of the border you want to pick:\n";
-        int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-        while (board_->getBorderByID(border_index).isClaimed())
-        {
-            std::cout << "The border is already claimed. Please enter a different index:\n";
-            border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-        }
-        player->play_card(player->getNumber_of_cards() - 1,border_index, board_ );
+        borderIndex = chooseBorder("Please enter the index of the border you want to play the card :", player);
+        Border& border = board_->getBorderByID(borderIndex);
+        if (tactic)
+            border.addTacticalCard(std::move(tacticCard), player);
+        else
+            border.addValueCard(std::move(valuedCard), player);
     }
     else {
-        player->remove_card_from_hand(player->getNumber_of_cards() - 1);
-        normalDeck_->addToSide( unique_ptr<Card> (std::move(allCards[card]))); // Utilisez std::move(allCards[card]) pour transférer la possession de la carte
+        if (tactic)
+            discardDeck_->pushCardTop(std::move(tacticCard));
+        else
+            discardDeck_->pushCardTop(std::move(valuedCard));
     }
+    cout << "Card successfully played! \n";
+    cout << "New board \n" << board_->str() << '\n';
 }
 
 void TacticHandler::playBanshee(Player* player, Player* opponent)
 {
-    std::vector<Card*> allCards;
-    int index = 0;
+    size_t borderIndex = chooseBorder("Choose the Border where you'd like to discard one of your opponent's card", opponent);
+    Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(opponent);
 
-    for (int i = 0; i < board_->getNumberBorder(); i++)
-    {
-        if (board_->getBorderByID(i).isClaimed()) continue;
+    cout << "Here are yours opponent cards on the Border " << borderIndex <<" ";
+    cout <<  combiSelected.displayCards() << '\n';
+    std::cout << "Pick a card. Type the index of the card you would like to pick: \n";
+    int combiIndex = askPlayerValue(player, {0, combiSelected.getNumberCards() -1});
 
-        const auto& valuedCards = board_->getBorderByID(i).getPlayerCombination(opponent).getValuedCards();
-        for (const auto& valuedCard : valuedCards) {
-            allCards.push_back(valuedCard);
-            std::cout << " [" << index++ << "] " << *valuedCard; // Utilisez *valuedCard pour afficher la carte
-        }
-
-        const auto& tacticCards = board_->getBorderByID(i).getPlayerCombination(opponent).getTacticCards();
-        for (const auto& tacticCard : tacticCards) {
-            allCards.push_back(tacticCard);
-            std::cout << " [" << index++ << "] " << *tacticCard; // Utilisez *tacticCard pour afficher la carte
-        }
+    unique_ptr<ValuedCard> valuedCard = nullptr;
+    unique_ptr<TacticCard> tacticCard = nullptr;
+    bool tactic = false;
+    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+        valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
+    else {
+        tactic = true;
+        tacticCard = combiSelected.pop_card(combiSelected.getTacticCard(combiIndex));
     }
 
-    std::cout << "Pick a card. Type the index of the card you would like to pick: ";
-    int card = askPlayerValue(player, {0, index});
+    if (tactic)
+        discardDeck_->pushCardTop(std::move(tacticCard));
+    else
+        discardDeck_->pushCardTop(std::move(valuedCard));
 
-    const Card* selectedCard = allCards[card];
-    int borderIndex;
-    if (typeid(selectedCard) == typeid(ValuedCard)) {
-         borderIndex = board_->findBorderIndexByValuedCard(*static_cast<const ValuedCard*>(selectedCard), opponent);
-    } else {
-        borderIndex = board_->findBorderIndexByTacticCard(*static_cast<const TacticCard*>(selectedCard), opponent);
-    }
-
-    board_->getBorderByID(borderIndex).getPlayerCombination(opponent).removeCardFromCombination(
-            const_cast<Card *>(selectedCard));
-
-
-    // Supprimer la carte de la défausse
-    discardDeck_->removeCard(selectedCard);
-
-    // Ajouter la carte au deck normal
-    normalDeck_->addToSide(std::unique_ptr<Card>(std::move(allCards[card]))); // Utilisez std::move(allCards[card]) pour transférer la possession de la carte
+    cout << "Card successfully discarded! \n";
+    cout << "New board \n" << board_->str() << '\n';
 }
 
 
 void TacticHandler::playTraitor(Player* player, Player* opponent)
-{std::vector<Card*> allCards;
-    int index = 0;
+{
+    size_t borderIndex = chooseBorder("Choose the Border where you'd like to get one of your opponent's card", opponent);
+    Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(opponent);
 
-    for (int i = 0; i < board_->getNumberBorder(); i++)
-    {
-        if (board_->getBorderByID(i).isClaimed()) continue;
+    cout << "Here are yours opponent cards on the Border " << borderIndex <<" ";
+    cout <<  combiSelected.displayCards() << '\n';
+    for (size_t i = 0; i < combiSelected.getNumberValuedCards(); i++)
+        cout << " (" << i << "): " << combiSelected.getValuedCard(i);
+    std::cout << "Pick a card. Type the index of the card you would like to pick: \n";
+    int combiIndex = askPlayerValue(player, {0, combiSelected.getNumberValuedCards() -1});
 
-        const auto& valuedCards = board_->getBorderByID(i).getPlayerCombination(opponent).getValuedCards();
-        for (const auto& valuedCard : valuedCards) {
-            allCards.push_back(valuedCard);
-            std::cout << " [" << index++ << "] " << *valuedCard; // Utilisez *valuedCard pour afficher la carte
-        }
+    unique_ptr<ValuedCard> valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
 
-        const auto& tacticCards = board_->getBorderByID(i).getPlayerCombination(opponent).getTacticCards();
-        for (const auto& tacticCard : tacticCards) {
-            allCards.push_back(tacticCard);
-            std::cout << " [" << index++ << "] " << *tacticCard; // Utilisez *tacticCard pour afficher la carte
-        }
-    }
+    borderIndex = chooseBorder("Please enter the index of the border you want to pick to play the stolen card:", player);
+    Border& border = board_->getBorderByID(borderIndex);
+    border.addValueCard(std::move(valuedCard), player);
 
-    std::cout << "Pick a card. Type the index of the card you would like to pick: ";
-    int card = askPlayerValue(player, {0, index});
-
-    const Card* selectedCard = allCards[card];
-    int borderIndex;
-    if (typeid(selectedCard) == typeid(ValuedCard)) {
-        borderIndex = board_->findBorderIndexByValuedCard(*static_cast<const ValuedCard*>(selectedCard), opponent);
-    } else {
-        borderIndex = board_->findBorderIndexByTacticCard(*static_cast<const TacticCard*>(selectedCard), opponent);
-    }
-
-    board_->getBorderByID(borderIndex).getPlayerCombination(opponent).removeCardFromCombination(
-            const_cast<Card *>(selectedCard));
-
-
-    // Supprimer la carte de la défausse
-    discardDeck_->removeCard(selectedCard);
-    std::cout << "Please enter the index of the border you want to pick:\n";
-    int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-    while (board_->getBorderByID(border_index).isClaimed())
-    {
-        std::cout << "The border is already claimed. Please enter a different index:\n";
-        border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-    }
-    player->play_card(player->getNumber_of_cards() - 1,border_index, board_ );
+    cout << "Card successfully played! \n";
+    cout << "New board \n" << board_->str() << '\n';
 }

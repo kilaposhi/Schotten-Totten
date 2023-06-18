@@ -146,6 +146,14 @@ inline bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard){
     return !(leftCard == rightCard);
 }
 
+
+inline bool operator==(const TacticCard& leftCard, const TacticCard& rightCard){
+    return leftCard.getName() == rightCard.getName();
+}
+inline bool operator!=(const TacticCard& leftCard, const TacticCard& rightCard){
+    return !(leftCard == rightCard);
+}
+
 string createTacticDescription(TacticType type) {
     switch(type) {
         case TacticType::joker : return "Clan card of which you \n"

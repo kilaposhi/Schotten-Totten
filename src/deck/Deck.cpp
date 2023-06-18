@@ -41,6 +41,9 @@ void Deck::putCard(unique_ptr<Card> card) {
     cards_.insert(cards_.cbegin() , std::move(card));
 }
 
+void Deck::pushCardTop(unique_ptr<Card> card) {
+    cards_.push_back(std::move(card));
+}
 
 int Deck::getNumberRemainingCards() const{ return (int)cards_.size(); }
 
@@ -59,9 +62,6 @@ void Deck::removeCard(const Card* card) {
     if (it != cards_.end()) {
         cards_.erase(it);
     }
-}
-void Deck::addToSide(unique_ptr<Card> card) {
-    side_.push_back(std::move(card));
 }
 
 ostream& operator<<(ostream& stream, const Deck& deck){

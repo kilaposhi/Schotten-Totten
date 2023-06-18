@@ -41,6 +41,7 @@ public:
     void trackCard(Player* player, const TacticCard& card);
     bool canPlayTacticCard(Player* player);
     bool canPlayJoker(Player* player);
+    inline Player* getOpponent(Player* player);
     [[nodiscard]] const Deck& getRemainingCardDeck() const;
     [[nodiscard]] const Deck& getPlayerCardsDeck() const;
     const Combination& getOpponentBestPossibleCombinationClassicVersion(const Combination&);
@@ -56,7 +57,7 @@ private:
 private:
     Deck remainingValuedCardsDeck;
     Deck remainingTacticCardsDeck;
-    //    Player *player1, *player2;
+    Player *player1_id, *player2_id;
     TrackedPlayer player1_, player2_;
 
 };

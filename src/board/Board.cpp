@@ -104,29 +104,3 @@ ostream &operator<<(ostream &stream, const Board &board) {
     return stream;
 }
 
-int Board::findBorderIndexByValuedCard(const ValuedCard& valuedCard, Player* player) const {
-    for (int i = 0; i < borders_.size(); ++i) {
-        const Combination& combination = borders_[i].getPlayerCombination(player);
-        const auto& valuedCards = combination.getValuedCards();
-        for (const auto& card : valuedCards){
-            if (card->getColor() == valuedCard.getColor() && card->getValue() == valuedCard.getValue()) {
-                return i;
-            }
-        }
-    }
-    throw BoardException("Valued card not found in any border");
-}
-
-int Board::findBorderIndexByTacticCard(const TacticCard& tacticCard, Player* player) const {
-    for (int i = 0; i < borders_.size(); ++i) {
-        const Combination& combination = borders_[i].getPlayerCombination(player);
-        const auto& tacticCards = combination.getTacticCards();
-        for (const auto& card : tacticCards){
-            if (card->getName() == tacticCard.getName()) {
-                return i;
-            }
-        }
-    }
-    throw BoardException("Tactic card not found in any border");
-}
-

@@ -29,7 +29,7 @@ public:
     virtual ~Card() = default;
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
-    bool isRuse(){return false;}
+    virtual bool isRuse() { return false; };
     [[nodiscard]] virtual string str() const = 0;
 };
 
@@ -85,7 +85,7 @@ public :
     TacticCard& operator=(const TacticCard&) = default;
     [[nodiscard]] TacticType getName() const;
     [[nodiscard]] string getDescription() const;
-    bool isRuse() ;
+    bool isRuse() override;
     [[nodiscard]] string str() const override;
 private :
     TacticType name;
@@ -101,6 +101,9 @@ inline bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard);
 inline bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard);
+
+inline bool operator==(const TacticCard& leftCard, const TacticCard& rightCard);
+inline bool operator!=(const TacticCard& leftCard, const TacticCard& rightCard);
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);

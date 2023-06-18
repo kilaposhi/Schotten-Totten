@@ -43,17 +43,6 @@ void Border::addTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* pl
     getPlayerCombination(player).push_back(std::move(tactic_card));
 }
 
-
-void Border::removeValueCard(std::unique_ptr<ValuedCard> valued_card, Player* player) {
-    getPlayerCombination(player).pop_card(std::move(valued_card));
-}
-
-
-void Border::removeTacticalCard(std::unique_ptr<TacticCard> tactic_card, Player* player) {
-    getPlayerCombination(player).pop_card(std::move(tactic_card));
-}
-
-
 Player* Border::getWinnerBorder() const {
     return winner_;
 }
