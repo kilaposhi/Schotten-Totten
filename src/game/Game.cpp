@@ -221,6 +221,8 @@ size_t Game::chooseBorder(const string& text, Player* player){
 void Game::draw_card(Player* player) {
     std::cout << "Drawing a card\n";
     bool playerHasDrawn = false;
+    if (player->getNumber_of_cards() == player->getMaxNumberCards())
+        return;
 
     if (tacticVersion_) {
         std::cout << "From which deck do you want to draw?\n";

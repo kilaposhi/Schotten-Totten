@@ -1,6 +1,8 @@
 #include "console.h"
 
 int random(int min, int max) {
+    if (min == max)
+        return min;
     mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<int> gen(min, max);
     int a = gen(rng);

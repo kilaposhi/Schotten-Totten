@@ -38,6 +38,7 @@ private:
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
     size_t chooseBorderToAdd(const string& text, Player* player);
     size_t chooseBorderToRemove(const string& text, Player* player);
+    void draw_card(Player* player);
     void playRecruiter( Player* player);
     void playStrategist(Player* player);
     void playBanshee(Player* player, Player* opponent);

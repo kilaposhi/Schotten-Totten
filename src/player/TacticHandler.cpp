@@ -97,19 +97,11 @@ void TacticHandler::playMudFight(int borderId) {
 
 
 void TacticHandler::playRecruiter( Player* player) {
-    size_t maxNumberCards = player->max_cards;
+    int maxNumberCards = player->getMaxNumberCards();
     player->setMaxNumberCards(maxNumberCards + 4);
 
     for (size_t i = 0; i < 3; i++){
-        std::cout << "Please pick a deck. [1] Clan Deck [2] Tactic Deck\n";
-        int deckIndex = askPlayerValue(player, {1, 2});
-        if (deckIndex == 1) {
-            player->draw_card(*normalDeck_);
-        }
-        else {
-            player->draw_card(*tacticDeck_);
-            }
-        cout << "\tCard drawn : " << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
+        draw_card(player);
     }
 
     std::cout << "Please choose two cards from your hand you want ot get rid of\n";
@@ -129,6 +121,33 @@ void TacticHandler::playRecruiter( Player* player) {
     std::cout << "Here is your final hand:\n";
     player->displayHand();
     player->setMaxNumberCards(maxNumberCards);
+}
+
+
+void TacticHandler::draw_card(Player* player) {
+    bool playerHasDrawn = false;
+
+    std::cout << "From which deck do you want to draw?\n";
+    std::cout << "[0] Normal Deck (" << normalDeck_->getNumberRemainingCards() << " cards remaining)\n";
+    std::cout << "[1] Tactic Deck (" << tacticDeck_->getNumberRemainingCards() << " cards remaining)\n";
+    int answer = askPlayerValue(player, {0, 1});
+    if (answer == 1) {
+        if (tacticDeck_->isEmpty()) {
+            std::cout << "The tactic Deck is empty!\n";
+        } else {
+            player->draw_card(*tacticDeck_);
+            playerHasDrawn = true;
+        }
+    }
+    if (!playerHasDrawn) {
+        if (normalDeck_->isEmpty()) {
+            std::cout << "The clan Deck is empty!\n";
+            return;
+        } else {
+            player->draw_card(*normalDeck_);
+        }
+    }
+    std::cout << "Card drawn :" << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
 }
 
 size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
@@ -157,6 +176,8 @@ size_t TacticHandler::chooseBorderToAdd(const string& text, Player* player){
     bool playerHasMaxCards = true;
     size_t borderIndex;
     do {
+        claimed = true;
+        playerHasMaxCards = true;
         cout << text << '\n';
         borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
