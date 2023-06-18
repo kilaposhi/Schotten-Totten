@@ -16,7 +16,7 @@ void Game::launchSchottenTotten1() {
     setGameVersion();
     bool AIvsAI = askYesNo("Game AI vs AI");
     if (AIvsAI) {
-//        gameAIvsAI();
+      //  gameAIvsAI();
         create_AI(1);
         create_AI(2);
     } else {

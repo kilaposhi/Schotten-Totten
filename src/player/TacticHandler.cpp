@@ -56,6 +56,7 @@ void TacticHandler::playEliteTroop(unique_ptr<TacticCard> tacticCard, Player *pl
 
 void TacticHandler::activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combination* combination) {
     Player *player = combination->getPlayerID();
+    combination->setMaxNumberCards(4);
     TacticType tacticType = tacticCard->getName();
     int value;
     CardColor color;
@@ -150,45 +151,25 @@ void TacticHandler::draw_card(Player* player) {
     std::cout << "Card drawn :" << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
 }
 
-size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
+size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player)
+{
     cout << board_->str() << '\n';
-    bool claimed =  true;
-    bool playerHasNoCards = true;
+    bool claimed = false;
+    bool playerHasNoCards = false;
     size_t borderIndex;
     do {
-        claimed = true;
-        playerHasNoCards = true;
         cout << text << '\n';
-        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
-        if (!borderSelected.isClaimed())
-            claimed = false;
+        if (borderSelected.isClaimed())
+            claimed = true;
         Combination& combination = borderSelected.getPlayerCombination(player);
-        if (combination.getNumberCards() != 0)
-            playerHasNoCards = false;
+        if (combination.getNumberCards() == 0)
+            playerHasNoCards = true;
     } while (claimed || playerHasNoCards);
     return borderIndex;
 }
 
-size_t TacticHandler::chooseBorderToAdd(const string& text, Player* player){
-    cout << board_->str() << '\n';
-    bool claimed =  true;
-    bool playerHasMaxCards = true;
-    size_t borderIndex;
-    do {
-        claimed = true;
-        playerHasMaxCards = true;
-        cout << text << '\n';
-        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
-        Border& borderSelected = board_->getBorderByID(borderIndex);
-        if (!borderSelected.isClaimed())
-            claimed = false;
-        Combination& combination = borderSelected.getPlayerCombination(player);
-        if (combination.getNumberCards() <= combination.getMaxNumberCards())
-            playerHasMaxCards = false;
-    } while (claimed || playerHasMaxCards);
-    return borderIndex;
-}
 
 void TacticHandler::playStrategist(Player* player)
 {
@@ -281,4 +262,21 @@ void TacticHandler::playTraitor(Player* player, Player* opponent)
 
     cout << "Card successfully played! \n";
     cout << "New board \n" << board_->str() << '\n';
+}
+size_t TacticHandler::chooseBorderToAdd(const string& text, Player* player){
+    cout << board_->str() << '\n';
+    bool claimed =  true;
+    bool playerHasMaxCards = true;
+    size_t borderIndex;
+    do {
+        cout << text << '\n';
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
+        Border& borderSelected = board_->getBorderByID(borderIndex);
+        if (!borderSelected.isClaimed())
+            claimed = false;
+        Combination& combination = borderSelected.getPlayerCombination(player);
+        if (combination.getNumberCards() <= combination.getMaxNumberCards())
+            playerHasMaxCards = false;
+    } while (claimed || playerHasMaxCards);
+    return borderIndex;
 }
