@@ -45,12 +45,12 @@ class AI;
 class Player {
 protected:
     string name;
-    size_t max_cards;
-    size_t numValuedCard{0};
+    int max_cards;
+    int numValuedCard{0};
     int id_;
     vector<unsigned int> claimed_borders;
     vector<unique_ptr<Card>> hand;
-    unsigned int score;
+    unsigned int score{0};
     friend class TacticHandler;
 protected:
     void add_card_into_hand(std::unique_ptr<Card>  card_);
@@ -60,7 +60,7 @@ public:
 
     ~Player()=default;
     explicit Player(string nom_, int id, int max_card);
-    Player();
+//    Player();
 
     Player& operator = (const Player&) = delete;
     Player(const Player&) = delete;
@@ -72,6 +72,7 @@ public:
     vector<unsigned int> getClaimed_borders();
     int getNumClaimedBorder() const { return claimed_borders.size(); }
     [[nodiscard]] int getNumber_of_cards() const;
+    int getMaxNumberCards() const { return this->max_cards; };
     int getID() const;
     std::unique_ptr<Card>& getCardAtIndex(int index);
     string getName() const { return name; }

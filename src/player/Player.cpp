@@ -83,8 +83,10 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
                 this
         );
     } else {
-        if (!gameTracker.canPlayTacticCard(this))
-            throw PlayerException("Player can't play more than 1 TacticCard more than it's opponent");
+        if (!gameTracker.canPlayTacticCard(this)) {
+            cout << "Player can't play more than 1 TacticCard more than it's opponent";
+            return;
+        }
         auto tacticCard = dynamic_cast<TacticCard*>(card.get());
         if (tacticCard->getName() == TacticType::joker) {
             if (!gameTracker.canPlayJoker(this))
@@ -122,7 +124,7 @@ void Player::fillHand(Deck& deck) {
 
 void Player::claim_borders(const Border& border) {
     unsigned int borderId = border.getBorderId();
-    if(this == border.getWinnerBorder()){
+    if(this->getID() == border.getWinnerBorder()->getID()){
         claimed_borders.push_back(borderId);
     }
     else{
@@ -131,7 +133,7 @@ void Player::claim_borders(const Border& border) {
 }
 
 unsigned Player::newScore(int add) {
-    score = score + add;
+    score += add;
     return score;
 }
 vector<unsigned int> Player::getClaimed_borders() {

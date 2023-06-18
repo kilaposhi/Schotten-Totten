@@ -353,15 +353,23 @@ const Combination& bestCombination(const Combination& combo1, const Combination&
     else if (combo1.getRank() > combo2.getRank()) {
         return combo1;
     }
-    else {
-        return (combo1.getSum() > combo2.getSum()) ? combo1 : combo2;
+    else if (combo1.getRank() == combo2.getRank()){
+        if (combo1.getSum() > combo2.getSum())
+            return combo1;
+        if (combo2.getSum() > combo1.getSum())
+            return combo2;
     }
+    return std::move(Combination(0, nullptr));
 }
 
 
-bool Combination::operator==(const Combination& other) const {
+bool operator==(const Combination& left, const Combination& right) {
     // Comparez les attributs des combinaisons pour déterminer si elles sont égales
-    return (valuedCards_ == other.valuedCards_) ;
+    bool result = false;
+    for (int i = 0; i < left.getMaxNumberCards(); i++){
+        result = left.getValuedCard(i) == right.getValuedCard(i);
+    }
+    return result;
 } //on ne les trie pas car on veut que les combinaisons soient identiques
 
 

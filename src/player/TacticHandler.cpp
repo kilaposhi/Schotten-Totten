@@ -97,19 +97,11 @@ void TacticHandler::playMudFight(int borderId) {
 
 
 void TacticHandler::playRecruiter( Player* player) {
-    size_t maxNumberCards = player->max_cards;
-    player->setMaxNumberCards(maxNumberCards + 3);
+    int maxNumberCards = player->getMaxNumberCards();
+    player->setMaxNumberCards(maxNumberCards + 4);
 
     for (size_t i = 0; i < 3; i++){
-        std::cout << "Please pick a deck. [1] Clan Deck [2] Tactic Deck\n";
-        int deckIndex = askPlayerValue(player, {1, 2});
-        if (deckIndex == 1) {
-            player->draw_card(*normalDeck_);
-        }
-        else {
-            player->draw_card(*tacticDeck_);
-            }
-        cout << "\tCard drawn : " << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
+        draw_card(player);
     }
 
     std::cout << "Please choose two cards from your hand you want ot get rid of\n";
@@ -126,26 +118,54 @@ void TacticHandler::playRecruiter( Player* player) {
     }
 
     std::cout << "Cards placed under the decks.\n";
-    //std::cout << "Here is your final hand:\n";
+    std::cout << "Here is your final hand:\n";
     player->displayHand();
     player->setMaxNumberCards(maxNumberCards);
 }
 
-size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player)
-{
+
+void TacticHandler::draw_card(Player* player) {
+    bool playerHasDrawn = false;
+
+    std::cout << "From which deck do you want to draw?\n";
+    std::cout << "[0] Normal Deck (" << normalDeck_->getNumberRemainingCards() << " cards remaining)\n";
+    std::cout << "[1] Tactic Deck (" << tacticDeck_->getNumberRemainingCards() << " cards remaining)\n";
+    int answer = askPlayerValue(player, {0, 1});
+    if (answer == 1) {
+        if (tacticDeck_->isEmpty()) {
+            std::cout << "The tactic Deck is empty!\n";
+        } else {
+            player->draw_card(*tacticDeck_);
+            playerHasDrawn = true;
+        }
+    }
+    if (!playerHasDrawn) {
+        if (normalDeck_->isEmpty()) {
+            std::cout << "The clan Deck is empty!\n";
+            return;
+        } else {
+            player->draw_card(*normalDeck_);
+        }
+    }
+    std::cout << "Card drawn :" << player->displayCard(player->getNumber_of_cards() - 1) << '\n';
+}
+
+size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
     cout << board_->str() << '\n';
-    bool claimed = false;
-    bool playerHasNoCards = false;
+    bool claimed =  true;
+    bool playerHasNoCards = true;
     size_t borderIndex;
     do {
+        claimed = true;
+        playerHasNoCards = true;
         cout << text << '\n';
-        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
-        if (borderSelected.isClaimed())
-            claimed = true;
+        if (!borderSelected.isClaimed())
+            claimed = false;
         Combination& combination = borderSelected.getPlayerCombination(player);
-        if (combination.getNumberCards() == 0)
-            playerHasNoCards = true;
+        if (combination.getNumberCards() != 0)
+            playerHasNoCards = false;
     } while (claimed || playerHasNoCards);
     return borderIndex;
 }
@@ -156,6 +176,8 @@ size_t TacticHandler::chooseBorderToAdd(const string& text, Player* player){
     bool playerHasMaxCards = true;
     size_t borderIndex;
     do {
+        claimed = true;
+        playerHasMaxCards = true;
         cout << text << '\n';
         borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
@@ -181,7 +203,7 @@ void TacticHandler::playStrategist(Player* player)
     unique_ptr<ValuedCard> valuedCard = nullptr;
     unique_ptr<TacticCard> tacticCard = nullptr;
     bool tactic = false;
-    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+    if (combiIndex <= combiSelected.getNumberValuedCards() - 1)
         valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
     else {
         tactic = true;
@@ -222,7 +244,7 @@ void TacticHandler::playBanshee(Player* player, Player* opponent)
     unique_ptr<ValuedCard> valuedCard = nullptr;
     unique_ptr<TacticCard> tacticCard = nullptr;
     bool tactic = false;
-    if (combiIndex > combiSelected.getNumberValuedCards() - 1)
+    if (combiIndex <= combiSelected.getNumberValuedCards() - 1)
         valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
     else {
         tactic = true;

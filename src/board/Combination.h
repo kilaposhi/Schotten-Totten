@@ -50,7 +50,6 @@ public:
     string displayCards() const;
     int getRank() const;
     bool isComplete() const;
-    bool operator==(const Combination& other) const;
     unique_ptr<ValuedCard> valuedCardBack();
     unique_ptr<TacticCard> tacticCardBack();
     [[nodiscard]] ValuedCard& getValuedCard(size_t index) const;
@@ -73,6 +72,7 @@ private:
     bool isColor();
 };
 
+bool operator==(const Combination& left, const Combination& right) ;
 ostream& operator<<(ostream& stream, const Combination& combination);
 string combinationTypeToString(CombinationType type) ;
 
