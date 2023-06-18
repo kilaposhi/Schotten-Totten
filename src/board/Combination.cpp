@@ -173,7 +173,7 @@ CombinationType Combination::compute_combination(){
     int n  = getNumberValuedCards();
     if (n < maxNumberCards_)
     {
-        throw CombinationException("There is not enough cards to claim the stone");
+        throw CombinationException("There are not enough cards to claim the stone");
     }
     else
     if (isColorRun()) return CombinationType::ColorRun ;
