@@ -20,7 +20,7 @@ class GameTracker;
 
 class Game {
 private:
-    bool gameOver;
+    bool gameOver= true;
     std::unique_ptr<Player> player1_;
     std::unique_ptr<Player> player2_;
     Deck clanDeck, tacticDeck, discardDeck;
@@ -49,6 +49,7 @@ public :
     void gameAIvsAI();
     void clearScreen();
     GameTracker& createGameTracker();
+    bool GameOver(int nbRound);
 
 };
 

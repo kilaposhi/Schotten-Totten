@@ -28,8 +28,10 @@ TacticHandler &TacticHandler::getInstance(Deck *normalDeck, DeckInfo* normalDeck
 }
 
 
+
 void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *player, int borderID) {
     TacticType type = tacticCard->getName();
+    cout << "Quick Description " << *tacticCard << tacticCard->getDescription() << '\n';
     bool isEliteTroop = type == TacticType::joker || type == TacticType::spy || type == TacticType::shield_bearer;
     if (isEliteTroop)
         return this->playEliteTroop(std::move(tacticCard), player, borderID);
@@ -133,7 +135,7 @@ size_t TacticHandler::chooseBorder(const string& text, Player* player){
     size_t borderIndex;
     do {
         cout << text << '\n';
-        borderIndex = askValue( {0, board_->getNumberBorder() -1});
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
         if (!borderSelected.isClaimed())
             unclaimed = false;
