@@ -43,7 +43,6 @@ public:
     void push_back(unique_ptr<TacticCard> tacticCard);
     unique_ptr<ValuedCard> pop_card(const ValuedCard& valuedCard);
     unique_ptr<TacticCard> pop_card(const TacticCard& tacticCard);
-    void removeCardFromCombination(Card* card);
     void treatTacticCards();
     std::vector<ValuedCard*>  getValuedCards() const;
     std::vector<TacticCard*>  getTacticCards() const;

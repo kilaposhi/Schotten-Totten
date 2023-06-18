@@ -113,20 +113,19 @@ bool Border::claim(Player* claimer){
 
 string Border::str() const {
     std::stringstream stream("");
-//    stream << "Border " << borderID_ << " : \n";
     stream << "[ " << player_1_combination->str() << "] ";
     stream << " Border " << borderID_ << " ";
     if (claimed)
-        stream << "claimed by" << *winner_ ;
+        stream << "claimed by " << *winner_ ;
     else
         stream << "is unclaimed";
-    stream << " (Tactic Card :";
+    stream << " (Tactic Card:";
     if (!blindManBluff && !mudFight)
         stream << " None ";
     if (blindManBluff)
-        stream << " Blind-Man's Bluff ";
+        stream << " Blind-Man's Bluff";
     if (mudFight)
-        stream << " Mud Fight ";
+        stream << " Mud Fight";
     stream << ")  ";
     stream << "[ " << player_2_combination->str() << "] ";
     return stream.str();

@@ -27,6 +27,7 @@ private:
     std::unique_ptr<Board> board_;
     bool tacticVersion_{false};
     bool hasClaimed_;
+    bool onWindows_;
     bool basic_;
     bool expert_;
 
@@ -42,7 +43,7 @@ public :
     size_t chooseBorder(const string& text, Player* player);
     void claim(Player* player);
     void draw_card(Player* player);
-    void pause(int n);
+    void pause();
     void quit();
 
     void roundAI();

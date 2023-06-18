@@ -1,9 +1,4 @@
-#ifndef SCHOTTEN_TOTTEN_COMBINATION_H
-#define SCHOTTEN_TOTTEN_COMBINATION_H
-
-#include <algorithm>
 #include "Combination.h"
-#include "deck/Card.h"
 
 
 Combination::Combination(int maxNumberCards, Player* player) : maxNumberCards_(maxNumberCards), player_(player) {
@@ -388,27 +383,6 @@ int findBestCombination(const std::vector<Combination>& combinations) {
     return index;
 }
 
-void Combination::removeCardFromCombination(Card* card) {
-    auto it = std::find_if(valuedCards_.begin(), valuedCards_.end(),
-                           [card](const std::unique_ptr<ValuedCard>& c) {
-                               return c.get() == card;
-                           });
-    if (it != valuedCards_.end()) {
-        valuedCards_.erase(it);
-        combinationType_ = compute_combination(); // Recalculer le type de combinaison après la suppression de la carte
-    } else {
-        auto it2 = std::find_if(tacticCards_.begin(), tacticCards_.end(),
-                                [card](const std::unique_ptr<TacticCard>& c) {
-                                    return c.get() == card;
-                                });
-        if (it2 != tacticCards_.end()) {
-            tacticCards_.erase(it2);
-        } else {
-            throw CombinationException("Card not found in the combination");
-        }
-    }
-}
-
 unique_ptr<ValuedCard> Combination::valuedCardBack(){
     return std::move(valuedCards_.back());
 }
@@ -419,4 +393,3 @@ unique_ptr<TacticCard> Combination::tacticCardBack(){
 
 
 
-#endif //SCHOTTEN_TOTTEN_COMBINATION_H

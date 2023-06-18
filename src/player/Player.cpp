@@ -40,8 +40,7 @@ string Player::print_player() const {
     std::stringstream stream("");
     stream << "-----------------\n";
     stream << "Player " << id_ << ": " << name << "\n";
-    stream << displayHand();
-    stream << '\n';
+    stream << "Score :" << getScore() << '\n';
     stream << "-----------------\n";
     return stream.str();
 }
