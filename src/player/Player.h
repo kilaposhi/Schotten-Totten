@@ -68,7 +68,7 @@ public:
     void play_card(int card_index, int borderIndex, Board* board);
     void draw_card(Deck& deck_);
     void fillHand(Deck& deck);
-    void claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker);
+    void claim_borders(const Border& border);
     vector<unsigned int> getClaimed_borders();
     [[nodiscard]] int getNumber_of_cards() const;
     int getID() const;

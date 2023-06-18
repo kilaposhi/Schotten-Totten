@@ -121,10 +121,9 @@ void Player::fillHand(Deck& deck) {
     }
 }
 
-void Player::claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker) {
-    unsigned int borderId = border_.getBorderId();
-    int isClaimSuccessful = border_.claim(this, opponent, gameTracker);
-    if(isClaimSuccessful){
+void Player::claim_borders(const Border& border) {
+    unsigned int borderId = border.getBorderId();
+    if(this == border.getWinnerBorder()){
         claimed_borders.push_back(borderId);
     }
     else{

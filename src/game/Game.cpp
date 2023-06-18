@@ -156,7 +156,7 @@ void Game::play(Player* player) {
     std::cout << "Please enter the index of the card you want to play:\n";
     int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
     int border_index ;
-    if(player->getCardAtIndex(card_index)->isRuse()) border_index=-1;
+    if(player->getCardAtIndex(card_index)->isRuse()) border_index=0;
     else {
         border_index = this->chooseBorder("Please enter the index of the border you want to play on:\n", player);
     }
@@ -183,9 +183,7 @@ void Game::claim(Player* player){
         } while (claimed);
 
         try {
-            GameTracker& gameTracker =  GameTracker::getInstance();
-            Player* opponent = gameTracker.getOpponent(player);
-            board_->getBorderByID(borderIndex).claim(player, opponent, gameTracker);
+            board_->getBorderByID(borderIndex).claim(player);
         } catch (const BorderException &e) {
             std::cout << e.what() << '\n';
         }
@@ -286,7 +284,7 @@ void Game::playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker)
             if (!board_->getBorderByID(j).isClaimed()){
                 if (board_->getBorderByID(j).getPlayerCombination(player1_.get()).getNumberCards() == board_->getBorderByID(j).getPlayerCombination(player1_.get()).getMaxNumberCards() && board_->getBorderByID(j).getPlayerCombination(player2_.get()).getNumberCards() == board_->getBorderByID(j).getPlayerCombination(player1_.get()).getMaxNumberCards()) {
                     if (board_->getBorderByID(j).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(j).getPlayerCombination(computer), board_->getBorderByID(j).getPlayerCombination(opponent))) {
-                        board_->getBorderByID(j).claim(computer, opponent, gameTracker);
+                        board_->getBorderByID(j).claim(computer);
                     }
                 }}
         }
@@ -317,7 +315,7 @@ void Game::playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker)
         if (!board_->getBorderByID(border_index).isClaimed()){
             if (board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getMaxNumberCards() && board_->getBorderByID(border_index).getPlayerCombination(player2_.get()).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(player1_.get()).getMaxNumberCards()) {
                 if (board_->getBorderByID(border_index).getPlayerCombination(computer) == bestCombination(board_->getBorderByID(border_index).getPlayerCombination(computer), board_->getBorderByID(border_index).getPlayerCombination(opponent))) {
-                    board_->getBorderByID(border_index).claim(computer, opponent, gameTracker);
+                    board_->getBorderByID(border_index).claim(computer);
                 }
             }
         }}
@@ -341,7 +339,7 @@ void Game::playAI(AI* computer, Player* opponent, GameTracker& gameTracker) {
                     bestCombination(board_->getBorderByID(j).getPlayerCombination(computer),
                                     board_->getBorderByID(j).getPlayerCombination(player2_.get()))) {
                     try {
-                        board_->getBorderByID(j).claim(computer, opponent, gameTracker);
+                        board_->getBorderByID(j).claim(computer);
                     } catch (const BorderException &e) {
                         std::cout << e.what() << '\n';
                     }
@@ -361,7 +359,7 @@ void Game::playAI(AI* computer, Player* opponent, GameTracker& gameTracker) {
         if (border_index != 0) {
             std::cout << computer->getName() << " is claiming border " << border_index << ".\n";
             try {
-                board_->getBorderByID(border_index).claim(computer, opponent, gameTracker);
+                board_->getBorderByID(border_index).claim(computer);
             } catch (const BorderException &e) {
                 std::cout << e.what() << '\n';
             }

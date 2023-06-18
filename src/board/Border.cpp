@@ -66,23 +66,28 @@ void Border::setNoCombinationRules() {
 
 
 
-bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
-    bool isClaimSucceeded = false;
+bool Border::claim(Player* claimer){
+    GameTracker& gameTracker =  GameTracker::getInstance();
+    Player* opponent = gameTracker.getOpponent(claimer);
+    Combination &claimer_combi = getPlayerCombination(claimer);
+    Combination& opps_combi = getPlayerCombination(opponent);
     if(isClaimed())
         throw BorderException("The border is already claimed");
-    if(getPlayerCombination(claimer).getNumberCards() < getPlayerCombination(claimer).getMaxNumberCards())
-        throw BorderException("You have not placed enough cards on this border");
-    if(getPlayerCombination(opponent).getNumberCards() == getPlayerCombination(opponent).getMaxNumberCards()){
-        const Combination& best = bestCombination(getPlayerCombination(claimer).getConstReference(),
-                                                  getPlayerCombination(opponent).getConstReference());
-        if (best == getPlayerCombination(opponent))
-            throw BorderException("Your combination is less than your opponent’s");
+    if (claimer_combi.getNumberCards() < claimer_combi.getMaxNumberCards()) {
+        cout << "You have not placed enough cards on this border \n";
+        return false;
+    }
+    if(claimer_combi.isComplete() && opps_combi.isComplete()){
+        const Combination& best = bestCombination(claimer_combi, opps_combi);
+        if (best == opps_combi) {
+            cout << "Your combination is less than your opponent’s";
+            return false;
+        }
         claimed = true;
         winner_ = claimer;
-        isClaimSucceeded = true;
-        claimer->claim_borders(this);
-        cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
-        return isClaimSucceeded;
+        claimer->claim_borders(*this);
+        cout <<  claimer->getName() << "has won the border " << borderID_ << " !\n";
+        return true;
     }
     else if(getPlayerCombination(opponent).getNumberCards() < getPlayerCombination(opponent).getMaxNumberCards()){
         if(//isTacticVersion()

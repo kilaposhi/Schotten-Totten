@@ -52,7 +52,6 @@ public:
     int getRank() const;
     bool isComplete() const;
     bool operator==(const Combination& other) const;
-    const Combination& getConstReference();
     unique_ptr<ValuedCard> valuedCardBack();
     unique_ptr<TacticCard> tacticCardBack();
     //Combination& operator=(const Combination& other);

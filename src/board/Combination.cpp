@@ -409,10 +409,6 @@ void Combination::removeCardFromCombination(Card* card) {
     }
 }
 
-const Combination& Combination::getConstReference() {
-    return *this;
-}
-
 unique_ptr<ValuedCard> Combination::valuedCardBack(){
     return std::move(valuedCards_.back());
 }

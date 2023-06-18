@@ -66,7 +66,7 @@ public:
     [[nodiscard]] bool isClaimed() const;
     void setNoCombinationRules();
     void setMaxNumberCard(int  maxNumberCard);
-    bool claim(Player* claimer, Player* opponent, GameTracker& gameTracker); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
+    bool claim(Player* claimer); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
     [[nodiscard]] string str() const;
 };
 
