@@ -93,7 +93,6 @@ void Game::create_board() {
 void Game::round() {
     create_deck();
     create_board();
-    GameTracker& gameTracker = GameTracker::getInstance();
     player1_->fillHand(clanDeck);
     player2_->fillHand(clanDeck);
 
@@ -146,22 +145,24 @@ void Game::play(Player* player) {
         }
     }
 
-    if (!player1_->hasValuedCard() || !canPlayCard) {
+    if (!player->hasValuedCard() || !canPlayCard) {
         bool playerWantsToPass = askYesNo("Do you want to pass your turn?\n");
         if (playerWantsToPass) {
             draw_card(player);
             return;
         }
     }
-    std::cout << "Please enter the index of the card you want to play:\n";
-    int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
-    int border_index ;
-    if(player->getCardAtIndex(card_index)->isRuse()) border_index=0;
-    else {
-        border_index = this->chooseBorder("Please enter the index of the border you want to play on:\n", player);
+    if (player->getNumber_of_cards() > 0) {
+        std::cout << "Please enter the index of the card you want to play:\n";
+        int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
+        int border_index ;
+        if(player->getCardAtIndex(card_index)->isRuse()) border_index=0;
+        else {
+            border_index = this->chooseBorder("Please enter the index of the border you want to play on:\n", player);
+        }
+        player->play_card(card_index, border_index, board_.get());
+        std::cout << *board_ << '\n';
     }
-    player->play_card(card_index, border_index, board_.get());
-    std::cout << *board_ << '\n';
 
     if (!expert_)
         claim(player);
@@ -182,11 +183,7 @@ void Game::claim(Player* player){
                 claimed = false;
         } while (claimed);
 
-        try {
-            board_->getBorderByID(borderIndex).claim(player);
-        } catch (const BorderException &e) {
-            std::cout << e.what() << '\n';
-        }
+        board_->getBorderByID(borderIndex).claim(player);
     }
 }
 

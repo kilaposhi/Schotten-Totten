@@ -9,6 +9,8 @@ int random(int min, int max) {
 
 int askPlayerValue(Player* player, std::array<int,2> rangeValue){
     cout <<"(" << *player << ") ";
+    if (rangeValue[0] > rangeValue[1])
+        throw std::out_of_range("rangeValue is impossible");
     if (player->isAI()) {
         int result = random(rangeValue[0], rangeValue[1]);
         cout << "Value chosen : " << result << '\n';
@@ -22,7 +24,7 @@ int askPlayerValue(Player* player, std::array<int,2> rangeValue){
 bool askPlayerYesNo(Player* player, const string& question){
     cout <<"(" << *player << ") ";
     if (player->isAI()) {
-        bool result = static_cast<bool>(random(0, 1));
+        bool result = random(0, 1);
         cout << "Answer : " << result << '\n';
         return result;
     }
@@ -56,8 +58,6 @@ bool askYesNo(const string& question){
 int askValue(std::array<int, 2> rangeValue){
     int result;
     bool isValid = false;
-    if (rangeValue[0] > rangeValue[1])
-        throw std::out_of_range("rangeValue is impossible");
     do {
         cout<< "Choose a value between " << rangeValue[0] << " and " << rangeValue[1] << '\n';
         std::cin >> result;
