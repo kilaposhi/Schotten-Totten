@@ -10,6 +10,7 @@ Combination::Combination(int maxNumberCards, Player* player) : maxNumberCards_(m
     valuedCards_.reserve(maxNumberCards_);
     tacticCards_.reserve(1);
 }
+
 Combination::Combination(const Combination& other)
         : player_(other.player_),
           valuedCards_(other.valuedCards_.size()),
@@ -23,6 +24,28 @@ Combination::Combination(const Combination& other)
     for (size_t i = 0; i < other.valuedCards_.size(); ++i) {
         valuedCards_[i] = std::make_unique<ValuedCard>(*other.valuedCards_[i]);
     }
+}
+
+Combination& Combination::operator=(const Combination& other) {
+    if (this == &other) {
+        return *this;
+    }
+    player_ = other.player_;
+    valuedCards_.clear();
+    for (const auto& valuedCard : other.valuedCards_) {
+        valuedCards_.push_back(std::make_unique<ValuedCard>(*valuedCard));
+    }
+    tacticCards_.clear();
+    for (const auto& tacticCard : other.tacticCards_) {
+        tacticCards_.push_back(std::make_unique<TacticCard>(*tacticCard));
+    }
+    maxNumberCards_ = other.maxNumberCards_;
+    sumValues_ = other.sumValues_;
+    hasTacticCard_ = other.hasTacticCard_;
+    noCombinationRule_ = other.noCombinationRule_;
+    combinationType_ = other.combinationType_;
+
+    return *this;
 }
 
 int Combination::getSum() const {
@@ -83,13 +106,6 @@ std::vector<TacticCard*> Combination::getTacticCards() const {
 
     return tacticCards;
 }
-
-//Card *Combination::getCardByIndex(size_t index) const{
-//    if (index > this->getNumberValuedCards() - 1) {
-//        return &getTacticCard(index);
-//    }
-//    return &getValuedCard(index);
-//}
 
 ValuedCard& Combination::getValuedCard(size_t index) const {
     if (index < 0 || index >= valuedCards_.size()) {
@@ -157,6 +173,10 @@ unique_ptr<TacticCard> Combination::pop_card(const TacticCard &tacticCard) {
     auto card = std::move(*it);
     tacticCards_.erase(it);
     return std::move(card);
+}
+
+bool Combination::isComplete() const {
+    return getNumberCards() == getMaxNumberCards();
 }
 
 void Combination::setNoCombinationRule() {
@@ -330,16 +350,9 @@ int Combination::getRank() const {
     }
 }
 const Combination& bestCombination(const Combination& combo1, const Combination& combo2) {
-    if (combo1.getType() == CombinationType::NONE && combo2.getType() == CombinationType::NONE) {
-        return combo1;
-    }
-    else if (combo1.getType() == CombinationType::NONE) {
-        return combo2;
-    }
-    else if (combo2.getType() == CombinationType::NONE) {
-        return combo1;
-    }
-    else if (combo1.getRank() < combo2.getRank()) {
+    if (combo1.getType() == CombinationType::NONE || combo2.getType() == CombinationType::NONE)
+        throw CombinationException("Combination are not complete 'bestCombination'");
+    if (combo1.getRank() < combo2.getRank()) {
         return combo2;
     }
     else if (combo1.getRank() > combo2.getRank()) {
@@ -405,30 +418,6 @@ unique_ptr<ValuedCard> Combination::valuedCardBack(){
 }
 unique_ptr<TacticCard> Combination::tacticCardBack(){
     return std::move(tacticCards_.back());
-}
-
-Combination& Combination::operator=(const Combination& other) {
-    if (this == &other) {
-        return *this;
-    }
-
-    // Copier les membres de other dans this
-    player_ = other.player_;
-    valuedCards_.clear();
-    for (const auto& valuedCard : other.valuedCards_) {
-        valuedCards_.push_back(std::make_unique<ValuedCard>(*valuedCard));
-    }
-    tacticCards_.clear();
-    for (const auto& tacticCard : other.tacticCards_) {
-        tacticCards_.push_back(std::make_unique<TacticCard>(*tacticCard));
-    }
-    maxNumberCards_ = other.maxNumberCards_;
-    sumValues_ = other.sumValues_;
-    hasTacticCard_ = other.hasTacticCard_;
-    noCombinationRule_ = other.noCombinationRule_;
-    combinationType_ = other.combinationType_;
-
-    return *this;
 }
 
 

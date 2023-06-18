@@ -41,7 +41,7 @@ public:
     void trackCard(Player* player, const TacticCard& card);
     bool canPlayTacticCard(Player* player);
     bool canPlayJoker(Player* player);
-    inline Player* getOpponent(Player* player);
+    Player* getOpponent(Player* player);
     [[nodiscard]] const Deck& getRemainingCardDeck() const;
     [[nodiscard]] const Deck& getPlayerCardsDeck() const;
     const Combination& getOpponentBestPossibleCombinationClassicVersion(const Combination&);

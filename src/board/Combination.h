@@ -35,8 +35,8 @@ public:
     [[nodiscard]] int getNumberCards() const;
     int getNumberValuedCards() const;
     int getNumberTacticCards() const;
-    Player* getPlayerID() const;
     [[nodiscard]] int getMaxNumberCards() const;
+    Player* getPlayerID() const;
     void push_back(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
     unique_ptr<ValuedCard> pop_card(const ValuedCard& valuedCard);
@@ -50,6 +50,7 @@ public:
     [[nodiscard]] string str() const;
     string displayCards() const;
     int getRank() const;
+    bool isComplete() const;
     bool operator==(const Combination& other) const;
     const Combination& getConstReference();
     unique_ptr<ValuedCard> valuedCardBack();

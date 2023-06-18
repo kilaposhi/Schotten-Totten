@@ -36,7 +36,8 @@ private:
     void playBlindManBluff(int borderId);
     void playMudFight(int borderId);
     void playEliteTroop(unique_ptr<TacticCard> tacticCard, Player* player, int borderId);
-    size_t chooseBorder(const string& text, Player* player);
+    size_t chooseBorderToAdd(const string& text, Player* player);
+    size_t chooseBorderToRemove(const string& text, Player* player);
     void playRecruiter( Player* player);
     void playStrategist(Player* player);
     void playBanshee(Player* player, Player* opponent);
@@ -47,7 +48,8 @@ private:
     Deck *tacticDeck_{nullptr};
     Deck *discardDeck_{nullptr};
     Board *board_{nullptr};
-};
+
+        };
 
 
 class TacticHandlerException : public std::exception {

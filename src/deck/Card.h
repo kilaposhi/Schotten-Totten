@@ -95,15 +95,15 @@ private :
 string tacticTypeToString(TacticType type) ;
 string createTacticDescription(TacticType type);
 
-inline bool operator<(const ValuedCard& leftCard, const ValuedCard& rightCard);
-inline bool operator>(const ValuedCard& leftCard, const ValuedCard& rightCard);
-inline bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard);
-inline bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard);
-inline bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard);
-inline bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator<(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator>(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator<=(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator>=(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator==(const ValuedCard& leftCard, const ValuedCard& rightCard);
+bool operator!=(const ValuedCard& leftCard, const ValuedCard& rightCard);
 
-inline bool operator==(const TacticCard& leftCard, const TacticCard& rightCard);
-inline bool operator!=(const TacticCard& leftCard, const TacticCard& rightCard);
+bool operator==(const TacticCard& leftCard, const TacticCard& rightCard);
+bool operator!=(const TacticCard& leftCard, const TacticCard& rightCard);
 ostream& operator<<(ostream& stream, const Card& Card);
 // cout << Valued_Card;    Example : |3_orange|
 ostream& operator<<(ostream& stream, const ValuedCard& valued_card);

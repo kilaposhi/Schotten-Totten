@@ -77,17 +77,21 @@ void TacticHandler::activeEliteTroop(unique_ptr<TacticCard> tacticCard, Combinat
 }
 
 void TacticHandler::playBlindManBluff(int borderId) {
-    if (board_->getBorderByID(borderId).hasMudFight())
-        throw TacticHandlerException("The stone is taken by MudFight");
-    else
+    Border& border = board_->getBorderByID(borderId);
+    if (border.hasMudFight())
+        throw TacticHandlerException("The border is taken by MudFight");
+    if (border.isClaimed())
+        throw TacticHandlerException("The border is already claimed");
     board_->getBorderByID(borderId).setNoCombinationRules();
 }
 
 
 void TacticHandler::playMudFight(int borderId) {
-    if (board_->getBorderByID(borderId).hasBlindManBluff())
-        throw TacticHandlerException("The stone is taken by Blind Man Bluff");
-    else
+    Border& border = board_->getBorderByID(borderId);
+    if (border.hasBlindManBluff())
+        throw TacticHandlerException("The border is taken by Blind Man Bluff's");
+    if (border.isClaimed())
+        throw TacticHandlerException("The border is already claimed");
     board_->getBorderByID(borderId).setMaxNumberCard(4);
 }
 
@@ -127,26 +131,45 @@ void TacticHandler::playRecruiter( Player* player) {
     player->setMaxNumberCards(maxNumberCards);
 }
 
-size_t TacticHandler::chooseBorder(const string& text, Player* player){
+size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
     cout << board_->str() << '\n';
-    bool unclaimed =  true;
-    bool playerHasCards = true;
+    bool claimed =  true;
+    bool playerHasNoCards = true;
     size_t borderIndex;
     do {
         cout << text << '\n';
         borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
         if (!borderSelected.isClaimed())
-            unclaimed = false;
-        if (borderSelected.getPlayerCombination(player).getNumberCards() == 0)
-            playerHasCards = false;
-    } while (!unclaimed && !playerHasCards);
+            claimed = false;
+        Combination& combination = borderSelected.getPlayerCombination(player);
+        if (combination.getNumberCards() == 0)
+            playerHasNoCards = false;
+    } while (claimed || playerHasNoCards);
+    return borderIndex;
+}
+
+size_t TacticHandler::chooseBorderToAdd(const string& text, Player* player){
+    cout << board_->str() << '\n';
+    bool claimed =  true;
+    bool playerHasMaxCards = true;
+    size_t borderIndex;
+    do {
+        cout << text << '\n';
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
+        Border& borderSelected = board_->getBorderByID(borderIndex);
+        if (!borderSelected.isClaimed())
+            claimed = false;
+        Combination& combination = borderSelected.getPlayerCombination(player);
+        if (combination.getNumberCards() <= combination.getMaxNumberCards())
+            playerHasMaxCards = false;
+    } while (claimed || playerHasMaxCards);
     return borderIndex;
 }
 
 void TacticHandler::playStrategist(Player* player)
 {
-    size_t borderIndex = chooseBorder("Choose an unclaimed Border then one of your Card to move somewhere else", player);
+    size_t borderIndex = chooseBorderToRemove("Choose an unclaimed Border then one of your Card to move somewhere else", player);
     Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(player);
 
     cout << "Here are yours cards on the Border " << borderIndex <<" ";
@@ -168,7 +191,7 @@ void TacticHandler::playStrategist(Player* player)
     int choice = askPlayerValue(player, {1,2});
     if (choice == 1)
     {
-        borderIndex = chooseBorder("Please enter the index of the border you want to play the card :", player);
+        borderIndex = chooseBorderToAdd("Please enter the index of the border you want to play the card :", player);
         Border& border = board_->getBorderByID(borderIndex);
         if (tactic)
             border.addTacticalCard(std::move(tacticCard), player);
@@ -187,7 +210,7 @@ void TacticHandler::playStrategist(Player* player)
 
 void TacticHandler::playBanshee(Player* player, Player* opponent)
 {
-    size_t borderIndex = chooseBorder("Choose the Border where you'd like to discard one of your opponent's card", opponent);
+    size_t borderIndex = chooseBorderToRemove("Choose the Border where you'd like to discard one of your opponent's card", opponent);
     Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(opponent);
 
     cout << "Here are yours opponent cards on the Border " << borderIndex <<" ";
@@ -217,7 +240,7 @@ void TacticHandler::playBanshee(Player* player, Player* opponent)
 
 void TacticHandler::playTraitor(Player* player, Player* opponent)
 {
-    size_t borderIndex = chooseBorder("Choose the Border where you'd like to get one of your opponent's card", opponent);
+    size_t borderIndex = chooseBorderToRemove("Choose the Border where you'd like to get one of your opponent's card", opponent);
     Combination& combiSelected = board_->getBorderByID(borderIndex).getPlayerCombination(opponent);
 
     cout << "Here are yours opponent cards on the Border " << borderIndex <<" ";
@@ -229,7 +252,7 @@ void TacticHandler::playTraitor(Player* player, Player* opponent)
 
     unique_ptr<ValuedCard> valuedCard = combiSelected.pop_card(combiSelected.getValuedCard(combiIndex));
 
-    borderIndex = chooseBorder("Please enter the index of the border you want to pick to play the stolen card:", player);
+    borderIndex = chooseBorderToAdd("Please enter the index of the border you want to pick to play the stolen card:", player);
     Border& border = board_->getBorderByID(borderIndex);
     border.addValueCard(std::move(valuedCard), player);
 

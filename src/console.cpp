@@ -9,14 +9,26 @@ int random(int min, int max) {
 
 int askPlayerValue(Player* player, std::array<int,2> rangeValue){
     cout <<"(" << *player << ") ";
-    if (dynamic_cast<AI *>(player)) {
+    if (player->isAI()) {
         int result = random(rangeValue[0], rangeValue[1]);
-        cout << "Value choosed :" << result << '\n';
+        cout << "Value chosen : " << result << '\n';
+//        system("read");
+//        system("pause");
         return result;
     }
     return askValue(rangeValue);
 }
 
+bool askPlayerYesNo(Player* player, const string& question){
+    cout <<"(" << *player << ") ";
+    if (player->isAI()) {
+        bool result = static_cast<bool>(random(0, 1));
+        cout << "Answer : " << result << '\n';
+        return result;
+    }
+    return askYesNo(question);
+
+}
 
 bool askYesNo(const string& question){
     bool result;

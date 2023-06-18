@@ -7,9 +7,6 @@
 #include <cstdlib>
 #include <process.h>
 
-class Player;
-class AI;
-
 #include "deck/DeckFactory.h"
 #include "player/Player.h"
 #include "board/Border.h"
@@ -17,6 +14,8 @@ class AI;
 #include "console.h"
 #include "board/GameTracker.h"
 class GameTracker;
+class Player;
+class AI;
 
 class Game {
 private:
@@ -36,19 +35,21 @@ public :
     void setGameVersion();
     void create_board();
     void create_player(int id);
-    void create_AI();
     void create_deck();
     void round();
-    void roundAI();
-    void playAI(AI* computer, Player* opponent, GameTracker& gameTracker);
-    void playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker);
-    void play(Player* player, Player* opponent, GameTracker& gameTracker);
+    void play(Player* player);
+    size_t chooseBorder(const string& text, Player* player);
+    void claim(Player* player);
     void draw_card(Player* player);
     void pause(int n);
     void quit();
+
+    void roundAI();
+    void playAI(AI* computer, Player* opponent, GameTracker& gameTracker);
+    void create_AI(int id);
+    void playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker);
     void gameAIvsAI();
     void clearScreen();
-    GameTracker& createGameTracker();
     bool GameOver(int nbRound);
 
 };

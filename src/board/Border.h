@@ -61,13 +61,13 @@ public:
     void addTacticalCard(unique_ptr<TacticCard> tactic_card, Player* player);
     [[nodiscard]] Player* getWinnerBorder() const;
     int getBorderId() const { return borderID_; }
-    bool hasBlindManBluff() const{return blindManBluff ;}
-    bool hasMudFight() const {return mudFight;}
+    bool hasBlindManBluff() const{ return blindManBluff;}
+    bool hasMudFight() const { return mudFight; }
     [[nodiscard]] bool isClaimed() const;
-    [[nodiscard]] string str() const;
     void setNoCombinationRules();
     void setMaxNumberCard(int  maxNumberCard);
     bool claim(Player* claimer, Player* opponent, GameTracker& gameTracker); // Lorsque que l'on appelle cette fonction, elle vérifie le nombre de cartes sur la borne et avec combination, la combinaison gagnante. Elle met aussi à jour le winner
+    [[nodiscard]] string str() const;
 };
 
 ostream& operator<<(ostream& stream, const Border& Border);

@@ -46,6 +46,7 @@ class Player {
 protected:
     string name;
     size_t max_cards;
+    size_t numValuedCard{0};
     int id_;
     vector<unsigned int> claimed_borders;
     vector<unique_ptr<Card>> hand;
@@ -68,17 +69,18 @@ public:
     void draw_card(Deck& deck_);
     void fillHand(Deck& deck);
     void claim_borders(Border& border_, Player* opponent, GameTracker& gameTracker);
-    vector<unsigned int> getClaimed_borders(); // --> OK
-    [[nodiscard]] int getNumber_of_cards() const; // --> OK
+    vector<unsigned int> getClaimed_borders();
+    [[nodiscard]] int getNumber_of_cards() const;
     int getID() const;
     std::unique_ptr<Card>& getCardAtIndex(int index);
     string getName() const { return name; }
     unsigned int getScore() const {return score;}
     unsigned int newScore(int add) ;
-    string displayHand() const; // --> OK
+    string displayHand() const;
     string displayCard(int index_card) const;
     string print_player() const; // --> OK
-    virtual void dummy() {};
+    bool hasValuedCard() const;
+    virtual bool isAI() { return false; };
 
 };
 
@@ -91,7 +93,8 @@ public:
     unsigned int pick_a_card(Border* border);
     unsigned int pick_a_border(Board * board);
     unsigned int claim_a_border(Board * board, Player* enemy);
-    void dummy() override {}
+    bool isAI() override { return true; }
+
 };
 
 

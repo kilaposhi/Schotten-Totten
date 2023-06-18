@@ -77,6 +77,7 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
     GameTracker& gameTracker = GameTracker::getInstance();
 
     if (auto valued_card = dynamic_cast<ValuedCard*>(card.get())) {
+        numValuedCard --;
         gameTracker.trackCard(this, *valued_card);
         board->getBorderByID(borderIndex).addValueCard(
                 std::make_unique<ValuedCard>(std::move(card)),
@@ -102,6 +103,8 @@ void Player::play_card(int card_index, int borderIndex, Board* board) {
 void Player::draw_card(Deck& deck_) {
     if (!deck_.isEmpty()) {
         auto drawn_card = deck_.drawCard();
+        if (dynamic_cast<ValuedCard*>(drawn_card.get()))
+            numValuedCard ++;
         add_card_into_hand(std::move(drawn_card));
     } else {
         throw PlayerException("Can't draw card because the deck is empty");
@@ -146,6 +149,12 @@ int Player::getNumber_of_cards() const {
 
 int Player::getID() const {
     return id_;
+}
+
+bool Player::hasValuedCard() const {
+    if (numValuedCard == 0)
+        return false;
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Player& player) {
