@@ -233,6 +233,7 @@ void Game::draw_card(Player* player) {
     if (!playerHasDrawn) {
         if (clanDeck.isEmpty()) {
             std::cout << "The clan Deck is empty!\n";
+            return;
         } else {
             player->draw_card(clanDeck);
         }
