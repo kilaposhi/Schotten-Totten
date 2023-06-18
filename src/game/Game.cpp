@@ -90,6 +90,7 @@ void Game::create_deck() {
     if (tacticVersion_) {
         tacticDeck_ = make_unique<Deck>(deckFactory.createTacticDeck());
         tacticDeck_->shuffle();
+        discardDeck_ = make_unique<Deck>();
         discardDeck_->clear();
     }
 }
