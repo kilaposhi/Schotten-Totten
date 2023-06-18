@@ -87,12 +87,15 @@ bool Border::claim(Player* claimer){
             cout << "Your combination is less than your opponent’s";
             return false;
         }
-        claimed = true;
-        winner_ = claimer;
-        claimer->claim_borders(*this);
-        cout <<  claimer->getName() << " has won the border " << borderID_ << " !\n";
-        return true;
+        if ( best == claimer_combi) {
+            claimed = true;
+            winner_ = claimer;
+            claimer->claim_borders(*this);
+            cout << claimer->getName() << " has won the border " << borderID_ << " !\n";
+            return true;
+        }
     }
+    return false;
 //    if(!opps_combi.isComplete()){
 //        if(//isTacticVersion()
 //        0 == 1 ){ // pour ne jamais y passer pour le moment
@@ -117,7 +120,6 @@ bool Border::claim(Player* claimer){
 //            return true;
 //        }
 //    }
-    return false;
 }
 
 string Border::str() const {
