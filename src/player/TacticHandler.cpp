@@ -18,12 +18,14 @@ TacticHandler& TacticHandler::getInstance(Deck* normalDeck, DeckInfo* normalDeck
 void TacticHandler::playTacticCard(std::unique_ptr<TacticCard> tacticCard, Player* player, int borderID)
 {
     TacticType type = tacticCard->getName();
+    std::cout << tacticCard->getDescription() << "\n";
 
     if (type == TacticType::joker || type == TacticType::spy || type == TacticType::shield_bearer)
     {
         playEliteTroop(std::move(tacticCard), player, borderID);
     }
     else if (type == TacticType::blind_man_bluff)
+
     {
         playBlindManBluff(borderID);
     }

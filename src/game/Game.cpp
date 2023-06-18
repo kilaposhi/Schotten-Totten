@@ -236,23 +236,28 @@ void Game::roundAI() {
 
     std::cout << "End of the round\n";
     quit();
-}void Game::playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker) {
+}
+void Game::playAIBasic(AI* computer, Player* opponent, GameTracker& gameTracker) {
     AI* ai = dynamic_cast<AI*>(computer);
     if (ai == nullptr) {
         return;
     }
     computer->displayHand();
-    int card_index;
-    do {
+    int card_index = rand() % computer->getNumber_of_cards();
+
+    while (typeid(computer->getCardAtIndex(card_index))== typeid(TacticCard) && !gameTracker.canPlayTacticCard(computer)) {
         card_index = rand() % computer->getNumber_of_cards();
-    } while (typeid(computer->getCardAtIndex(card_index))== typeid(TacticCard) && !gameTracker.canPlayTacticCard(computer));
+    }
 
     unsigned int border_index;
-
-    do {
-        border_index = rand() % board_->getNumberBorder();
-    } while (board_->getBorderByID(border_index).isClaimed() || board_->getBorderByID(border_index).getPlayerCombination(computer).getNumberCards() == board_->getBorderByID(border_index).getPlayerCombination(computer).getMaxNumberCards() );
-
+    if (computer->getCardAtIndex(card_index)) border_index = 0;
+    else {
+        do {
+            border_index = rand() % board_->getNumberBorder();
+        } while (board_->getBorderByID(border_index).isClaimed() ||
+                 board_->getBorderByID(border_index).getPlayerCombination(computer).getNumberCards() ==
+                 board_->getBorderByID(border_index).getPlayerCombination(computer).getMaxNumberCards());
+    }
     if (expert_) {
         for (unsigned int j = 0; j < board_->getNumberBorder(); j++) {
             if (!board_->getBorderByID(j).isClaimed()){
@@ -396,7 +401,7 @@ void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
             int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
             int border_index;
             if (player->getCardAtIndex(card_index)->isRuse()) {
-                border_index = -1;
+                border_index = 0;
             } else {
                 std::cout << "Please enter the index of the border you want to pick:\n";
                 border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
@@ -411,12 +416,18 @@ void Game::play(Player* player, Player* opponent, GameTracker& gameTracker) {
     } else {
         std::cout << "Please enter the index of the card you want to play:\n";
         int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
-        std::cout << "Please enter the index of the border you want to play on:\n";
-        int border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
-        while (board_->getBorderByID(border_index).isClaimed()) {
-            std::cout << "The border is already claimed. Please enter a different index:\n";
+        int border_index ;
+        if(player->getCardAtIndex(card_index)->isRuse()) border_index=-1;
+        else {
+            std::cout << "Please enter the index of the border you want to play on:\n";
             border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+            while (board_->getBorderByID(border_index).isClaimed()) {
+                std::cout << "The border is already claimed. Please enter a different index:\n";
+                border_index = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
+            }
         }
+
+
         player->play_card(card_index, border_index, board_.get());
         std::cout << *board_ << '\n';
     }
