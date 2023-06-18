@@ -73,7 +73,7 @@ GameConfiguration::GameConfiguration(QWidget *parent) : QWidget(parent) {
         player1 = p1->text();
         player2 = p2->text();
 
-        version = radio2_->isChecked();
+        version = !(radio1_->isChecked());
         expert = expert_->isChecked();
         AI = ai_->isChecked();
         close();});

@@ -49,3 +49,7 @@ void BorderView::updateBoV(){
     combiJ2->updateCoV();
     m_borderLayout->update();
 }
+
+Border* BorderView::getBorder(){
+    return border;
+}

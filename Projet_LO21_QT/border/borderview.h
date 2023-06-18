@@ -17,6 +17,7 @@ public :
     BorderView(QWidget *parent, Border* border);
     QPushButton* getBorderButton() const;
     void updateBoV();
+    Border* getBorder();
 
 private slots :
     void borderClicked();

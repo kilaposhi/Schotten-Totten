@@ -23,9 +23,11 @@ MainWindow::MainWindow(QWidget *parent, Player* player1, Player* player2, Deck* 
 
     QHBoxLayout* decks = new QHBoxLayout;
     decks->addWidget(clanDeckV);
-    if (game->getVersion()) {
+    decks->addWidget(tacticDeckV);
+    tacticDeckV->setVisible(game->getVersion());
+    /*if (game->getVersion()) {
         decks->addWidget(tacticDeckV);
-    }
+    }*/
 
     window = new QGridLayout;
     window->addWidget(boardV, 0, 0);
@@ -40,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent, Player* player1, Player* player2, Deck* 
 
 void MainWindow::newTurn(){
     //disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+    actualHand->setVisible(false);
     if (actualPlayer == player1) {
         actualPlayer = player2;
         otherPlayer = player1;
@@ -52,45 +55,42 @@ void MainWindow::newTurn(){
         actualHand = handVP1;
         //connect(handVP1, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
     }
-
     //connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
 
-    QString turn1 =  QString::fromStdString(actualPlayer->getName()) + "it's your turn ! \n" +  QString::fromStdString(otherPlayer->getName())+ " don't look at the screen!\n";
+    QString turn1 =  QString::fromStdString(actualPlayer->getName()) + " it's your turn ! \n" +  QString::fromStdString(otherPlayer->getName())+ " don't look at the screen!\n";
     QMessageBox *endTurn = new QMessageBox;
     endTurn->setText(turn1);
+    disconnect(endTurn, &QMessageBox::accepted, this, &MainWindow::handleEndTurn);
+    actualHand->setVisible(false);
+
+
     connect(endTurn, &QMessageBox::accepted, this, &MainWindow::handleEndTurn);
     endTurn->exec();//les cartes de la main du joueur sont cliquables
 }
 
 
 void MainWindow::handleEndTurn() {
+    disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
+
     state = 1;//moment de jouer
 
-    qDebug() << "dans handleEndTurn";
-    //disconnect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-    qDebug() << "après disconnect";
-        //delete actualHand;
-        qDebug() << "après delete";
-
-        actualHand = new HandView(this, actualPlayer);
+    actualHand = new HandView(this, actualPlayer);
+    actualHand->setVisible(true);
     window->addWidget(actualHand, 2, 0);
     window->update();
-    qDebug() << "après windows uptdate";
 
-        for (CardView* cardV : actualHand->getHandList()) {
+
+    for (CardView* cardV : actualHand->getHandList()) {
         cardV->setEnabled(true);
     }
-    qDebug() << "après setEnable";
+    connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
 
-        connect(actualHand, &HandView::cardSelected, this, &MainWindow::handleCardSelected);
-    qDebug() << "après connect";
 
 
     /*for (CardView* cardV : otherHand->getHandList()) {
         cardV->setEnabled(false);
     }*/
     window->update();
-    qDebug() << "après update";
     //essaye de faire un addCardInto Hand alors que la main est déjà full
 
 }
@@ -103,7 +103,9 @@ void MainWindow::handleCardSelected(int index){
 
     connect(boardV, &BoardView::borderChoice, this, &MainWindow::handleBorderSelected);
     for (BorderView* borderV : boardV->getBordersV()) {
-        borderV->getBorderButton()->setEnabled(true);
+        if (borderV->getBorder()->getPlayerCombination(actualPlayer).getNumberCards() < borderV->getBorder()->getPlayerCombination(actualPlayer).getMaxNumberCards()) {
+            borderV->getBorderButton()->setEnabled(true);
+        }
     }
 }
 
@@ -178,6 +180,9 @@ void MainWindow::handleClanDeckClicked() {
 
 void MainWindow::askClaim() {
     int response = QMessageBox::question(this, "Claim", "Do you want to claim a border ?", QMessageBox::Yes | QMessageBox::No);
+    disconnect(tacticDeckV, &TacticDeckView::clicked, this, &MainWindow::handleTacticDeckClicked);
+    disconnect(clanDeckV, &ClanDeckView::clicked, this, &MainWindow::handleClanDeckClicked);
+
 
     if (response == QMessageBox::Yes) {
         state = 2;
