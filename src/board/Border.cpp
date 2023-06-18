@@ -89,26 +89,26 @@ bool Border::claim(Player* claimer){
         cout <<  claimer->getName() << "has won the border " << borderID_ << " !\n";
         return true;
     }
-    else if(getPlayerCombination(opponent).getNumberCards() < getPlayerCombination(opponent).getMaxNumberCards()){
-        if(//isTacticVersion()
-        0 == 1 ){ // pour ne jamais y passer pour le moment
-            throw BorderException("Je l'ai pas fait encore");
-        }
-        else {
-            const Combination &best = bestCombination(getPlayerCombination(claimer).getConstReference(),
-                                                      gameTracker.getOpponentBestPossibleCombinationClassicVersion(
-                                                              getPlayerCombination(opponent)));
-            if (best == getPlayerCombination(opponent))
-                throw BorderException("Your opponent can still has a better combination on this border");
-            claimed = true;
-            winner_ = claimer;
-            isClaimSucceeded = true;
-            claimer->claim_borders(this);
-            cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
-            return isClaimSucceeded;
-        }
-    }
-    return isClaimSucceeded;
+//    if(!opps_combi.isComplete()){
+//        if(//isTacticVersion()
+//        0 == 1 ){ // pour ne jamais y passer pour le moment
+//            throw BorderException("Je l'ai pas fait encore");
+//        }
+//        else {
+//            const Combination &best = bestCombination(getPlayerCombination(claimer).getConstReference(),
+//                                                      gameTracker.getOpponentBestPossibleCombinationClassicVersion(
+//                                                              getPlayerCombination(opponent)));
+//            if (best == getPlayerCombination(opponent))
+//                throw BorderException("Your opponent can still has a better combination on this border");
+//            claimed = true;
+//            winner_ = claimer;
+//            isClaimSucceeded = true;
+//            claimer->claim_borders(this);
+//            cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
+//            return isClaimSucceeded;
+//        }
+//    }
+//    return isClaimSucceeded;
 }
 
 string Border::str() const {
