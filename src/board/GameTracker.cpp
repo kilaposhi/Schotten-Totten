@@ -81,7 +81,7 @@ bool GameTracker::canPlayJoker(Player *player) {
     return getTrackedPlayer(player).canPlayJoker();
 }
 
-Player *GameTracker::getOpponent(Player *player) {
+inline Player *GameTracker::getOpponent(Player *player) {
     if (player == player1_id)
         return player2_id;
     return player1_id;

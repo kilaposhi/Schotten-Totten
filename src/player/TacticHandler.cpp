@@ -46,7 +46,6 @@ void TacticHandler::playTacticCard(unique_ptr<TacticCard> tacticCard, Player *pl
         if (type == TacticType::banshee ) return playBanshee(player, opponent);
         if (type == TacticType::traitor) return playTraitor(player, opponent);
     }
-
 }
 
 

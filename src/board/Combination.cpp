@@ -84,12 +84,12 @@ std::vector<TacticCard*> Combination::getTacticCards() const {
     return tacticCards;
 }
 
-Card *Combination::getCardByIndex(size_t index) const{
-    if (index > this->getNumberValuedCards() - 1) {
-        return &getTacticCard(index);
-    }
-    return &getValuedCard(index);
-}
+//Card *Combination::getCardByIndex(size_t index) const{
+//    if (index > this->getNumberValuedCards() - 1) {
+//        return &getTacticCard(index);
+//    }
+//    return &getValuedCard(index);
+//}
 
 ValuedCard& Combination::getValuedCard(size_t index) const {
     if (index < 0 || index >= valuedCards_.size()) {
