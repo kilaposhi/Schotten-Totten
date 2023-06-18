@@ -78,7 +78,11 @@ bool Border::claim(Player* claimer){
         return false;
     }
     if(claimer_combi.isComplete() && opps_combi.isComplete()){
-        const Combination& best = bestCombination(claimer_combi, opps_combi);
+        Combination best = bestCombination(claimer_combi, opps_combi);
+        if (best.getMaxNumberCards() == 0){
+            cout << "Your combination are perfectly equals !";
+            return false;
+        }
         if (best == opps_combi) {
             cout << "Your combination is less than your opponent’s";
             return false;
@@ -86,7 +90,7 @@ bool Border::claim(Player* claimer){
         claimed = true;
         winner_ = claimer;
         claimer->claim_borders(*this);
-        cout <<  claimer->getName() << "has won the border " << borderID_ << " !\n";
+        cout <<  claimer->getName() << " has won the border " << borderID_ << " !\n";
         return true;
     }
 //    if(!opps_combi.isComplete()){
@@ -95,20 +99,25 @@ bool Border::claim(Player* claimer){
 //            throw BorderException("Je l'ai pas fait encore");
 //        }
 //        else {
-//            const Combination &best = bestCombination(getPlayerCombination(claimer).getConstReference(),
-//                                                      gameTracker.getOpponentBestPossibleCombinationClassicVersion(
+//            Combination best= bestCombination(getPlayerCombination(claimer),
+//                                              gameTracker.getOpponentBestPossibleCombinationClassicVersion(
 //                                                              getPlayerCombination(opponent)));
-//            if (best == getPlayerCombination(opponent))
-//                throw BorderException("Your opponent can still has a better combination on this border");
+//            if (best == getPlayerCombination(opponent)) {
+//                cout << "Your opponent can still have a better combination on this border\n";
+//                return false;
+//            }
+//            if (best.getMaxNumberCards() == 0){
+//                cout << "Your opponent can have at least a perfect equality with you! \n";
+//                return false;
+//            }
 //            claimed = true;
 //            winner_ = claimer;
-//            isClaimSucceeded = true;
-//            claimer->claim_borders(this);
-//            cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
-//            return isClaimSucceeded;
+//            claimer->claim_borders(*this);
+//            cout <<  claimer->getName() << " has won the border " << borderID_ << "\n";
+//            return true;
 //        }
 //    }
-//    return isClaimSucceeded;
+    return false;
 }
 
 string Border::str() const {
@@ -130,8 +139,6 @@ string Border::str() const {
     stream << "[ " << player_2_combination->str() << "] ";
     return stream.str();
 }
-
-//void Border::Claimed(bool claimed) {}
 
 
 ostream &operator<<(ostream &stream, const Border& border) {

@@ -98,7 +98,7 @@ void TacticHandler::playMudFight(int borderId) {
 
 void TacticHandler::playRecruiter( Player* player) {
     size_t maxNumberCards = player->max_cards;
-    player->setMaxNumberCards(maxNumberCards + 3);
+    player->setMaxNumberCards(maxNumberCards + 4);
 
     for (size_t i = 0; i < 3; i++){
         std::cout << "Please pick a deck. [1] Clan Deck [2] Tactic Deck\n";

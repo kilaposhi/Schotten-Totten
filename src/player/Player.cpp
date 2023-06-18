@@ -122,7 +122,7 @@ void Player::fillHand(Deck& deck) {
 
 void Player::claim_borders(const Border& border) {
     unsigned int borderId = border.getBorderId();
-    if(this == border.getWinnerBorder()){
+    if(this->getID() == border.getWinnerBorder()->getID()){
         claimed_borders.push_back(borderId);
     }
     else{
@@ -131,7 +131,7 @@ void Player::claim_borders(const Border& border) {
 }
 
 unsigned Player::newScore(int add) {
-    score = score + add;
+    score += add;
     return score;
 }
 vector<unsigned int> Player::getClaimed_borders() {

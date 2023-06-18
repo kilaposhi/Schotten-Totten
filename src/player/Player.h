@@ -50,7 +50,7 @@ protected:
     int id_;
     vector<unsigned int> claimed_borders;
     vector<unique_ptr<Card>> hand;
-    unsigned int score;
+    unsigned int score{0};
     friend class TacticHandler;
 protected:
     void add_card_into_hand(std::unique_ptr<Card>  card_);

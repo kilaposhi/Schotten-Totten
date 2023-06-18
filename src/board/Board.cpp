@@ -57,11 +57,12 @@ bool Board::hasWinner() {
         return true;
     }
 
-    int player1_count{0}, player2_count{0}; // Adjacent count
+    int player1_count{0};
+    int player2_count{0}; // Adjacent count
     for (size_t i = 0; i < getNumberBorder(); i++){
         Border& border = getBorderByID(i);
         if (border.isClaimed()){
-            if (player1_ == border.getWinnerBorder()){
+            if (player1_->getID() == border.getWinnerBorder()->getID()){
                 player1_count++;
                 player2_count =  0;
             }
