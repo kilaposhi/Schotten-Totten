@@ -139,8 +139,8 @@ void Game::round(int numberRound) {
     opponent->newScore(winner->getClaimed_borders().size());
     std::cout << "End of the round \n";
     cout << "Current scores :\n";
-    cout  << '\t' << winner->print_player();
-    cout  << '\t' << opponent->print_player();
+    cout << winner->print_player();
+    cout << opponent->print_player();
     pause();
     bool answer = askPlayerYesNo(winner, "Do you want to quit the game?");
     if (answer) quit();
@@ -186,7 +186,7 @@ void Game::play(Player* player) {
         claim(player);
     draw_card(player);
     cout << "\n Good turn \n STOP LOOKING AT THE SCREEN " << player->getName()<< "!!!\n";
-//    pause(2);
+//    pause();
 }
 
 void Game::claim(Player* player){
@@ -203,8 +203,7 @@ void Game::claim(Player* player){
                 claimed = false;
         } while (claimed);
 
-        board_->getBorderByID(borderIndex).claim(player);
-        hasClaimed_ = true;
+        hasClaimed_ = board_->getBorderByID(borderIndex).claim(player);
     }
 }
 
