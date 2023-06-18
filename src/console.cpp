@@ -1,9 +1,19 @@
 #include "console.h"
 
-
+int random(int min, int max) {
+    mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::uniform_int_distribution<int> gen(min, max);
+    int a = gen(rng);
+    return a;
+}
 
 int askPlayerValue(Player* player, std::array<int,2> rangeValue){
-    cout << *player << " ";
+    cout <<"(" << *player << ") ";
+    if (dynamic_cast<AI *>(player)) {
+        int result = random(rangeValue[0], rangeValue[1]);
+        cout << "Value choosed :" << result << '\n';
+        return result;
+    }
     return askValue(rangeValue);
 }
 
@@ -64,7 +74,3 @@ CardColor askPlayerColor(Player* player, int numberColors){
     CardColor result = *(cardColors.begin() + color_index);
     return result;
 }
-
-
-
-
