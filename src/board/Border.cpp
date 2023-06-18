@@ -80,6 +80,7 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
         claimed = true;
         winner_ = claimer;
         isClaimSucceeded = true;
+        claimer->claim_borders(this);
         cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
         return isClaimSucceeded;
     }
@@ -97,6 +98,7 @@ bool Border::claim(Player* claimer, Player* opponent, GameTracker& gameTracker){
             claimed = true;
             winner_ = claimer;
             isClaimSucceeded = true;
+            claimer->claim_borders(this);
             cout <<  claimer->getName() << "has won the border " << borderID_ << "\n";
             return isClaimSucceeded;
         }

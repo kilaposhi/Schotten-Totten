@@ -131,6 +131,7 @@ void Player::claim_borders(Border& border_, Player* opponent, GameTracker& gameT
         return;
     }
 }
+
 unsigned Player::newScore(int add) {
     score = score + add;
     return score;
