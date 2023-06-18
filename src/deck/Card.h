@@ -30,6 +30,7 @@ public:
     Card(const Card& card) = default;
     Card& operator=(const Card& card) = default;
     virtual bool isRuse() { return false; };
+    virtual bool isRecruiter() { return false; };
     [[nodiscard]] virtual string str() const = 0;
 };
 
@@ -86,6 +87,7 @@ public :
     [[nodiscard]] TacticType getName() const;
     [[nodiscard]] string getDescription() const;
     bool isRuse() override;
+    bool isRecruiter() override;
     [[nodiscard]] string str() const override;
 private :
     TacticType name;

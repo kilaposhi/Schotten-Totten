@@ -126,25 +126,26 @@ void TacticHandler::playRecruiter( Player* player) {
     }
 
     std::cout << "Cards placed under the decks.\n";
-    std::cout << "Here is your final hand:\n";
+    //std::cout << "Here is your final hand:\n";
     player->displayHand();
     player->setMaxNumberCards(maxNumberCards);
 }
 
-size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player){
+size_t TacticHandler::chooseBorderToRemove(const string& text, Player* player)
+{
     cout << board_->str() << '\n';
-    bool claimed =  true;
-    bool playerHasNoCards = true;
+    bool claimed = false;
+    bool playerHasNoCards = false;
     size_t borderIndex;
     do {
         cout << text << '\n';
-        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
-        if (!borderSelected.isClaimed())
-            claimed = false;
+        if (borderSelected.isClaimed())
+            claimed = true;
         Combination& combination = borderSelected.getPlayerCombination(player);
         if (combination.getNumberCards() == 0)
-            playerHasNoCards = false;
+            playerHasNoCards = true;
     } while (claimed || playerHasNoCards);
     return borderIndex;
 }

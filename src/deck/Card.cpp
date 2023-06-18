@@ -93,6 +93,13 @@ bool TacticCard::isRuse() {
     else return false;
 
 }
+bool TacticCard::isRecruiter()  {
+
+    TacticType type = name;
+    if (type == TacticType::recruiter ) return true;
+    else return false;
+
+}
 string ValuedCard::str() const {
     std::stringstream card("");
     card << "|" << value_ << "_" << cardColorToString(color_) << "|";

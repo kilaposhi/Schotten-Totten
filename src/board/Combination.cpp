@@ -103,7 +103,7 @@ std::vector<TacticCard*> Combination::getTacticCards() const {
 }
 
 ValuedCard& Combination::getValuedCard(size_t index) const {
-    if (index < 0 || index >= valuedCards_.size()) {
+    if (index < 0 || index > valuedCards_.size()) {
         throw CombinationException("Index out of range");
     }
     return *valuedCards_[index];

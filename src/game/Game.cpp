@@ -17,8 +17,8 @@ void Game::launchSchottenTotten1() {
     bool AIvsAI = askYesNo("Game AI vs AI");
     if (AIvsAI) {
 //        gameAIvsAI();
-        create_AI(1);
-        create_AI(2);
+  //      create_AI(1);
+      //  create_AI(2);
     } else {
         create_player(1);
         bool playAgainstAI = askYesNo("Do you want to play against the AI?");
@@ -152,8 +152,9 @@ void Game::play(Player* player) {
     cout << board_->str() << '\n';
     cout << player->displayHand() << '\n';
 
-    if (expert_)
+    if (expert_) {
         claim(player);
+    }
 
     bool canPlayCard = false;
     for (size_t i = 0; i < board_->getNumberBorder(); i++) {
@@ -170,23 +171,47 @@ void Game::play(Player* player) {
             return;
         }
     }
+
     if (player->getNumber_of_cards() > 0) {
         std::cout << "Please enter the index of the card you want to play:\n";
         int card_index = askPlayerValue(player, {0, player->getNumber_of_cards() - 1});
-        int border_index ;
-        if(player->getCardAtIndex(card_index)->isRuse()) border_index=0;
-        else
-            border_index = this->chooseBorder("Please enter the index of the border you want to play on:\n", player);
+        int border_index;
 
-        player->play_card(card_index, border_index, board_.get());
+        if (player->getCardAtIndex(card_index)->isRecruiter()) {
+            do {
+                border_index = rand() % board_->getNumberBorder();
+            } while (board_->getBorderByID(border_index).isClaimed() ||
+                     board_->getBorderByID(border_index).getPlayerCombination(player).getNumberCards() ==
+                     board_->getBorderByID(border_index).getPlayerCombination(player).getMaxNumberCards());
+
+            player->play_card(card_index, border_index, board_.get());
+
+            if (!expert_) {
+                claim(player);
+            }
+        } else {
+            if (!player->getCardAtIndex(card_index)->isRuse()) {
+                border_index = this->chooseBorder("Please enter the index of the border you want to play on:\n", player);
+            } else {
+                do {
+                    border_index = rand() % board_->getNumberBorder();
+                } while (board_->getBorderByID(border_index).isClaimed() ||
+                         board_->getBorderByID(border_index).getPlayerCombination(player).getNumberCards() ==
+                         board_->getBorderByID(border_index).getPlayerCombination(player).getMaxNumberCards());
+            }
+
+            player->play_card(card_index, border_index, board_.get());
+
+            if (!expert_) {
+                claim(player);
+                draw_card(player);
+            }
+        }
+
         std::cout << *board_ << '\n';
     }
 
-    if (!expert_)
-        claim(player);
-    draw_card(player);
-    cout << "\n Good turn \n STOP LOOKING AT THE SCREEN " << player->getName()<< "!!!\n";
-//    pause(2);
+    cout << "\nGood turn\nSTOP LOOKING AT THE SCREEN, " << player->getName() << "!!!\n";
 }
 
 void Game::claim(Player* player){
@@ -208,22 +233,25 @@ void Game::claim(Player* player){
     }
 }
 
-size_t Game::chooseBorder(const string& text, Player* player){
-    bool claimed =  true;
+size_t Game::chooseBorder(const string& text, Player* player) {
+    bool claimed = true;
     bool playerHasMaxCards = true;
     size_t borderIndex;
     do {
-        claimed =  true;
+        claimed = true;
         playerHasMaxCards = true;
         cout << text << '\n';
-        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() -1});
+        borderIndex = askPlayerValue(player, {0, board_->getNumberBorder() - 1});
         Border& borderSelected = board_->getBorderByID(borderIndex);
-        if (!borderSelected.isClaimed())
+        if (!borderSelected.isClaimed()) {
             claimed = false;
+        }
         Combination& combination = borderSelected.getPlayerCombination(player);
-        if (!combination.isComplete())
+        if (!combination.isComplete()) {
             playerHasMaxCards = false;
+        }
     } while (claimed || playerHasMaxCards);
+
     return borderIndex;
 }
 
