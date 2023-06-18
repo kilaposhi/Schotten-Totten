@@ -78,6 +78,10 @@ bool Border::claim(Player* claimer){
         return false;
     }
     if(claimer_combi.isComplete() && opps_combi.isComplete()){
+        if (claimer_combi.getNumberTacticCards()>0)
+            claimer_combi.treatTacticCards();
+        if (opps_combi.getNumberTacticCards()>0)
+            opps_combi.treatTacticCards();
         Combination best = bestCombination(claimer_combi, opps_combi);
         if (best.getMaxNumberCards() == 0){
             cout << "Your combination are perfectly equals !";

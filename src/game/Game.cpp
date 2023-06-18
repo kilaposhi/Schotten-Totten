@@ -195,6 +195,7 @@ void Game::claim(Player* player){
                 claimed = false;
         } while (claimed);
 
+
         board_->getBorderByID(borderIndex).claim(player);
     }
 }
