@@ -33,9 +33,6 @@ add_executable(
         src/player/Player.h
         src/player/Player.cpp
 
-        #src/Game_interface.cpp
-        #src/Game_interface.h
-
         #src/GameVIew.cpp
         #src/GameVIew.h
         src/player/TacticHandler.h

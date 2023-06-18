@@ -70,6 +70,7 @@ public:
     void fillHand(Deck& deck);
     void claim_borders(const Border& border);
     vector<unsigned int> getClaimed_borders();
+    int getNumClaimedBorder() const { return claimed_borders.size(); }
     [[nodiscard]] int getNumber_of_cards() const;
     int getID() const;
     std::unique_ptr<Card>& getCardAtIndex(int index);

@@ -26,24 +26,25 @@ class Border;
 class Player;
 
 class Board {
+public :
+    explicit Board(int numberBorder, Player* player1, Player* player2);
+    ~Board() = default;
+
+    [[nodiscard]] int getNumberBorder() const;
+    [[nodiscard]] const std::vector<Border>& getBorders() const;
+    Border& getBorderByID(int ID);
+    string str() const;
+    [[nodiscard]] Player* getWinner() const ;
+    bool hasWinner();
+    Player* getPlayer (int id);
+private:
+    void setWinner(Player* player);
 private :
     int numberBorder_;
     std::vector<Border> borders_;
     Player* winner_{nullptr};
     Player * player1_;
     Player * player2_;
-public :
-    explicit Board(int numberBorder, Player* player1, Player* player2);
-    ~Board() = default;
-
-    [[nodiscard]] int getNumberBorder() const;
-    [[nodiscard]] Player* getWinner() const ;
-    [[nodiscard]] const std::vector<Border>& getBorders() const;
-    Border& getBorderByID(int ID);
-    string str() const;
-    Player* hasWinner();
-    Player* getPlayer (int id);
-    void setWinner();
 };
 
 ostream &operator<<(ostream &stream, const Board &board);

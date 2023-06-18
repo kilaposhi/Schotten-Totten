@@ -209,8 +209,8 @@ class DeckFactory {
   - remainingCardsDeck : Deck 
   - playedCardsDeck : Deck 
   + update() 
-  + GameTracker( Deck& tacticDeck,  Deck& clanDeck);
-  + copyDeck(Deck tacticDeck, Deck clanDeck);
+  + GameTracker( Deck& tacticDeck_,  Deck& clanDeck_);
+  + copyDeck(Deck tacticDeck_, Deck clanDeck_);
   + transferCard();
   + getRemainingCardDeck() Deck&  ;
   + getPlayerCardsDeck() Deck& ;}

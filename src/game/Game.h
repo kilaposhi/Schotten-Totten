@@ -19,13 +19,14 @@ class AI;
 
 class Game {
 private:
-    bool gameOver= true;
+    bool gameOver_= true;
     std::unique_ptr<Player> player1_;
     std::unique_ptr<Player> player2_;
-    Deck clanDeck, tacticDeck, discardDeck;
-    DeckInfo deckInfo;
+    Deck clanDeck_, tacticDeck_, discardDeck_;
+    DeckInfo deckInfo_;
     std::unique_ptr<Board> board_;
     bool tacticVersion_{false};
+    bool hasClaimed_;
     bool basic_;
     bool expert_;
 
@@ -36,7 +37,7 @@ public :
     void create_board();
     void create_player(int id);
     void create_deck();
-    void round();
+    void round(int numberRound);
     void play(Player* player);
     size_t chooseBorder(const string& text, Player* player);
     void claim(Player* player);

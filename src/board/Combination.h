@@ -37,12 +37,12 @@ public:
     int getNumberTacticCards() const;
     [[nodiscard]] int getMaxNumberCards() const;
     Player* getPlayerID() const;
+    void setMaxNumberCards(int maxNumberCards);
+    void setNoCombinationRule();
     void push_back(unique_ptr<ValuedCard> valuedCard);
     void push_back(unique_ptr<TacticCard> tacticCard);
     unique_ptr<ValuedCard> pop_card(const ValuedCard& valuedCard);
     unique_ptr<TacticCard> pop_card(const TacticCard& tacticCard);
-    void setMaxNumberCards(int maxNumberCards);
-    void setNoCombinationRule();
     void removeCardFromCombination(Card* card);
     void treatTacticCards();
     std::vector<ValuedCard*>  getValuedCards() const;
@@ -54,8 +54,6 @@ public:
     bool operator==(const Combination& other) const;
     unique_ptr<ValuedCard> valuedCardBack();
     unique_ptr<TacticCard> tacticCardBack();
-    //Combination& operator=(const Combination& other);
-//    Card* getCardByIndex(size_t index) const;
     [[nodiscard]] ValuedCard& getValuedCard(size_t index) const;
     [[nodiscard]] TacticCard& getTacticCard(size_t index) const;
 private:

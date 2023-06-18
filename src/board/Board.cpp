@@ -47,53 +47,43 @@ string Board::str() const {
 }
 
 
-Player* Board::hasWinner() {
-    int player1Count = 0;
-    int player2Count = 0;
-    int adjacentCount = 1;
-    Player* win = borders_[0].getWinnerBorder();
-    int i = 1;
-    while (win == nullptr && i < getNumberBorder()) {
-        win = borders_[i].getWinnerBorder();
-        i++;
+bool Board::hasWinner() {
+    if (player1_->getNumClaimedBorder() > 5) {
+        setWinner(player1_);
+        return true;
     }
-    int player1;
-    if (win != nullptr) {
-        player1 = win->getID();
+    if (player2_->getNumClaimedBorder() > 5) {
+        setWinner(player2_);
+        return true;
     }
-    else {
-        player1 = -1;
-    }
-    Player* last = win;
-    while ((i<getNumberBorder()) && (player1Count<5) && (player2Count<5) && (adjacentCount<3) ) {
-        Player* winner = borders_[i].getWinnerBorder();
-        if (winner != nullptr) {
-            if (winner == last) {
-                adjacentCount += 1;
-            }
-            else {
-                adjacentCount = 1;
-            }
-            if (winner->getID() == player1) {
-                player1Count += 1;
-            }
-            else {
-                player2Count +=1;
-            }
 
+    int player1_count{0}, player2_count{0}; // Adjacent count
+    for (size_t i = 0; i < getNumberBorder(); i++){
+        Border& border = getBorderByID(i);
+        if (border.isClaimed()){
+            if (player1_ == border.getWinnerBorder()){
+                player1_count++;
+                player2_count =  0;
+            }
+            else {
+                player2_count++;
+                player1_count = 0;
+            }
         }
-        i++;
+        if (player1_count == 3){
+            setWinner(player1_);
+            return true;
+        }
+        if (player2_count == 3){
+            setWinner(player2_);
+            return true;
+        }
     }
-    if (i>=getNumberBorder() && (player1Count<5) && (player2Count<5) && (adjacentCount<3)) {
-        return nullptr;
-    }
-    else {
-        return win;
-    }
+    return false;
 }
 
-void Board::setWinner() {
-    winner_ = this->hasWinner();
+void Board::setWinner(Player* player) {
+    winner_ = player;
 }
 
 ostream &operator<<(ostream &stream, const Board &board) {
